@@ -69,7 +69,7 @@ public class FragmentMy extends Fragment {
         zh.setText(username);
         nc.setText(username);
         id.setText(uid);
-        x.image().bind(iv,img);
+        x.image().bind(iv,img);;
     }
 
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="blue">#C2C9F9</color>
+    <color name="green">#00ff00</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#ff0000</color>
+    <color name="dimgray">#5b5b5b</color>
+    <color name="btn_login_press">#a83a3a</color>
+    <color name="btn_login_normal">#f15353</color>
+    <color name="btn_login_disabled">#e1e1e3</color>
+    <color name="app_color">#ff00aae5</color>
+    <color name="three_level">#ffb8b1b2</color>
+    <color name="title_bg">#ffffffff</color>
+    <color name="transparent_33w">#33ffffff</color>
+    <color name="transparent_33">#33000000</color>
+    <color name="white_cc">#ccffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="main_blue">#ff00b4ff</color>
+    <color name="transparent_9aw">#9affffff</color>
+    <color name="main_blue_dark">#ff009bdc</color>
+    <color name="all_d">#ffdddddd</color>
+</resources>

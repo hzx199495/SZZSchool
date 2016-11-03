@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Built application files
 *.apk
 *.ap_
@@ -38,3 +39,13 @@ captures/
 
 # Keystore files
 *.jks
+=======
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+>>>>>>> 第一次提交

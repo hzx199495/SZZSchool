@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/bg">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#3000"
+            android:layout_gravity="center_horizontal|bottom">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/userhead"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"
+                android:paddingTop="10dp"
+                android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="用户名"
+                android:gravity="center"
+                android:id="@+id/textView"
+                android:layout_below="@+id/profile_image"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="25dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="普通会员 余额：10000元"
+                android:id="@+id/tex1tView3"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="个性签名:实战者学院"
+                android:gravity="center"
+                android:layout_below="@+id/tex1tView3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height"
+        android:background="@drawable/bg_item_center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1.0"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="我的课程"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/item_margin_right"
+            android:src="@drawable/personel_arrow_right"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height"
+        android:background="@drawable/bg_item_center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1.0"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="我的帐户"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/item_margin_right"
+            android:src="@drawable/personel_arrow_right"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height"
+        android:background="@drawable/bg_item_center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1.0"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="个人资料"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/item_margin_right"
+            android:src="@drawable/personel_arrow_right" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height"
+        android:background="@drawable/bg_item_center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1.0"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="我的团购"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/item_margin_right"
+            android:src="@drawable/personel_arrow_right"
+            />
+    </LinearLayout>
+</LinearLayout>

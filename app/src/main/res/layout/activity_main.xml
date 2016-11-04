@@ -1,38 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"/>
-    <RadioGroup
-        android:id="@+id/rg"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/my"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:text="个人信息"
-            android:gravity="center"
-            android:checked="true"
-            android:textColor="@drawable/btn_selector"/>
-        <RadioButton
-            android:id="@+id/project"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:text="我的课程"
-            android:gravity="center"
-            android:textColor="@drawable/btn_selector"/>
-    </RadioGroup>
+        android:layout_weight="1"></LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/center"
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:checked="true"
+                android:drawablePadding="4.0dip"
+                android:drawableTop="@drawable/home_tab_coures_center_selected"
+                android:gravity="center"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:text="课程中心"
+                android:textColor="@drawable/btn_selector"
+                android:textSize="11.0sp"
+                />
+
+            <RadioButton
+                android:id="@+id/course"
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawablePadding="4.0dip"
+                android:drawableTop="@drawable/home_tab_my_coures_selected"
+                android:gravity="center"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:text="个人中心"
+                android:textColor="@drawable/btn_selector"
+                android:textSize="11.0sp" />
+
+            <RadioButton
+                android:id="@+id/more"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawablePadding="4.0dip"
+                android:drawableTop="@drawable/home_tab_more_selected"
+                android:gravity="center"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:text="设置"
+                android:textColor="@drawable/btn_selector"
+                android:textSize="11.0sp" />
+
+        </RadioGroup>
+
 
 </LinearLayout>
+

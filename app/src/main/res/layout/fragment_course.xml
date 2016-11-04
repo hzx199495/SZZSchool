@@ -134,4 +134,9 @@
             android:layout_alignRight="@+id/userid"
             android:layout_alignEnd="@+id/userid" />
     </RelativeLayout>
+    <ExpandableListView
+        android:id="@+id/android_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>

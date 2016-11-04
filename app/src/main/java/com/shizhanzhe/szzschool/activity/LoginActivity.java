@@ -113,8 +113,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 //
 //                }
 //            });
-
-        } else {
+        }else{
             Toast.makeText(LoginActivity.this, "帐号或密码长度有误", Toast.LENGTH_SHORT).show();
         }
     }

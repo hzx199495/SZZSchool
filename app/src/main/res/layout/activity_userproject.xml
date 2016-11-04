@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/layout_login_topbar"
+        style="@style/TopbarStyle" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="我的课程"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/back_arrow"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:id="@+id/back" />
+    </RelativeLayout>
+    <RadioGroup
+        android:id="@+id/userproject_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/userproject_rg_gm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="购买的课程"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:checked="false" />
+        <RadioButton
+            android:id="@+id/userproject_rg_sc"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="收藏的课程"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:checked="false" />
+        <RadioButton
+            android:id="@+id/userproject_rg_tuijian"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="推荐的课程"
+            android:background="@drawable/rb_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:checked="false"
+            android:paddingRight="10dp"/>
+    </RadioGroup>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/userproject_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

@@ -10,17 +10,20 @@ import android.widget.Toast;
 
 import com.shizhanzhe.szzschool.R;
 
+import org.xutils.view.annotation.ContentView;
+import org.xutils.x;
+
 
 /**
  * Created by hasee on 2016/6/22.
  */
+@ContentView(R.layout.activity_register)
 public class RegisterActivity extends Activity {
     private CountDownTimer time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
+        x.view().inject(this);
         final Button btnSendAuth = (Button) findViewById(R.id.btnSendAuth);
         time = new CountDownTimer(60000, 1000) {
             @Override

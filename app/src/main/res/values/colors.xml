@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="app_bg">#fff5f5f5</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -24,4 +25,25 @@
     <color name="main_blue_dark">#ff009bdc</color>
     <color name="all_d">#ffdddddd</color>
     <color name="hui">#5eee</color>
+    <color name="dh">#A8A8A8</color>
+    <color name="cl_default">#424242</color>
+    <color name="cl_error">#ffffff</color>
+    <color name="myred">#eb4f38</color>
+
+    <color name="darkgray">#cccc</color>
+
+    <color name="color_white">#ffffff</color>
+
+    <color name="btn_press_color">#5677fc</color>
+
+    <color name="btn_pressed_color">#3ca0ec</color>
+    <!-- 透明 -->
+    <drawable name="transparent">#00000000</drawable>
+    <color name="white_check">#fffafafa</color>
+    <color name="line">#ffe9e9e9</color>
+    <color name="one_level">#ff706969</color>
+    <color name="four_level">#ffcdc7c7</color>
+    <color name="blue2">#ff037bff</color>
+    <color name="hint">#ffcdc7c7</color>
+    <color name="max_level">#ff333333</color>
 </resources>

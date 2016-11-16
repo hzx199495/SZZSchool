@@ -1,186 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/all_c">
-
+    android:padding="15.0dp">
 
 
     <ImageView
-        android:id="@+id/imgBg"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:contentDescription="@string/empty"
-        android:layerType="software"
-        android:scaleType="centerCrop"
-        android:src="@drawable/first_bg" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/transparent_33" />
-
-
-
-    <LinearLayout
         android:id="@+id/topView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:gravity="center|top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:src="@mipmap/ic_launcher">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40.0dip"
-            android:text="加入实战者"
-            android:textColor="@color/white"
-            android:textSize="22.0sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
-            android:text="与世界分享你的追梦历程"
-            android:textColor="@color/white_cc"
-            android:textSize="14.0sp" />
-
-    </LinearLayout>
+    </ImageView>
 
 
 
-
-    <RelativeLayout
-        android:id="@+id/register_rl"
+    <EditText
+        android:id="@+id/MobileNum"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="40.0dip"
-        android:layout_marginRight="40.0dip">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10.0dip"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/ic_login_tel"
+        android:drawablePadding="15.0dip"
+        android:gravity="center|left"
+        android:hint="@string/hint_input_tel"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:paddingBottom="15.0dip"
+        android:paddingLeft="5.0dip"
+        android:paddingTop="15.0dip"
+        android:textColor="@color/one_level"
+        android:textColorHint="@color/hint"
+        android:textSize="13.0sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/edit_psw"
-            android:layout_width="fill_parent"
-            android:layout_height="44.0dip"
-            android:layout_centerVertical="true"
-            android:background="@drawable/login_input_bg"
-            android:gravity="bottom|center|left"
-            android:hint="请输入6-11位密码"
-            android:inputType="textPassword"
-            android:maxLength="16"
-            android:paddingBottom="5.0dip"
-            android:textColor="@color/white"
-            android:textColorHint="@color/transparent_9aw"
-            android:textCursorDrawable="@null"
-            android:textSize="15.0sp" />
+            android:id="@+id/txtAuthCode"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.0"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/ic_login_yzm"
+            android:drawablePadding="15.0dip"
+            android:gravity="center|left"
+            android:hint="@string/hint_input_ic"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingBottom="15.0dip"
+            android:paddingLeft="5.0dip"
+            android:paddingTop="15.0dip"
+            android:textColor="@color/one_level"
+            android:textColorHint="@color/hint"
+            android:textSize="13.0sp" />
+
+        <Button
+            android:id="@+id/btnSendAuth"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="8.0dip"
+            android:layout_marginTop="8.0dip"
+            android:layout_weight="2.0"
+            android:background="@drawable/btn_four_shape"
+            android:gravity="center"
+            android:text="@string/get_ic"
+            android:textColor="@color/one_level"
+            android:textSize="12.0sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="@color/line" />
+
+    <EditText
+        android:id="@+id/edit_qrpsw"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/ic_login_lock"
+        android:drawablePadding="15.0dip"
+        android:gravity="center|left"
+        android:hint="@string/hint_input_pass"
+        android:inputType="textPassword"
+        android:maxLength="16"
+        android:paddingBottom="15.0dip"
+        android:paddingLeft="5.0dip"
+        android:paddingTop="15.0dip"
+        android:textColor="@color/one_level"
+        android:textColorHint="@color/hint"
+        android:textSize="13.0sp" />
 
 
-
-
-        <RelativeLayout
-            android:id="@+id/authCodeParent"
-            android:layout_width="fill_parent"
-            android:layout_height="44.0dip"
-            android:layout_above="@+id/edit_psw"
-            android:layout_marginBottom="5.0dip"
-            android:addStatesFromChildren="true"
-            android:background="@drawable/login_input_bg">
-
-            <Button
-                android:id="@+id/btnSendAuth"
-                android:layout_width="100.0dip"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:background="@color/transparent"
-                android:gravity="bottom|center|right"
-                android:onClick="onSendAuthClick"
-                android:paddingBottom="6.0dip"
-                android:paddingLeft="10.0dip"
-                android:text="获取验证码"
-                android:textColor="@drawable/send_auth_button_fg"
-                android:textSize="13.0sp" />
-
-            <EditText
-                android:id="@+id/txtAuthCode"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_toLeftOf="@+id/btnSendAuth"
-                android:background="@color/transparent"
-                android:gravity="bottom|center|left"
-                android:hint="请输入验证码"
-                android:inputType="number"
-                android:maxLength="6"
-                android:paddingBottom="5.0dip"
-                android:textColor="@color/white"
-                android:textColorHint="@color/transparent_9aw"
-                android:textCursorDrawable="@null"
-                android:textSize="15.0sp" />
-
-        </RelativeLayout>
-
-
-
-
-        <RelativeLayout
-            android:id="@+id/mobileNumParent"
-            android:layout_width="fill_parent"
-            android:layout_height="44.0dip"
-            android:layout_above="@+id/authCodeParent"
-            android:layout_marginBottom="5.0dip">
-
-            <Button
-                android:id="@+id/btnCountryCode"
-                android:layout_width="45.0dip"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/register_input_focused_bg"
-                android:enabled="false"
-                android:gravity="bottom|center"
-                android:paddingBottom="5.0dip"
-                android:text="+86"
-                android:textColor="@color/white"
-                android:textSize="15.0sp" />
-
-            <EditText
-                android:id="@+id/txtMobileNum"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="15.0dip"
-                android:layout_toRightOf="@+id/btnCountryCode"
-                android:background="@drawable/login_input_bg"
-                android:gravity="bottom|center|left"
-                android:hint="请输入11位手机号"
-                android:inputType="number"
-                android:maxLength="11"
-                android:paddingBottom="5.0dip"
-                android:textColor="@color/white"
-                android:textColorHint="@color/transparent_9aw"
-                android:textCursorDrawable="@null"
-                android:textSize="15.0sp" />
-
-        </RelativeLayout>
-
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="@color/line" />
+    <!--</LinearLayout>-->
         <Button
             android:id="@+id/btnFinish"
             android:layout_width="fill_parent"
             android:layout_height="42.0dip"
-            android:layout_below="@+id/edit_psw"
-            android:layout_marginTop="30.0dip"
             android:background="@drawable/login_button_bg"
             android:onClick="register"
-            android:text="完成"
+            android:text="立即注册"
             android:textColor="@color/white"
-            android:textSize="15.0sp" />
+            android:textSize="15.0sp"
+            android:layout_below="@+id/edit_qrpsw"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="34dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:gravity="center|right"
+            android:paddingLeft="15.0dip"
+            android:text="已有帐号？立即登录"
+            android:textColor="@color/dh"
+            android:textSize="14.0sp"
+            android:layout_marginTop="25dp"
+            android:id="@+id/zhlogin" />
 
 
-    </RelativeLayout>
+    <!--</LinearLayout>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/txtPull"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:alpha="0.75"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@mipmap/ic_launcher"-->
+        <!--android:layout_below="@+id/topView"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="61dp" />-->
 
 
-
-</RelativeLayout>
+</LinearLayout>

@@ -5,14 +5,20 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
+import com.shizhanzhe.szzschool.activity.SearchActivity;
 import com.shizhanzhe.szzschool.fragment.FragmentCenter;
+import com.shizhanzhe.szzschool.fragment.FragmentFl;
 import com.shizhanzhe.szzschool.fragment.FragmentMore;
+import com.shizhanzhe.szzschool.fragment.FragmentProject;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
+import com.shizhanzhe.szzschool.widge.SearchView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -24,11 +30,14 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
     @ViewInject(R.id.rg)
     RadioGroup rg;
+    @ViewInject(R.id.search_tv)
+    TextView tv;
 
 
     private FragmentCenter fragmentCenter;
-    private FragmentMore fragmentMore;
+    private FragmentProject fragmentProject;
     private FragmentUser fragmentUser;
+    private FragmentFl fragmentFl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +56,32 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         String uid = loginData.getId();
         String token = loginData.getToken();
         String vip = loginData.getVip();
-        //拼接后半部分地址
-        String ut = "uid=" + uid + "&token=" + token;
-//        Log.i("=====", ut + "______" + username + "____" + img + "____" + uid + "____" + token+"___"+vip);
-
-        fragmentUser = new FragmentUser().newInstance(username, img, vip, uid, ut);
-        fragmentCenter = new FragmentCenter().newInstance(ut);
-        fragmentMore = new FragmentMore();
+//        //拼接后半部分地址
+//        String ut = "uid=" + uid + "&token=" + token;
+////        Log.i("=====", ut + "______" + username + "____" + img + "____" + uid + "____" + token+"___"+vip);
+//
+////        fragmentUser = new FragmentUser().newInstance(username, img, vip, uid, ut);
+////        fragmentCenter = new FragmentCenter().newInstance(ut);
+        fragmentUser = new FragmentUser();
+        fragmentCenter = new FragmentCenter();
+        fragmentFl = new FragmentFl();
+        fragmentProject = new FragmentProject();
+//        fragmentProject = FragmentProject.newInstance(ut);
 
         transaction.add(R.id.fragment, fragmentCenter);
         transaction.add(R.id.fragment, fragmentUser);
-        transaction.add(R.id.fragment, fragmentMore);
+        transaction.add(R.id.fragment, fragmentFl);
+        transaction.add(R.id.fragment, fragmentProject);
         transaction.commit();
         rg.setOnCheckedChangeListener(this);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent();
+                intent1.setClass(getApplicationContext(), SearchActivity.class);
+                startActivity(intent1);
+            }
+        });
     }
 
     @Override
@@ -69,18 +91,27 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         switch (checkedId) {
             case R.id.center:
                 transaction.show(fragmentCenter);
+                transaction.hide(fragmentFl);
                 transaction.hide(fragmentUser);
-                transaction.hide(fragmentMore);
+                transaction.hide(fragmentProject);
+                break;
+            case R.id.fl:
+                transaction.hide(fragmentCenter);
+                transaction.show(fragmentFl);
+                transaction.hide(fragmentUser);
+                transaction.hide(fragmentProject);
                 break;
             case R.id.course:
                 transaction.hide(fragmentCenter);
+                transaction.hide(fragmentFl);
                 transaction.show(fragmentUser);
-                transaction.hide(fragmentMore);
+                transaction.hide(fragmentProject);
                 break;
-            case R.id.more:
+            case R.id.project:
                 transaction.hide(fragmentCenter);
+                transaction.hide(fragmentFl);
                 transaction.hide(fragmentUser);
-                transaction.show(fragmentMore);
+                transaction.show(fragmentProject);
                 break;
         }
         transaction.commit();

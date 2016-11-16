@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <include
+        layout="@layout/simple_player_view_player"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="课程目录"
+            android:button="@null"
+            android:gravity="center"/>
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="详情"
+                android:button="@null"
+                android:gravity="center"/>
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="评论"
+                android:button="@null"
+                android:gravity="center"
+                android:checked="false" />
+        </RadioGroup>
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </android.support.v4.view.ViewPager>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerInside"
+                android:id="@+id/imageView4" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView4"
+                android:layout_toEndOf="@+id/imageView4"
+                android:id="@+id/textView4" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerInside"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView4"
+                android:layout_toEndOf="@+id/textView4"
+                android:id="@+id/imageView5" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分享"
+                android:textSize="16sp"
+                android:layout_alignTop="@+id/textView4"
+                android:layout_toRightOf="@+id/imageView5"
+                android:layout_toEndOf="@+id/imageView5" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

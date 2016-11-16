@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -28,7 +29,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     Button mBtnLogin;
     @ViewInject(R.id.edit_uid)
     EditText mEditUid;
-    @ViewInject(R.id.edit_psw)
+    @ViewInject(R.id.txtMobileNum)
     EditText mEditPsw;
 
     @Override
@@ -38,6 +39,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         x.view().inject(this);
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.tv_quick_sign_up).setOnClickListener(this);
+        findViewById(R.id.RetrievePassword).setOnClickListener(this);
     }
 
 
@@ -82,37 +84,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     }
                 }
             });
-//            RequestParams params = new RequestParams(path);
-//            x.http().get(params, new Callback.CommonCallback<String>() {
-//                @Override
-//                public void onSuccess(String result) {
-//                    Log.i("====",result);
-//                    if(result.length()<=5){
-//                        Toast.makeText(LoginActivity.this,"帐号或密码错误，请重新输入",Toast.LENGTH_SHORT).show();
-//                    }else {
-//                        Intent intent = new Intent();
-//                        intent.setClass(LoginActivity.this, MainActivity.class);
-//                        intent.putExtra("data", result);
-//                        startActivity(intent);
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onError(Throwable ex, boolean isOnCallback) {
-//                        ex.getLocalizedMessage();
-//                }
-//
-//                @Override
-//                public void onCancelled(CancelledException cex) {
-//
-//                }
-//
-//                @Override
-//                public void onFinished() {
-//
-//                }
-//            });
         }else{
             Toast.makeText(LoginActivity.this, "帐号或密码长度有误", Toast.LENGTH_SHORT).show();
         }
@@ -126,8 +97,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             case R.id.btn_login:    //登录
                 login();
                 break;
-            case R.id.btnRetrievePassword:    //忘记密码
-//                startActivity(new Intent(this, SignUpActivity.class));
+            case R.id.RetrievePassword:    //忘记密码
+                startActivity(new Intent(this, FindPWActivity.class));
                 break;
             case R.id.tv_quick_sign_up:    //注册
                 startActivity(new Intent(this, RegisterActivity.class));

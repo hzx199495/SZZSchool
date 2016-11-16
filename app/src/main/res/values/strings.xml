@@ -8,5 +8,31 @@
     <string name="mobile_or_mail">手机号</string>
     <string name="forget_password">忘记密码</string>
     <string name="register_account">注册帐号</string>
-
+    <string name="camera">拍照</string>
+    <string name="Photo">从手机相册选择</string>
+    <string name="no">取消</string>
+    <string name="hint_input_new_pass">新密码</string>
+    <string name="hint_input_new_pass_two">请重复新密码</string>
+    <string name="hint_input_old_pass">旧密码</string>
+    <string name="hint_input_name">请输入昵称</string>
+    <string name="get_ic">获取验证码</string>
+    <string name="hint_input_ic">请输入验证码</string>
+    <string name="hint_input_tel">请输入11位手机号</string>
+    <string name="hint_input_pass">请输入6-16位密码</string>
+    <string name="hint_tel">手机号</string>
+    <string name="hint_pass">密码</string>
+    <string name="recommend_coures">推荐课程</string>
+    <string name="name">姓名</string>
+    <string name="input_name">请输入姓名</string>
+    <string name="sex">性别</string>
+    <string name="choose_sex">请选择性别</string>
+    <string name="birthday">生日</string>
+    <string name="choose_birthday">请选择生日</string>
+    <string name="qq">QQ</string>
+    <string name="input_qq">请输入QQ</string>
+    <string name="email">邮箱</string>
+    <string name="input_email">请输入邮箱</string>
+    <string name="city">所在城市</string>
+    <string name="choose_city">请选择所在城市</string>
+    <string name="hint_input_pass_two">请再次输入密码</string>
 </resources>

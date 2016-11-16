@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_login_topbar"
+        style="@style/TopbarStyle" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="个人档案"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:id="@+id/textView5" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/back_arrow"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:id="@+id/back" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            android:textColor="@color/blue2"
+            android:textSize="17sp"
+            android:layout_alignBottom="@+id/textView5"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="27dp"
+            android:layout_marginEnd="27dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingRight="15.0dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15.0dip"
+                    android:layout_weight="2.0"
+                    android:gravity="center|left"
+                    android:text="@string/name"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <EditText
+                    android:id="@id/et_name"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.0"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:hint="@string/input_name"
+                    android:inputType="text"
+                    android:maxLength="32"
+                    android:paddingBottom="12.5dip"
+                    android:paddingTop="12.5dip"
+                    android:textColor="@color/one_level"
+                    android:textColorHint="@color/hint"
+                    android:textSize="14.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_sex"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selected"
+                android:orientation="horizontal"
+                android:paddingBottom="12.5dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.5dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.0"
+                    android:gravity="center|left"
+                    android:text="@string/sex"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.0"
+                    android:drawableRight="@drawable/ic_list_right_jt"
+                    android:gravity="center|left"
+                    android:hint="@string/choose_sex"
+                    android:textColor="@color/one_level"
+                    android:textColorHint="@color/hint"
+                    android:textSize="14.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="10.0dip"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:id="@+id/ll_birthday"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selected"
+                android:orientation="horizontal"
+                android:paddingBottom="12.5dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.5dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.0"
+                    android:gravity="center|left"
+                    android:text="@string/birthday"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <TextView
+                    android:id="@+id/tv_birthday"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.0"
+                    android:drawableRight="@drawable/ic_list_right_jt"
+                    android:gravity="center|left"
+                    android:hint="@string/choose_birthday"
+                    android:textColor="@color/one_level"
+                    android:textColorHint="@color/hint"
+                    android:textSize="14.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingRight="15.0dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15.0dip"
+                    android:layout_weight="2.0"
+                    android:gravity="center|left"
+                    android:text="@string/qq"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <EditText
+                    android:id="@+id/et_qq"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.0"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:hint="@string/input_qq"
+                    android:inputType="number"
+                    android:maxLength="12"
+                    android:paddingBottom="12.5dip"
+                    android:paddingTop="12.5dip"
+                    android:textColor="@color/one_level"
+                    android:textColorHint="@color/hint"
+                    android:textSize="14.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="10.0dip"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingRight="15.0dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15.0dip"
+                    android:layout_weight="2.0"
+                    android:gravity="center|left"
+                    android:text="@string/email"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.0"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:hint="@string/input_email"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="30"
+                    android:paddingBottom="12.5dip"
+                    android:paddingTop="12.5dip"
+                    android:textColor="@color/one_level"
+                    android:textColorHint="@color/hint"
+                    android:textSize="14.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_city"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@drawable/btn_white_selected"
+            android:orientation="horizontal"
+            android:paddingBottom="12.5dip"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:paddingTop="12.5dip">
+
+            <TextView
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:gravity="center|left"
+                android:text="@string/city"
+                android:textColor="@color/one_level"
+                android:textSize="14.0sp" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="8.0"
+                android:drawableRight="@drawable/ic_list_right_jt"
+                android:gravity="center|left"
+                android:hint="@string/choose_city"
+                android:textColor="@color/one_level"
+                android:textColorHint="@color/hint"
+                android:textSize="14.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

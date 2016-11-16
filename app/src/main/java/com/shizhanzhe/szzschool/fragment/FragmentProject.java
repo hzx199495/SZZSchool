@@ -1,91 +1,50 @@
-//package com.shizhanzhe.szzschool.fragment;
-//
-//import android.content.Intent;
-//import android.graphics.Color;
-//import android.os.Bundle;
-//import android.support.annotation.Nullable;
-//import android.support.v4.app.Fragment;
-//import android.util.Log;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.ExpandableListView;
-//import android.widget.ImageView;
-//import android.widget.TextView;
-//import android.widget.Toast;
-//
-//
-//import com.google.gson.Gson;
-//import com.shizhanzhe.szzschool.Bean.ProBean;
-//import com.shizhanzhe.szzschool.R;
-//import com.shizhanzhe.szzschool.activity.VideoActivity;
-//import com.shizhanzhe.szzschool.adapter.BuddyAdapter;
-//import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
-//
-//import org.xutils.view.annotation.ContentView;
-//import org.xutils.view.annotation.ViewInject;
-//import org.xutils.x;
-//
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//
-//
-///**
-// * Created by hasee on 2016/10/26.
-// */
-//@ContentView(R.layout.fragment_course)
-//public class FragmentCourse extends Fragment {
-//    @ViewInject(R.id.fragment_tv)
-//    private TextView tv;
-//    @ViewInject(R.id.fragment_img)
-//    private ImageView iv;
-//    @ViewInject(R.id.fragment_vip)
-//    private TextView tv_vip;
-//    @ViewInject(R.id.zhanghu)
-//    private TextView zh;
-//    @ViewInject(R.id.nicheng)
-//    private TextView nc;
-//    @ViewInject(R.id.uid)
-//    private TextView id;
-//    @ViewInject(R.id.android_list)
-//    ExpandableListView elvCompany;
-//
-//
-//    ArrayList<String> parent;
-//    HashMap<String, List<String>> map;
-//    public static FragmentCourse newInstance(String username, String img, String vip, String uid,String ut) {
-//
-//        Bundle args = new Bundle();
-//        args.putString("username",username);
-//        args.putString("img",img);
-//        args.putString("vip",vip);
-//        args.putString("uid",uid);
-//        args.putString("ut",ut);
-//        FragmentCourse fragment = new FragmentCourse();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+package com.shizhanzhe.szzschool.fragment;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.widget.ExpandableListView;
+
+import com.shizhanzhe.szzschool.R;
+
+
+import org.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+
+/**
+ * Created by hasee on 2016/10/26.
+ */
+public class FragmentProject extends Fragment {
+    @ViewInject(R.id.android_list)
+    ExpandableListView elvCompany;
+
+
+    ArrayList<String> parent;
+    HashMap<String, List<String>> map;
+
+    public static FragmentProject newInstance(String ut) {
+
+        Bundle args = new Bundle();
+        args.putString("ut", ut);
+        FragmentProject fragment = new FragmentProject();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    // 一级条目
+//    private String[] group = new String[] { "一级课程1","一级课程2" };
+    //二级条目
+//    private String[][] carsList = new String[][] {{ "Android", "IOS", "JAVA", "C",
+//            "PHP" },{"1","2","3","4","5"}};
 //    @Nullable
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_course, null);
+//        View view = inflater.inflate(R.layout.fragment_project, null);
 //        elvCompany = (ExpandableListView) view.findViewById(R.id.android_list);
 //        Bundle bundle = getArguments();
-//        String username = bundle.getString("username");
-//        String img = bundle.getString("img");
-//        String vip = bundle.getString("vip");
-//        String uid = bundle.getString("uid");
-//        Log.i("===",username+"====" + img+"======="+vip);
-////        if(Integer.parseInt(vip)==0){
-////            tv_vip.setText("普通用户");
-////            tv_vip.setTextColor(Color.BLACK);
-////        }
-////        tv.setText(username);
-////        zh.setText(username);
-////        nc.setText(username);
-////        id.setText(uid);
-////        x.image().bind(iv,img);
 //        String ut = bundle.getString("ut");
 //        String path = "http://shizhanzhe.com/index.php?m=pcdata.course_data&pc=1&" + ut;
 //        Log.i("====", path);
@@ -100,9 +59,9 @@
 //                sb.deleteCharAt(sb.length()-1);
 //                Log.i("======",sb.toString()+sb.length());
 //                //父标题集合
-//                List<ProBean.SysinfoBean> sysinfo = gson.fromJson(sb.toString(), ProBean.class).getSysinfo();
+//                List<MyProBean.SysinfoBean> sysinfo = gson.fromJson(sb.toString(), MyProBean.class).getSysinfo();
 //                //子标题集合
-//                List<ProBean.CourseBean> course = gson.fromJson(sb.toString(), ProBean.class).getCourse();
+//                List<MyProBean.CourseBean> course = gson.fromJson(sb.toString(), MyProBean.class).getCourse();
 //
 //                parent=new ArrayList<String>();
 //                for (int i = 0; i < sysinfo.size(); i++) {
@@ -126,14 +85,15 @@
 //
 //
 //        setListeners();
+//
 //        return view;
 //    }
 //
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
+////    @Override
+////    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+////        super.onViewCreated(view, savedInstanceState);
+////    }
 //
-//    }
 //    private void setListeners() {
 //        // 分组展开
 //        elvCompany.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -163,11 +123,10 @@
 //                        parent.get(groupPosition)+ ":" +map.get(parent.get(groupPosition)).get(childPosition),
 //                        Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent();
-//                intent.setClass(getActivity(), VideoActivity.class);
+//                intent.setClass(getActivity(), HPlayerActivity.class);
 //                startActivity(intent);
 //                return false;
 //            }
 //        });
 //    }
-//
-//}
+}

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/app_bg"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/layout_login_topbar"
+        style="@style/TopbarStyle" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="设置"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/back_arrow"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:id="@+id/back" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="3.0dip"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:paddingTop="3.0dip">
+
+            <TextView
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center_vertical"
+                android:text="新消息通知"
+                android:textColor="@color/one_level"
+                android:textSize="14.0sp" />
+
+            <CheckBox
+                android:id="@+id/cb_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/more_check_select" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_play_vido_tip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="3.0dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="3.0dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical"
+                    android:text="运营商网络播放视频时提醒我"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <CheckBox
+                    android:id="@+id/cb_play_vido_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/more_check_select" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="15.0dip"
+                android:background="@color/line" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_clean_cache"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selected"
+                android:orientation="horizontal"
+                android:paddingBottom="12.0dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.0dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical"
+                    android:text="清除缓存"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <TextView
+                    android:id="@+id/tv_cache"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:drawablePadding="7.5dip"
+                    android:drawableRight="@drawable/ic_list_right_jt"
+                    android:gravity="center_vertical"
+                    android:text="2.25M"
+                    android:textColor="@color/four_level"
+                    android:textSize="14.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="15.0dip"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:id="@+id/ll_down_load"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selected"
+                android:orientation="horizontal"
+                android:paddingBottom="12.0dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.0dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical"
+                    android:text="关于我们"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:drawablePadding="7.5dip"
+                    android:drawableRight="@drawable/ic_list_right_jt"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/four_level"
+                    android:textSize="@dimen/four" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_feed_back"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selected"
+                android:orientation="horizontal"
+                android:paddingBottom="12.0dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.0dip">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical"
+                    android:text="意见反馈"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:drawablePadding="7.5dip"
+                    android:drawableRight="@drawable/ic_list_right_jt"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/four_level"
+                    android:textSize="14.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="15.0dip"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:id="@+id/ll_verson"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selected"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12.0dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.0dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="检查更新"
+                    android:textColor="@color/one_level"
+                    android:textSize="14.0sp" />
+
+                <LinearLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0">
+
+                    <!--<View-->
+                        <!--android:id="@+id/v_red"-->
+                        <!--android:layout_width="5.0dip"-->
+                        <!--android:layout_height="5.0dip"-->
+                        <!--android:layout_marginLeft="1.5dip"-->
+                        <!--android:layout_marginTop="3.0dip"-->
+                        <!--android:background="@drawable/btn_red_circle_shape"-->
+                        <!--android:visibility="gone" />-->
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_verson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="v1.0"
+                    android:textColor="@color/four_level"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

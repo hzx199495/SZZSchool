@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="我的团购"
+            android:text="我的收藏"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textSize="17sp" />
@@ -22,4 +22,7 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
     </RelativeLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

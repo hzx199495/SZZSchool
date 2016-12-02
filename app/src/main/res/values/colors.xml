@@ -46,4 +46,6 @@
     <color name="blue2">#ff037bff</color>
     <color name="hint">#ffcdc7c7</color>
     <color name="max_level">#ff333333</color>
+
+    <color name="green_color">#4cc05f</color>
 </resources>

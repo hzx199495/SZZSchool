@@ -32,7 +32,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:id="@+id/center_gv">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,7 +41,6 @@
                     android:background="@color/white"
                     android:paddingBottom="12.0dip"
                     android:paddingLeft="15.0dip"
-                    android:paddingTop="12.0dip"
                     android:text="热门课程"
                     android:textColor="@color/max_level"
                     android:textSize="@dimen/four" />
@@ -51,7 +51,6 @@
                     android:paddingBottom="12.0dip"
                     android:paddingTop="12.0dip"
                     android:layout_marginRight="15dp"
-                    android:text="更多"
                     android:textColor="@color/max_level"
                     android:textSize="@dimen/four"
                     android:layout_alignParentBottom="true"
@@ -70,15 +69,12 @@
                 android:cacheColorHint="@color/white"
                 android:gravity="center"
                 android:listSelector="@color/white"
+                android:horizontalSpacing="5dp"
                 android:numColumns="2"
-                android:paddingLeft="15.0dip"
-                android:paddingRight="5.0dip"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
                 android:paddingTop="10.0dip"
                 android:scrollbars="none" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -90,21 +86,6 @@
                 android:text="@string/recommend_coures"
                 android:textColor="@color/max_level"
                 android:textSize="@dimen/four" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingBottom="12.0dip"
-                android:paddingTop="12.0dip"
-                android:layout_marginRight="15dp"
-                android:text="更多"
-                android:textColor="@color/max_level"
-                android:textSize="@dimen/four"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-            </RelativeLayout>
-
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dip"
@@ -115,7 +96,7 @@
                 android:layout_height="10.0dip"
                 android:background="@color/white" />
             <com.shizhanzhe.szzschool.utils.MyGridView
-                android:id="@+id/gridview"
+                android:id="@+id/gridview_tj"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

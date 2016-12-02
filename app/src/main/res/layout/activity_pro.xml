@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/prolistiv"
+        android:layout_width="150dp"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="centerInside"
+        android:layout_height="90dp" />
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_toRightOf="@+id/imageview" >
+
+        <TextView
+            android:id="@+id/prolisttv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的标题"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+
+
+
+            <Button
+                android:id="@+id/btn_play"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:text="播放"
+                android:textSize="14sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+</RelativeLayout>

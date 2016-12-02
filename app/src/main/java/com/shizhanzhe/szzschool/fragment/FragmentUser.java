@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -12,12 +13,22 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.MessageActivity;
+import com.shizhanzhe.szzschool.activity.SCActivity;
+import com.shizhanzhe.szzschool.activity.SZActivity;
+import com.shizhanzhe.szzschool.activity.UserSetActivity;
+import com.shizhanzhe.szzschool.activity.UserZHActivity;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -30,23 +41,37 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by hasee on 2016/11/4.
  */
 @ContentView(R.layout.fragment_user)
-public class FragmentUser extends Fragment {
+public class FragmentUser extends Fragment implements View.OnClickListener {
     @ViewInject(R.id.bg)
-    ImageView bg;
-    private Bitmap bitmap;
+    ImageView topbg;
+    @ViewInject(R.id.setuser)
+    FrameLayout setuser;
+    @ViewInject(R.id.cv)
+    CircleImageView mImageHeader;
+    @ViewInject(R.id.tv_name)
+    TextView user_name;
+    @ViewInject(R.id.user_zh)
+    TextView user_zh;
+    @ViewInject(R.id.user_sc)
+    TextView user_sc;
+    @ViewInject(R.id.user_meg)
+    TextView user_meg;
+    @ViewInject(R.id.user_sz)
+    TextView user_sz;
+    private Bitmap bitmapbg;
+    private Bitmap bitmapcv;
 
-    public static FragmentUser newInstance(String username, String img, String vip, String uid, String ut) {
+    public static FragmentUser newInstance(String username, String img) {
 
         Bundle args = new Bundle();
         args.putString("username", username);
         args.putString("img", img);
-        args.putString("vip", vip);
-        args.putString("uid", uid);
-        args.putString("ut", ut);
         FragmentUser fragment = new FragmentUser();
         fragment.setArguments(args);
         return fragment;
@@ -61,20 +86,30 @@ public class FragmentUser extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        final String img = bundle.getString("img");
+        String username = bundle.getString("username");
+        user_name.setText(username);
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                bitmap = getLocalOrNetBitmap("http://image72.360doc.com/DownloadImg/2014/04/2301/40991904_7.jpg");
+                bitmapbg = getLocalOrNetBitmap("http://image72.360doc.com/DownloadImg/2014/04/2301/40991904_7.jpg");
+                bitmapcv=getLocalOrNetBitmap(img);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        bg.setImageBitmap(blurBitmap(bitmap));
+                        topbg.setImageBitmap(blurBitmap(bitmapbg));
+                        mImageHeader.setImageBitmap(bitmapcv);
                     }
                 });
             }
         }).start();
-
+        setuser.setOnClickListener(this);
+        user_zh.setOnClickListener(this);
+        user_sc.setOnClickListener(this);
+        user_meg.setOnClickListener(this);
+        user_sz.setOnClickListener(this);
     }
 
     //模糊效果
@@ -128,6 +163,27 @@ public class FragmentUser extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.setuser:
+                startActivity(new Intent(getActivity(), UserSetActivity.class));
+                break;
+            case R.id.user_zh:
+                startActivity(new Intent(getActivity(), UserZHActivity.class));
+                break;
+            case R.id.user_sc:
+                startActivity(new Intent(getActivity(), SCActivity.class));
+                break;
+            case R.id.user_meg:
+                startActivity(new Intent(getActivity(), MessageActivity.class));
+                break;
+            case R.id.user_sz:
+                startActivity(new Intent(getActivity(), SZActivity.class));
+                break;
         }
     }
 }

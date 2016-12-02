@@ -1,25 +1,26 @@
 package com.shizhanzhe.szzschool.Bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by hasee on 2016/11/2.
  */
-public class MyProBean {
+public class MyProBean implements Serializable{
 
     /**
-     * id : 29
+     * id : 39
      * userID : 849
-     * oid : 14779825299453
+     * oid : 14792008462544
      * integralAll : 0
-     * integral : -1000.00
+     * integral : -0.01
      * sourceType : 1
-     * addtime : 1477982529
+     * addtime : 1479200846
      * sourceID :
      * sHash :
      * coid : 0
      * isshow : 1
-     * systemid : 77
+     * systemid : 34
      * type : 1
      * pid : 0
      * yvip : 0
@@ -30,8 +31,8 @@ public class MyProBean {
      * tuangou :
      * viplast_time : 0
      * wxpay : 0
-     * course : [{"id":"88","listorder":"0","updatetime":"1476840375","inputtime":"1476840375","ctitle":"个人QQ","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"77","thumb":"","introduce":""},{"id":"90","listorder":"0","updatetime":"1476840650","inputtime":"1476840650","ctitle":"企业QQ","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"77","thumb":"","introduce":""},{"id":"91","listorder":"0","updatetime":"1476840668","inputtime":"1476840668","ctitle":"企点QQ","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"77","thumb":"","introduce":""},{"id":"89","listorder":"0","updatetime":"1476840467","inputtime":"1476840467","ctitle":"营销QQ","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"77","thumb":"","introduce":""}]
-     * sysinfo : [{"id":"77","stitle":"QQ营销","thumb":"/var/upload/image/2016/10/20161020164712_62245.jpg","listorder":"0","updatetime":"1474532460","inputtime":"1474532460","picture":"","introduce":"uc自媒体","exception":"1","style":"","catid":"2","couClass":"8","sys_hours":"","keyword":"网络推广，个人推广，互联网营销，腾讯营销","description":"摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要","l_nanyi":"1","l_jiage":"5","keshi":"100","status":"0"}]
+     * course : [{"id":"77","listorder":"0","updatetime":"1461222523","inputtime":"1461222523","ctitle":"企鹅媒体","style":"","choice_kc":[{"id":"262","name":"QQ群提取好友","sort":"0","mv_url":"d9a628711e944cc26c0073ee8f2d348c_d"},{"id":"290","name":"天涯论坛顶帖机","sort":"0","mv_url":"d9a628711e6c30477b9877decf2fae1d_d"},{"id":"291","name":"豆瓣顶帖机","sort":"0","mv_url":"d9a628711ed9512ab7f1d6ec23e137e1_d"},{"id":"292","name":"猫扑回帖助手","sort":"0","mv_url":"d9a628711ef83a2d2294e7bbe5d978da_d"},{"id":"293","name":"百度贴吧帖子采集器","sort":"0","mv_url":"d9a628711e80d534834f78d6e2351407_d"}],"choice_kc_idstr":"262,290,291,292,293","systemid":"34","thumb":"/var/upload/image/2016/05/20160503160613_55082.jpg","introduce":""},{"id":"87","listorder":"0","updatetime":"1470129274","inputtime":"1470129274","ctitle":"今日头条","style":"","choice_kc":[{"id":"298","name":"企业采集器","sort":"0","mv_url":"d9a628711e3378efe26effc9c5514013_d"},{"id":"299","name":"问问精准关键词用户提取","sort":"0","mv_url":"d9a628711e3b04b17bef9f10b6d4e166_d"},{"id":"303","name":"慧聪企业信息采集","sort":"0","mv_url":"d9a628711e4172a0faf5863ea1ac3d75_d"},{"id":"304","name":"生意宝","sort":"0","mv_url":"d9a628711e1359778211c64fcf070ba2_d"},{"id":"305","name":"新浪微博点赞评论","sort":"0","mv_url":"d9a628711e5c71039e4f435d78a7cd6b_d"},{"id":"306","name":"IM","sort":"0","mv_url":"d9a628711e85bebac2a72eeae807b0cd_d"},{"id":"307","name":"图片转换工具","sort":"0","mv_url":"d9a628711e44758f1a33eec29d8813f3_d"}],"choice_kc_idstr":"298,299,303,304,305,306,307","systemid":"34","thumb":"/var/upload/image/2016/08/20160802171452_94984.jpg","introduce":""},{"id":"107","listorder":"0","updatetime":"1476841260","inputtime":"1476841260","ctitle":"一点资讯","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"34","thumb":"","introduce":""},{"id":"108","listorder":"0","updatetime":"1476841271","inputtime":"1476841271","ctitle":"搜狐自媒体","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"34","thumb":"","introduce":""},{"id":"109","listorder":"0","updatetime":"1476841282","inputtime":"1476841282","ctitle":"网易媒体","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"34","thumb":"","introduce":""},{"id":"110","listorder":"0","updatetime":"1476841294","inputtime":"1476841294","ctitle":"UC自媒体","style":"","choice_kc":[],"choice_kc_idstr":"","systemid":"34","thumb":"","introduce":""}]
+     * sysinfo : [{"id":"34","stitle":"新媒体运营","thumb":"/var/upload/image/2016/10/20161020164907_50943.jpg","listorder":"0","updatetime":"1461219300","inputtime":"1461219300","picture":"","introduce":"QQ群提取好友一款可以批量提取qq群里面所有群成员QQ号码的软件。主要是帮助客户 获得精准潜在客户, 懂得QQ营销的朋友都明白，QQ群成员是精准的潜在客户.","exception":"1,3,4","style":"","catid":"2","couClass":"233","sys_hours":"3秒29","keyword":"","description":"","l_nanyi":"1","l_jiage":"5","keshi":"1","status":"0","tfm":"0.00","pfm":"0.00","tcid":"0"}]
      */
 
     private String id;
@@ -57,40 +58,43 @@ public class MyProBean {
     private String viplast_time;
     private String wxpay;
     /**
-     * id : 88
+     * id : 77
      * listorder : 0
-     * updatetime : 1476840375
-     * inputtime : 1476840375
-     * ctitle : 个人QQ
+     * updatetime : 1461222523
+     * inputtime : 1461222523
+     * ctitle : 企鹅媒体
      * style :
-     * choice_kc : []
-     * choice_kc_idstr :
-     * systemid : 77
-     * thumb :
+     * choice_kc : [{"id":"262","name":"QQ群提取好友","sort":"0","mv_url":"d9a628711e944cc26c0073ee8f2d348c_d"},{"id":"290","name":"天涯论坛顶帖机","sort":"0","mv_url":"d9a628711e6c30477b9877decf2fae1d_d"},{"id":"291","name":"豆瓣顶帖机","sort":"0","mv_url":"d9a628711ed9512ab7f1d6ec23e137e1_d"},{"id":"292","name":"猫扑回帖助手","sort":"0","mv_url":"d9a628711ef83a2d2294e7bbe5d978da_d"},{"id":"293","name":"百度贴吧帖子采集器","sort":"0","mv_url":"d9a628711e80d534834f78d6e2351407_d"}]
+     * choice_kc_idstr : 262,290,291,292,293
+     * systemid : 34
+     * thumb : /var/upload/image/2016/05/20160503160613_55082.jpg
      * introduce :
      */
 
     private List<CourseBean> course;
     /**
-     * id : 77
-     * stitle : QQ营销
-     * thumb : /var/upload/image/2016/10/20161020164712_62245.jpg
+     * id : 34
+     * stitle : 新媒体运营
+     * thumb : /var/upload/image/2016/10/20161020164907_50943.jpg
      * listorder : 0
-     * updatetime : 1474532460
-     * inputtime : 1474532460
+     * updatetime : 1461219300
+     * inputtime : 1461219300
      * picture :
-     * introduce : uc自媒体
-     * exception : 1
+     * introduce : QQ群提取好友一款可以批量提取qq群里面所有群成员QQ号码的软件。主要是帮助客户 获得精准潜在客户, 懂得QQ营销的朋友都明白，QQ群成员是精准的潜在客户.
+     * exception : 1,3,4
      * style :
      * catid : 2
-     * couClass : 8
-     * sys_hours :
-     * keyword : 网络推广，个人推广，互联网营销，腾讯营销
-     * description : 摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要摘要
+     * couClass : 233
+     * sys_hours : 3秒29
+     * keyword :
+     * description :
      * l_nanyi : 1
      * l_jiage : 5
-     * keshi : 100
+     * keshi : 1
      * status : 0
+     * tfm : 0.00
+     * pfm : 0.00
+     * tcid : 0
      */
 
     private List<SysinfoBean> sysinfo;
@@ -298,7 +302,14 @@ public class MyProBean {
         private String systemid;
         private String thumb;
         private String introduce;
-        private List<?> choice_kc;
+        /**
+         * id : 262
+         * name : QQ群提取好友
+         * sort : 0
+         * mv_url : d9a628711e944cc26c0073ee8f2d348c_d
+         */
+
+        private List<ChoiceKcBean> choice_kc;
 
         public String getId() {
             return id;
@@ -380,12 +391,51 @@ public class MyProBean {
             this.introduce = introduce;
         }
 
-        public List<?> getChoice_kc() {
+        public List<ChoiceKcBean> getChoice_kc() {
             return choice_kc;
         }
 
-        public void setChoice_kc(List<?> choice_kc) {
+        public void setChoice_kc(List<ChoiceKcBean> choice_kc) {
             this.choice_kc = choice_kc;
+        }
+
+        public static class ChoiceKcBean {
+            private String id;
+            private String name;
+            private String sort;
+            private String mv_url;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getSort() {
+                return sort;
+            }
+
+            public void setSort(String sort) {
+                this.sort = sort;
+            }
+
+            public String getMv_url() {
+                return mv_url;
+            }
+
+            public void setMv_url(String mv_url) {
+                this.mv_url = mv_url;
+            }
         }
     }
 
@@ -409,6 +459,9 @@ public class MyProBean {
         private String l_jiage;
         private String keshi;
         private String status;
+        private String tfm;
+        private String pfm;
+        private String tcid;
 
         public String getId() {
             return id;
@@ -560,6 +613,30 @@ public class MyProBean {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getTfm() {
+            return tfm;
+        }
+
+        public void setTfm(String tfm) {
+            this.tfm = tfm;
+        }
+
+        public String getPfm() {
+            return pfm;
+        }
+
+        public void setPfm(String pfm) {
+            this.pfm = pfm;
+        }
+
+        public String getTcid() {
+            return tcid;
+        }
+
+        public void setTcid(String tcid) {
+            this.tcid = tcid;
         }
     }
 }

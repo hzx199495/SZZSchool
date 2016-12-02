@@ -1,9 +1,12 @@
 package com.shizhanzhe.szzschool.Bean;
 
+import java.util.List;
+
 /**
  * Created by hasee on 2016/11/16.
  */
 public class ProBean {
+
 
     /**
      * id : 3
@@ -228,4 +231,5 @@ public class ProBean {
     public void setTcid(String tcid) {
         this.tcid = tcid;
     }
+
 }

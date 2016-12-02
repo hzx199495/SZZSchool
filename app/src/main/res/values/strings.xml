@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SZZ</string>
+    <string name="app_name">实战者</string>
     <string name="Login">登录</string>
     <string name="Regist">注册</string>
     <color name="all_c">#ffcccccc</color>
@@ -33,6 +33,25 @@
     <string name="email">邮箱</string>
     <string name="input_email">请输入邮箱</string>
     <string name="city">所在城市</string>
-    <string name="choose_city">请选择所在城市</string>
+    <string name="my_want">请输入个人签名</string>
     <string name="hint_input_pass_two">请再次输入密码</string>
+    <string-array name="sp_selcol">
+        <item>白色</item>
+        <item>红色</item>
+        <item>绿色</item>
+        <item>蓝色</item>
+        <item>黄色</item>
+        <item>紫色</item>
+        <item>黑色</item>
+    </string-array>
+    <string-array name="sp_fontsize">
+        <item>24</item>
+        <item>18</item>
+        <item>16</item>
+    </string-array>
+    <string-array name="sp_fontmode">
+        <item>滚动</item>
+        <item>顶部</item>
+        <item>底部</item>
+    </string-array>
 </resources>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -66,9 +67,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             }
             String b2 = sb2.toString();
              String b = b2 + t + y;
-             String path = "http://shizhanzhe.com/index.php?m=pcdata.user_data&pc=1&username="
-                    + username + "&password="
-                    + b;
+             String path = Path.UZER(username,b);
             Log.i("++++++", path);
             OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override

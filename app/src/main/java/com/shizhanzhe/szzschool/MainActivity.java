@@ -15,10 +15,8 @@ import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.activity.SearchActivity;
 import com.shizhanzhe.szzschool.fragment.FragmentCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentFl;
-import com.shizhanzhe.szzschool.fragment.FragmentMore;
-import com.shizhanzhe.szzschool.fragment.FragmentProject;
+import com.shizhanzhe.szzschool.fragment.FragmentMyProject;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
-import com.shizhanzhe.szzschool.widge.SearchView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -35,7 +33,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
 
     private FragmentCenter fragmentCenter;
-    private FragmentProject fragmentProject;
+    private FragmentMyProject fragmentMyProject;
     private FragmentUser fragmentUser;
     private FragmentFl fragmentFl;
 
@@ -56,22 +54,15 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         String uid = loginData.getId();
         String token = loginData.getToken();
         String vip = loginData.getVip();
-//        //拼接后半部分地址
-//        String ut = "uid=" + uid + "&token=" + token;
-////        Log.i("=====", ut + "______" + username + "____" + img + "____" + uid + "____" + token+"___"+vip);
-//
-////        fragmentUser = new FragmentUser().newInstance(username, img, vip, uid, ut);
-////        fragmentCenter = new FragmentCenter().newInstance(ut);
-        fragmentUser = new FragmentUser();
-        fragmentCenter = new FragmentCenter();
-        fragmentFl = new FragmentFl();
-        fragmentProject = new FragmentProject();
-//        fragmentProject = FragmentProject.newInstance(ut);
+        fragmentUser = new FragmentUser().newInstance(username,img);
+        fragmentCenter = new FragmentCenter().newInstance(uid,token);
+        fragmentFl = new FragmentFl().newInstance(uid,token);
+        fragmentMyProject = new FragmentMyProject().newInstance(uid,token);
 
         transaction.add(R.id.fragment, fragmentCenter);
         transaction.add(R.id.fragment, fragmentUser);
         transaction.add(R.id.fragment, fragmentFl);
-        transaction.add(R.id.fragment, fragmentProject);
+        transaction.add(R.id.fragment, fragmentMyProject);
         transaction.commit();
         rg.setOnCheckedChangeListener(this);
         tv.setOnClickListener(new View.OnClickListener() {
@@ -93,25 +84,25 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 transaction.show(fragmentCenter);
                 transaction.hide(fragmentFl);
                 transaction.hide(fragmentUser);
-                transaction.hide(fragmentProject);
+                transaction.hide(fragmentMyProject);
                 break;
             case R.id.fl:
                 transaction.hide(fragmentCenter);
                 transaction.show(fragmentFl);
                 transaction.hide(fragmentUser);
-                transaction.hide(fragmentProject);
+                transaction.hide(fragmentMyProject);
                 break;
             case R.id.course:
                 transaction.hide(fragmentCenter);
                 transaction.hide(fragmentFl);
                 transaction.show(fragmentUser);
-                transaction.hide(fragmentProject);
+                transaction.hide(fragmentMyProject);
                 break;
             case R.id.project:
                 transaction.hide(fragmentCenter);
                 transaction.hide(fragmentFl);
                 transaction.hide(fragmentUser);
-                transaction.show(fragmentProject);
+                transaction.show(fragmentMyProject);
                 break;
         }
         transaction.commit();

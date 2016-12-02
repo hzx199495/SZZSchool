@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.shizhanzhe.szzschool">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
+        tools:replace="android:name"
+        android:name=".activity.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,12 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".MainActivity"/>-->
         <activity android:name=".MainActivity"/>
         <activity android:name=".activity.RegisterActivity"/>
-        <activity android:name=".activity.HPlayerActivity"/>
         <activity android:name=".activity.SearchActivity"/>
         <activity android:name=".activity.FindPWActivity"/>
+        <activity android:name=".activity.DetailActivity"/>
+        <activity android:name=".activity.UserSetActivity"/>
+        <activity android:name=".activity.MoneyActivity"/>
+        <activity android:name=".activity.SZActivity"/>
+        <activity android:name=".activity.SCActivity"/>
+        <activity android:name=".activity.MessageActivity"/>
+        <activity android:name=".activity.UserZHActivity"/>
+        <activity android:name=".activity.MyDetailActivity"/>
     </application>
 
 </manifest>

@@ -85,45 +85,8 @@
                     android:textSize="14.0sp" />
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
-            android:background="@color/white"
-            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ll_sex"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selected"
-                android:orientation="horizontal"
-                android:paddingBottom="12.5dip"
-                android:paddingLeft="15.0dip"
-                android:paddingRight="15.0dip"
-                android:paddingTop="12.5dip">
 
-                <TextView
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.0"
-                    android:gravity="center|left"
-                    android:text="@string/sex"
-                    android:textColor="@color/one_level"
-                    android:textSize="14.0sp" />
-
-                <TextView
-                    android:id="@+id/tv_sex"
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8.0"
-                    android:drawableRight="@drawable/ic_list_right_jt"
-                    android:gravity="center|left"
-                    android:hint="@string/choose_sex"
-                    android:textColor="@color/one_level"
-                    android:textColorHint="@color/hint"
-                    android:textSize="14.0sp" />
-            </LinearLayout>
 
             <View
                 android:layout_width="fill_parent"
@@ -131,39 +94,8 @@
                 android:layout_marginLeft="10.0dip"
                 android:background="@color/line" />
 
-            <LinearLayout
-                android:id="@+id/ll_birthday"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selected"
-                android:orientation="horizontal"
-                android:paddingBottom="12.5dip"
-                android:paddingLeft="15.0dip"
-                android:paddingRight="15.0dip"
-                android:paddingTop="12.5dip">
 
-                <TextView
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.0"
-                    android:gravity="center|left"
-                    android:text="@string/birthday"
-                    android:textColor="@color/one_level"
-                    android:textSize="14.0sp" />
 
-                <TextView
-                    android:id="@+id/tv_birthday"
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8.0"
-                    android:drawableRight="@drawable/ic_list_right_jt"
-                    android:gravity="center|left"
-                    android:hint="@string/choose_birthday"
-                    android:textColor="@color/one_level"
-                    android:textColorHint="@color/hint"
-                    android:textSize="14.0sp" />
-            </LinearLayout>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -264,21 +196,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2.0"
                 android:gravity="center|left"
-                android:text="@string/city"
+                android:text="个人签名"
                 android:textColor="@color/one_level"
                 android:textSize="14.0sp" />
 
-            <TextView
-                android:id="@+id/tv_city"
+            <EditText
+                android:id="@+id/tv_my"
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="8.0"
-                android:drawableRight="@drawable/ic_list_right_jt"
+                android:background="@color/white"
                 android:gravity="center|left"
-                android:hint="@string/choose_city"
+                android:hint="@string/my_want"
+                android:inputType="textEmailAddress"
+                android:maxLength="30"
+                android:paddingBottom="12.5dip"
+                android:paddingTop="12.5dip"
                 android:textColor="@color/one_level"
                 android:textColorHint="@color/hint"
-                android:textSize="14.0sp" />
+                android:textSize="14.0sp"  />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -1,1 +1,1 @@
-include ':app', ':polyv-android-sdk-demo-master'
+include ':app'

@@ -2,14 +2,10 @@ package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.easefun.polyvsdk.demo.IjkVideoActicity;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.ListAdapter;
 
@@ -37,23 +33,21 @@ public class MyDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-        ArrayList<String> name = new ArrayList<String>();
+        ArrayList<String> proname = new ArrayList<String>();
         ArrayList<String> url = new ArrayList<String>();
-        name = getIntent().getStringArrayListExtra("name");
+        ArrayList<String> pid = new ArrayList<String>();
+        proname = getIntent().getStringArrayListExtra("name");
         url = getIntent().getStringArrayListExtra("url");
+        pid = getIntent().getStringArrayListExtra("pid");
         String title = getIntent().getStringExtra("title");
+        final String uid = getIntent().getStringExtra("uid");
+        final String token = getIntent().getStringExtra("token");
+        String sid = getIntent().getStringExtra("sid");
+        String spid = getIntent().getStringExtra("spid");
         tv.setText(title);
-        ListAdapter adapter = new ListAdapter(MyDetailActivity.this, name,url);
+        ListAdapter adapter = new ListAdapter(MyDetailActivity.this, proname,url,pid,uid,token,sid,spid);
         lv.setAdapter(adapter);
-        final ArrayList<String> finalUrl = url;
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                IjkVideoActicity.intentTo(MyDetailActivity.this, 4, 1, finalUrl.get(position),
-                        false);
-//                Toast.makeText(getApplicationContext(),finalUrl.get(position),Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
 

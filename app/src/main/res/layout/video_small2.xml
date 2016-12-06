@@ -7,7 +7,7 @@
     android:orientation="vertical"
     >
 
-    <com.easefun.polyvsdk.demo.VideoViewContainer
+    <com.shizhanzhe.szzschool.video.VideoViewContainer
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,7 +69,7 @@
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:gravity="bottom|center_horizontal" />
-    </com.easefun.polyvsdk.demo.VideoViewContainer>
+    </com.shizhanzhe.szzschool.video.VideoViewContainer>
     <!-- 
 	<Button 
 	    android:id="@+id/video_btn1"

@@ -11,10 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.easefun.polyvsdk.PolyvDevMountInfo;
 import com.easefun.polyvsdk.PolyvSDKClient;
 import com.easefun.polyvsdk.SDKUtil;
-import com.easefun.polyvsdk.demo.PolyvDemoService;
 import com.easefun.polyvsdk.server.AndroidService;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -24,8 +22,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.video.PolyvDemoService;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -36,6 +34,11 @@ import java.io.File;
  * Created by hasee on 2016/10/31.
  */
 public class MyApplication extends Application {
+    public static String  username="";
+    public static String myid="";
+    public static String token="";
+    public static String img="";
+
     public static ImageOptions options;
     private static final String TAG = MyApplication.class.getSimpleName();
     private ServiceStartErrorBroadcastReceiver serviceStartErrorBroadcastReceiver = null;
@@ -65,34 +68,35 @@ public class MyApplication extends Application {
                 .build();
 
 
-//        File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), "polyvSDK/Cache");
-//        // This configuration tuning is custom. You can tune every option, you
-//        // may tune some of them,
-//        // or you can create default configuration by
-//        // ImageLoaderConfiguration.createDefault(this);
-//        // method.
-//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-//                .memoryCacheExtraOptions(480, 800)
-//                .threadPoolSize(2)
-//                .threadPriority(Thread.NORM_PRIORITY - 2)
-//                .denyCacheImageMultipleSizesInMemory()
-//                // .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
-//                // You can pass your own memory cache implementation/
-//                .memoryCache(new WeakMemoryCache()).memoryCacheSize(2 * 1024 * 1024)
-//                .diskCacheSize(50 * 1024 * 1024)
-//                // .discCacheFileNameGenerator(new Md5FileNameGenerator())//
-//                .tasksProcessingOrder(QueueProcessingType.LIFO)
-//                .diskCacheFileCount(100)
-//                .diskCache(new UnlimitedDiscCache(cacheDir))
-//                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-//                .imageDownloader(new BaseImageDownloader(getApplicationContext(), 5 * 1000, 30 * 1000))
-//                .writeDebugLogs() // Remove for release app
-//                .build();
+        File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), "polyvSDK/Cache");
+        // This configuration tuning is custom. You can tune every option, you
+        // may tune some of them,
+        // or you can create default configuration by
+        // ImageLoaderConfiguration.createDefault(this);
+        // method.
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .memoryCacheExtraOptions(480, 800)
+                .threadPoolSize(2)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                // .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
+                // You can pass your own memory cache implementation/
+                .memoryCache(new WeakMemoryCache()).memoryCacheSize(2 * 1024 * 1024)
+                .diskCacheSize(50 * 1024 * 1024)
+                // .discCacheFileNameGenerator(new Md5FileNameGenerator())//
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .diskCacheFileCount(100)
+                .diskCache(new UnlimitedDiscCache(cacheDir))
+                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                .imageDownloader(new BaseImageDownloader(getApplicationContext(), 5 * 1000, 30 * 1000))
+                .writeDebugLogs() // Remove for release app
+                .build();
 
-//        // Initialize ImageLoader with configuration
-        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+        // Initialize ImageLoader with configuration
+        ImageLoader.getInstance().init(config);
         initPolyvCilent();
     }
+
     public void initPolyvCilent() {
         //OPPO手机自动熄屏一段时间后，会启用系统自带的电量优化管理，禁止一切自启动的APP（用户设置的自启动白名单除外）。
         //如果startService异常，就会发送消息上来提醒异常了

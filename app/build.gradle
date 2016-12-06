@@ -17,11 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
+
 }
 
 dependencies {
@@ -34,5 +30,13 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     // 轮播图
     compile 'com.youth.banner:banner:1.4.2'
-    compile project(':polyv-android-sdk-demo-master')
+    //PolyvSDK
+    compile files('libs/bugly_1.2.9_release.jar')
+    compile files('libs/commons-codec-1.9.jar')
+    compile files('libs/httpclient19.jar')
+    compile files('libs/httpcore19.jar')
+    compile files('libs/jikmediaplayer.jar')
+    compile files('libs/jikmediawidget.jar')
+    compile files('libs/polyvSDK1.0.30.jar')
+    compile files('libs/universal-image-loader-1.9.3-SNAPSHOT.jar')
 }

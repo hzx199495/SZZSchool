@@ -12,11 +12,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
+import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.SearchActivity;
 import com.shizhanzhe.szzschool.fragment.FragmentCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentFl;
 import com.shizhanzhe.szzschool.fragment.FragmentMyProject;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -54,6 +56,12 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         String uid = loginData.getId();
         String token = loginData.getToken();
         String vip = loginData.getVip();
+
+        MyApplication.username=username;
+        MyApplication.myid=uid;
+        MyApplication.token=token;
+        MyApplication.img=img;
+
         fragmentUser = new FragmentUser().newInstance(username,img);
         fragmentCenter = new FragmentCenter().newInstance(uid,token);
         fragmentFl = new FragmentFl().newInstance(uid,token);

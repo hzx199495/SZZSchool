@@ -59,10 +59,9 @@
     <ListView
         android:id="@+id/search_lv_tips"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="70dp"
         android:background="@drawable/lv_search_tips_bg"
         android:visibility="gone"></ListView>
 </LinearLayout>

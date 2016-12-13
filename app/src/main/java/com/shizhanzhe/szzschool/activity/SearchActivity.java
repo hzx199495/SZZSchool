@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -10,10 +11,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-import com.shizhanzhe.szzschool.Bean.Bean;
+import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.SearchAdapter;
+import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.widge.SearchView;
+
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +51,12 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
      */
     private SearchAdapter resultAdapter;
 
-    private List<Bean> dbData;
+    private List<SearchBean> dbData;
 
-    /**
-     * 热搜版数据
-     */
-    private List<String> hintData;
+//    /**
+//     * 热搜版数据
+//     */
+//    private List<String> hintData;
 
     /**
      * 搜索过程中自动补全数据
@@ -61,7 +66,7 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
     /**
      * 搜索结果的数据
      */
-    private List<Bean> resultData;
+    private List<SearchBean> resultData;
 
     /**
      * 默认提示框显示项的个数
@@ -107,7 +112,13 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
         lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(SearchActivity.this, position + "", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(SearchActivity.this, DetailActivity.class);
+                intent.putExtra("id",resultData.get(position).getProid());
+                intent.putExtra("img",resultData.get(position).getImg());
+                intent.putExtra("title",resultData.get(position).getTitle());
+                intent.putExtra("intro",resultData.get(position).getIntro());
+                startActivity(intent);
             }
         });
     }
@@ -118,8 +129,8 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
     private void initData() {
         //从数据库获取数据
         getDbData();
-        //初始化热搜版数据
-        getHintData();
+//        //初始化热搜版数据
+//        getHintData();
         //初始化自动补全数据
         getAutoCompleteData(null);
         //初始化搜索结果数据
@@ -130,23 +141,24 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
      * 获取db 数据
      */
     private void getDbData() {
-        int size = 100;
-        dbData = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            dbData.add(new Bean(R.drawable.icon, "android开发必备技能" + (i + 1), "Android自定义view——自定义搜索view", i * 20 + 2 + ""));
+        DbManager manager = DatabaseOpenHelper.getInstance();
+        try {
+            dbData = manager.findAll(SearchBean.class);
+        } catch (DbException e) {
+            e.printStackTrace();
         }
     }
 
-    /**
-     * 获取热搜版data 和adapter
-     */
-    private void getHintData() {
-        hintData = new ArrayList<>(hintSize);
-        for (int i = 1; i <= hintSize; i++) {
-            hintData.add("热搜" + i + "：Android自定义View");
-        }
-        hintAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hintData);
-    }
+//    /**
+//     * 获取热搜版data 和adapter
+//     */
+//    private void getHintData() {
+//        hintData = new ArrayList<>(hintSize);
+//        for (int i = 1; i <= hintSize; i++) {
+//            hintData.add("热搜" + i + "：Android自定义View");
+//        }
+//        hintAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hintData);
+//    }
 
     /**
      * 获取自动补全data 和adapter
@@ -223,7 +235,7 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
             //更新搜索数据
             resultAdapter.notifyDataSetChanged();
         }
-        Toast.makeText(this, "完成搜素", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "完成搜索", Toast.LENGTH_SHORT).show();
 
 
     }

@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,7 +49,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
      * 登录按钮
      */
     private void login() {
-        String username = mEditUid.getText().toString();
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        dialog.setMessage("正在登录...");
+        dialog.show();
+        final String username = mEditUid.getText().toString();
         String password = mEditPsw.getText().toString();
         if (username != null && password.length() >= 6) {
             StringBuffer sb = new StringBuffer(password);
@@ -75,16 +82,21 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 //                    Log.i("====",json);
                     if(json.length()<=5){
                         Toast.makeText(LoginActivity.this,"帐号或密码错误，请重新输入",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }else {
+                        MyApplication.zh=username;
                         Intent intent = new Intent();
                         intent.setClass(LoginActivity.this, MainActivity.class);
                         intent.putExtra("data", json);
                         startActivity(intent);
+                        Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
                 }
             });
         }else{
             Toast.makeText(LoginActivity.this, "帐号或密码长度有误", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
         }
     }
 

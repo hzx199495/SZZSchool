@@ -224,7 +224,7 @@
     </style>
 
     <!-- 全屏dialog样式 左右插入 -->
-    <style name="mydialog" parent="@android:style/Theme.Dialog">
+    <style name="Dialog_Fullscreen" >
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>

@@ -116,6 +116,7 @@
 
                 <TextView
                     android:id="@+id/tv_tel"
+                    android:text="101010101010"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/four_level"

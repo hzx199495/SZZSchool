@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -13,13 +14,11 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.R;
@@ -28,7 +27,6 @@ import com.shizhanzhe.szzschool.activity.SCActivity;
 import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.activity.UserSetActivity;
 import com.shizhanzhe.szzschool.activity.UserZHActivity;
-import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -37,6 +35,7 @@ import org.xutils.x;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -95,7 +94,16 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 bitmapbg = getLocalOrNetBitmap("http://image72.360doc.com/DownloadImg/2014/04/2301/40991904_7.jpg");
-                bitmapcv=getLocalOrNetBitmap(img);
+
+
+
+                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"header.jpg");
+//                    if(file.exists())
+//                    {
+////                        bitmapcv=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"header.jpg");
+//                    }else{
+                        bitmapcv=getLocalOrNetBitmap(img);
+//                    }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -103,6 +111,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
                         mImageHeader.setImageBitmap(bitmapcv);
                     }
                 });
+
             }
         }).start();
         setuser.setOnClickListener(this);

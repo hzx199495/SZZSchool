@@ -34,8 +34,10 @@ import java.io.File;
  * Created by hasee on 2016/10/31.
  */
 public class MyApplication extends Application {
+    public static String  zh="";
     public static String  username="";
     public static String myid="";
+    public static String money="";
     public static String token="";
     public static String img="";
 

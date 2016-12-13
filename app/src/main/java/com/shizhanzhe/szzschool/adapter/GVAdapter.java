@@ -9,9 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.Bean.ProBean;
+import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.utils.Path;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.List;
@@ -29,7 +33,16 @@ public class GVAdapter extends BaseAdapter {
         this.context=context;
         inflater = LayoutInflater.from(context);
     }
-
+    public void GVAdapterClear(){
+        DbManager manager = DatabaseOpenHelper.getInstance();
+        try {
+            manager.delete(SearchBean.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        list.clear();
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         return list.size();

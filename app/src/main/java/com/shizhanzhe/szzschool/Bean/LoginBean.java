@@ -9,14 +9,16 @@ public class LoginBean {
      * username : 壮壮
      * id : 849
      * headimg : http://wx.qlogo.cn/mmopen/PiajxSqBRaELn1B3ibb6YuVhia4aLsDjdaUf1GiaYok3yTaMflCrePXZ7ArGaN6BjticKqichFv8TarLic2Spb856Swcg/0
-     * bbh : 1.3.3.20161026_beta
+     * money : 8000.27
+     * bbh : 1.3.3.20161114_beta
      * vip : 0
-     * token : 1477553768fe8c15fed5f808006ce95eddb7366e35709300
+     * token : 1481162653fe8c15fed5f808006ce95eddb7366e35452600
      */
 
     private String username;
     private String id;
     private String headimg;
+    private String money;
     private String bbh;
     private String vip;
     private String token;
@@ -43,6 +45,14 @@ public class LoginBean {
 
     public void setHeadimg(String headimg) {
         this.headimg = headimg;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
     }
 
     public String getBbh() {

@@ -55,12 +55,14 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         String img = loginData.getHeadimg();
         String uid = loginData.getId();
         String token = loginData.getToken();
+        String money=loginData.getMoney();
         String vip = loginData.getVip();
 
         MyApplication.username=username;
         MyApplication.myid=uid;
         MyApplication.token=token;
         MyApplication.img=img;
+        MyApplication.money=money;
 
         fragmentUser = new FragmentUser().newInstance(username,img);
         fragmentCenter = new FragmentCenter().newInstance(uid,token);

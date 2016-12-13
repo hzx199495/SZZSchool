@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="余额账户(元)"
+            android:text="账户余额(元)"
             android:textColor="@color/white"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -47,6 +47,7 @@
             android:layout_marginTop="25dp"
             android:id="@+id/textView" />
         <TextView
+            android:id="@+id/mymoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="100.00"
@@ -58,7 +59,7 @@
 
     </RelativeLayout>
     <LinearLayout
-        android:id="@+id/recharge"
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_white_selected"
@@ -70,6 +71,7 @@
         android:paddingTop="12.5dip">
 
         <TextView
+            android:id="@+id/recharge"
             android:layout_width="0.0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"

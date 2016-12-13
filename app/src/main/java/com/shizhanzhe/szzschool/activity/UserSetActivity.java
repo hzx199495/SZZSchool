@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     LinearLayout file;
     @ViewInject(R.id.user_logout)
     TextView logout;
+    @ViewInject(R.id.tv_tel)
+    TextView tv;
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int RESIZE_REQUEST_CODE = 2;
@@ -53,13 +56,14 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
         setcv.setOnClickListener(this);
         name.setOnClickListener(this);
         pass.setOnClickListener(this);
         file.setOnClickListener(this);
         logout.setOnClickListener(this);
-
+        tv.setText(MyApplication.zh);
         dialog = new Dialog(UserSetActivity.this,R.style.dialog);
         dialog.setContentView(R.layout.dialog_change_head);
         Click(dialog);
@@ -100,17 +104,17 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
                 break;
             case R.id.ll_name:
-                MyDialog dialog1 = new MyDialog(this);
+                Dialog dialog1 = new Dialog(this,R.style.Dialog_Fullscreen);
                 dialog1.setContentView(R.layout.dialog_edit_text);
                 dialog1.show();
                 break;
             case R.id.ll_pass:
-                MyDialog dialog2 = new MyDialog(this);
+                Dialog dialog2 = new Dialog(this,R.style.Dialog_Fullscreen);
                 dialog2.setContentView(R.layout.dialog_change_pass);
                 dialog2.show();
                 break;
             case R.id.ll_file:
-                MyDialog dialog3 = new MyDialog(this);
+                Dialog dialog3 = new Dialog(this,R.style.Dialog_Fullscreen);
                 dialog3.setContentView(R.layout.dialog_user_info);
                 dialog3.show();
                 break;

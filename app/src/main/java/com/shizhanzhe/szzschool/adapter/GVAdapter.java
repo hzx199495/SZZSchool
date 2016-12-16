@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.utils.Path;
 
@@ -70,7 +71,8 @@ public class GVAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        x.image().bind(holder.iv, Path.IMG(list.get(position).getThumb()));
+
+        x.image().bind(holder.iv, Path.IMG(list.get(position).getThumb()), MyApplication.options);
         holder.tv.setText(list.get(position).getStitle());
         return convertView;
     }

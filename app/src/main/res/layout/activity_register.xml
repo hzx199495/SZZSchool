@@ -61,7 +61,7 @@
             android:gravity="center|left"
             android:hint="@string/hint_input_ic"
             android:inputType="number"
-            android:maxLength="4"
+            android:maxLength="6"
             android:paddingBottom="15.0dip"
             android:paddingLeft="5.0dip"
             android:paddingTop="15.0dip"

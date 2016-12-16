@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 
 import java.io.IOException;
 import java.util.Map;
@@ -79,10 +81,24 @@ public class Pay {
 				// 判断resultStatus 为9000则代表支付成功
 				if (TextUtils.equals(resultStatus, "9000")) {
 					// 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-					 double l = Double.parseDouble(price);
-                	 double o = Double.parseDouble(MyApplication.money);
-					MyApplication.money=l+o+"";
-					listener.refreshPriorityUI(MyApplication.money);
+//					 double l = Double.parseDouble(price);
+//                	 double o = Double.parseDouble(MyApplication.money);
+//					MyApplication.money=l+o+"";
+					OkHttpDownloadJsonUtil.downloadJson(context, MyApplication.path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+						@Override
+						public void onsendJson(String json) {
+							Gson gson = new Gson();
+							LoginBean loginData = gson.fromJson(json, LoginBean.class);
+							String token = loginData.getToken();
+							String mymoney=loginData.getMoney();
+							Log.i("======",mymoney);
+							MyApplication.token=token;
+							MyApplication.money=mymoney;
+							listener.refreshPriorityUI(mymoney);
+						}
+					});
+
+
 					Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
 				} else {
 					// 该笔订单真实的支付结果，需要依赖服务端的异步通知。
@@ -95,6 +111,10 @@ public class Pay {
 			}
 		};
 	};
+	public void refresh(){
+
+
+	}
 	PayListener listener;
 	public interface PayListener {
 		/**

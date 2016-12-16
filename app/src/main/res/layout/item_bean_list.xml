@@ -8,7 +8,7 @@
         android:id="@+id/item_search_tv_title"
         android:layout_marginLeft="20dp"
         android:text="Title"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

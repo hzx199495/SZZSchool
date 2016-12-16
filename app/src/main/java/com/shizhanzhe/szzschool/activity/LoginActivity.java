@@ -75,6 +75,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             String b2 = sb2.toString();
              String b = b2 + t + y;
              String path = Path.UZER(username,b);
+            MyApplication.path=path;
             Log.i("++++++", path);
             OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override

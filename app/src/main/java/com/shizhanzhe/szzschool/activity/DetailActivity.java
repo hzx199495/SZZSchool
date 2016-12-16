@@ -43,6 +43,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     Dialog dialog;
     String img;
     String title;
+    String proprice;
 //    Handler handler=new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +58,9 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
          img = intent.getStringExtra("img");
         String intro = intent.getStringExtra("intro");
          title = intent.getStringExtra("title");
+        proprice = intent.getStringExtra("price");
 
-        FragmentDetail fragmentDetail = new FragmentDetail().newInstance(img, title, intro);
+        FragmentDetail fragmentDetail = new FragmentDetail().newInstance(img, title, intro,proprice);
         FragmentDetailProject fragmentDetailProject = new FragmentDetailProject().newInstance(id, uid, token);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.first, fragmentDetail).add(R.id.second, fragmentDetailProject)
@@ -80,11 +82,11 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                     case R.id.buy:
                         dialog.show();
                         TextView pro = (TextView) dialog.getWindow().findViewById(R.id.buy_pro);
-//                        TextView price = (TextView) dialog.getWindow().findViewById(R.id.buy_price);
+                        TextView price = (TextView) dialog.getWindow().findViewById(R.id.buy_pr);
                         Button btn = (Button) dialog.getWindow().findViewById(R.id.buy_yes);
 
                         pro.setText(title);
-//                      price.setText(price);
+                        price.setText(proprice);
                         btn.setOnClickListener(this);
                         break;
                     case R.id.buy_yes:
@@ -105,6 +107,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                                     @Override
                                     public void run() {
                                         Toast.makeText(DetailActivity.this, "购买失败", Toast.LENGTH_LONG).show();
+                                        dialog.dismiss();
                                     }
 
                                 });
@@ -118,6 +121,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                                         @Override
                                         public void run() {
                                             Toast.makeText(DetailActivity.this, "购买成功", Toast.LENGTH_LONG).show();
+                                            dialog.dismiss();
                                         }
 
                                     });

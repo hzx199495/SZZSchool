@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.IjkVideoActicity;
 
@@ -20,23 +23,14 @@ import java.util.List;
 public class ListAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
     private List<String> proname;
-    private List<String> url;
-    private List<String> pid;
-    String uid;
-    String token;
-    String sid;
-    String spid;
+    String img;
     private Context context;
 
-    public ListAdapter(Context context, List<String> proname, List<String> url, List<String> pid, String uid, String token,String sid,String spid) {
+    public ListAdapter(Context context, List<String> proname,String img) {
         this.context = context;
         this.proname = proname;
-        this.url = url;
-        this.uid = uid;
-        this.token = token;
-        this.pid = pid;
-        this.sid=sid;
-        this.spid=spid;
+
+        this.img=img;
         inflater = LayoutInflater.from(context);
     }
 
@@ -62,25 +56,28 @@ public class ListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.activity_pro, null);
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.prolisttv);
-            holder.btn = (Button) convertView.findViewById(R.id.btn_play);
+            holder.iv = (ImageView) convertView.findViewById(R.id.prolistiv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        ImageLoader imageloader = ImageLoader.getInstance();
+        imageloader.displayImage(Path.IMG(img), holder.iv,MyApplication.displayoptions);
         holder.tv.setText(proname.get(position));
-        holder.btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String comment= Path.COMMENT(pid.get(position),uid,token);
-                IjkVideoActicity.intentTo(context, IjkVideoActicity.PlayMode.portrait, IjkVideoActicity.PlayType.vid, url.get(position),
-                        false,comment,sid,spid,pid.get(position));
-            }
-        });
+//        holder.btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String comment= Path.COMMENT(pid.get(position), MyApplication.myid, MyApplication.token);
+//                IjkVideoActicity.intentTo(context, IjkVideoActicity.PlayMode.portrait, IjkVideoActicity.PlayType.vid, url.get(position),
+//                        false,comment,sid,spid,pid.get(position),proname.get(position));
+//            }
+//        });
         return convertView;
     }
 
     class ViewHolder {
+        ImageView iv;
         TextView tv;
-        Button btn;
+
     }
 }

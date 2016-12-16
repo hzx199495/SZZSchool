@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,10 +11,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.pay.Pay;
 import com.shizhanzhe.szzschool.utils.MyDialog;
+import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -34,19 +39,34 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     EditText czmoney;
     TextView zh;
     Button btnpay;
+    String mymoney;
+    String token;
 
-    Handler handler=new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+
         money.setText(MyApplication.money);
          dialog = new Dialog(this,R.style.Dialog_Fullscreen);
         dialog.setContentView(R.layout.dialog_cz);
         cz.setOnClickListener(this);
             }
-
+    public void refresh(){
+        OkHttpDownloadJsonUtil.downloadJson(this, MyApplication.path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                Gson gson = new Gson();
+                LoginBean loginData = gson.fromJson(json, LoginBean.class);
+                token = loginData.getToken();
+                mymoney=loginData.getMoney();
+            }
+        });
+        MyApplication.token=token;
+        MyApplication.money=mymoney;
+        money.setText(mymoney);
+    }
 
     @Override
     public void onClick(View v) {
@@ -67,6 +87,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
                         money.setText(string);
                     }
                 });
+
                 break;
             default:
                 break;

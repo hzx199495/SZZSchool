@@ -43,7 +43,7 @@ public class CommentAdapter extends BaseAdapter {
 
     private android.view.animation.Animation animation;//动画效果的
     public void addData(List<CommentBean> list){
-        this.list.addAll(list);
+        this.list=list;
         notifyDataSetChanged();
     }
     public CommentAdapter(Context context, List<CommentBean> list

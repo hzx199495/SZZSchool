@@ -106,8 +106,9 @@ public class IjkVideoActicity extends Activity {
 		}
 	};
 
+
 	public static Intent newIntent(Context context, PlayMode playMode, PlayType playType, String value,
-								   boolean startNow,String comment,String sid,String spid,String id) {
+								   boolean startNow,String comment,String sid,String spid,String pid,String proname) {
 		Intent intent = new Intent(context, IjkVideoActicity.class);
 		intent.putExtra("playMode", playMode.getCode());
 		intent.putExtra("playType", playType.getCode());
@@ -115,8 +116,9 @@ public class IjkVideoActicity extends Activity {
 		intent.putExtra("startNow", startNow);
 		intent.putExtra("comment", comment);
 		intent.putExtra("sid", sid);
-		intent.putExtra("spid", sid);
-		intent.putExtra("id", id);
+		intent.putExtra("spid", spid);
+		intent.putExtra("id", pid);
+		intent.putExtra("proname", proname);
 		return intent;
 	}
 
@@ -131,8 +133,8 @@ public class IjkVideoActicity extends Activity {
 		intent.putExtra("startNow", startNow);
 		return intent;
 	}
-	public static void intentTo(Context context, PlayMode playMode, PlayType playType, String value, boolean startNow,String comment,String sid,String spid,String id ){
-		context.startActivity(newIntent(context, playMode, playType, value, startNow,comment,sid,spid,id));
+	public static void intentTo(Context context, PlayMode playMode, PlayType playType, String value, boolean startNow,String comment,String sid,String spid,String id,String proname){
+		context.startActivity(newIntent(context, playMode, playType, value, startNow,comment,sid,spid,id,proname));
 	}
 
 	public static void intentTo(Context context, PlayMode playMode, PlayType playType, String value,
@@ -144,6 +146,9 @@ public class IjkVideoActicity extends Activity {
 	String sid;
 	String spid;
 	String id;
+	String proname;
+	private TextView name;
+
 	@SuppressLint("ShowToast")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -152,10 +157,13 @@ public class IjkVideoActicity extends Activity {
 		setContentView(R.layout.video);
 		videotop = (RelativeLayout) findViewById(R.id.container);
 		videodown = (FrameLayout) findViewById(R.id.video_comment);
+		name = (TextView) findViewById(R.id.proname);
 		// handle arguments
 		sid=getIntent().getStringExtra("sid");
 		spid=getIntent().getStringExtra("spid");
 		id=getIntent().getStringExtra("id");
+		proname=getIntent().getStringExtra("proname");
+		name.setText(proname);
 		String comment=getIntent().getStringExtra("comment");
 		int playModeCode = getIntent().getIntExtra("playMode", 0);
 		PlayMode playMode = PlayMode.getPlayMode(playModeCode);
@@ -744,8 +752,8 @@ public class IjkVideoActicity extends Activity {
 	private String comment = "";        //记录对话框中的内容
 	private int position;                //记录回复评论的索引
 	private boolean isReply;            //是否是回复，true代表回复
-
 	private void initViews() {
+
 		mListData = (ListView) findViewById(R.id.list_data);
 		mLytCommentVG = (LinearLayout) findViewById(R.id.comment_vg_lyt);
 		mLytEdittextVG = (NoTouchLinearLayout) findViewById(R.id.edit_vg_lyt);

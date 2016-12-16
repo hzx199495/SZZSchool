@@ -5,21 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.Bean.SearchBean;
-import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
+import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.GVAdapter;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.utils.GlideImageLoader;
@@ -30,7 +28,6 @@ import com.youth.banner.Banner;
 
 
 import org.xutils.DbManager;
-import org.xutils.common.util.DensityUtil;
 import org.xutils.ex.DbException;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
@@ -55,20 +52,10 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
 @ViewInject(R.id.center_swip)
     SwipeRefreshLayout swip;
     ImageOptions imageOptions;
-    String uid;
-    String token;
     GVAdapter gvAdapter;
     DbManager manager = DatabaseOpenHelper.getInstance();
     private ArrayList<ProBean> gvlist;
-    public static FragmentCenter newInstance(String uid, String token) {
 
-        Bundle args = new Bundle();
-        args.putString("uid", uid);
-        args.putString("token", token);
-        FragmentCenter fragment = new FragmentCenter();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Nullable
     @Override
@@ -79,9 +66,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle bundle = getArguments();
-        uid = bundle.getString("uid");
-        token = bundle.getString("token");
+
         ArrayList<String> images = new ArrayList<>();
         DbManager manager = DatabaseOpenHelper.getInstance();
         try {
@@ -105,7 +90,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
         Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
     }
     public void getData(){
-        OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.CENTER(uid, token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.CENTER(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
             @Override
@@ -117,7 +102,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                 gv_rm.setAdapter(gvAdapter);
                 for (int i=0;i<gvlist.size();i++){
                     try {
-                        manager.save(new SearchBean(gvlist.get(i).getId(),gvlist.get(i).getThumb(),gvlist.get(i).getStitle(),gvlist.get(i).getIntroduce()));
+                        manager.save(new SearchBean(gvlist.get(i).getId(),gvlist.get(i).getThumb(),gvlist.get(i).getStitle(),gvlist.get(i).getIntroduce(),gvlist.get(i).getCatid()));
                     } catch (DbException e) {
                         e.printStackTrace();
                     }
@@ -133,10 +118,12 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                 String img=gvlist.get(position).getThumb();
                 String intro=gvlist.get(position).getIntroduce();
                 String proid = gvlist.get(position).getId();
+                String price=gvlist.get(position).getNowprice();
                 intent.putExtra("id",proid);
                 intent.putExtra("img",img);
                 intent.putExtra("title",title);
                 intent.putExtra("intro",intro);
+                intent.putExtra("price",price);
                 startActivity(intent);
             }
         });

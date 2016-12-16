@@ -26,6 +26,7 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
         <TextView
+            android:id="@+id/change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提交"

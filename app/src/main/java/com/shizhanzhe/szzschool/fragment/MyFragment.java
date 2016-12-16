@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,5 +31,12 @@ public class MyFragment extends Fragment {
 //		str = getArguments().getString(TAG);
 //		fl_gv
 		return view;
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		Bundle bundle = getArguments();
+		bundle.getString("");
 	}
 }

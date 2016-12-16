@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.shizhanzhe.szzschool.Bean.MyProBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.MyDetailActivity;
 import com.shizhanzhe.szzschool.adapter.BuddyAdapter;
 import com.shizhanzhe.szzschool.adapter.ListAdapter;
@@ -48,28 +49,13 @@ public class FragmentMyProject extends Fragment {
     HashMap<String, List<String>> spidmap;
     ArrayList<List<MyProBean.CourseBean>> course;
     ArrayList<List<MyProBean.SysinfoBean>> sysinfo;
-    String uid="";
-    String token="";
-    public static FragmentMyProject newInstance(String uid, String token) {
-
-        Bundle args = new Bundle();
-        args.putString("uid", uid);
-        args.putString("token", token);
-        FragmentMyProject fragment = new FragmentMyProject();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project, null);
         elvCompany = (ExpandableListView) view.findViewById(R.id.android_mylist);
-        Bundle bundle = getArguments();
-        uid = bundle.getString("uid");
-        token = bundle.getString("token");
-        String path = Path.MYCLASS(uid,token);
+        String path = Path.MYCLASS(MyApplication.myid, MyApplication.token);
         Log.i("====", path);
         OkHttpDownloadJsonUtil.downloadJson(getContext(), path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
@@ -154,9 +140,11 @@ public class FragmentMyProject extends Fragment {
 //                        parentPro.get(groupPosition)+ ":" +map.get(parentPro.get(groupPosition)).get(childPosition),
 //                        Toast.LENGTH_SHORT).show();
                 List<MyProBean.CourseBean.ChoiceKcBean> choice_kc = course.get(groupPosition).get(childPosition).getChoice_kc();
+                String img = sysinfo.get(groupPosition).get(childPosition).getThumb();
                 ArrayList<String> name = new ArrayList<String>();
                 ArrayList<String> url = new ArrayList<String>();
                 ArrayList<String> pid = new ArrayList<String>();
+
                 for (int i=0;i<choice_kc.size();i++){
                    name.add(choice_kc.get(i).getName());
                     url.add(choice_kc.get(i).getMv_url());
@@ -166,9 +154,8 @@ public class FragmentMyProject extends Fragment {
                 intent.putStringArrayListExtra("name",name);
                 intent.putStringArrayListExtra("url",url);
                 intent.putStringArrayListExtra("pid",pid);
+                intent.putExtra("img",img);
                 intent.putExtra("title",course.get(groupPosition).get(childPosition).getCtitle());
-                intent.putExtra("uid",uid);
-                intent.putExtra("token",token);
                 intent.putExtra("sid",proId.get(groupPosition));
                 intent.putExtra("spid",spidmap.get(proId.get(groupPosition)).get(childPosition));
                 Toast.makeText(getActivity(),

@@ -48,4 +48,6 @@
     <color name="max_level">#ff333333</color>
 
     <color name="green_color">#4cc05f</color>
+    <color name="rb">#f4f4f4</color>
+
 </resources>

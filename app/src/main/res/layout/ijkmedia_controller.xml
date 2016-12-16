@@ -98,7 +98,7 @@
                     android:textColor="#003399"
                     android:textSize="15sp"
                     android:visibility="invisible" />
-                
+
                 <Button
                     android:id="@+id/liuchang"
                     android:layout_width="wrap_content"

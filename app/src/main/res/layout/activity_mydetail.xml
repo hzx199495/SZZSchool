@@ -18,6 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"

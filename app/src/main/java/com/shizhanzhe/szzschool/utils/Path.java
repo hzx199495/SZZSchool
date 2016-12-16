@@ -9,6 +9,16 @@ public  class Path {
         String path="http://shizhanzhe.com/index.php?m=pcdata.user_data&pc=1&username="+username+"&password="+pswd;
         return path;
     }
+    //注册
+    public static String REGISTER(String username,String pswd){
+        String path="http://shizhanzhe.com/index.php?m=pcdata.zc&pc=1&username="+username+"&password="+pswd;
+        return path;
+    }
+    //修改
+    public static String CHANGE(String username,String pswd){
+        String path="http://shizhanzhe.com/index.php?m=pcdata.xmm&pc=1&username="+username+"&password="+pswd;
+        return path;
+    }
     //首页
     public static String CENTER(String uid,String token){
         String path="http://shizhanzhe.com/index.php?m=pcdata.vip_course_data&pc=1&uid="+uid+"&token="+token;

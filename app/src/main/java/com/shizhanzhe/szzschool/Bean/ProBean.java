@@ -1,11 +1,12 @@
 package com.shizhanzhe.szzschool.Bean;
 
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by hasee on 2016/11/16.
  */
-public class ProBean {
+public class ProBean implements Parcelable{
 
 
     /**
@@ -31,6 +32,7 @@ public class ProBean {
      * tfm : 0.00
      * pfm : 0.00
      * tcid : 0
+     * nowprice : 1000.00
      */
 
     private String id;
@@ -55,6 +57,45 @@ public class ProBean {
     private String tfm;
     private String pfm;
     private String tcid;
+    private String nowprice;
+
+    protected ProBean(Parcel in) {
+        id = in.readString();
+        stitle = in.readString();
+        thumb = in.readString();
+        listorder = in.readString();
+        updatetime = in.readString();
+        inputtime = in.readString();
+        picture = in.readString();
+        introduce = in.readString();
+        exception = in.readString();
+        style = in.readString();
+        catid = in.readString();
+        couClass = in.readString();
+        sys_hours = in.readString();
+        keyword = in.readString();
+        description = in.readString();
+        l_nanyi = in.readString();
+        l_jiage = in.readString();
+        keshi = in.readString();
+        status = in.readString();
+        tfm = in.readString();
+        pfm = in.readString();
+        tcid = in.readString();
+        nowprice = in.readString();
+    }
+
+    public static final Creator<ProBean> CREATOR = new Creator<ProBean>() {
+        @Override
+        public ProBean createFromParcel(Parcel in) {
+            return new ProBean(in);
+        }
+
+        @Override
+        public ProBean[] newArray(int size) {
+            return new ProBean[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -232,4 +273,43 @@ public class ProBean {
         this.tcid = tcid;
     }
 
+    public String getNowprice() {
+        return nowprice;
+    }
+
+    public void setNowprice(String nowprice) {
+        this.nowprice = nowprice;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(stitle);
+        dest.writeString(thumb);
+        dest.writeString(listorder);
+        dest.writeString(updatetime);
+        dest.writeString(inputtime);
+        dest.writeString(picture);
+        dest.writeString(introduce);
+        dest.writeString(exception);
+        dest.writeString(style);
+        dest.writeString(catid);
+        dest.writeString(couClass);
+        dest.writeString(sys_hours);
+        dest.writeString(keyword);
+        dest.writeString(description);
+        dest.writeString(l_nanyi);
+        dest.writeString(l_jiage);
+        dest.writeString(keshi);
+        dest.writeString(status);
+        dest.writeString(tfm);
+        dest.writeString(pfm);
+        dest.writeString(tcid);
+        dest.writeString(nowprice);
+    }
 }

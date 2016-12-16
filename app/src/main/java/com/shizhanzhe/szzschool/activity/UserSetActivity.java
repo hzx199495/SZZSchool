@@ -15,12 +15,16 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.RegisterBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.utils.MyDialog;
+import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -104,14 +108,46 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 dialog.dismiss();
                 break;
             case R.id.ll_name:
-                Dialog dialog1 = new Dialog(this,R.style.Dialog_Fullscreen);
+                final Dialog dialog1 = new Dialog(this,R.style.Dialog_Fullscreen);
                 dialog1.setContentView(R.layout.dialog_edit_text);
                 dialog1.show();
                 break;
             case R.id.ll_pass:
-                Dialog dialog2 = new Dialog(this,R.style.Dialog_Fullscreen);
+                final Dialog dialog2 = new Dialog(this,R.style.Dialog_Fullscreen);
                 dialog2.setContentView(R.layout.dialog_change_pass);
                 dialog2.show();
+
+                EditText oldpass = (EditText) findViewById(R.id.et_old_pass);
+                final EditText newpass = (EditText) findViewById(R.id.et_new_pass);
+                final EditText newpass2 = (EditText) findViewById(R.id.et_new_pass_two);
+                findViewById(R.id.change).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String p1 = newpass.getText().toString();
+                        String p2 = newpass2.getText().toString();
+                        if (p1!=null&&p2!=null){
+                            if(p1.equals(p2)){
+                                OkHttpDownloadJsonUtil.downloadJson(UserSetActivity.this, Path.CHANGE(MyApplication.zh, p1), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                                    @Override
+                                    public void onsendJson(String json) {
+                                        Gson gson = new Gson();
+                                        RegisterBean bean = gson.fromJson(json, RegisterBean.class);
+                                        if(bean.getStatus()==1){
+                                            Toast.makeText(UserSetActivity.this,bean.getInfo(),Toast.LENGTH_SHORT).show();
+                                            dialog2.dismiss();
+                                        }else if (bean.getStatus()==2){
+                                            Toast.makeText(UserSetActivity.this,bean.getInfo(),Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(UserSetActivity.this,"密码输入不一致",Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(UserSetActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
             case R.id.ll_file:
                 Dialog dialog3 = new Dialog(this,R.style.Dialog_Fullscreen);

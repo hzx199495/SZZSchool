@@ -24,6 +24,8 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import cn.sharesdk.framework.ShareSDK;
+
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener {
@@ -44,6 +46,9 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        // 初始化ShareSDK
+        ShareSDK.initSDK(this);
+
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
@@ -65,9 +70,9 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         MyApplication.money=money;
 
         fragmentUser = new FragmentUser().newInstance(username,img);
-        fragmentCenter = new FragmentCenter().newInstance(uid,token);
-        fragmentFl = new FragmentFl().newInstance(uid,token);
-        fragmentMyProject = new FragmentMyProject().newInstance(uid,token);
+        fragmentCenter = new FragmentCenter();
+        fragmentFl = new FragmentFl();
+        fragmentMyProject = new FragmentMyProject();
 
         transaction.add(R.id.fragment, fragmentCenter);
         transaction.add(R.id.fragment, fragmentUser);

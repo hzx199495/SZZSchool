@@ -18,6 +18,28 @@ public class SearchBean {
     private String title;
     @Column(name = "intro")
     private String intro;
+    @Column(name = "catid")
+    private String catid;
+
+
+    public String getCatid() {
+        return catid;
+    }
+
+    public void setCatid(String catid) {
+        this.catid = catid;
+    }
+
+    public SearchBean() {
+    }
+
+    public SearchBean(String proid, String img, String title, String intro, String catid) {
+        this.proid = proid;
+        this.img = img;
+        this.title = title;
+        this.intro = intro;
+        this.catid = catid;
+    }
 
     @Override
     public String toString() {
@@ -27,17 +49,8 @@ public class SearchBean {
                 ", img='" + img + '\'' +
                 ", title='" + title + '\'' +
                 ", intro='" + intro + '\'' +
+                ", Catid='" + catid + '\'' +
                 '}';
-    }
-
-    public SearchBean() {
-    }
-
-    public SearchBean(String proid, String img, String title, String intro) {
-        this.proid = proid;
-        this.img = img;
-        this.title = title;
-        this.intro = intro;
     }
 
     public int getId() {

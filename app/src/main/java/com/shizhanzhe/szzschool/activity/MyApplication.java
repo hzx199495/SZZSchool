@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -19,7 +20,9 @@ import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.shizhanzhe.szzschool.R;
@@ -29,6 +32,8 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.io.File;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by hasee on 2016/10/31.
@@ -40,8 +45,10 @@ public class MyApplication extends Application {
     public static String money="";
     public static String token="";
     public static String img="";
+    public static String path="";
 
     public static ImageOptions options;
+    public static DisplayImageOptions displayoptions;
     private static final String TAG = MyApplication.class.getSimpleName();
     private ServiceStartErrorBroadcastReceiver serviceStartErrorBroadcastReceiver = null;
     //加密秘钥和加密向量，在后台->设置->API接口中获取，用于解密SDK加密串
@@ -61,6 +68,22 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
+        displayoptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.bg_loading) // 设置图片在下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.ic_launcher) // 设置图片加载/解码过程中错误时候显示的图片
+                .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
+                .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+                .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
+                .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
+                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).build();// 构建完成
+
+
+
+
         options = new ImageOptions.Builder()
                 // 加载中或错误图片的ScaleType
                 //.setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
@@ -186,4 +209,8 @@ public class MyApplication extends Application {
             Log.e(TAG, msg);
         }
     }
+
+
+
+
 }

@@ -53,11 +53,9 @@
                 android:drawablePadding="4.0dip"
                 android:drawableTop="@drawable/home_tab_coures_center_selected"
                 android:gravity="center"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
                 android:text="首页"
                 android:textColor="@drawable/btn_selector"
-                android:textSize="11.0sp"
+                android:textSize="14.0sp"
                 />
             <RadioButton
                 android:id="@+id/fl"
@@ -69,11 +67,9 @@
                 android:drawablePadding="4.0dip"
                 android:drawableTop="@drawable/home_tab_more_selected"
                 android:gravity="center"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
                 android:text="分类"
                 android:textColor="@drawable/btn_selector"
-                android:textSize="11.0sp"
+                android:textSize="14.0sp"
                 android:checked="false" />
 
             <RadioButton
@@ -86,11 +82,9 @@
                 android:drawablePadding="4.0dip"
                 android:drawableTop="@drawable/home_tab_more_selected"
                 android:gravity="center"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
                 android:text="我的课程"
                 android:textColor="@drawable/btn_selector"
-                android:textSize="11.0sp"
+                android:textSize="14.0sp"
                 android:checked="false" />
             <RadioButton
                 android:id="@+id/course"
@@ -102,11 +96,9 @@
                 android:drawablePadding="4.0dip"
                 android:drawableTop="@drawable/home_tab_my_coures_selected"
                 android:gravity="center"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
                 android:text="个人中心"
                 android:textColor="@drawable/btn_selector"
-                android:textSize="11.0sp"
+                android:textSize="14.0sp"
                 android:checked="false" />
 
         </RadioGroup>

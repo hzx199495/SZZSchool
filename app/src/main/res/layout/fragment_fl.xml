@@ -21,17 +21,57 @@
             android:scrollbars="none"
             android:layout_weight="1.0"
             android:background="#f4f4f4" />
+        <!--<RadioGroup-->
+            <!--android:id="@+id/fl_rg"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="#f4f4f4">-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rg_tx"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:background="@drawable/bg_select"-->
+            <!--android:button="@null"-->
+            <!--android:checked="true"-->
+            <!--android:text="课程体系"-->
+            <!--android:gravity="center"/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/rg_jj"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@drawable/bg_select"-->
+                <!--android:button="@null"-->
+                <!--android:gravity="center"-->
+                <!--android:text="进阶课程"/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/rg_zy"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@drawable/bg_select"-->
+                <!--android:button="@null"-->
+                <!--android:gravity="center"-->
+                <!--android:text="职业课程"/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/rg_rm"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@drawable/bg_select"-->
+                <!--android:button="@null"-->
+                <!--android:gravity="center"-->
+                <!--android:text="热门推荐"/>-->
+    <!--</RadioGroup>-->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#cdcdcd" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#cdcdcd" />
-
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3.0" />
-    </LinearLayout>
+    <GridView
+        android:scrollbars="none"
+        android:id="@+id/fl_gv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3.0" />
+</LinearLayout>
 
 </LinearLayout>

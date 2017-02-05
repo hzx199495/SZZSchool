@@ -18,39 +18,21 @@ public class SearchBean {
     private String title;
     @Column(name = "intro")
     private String intro;
+    @Column(name = "price")
+    private String price;
     @Column(name = "catid")
     private String catid;
-
-
-    public String getCatid() {
-        return catid;
-    }
-
-    public void setCatid(String catid) {
-        this.catid = catid;
-    }
 
     public SearchBean() {
     }
 
-    public SearchBean(String proid, String img, String title, String intro, String catid) {
+    public SearchBean(String proid, String img, String title, String intro, String price, String catid) {
         this.proid = proid;
         this.img = img;
         this.title = title;
         this.intro = intro;
+        this.price = price;
         this.catid = catid;
-    }
-
-    @Override
-    public String toString() {
-        return "SearchBean{" +
-                "id=" + id +
-                ", proid='" + proid + '\'' +
-                ", img='" + img + '\'' +
-                ", title='" + title + '\'' +
-                ", intro='" + intro + '\'' +
-                ", Catid='" + catid + '\'' +
-                '}';
     }
 
     public int getId() {
@@ -91,5 +73,21 @@ public class SearchBean {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getCatid() {
+        return catid;
+    }
+
+    public void setCatid(String catid) {
+        this.catid = catid;
     }
 }

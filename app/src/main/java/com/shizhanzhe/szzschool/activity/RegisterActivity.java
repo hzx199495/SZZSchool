@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -38,12 +39,13 @@ public class RegisterActivity extends Activity {
     EditText qrpsw;
     private final Integer NUM=6;
     private CountDownTimer time;
-    String code="";
+    String code;
     String username;
     String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
         final Button btnSendAuth = (Button) findViewById(R.id.btnSendAuth);
         time = new CountDownTimer(60000, 1000) {

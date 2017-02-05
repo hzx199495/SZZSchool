@@ -44,6 +44,7 @@ public class FragmentMyProject extends Fragment {
     @ViewInject(R.id.android_mylist)
     ExpandableListView elvCompany;
     ArrayList<String> parentPro;
+    ArrayList<String> parentImg;
     ArrayList<String> proId;
     HashMap<String, List<String>> map;
     HashMap<String, List<String>> spidmap;
@@ -56,11 +57,10 @@ public class FragmentMyProject extends Fragment {
         View view = inflater.inflate(R.layout.fragment_project, null);
         elvCompany = (ExpandableListView) view.findViewById(R.id.android_mylist);
         String path = Path.MYCLASS(MyApplication.myid, MyApplication.token);
-        Log.i("====", path);
         OkHttpDownloadJsonUtil.downloadJson(getContext(), path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.i("====", json);
+//                Log.i("====", json);
 
                 //Json的解析类对象
                 JsonParser parser = new JsonParser();
@@ -78,12 +78,14 @@ public class FragmentMyProject extends Fragment {
                     sysinfo.add(proBean.getSysinfo());
                     course.add(proBean.getCourse());
                 }
+                parentImg=new ArrayList<String>();
                 parentPro=new ArrayList<String>();
                 proId=new ArrayList<String>();
                 for (int i = 0; i < sysinfo.size(); i++) {
                     List<MyProBean.SysinfoBean> sysinfoBeen = sysinfo.get(i);
                     for (int m=0;m<sysinfoBeen.size();m++) {
                         parentPro.add(sysinfoBeen.get(m).getStitle());
+                        parentImg.add(sysinfoBeen.get(m).getThumb());
                         proId.add(sysinfoBeen.get(m).getId());
                         Log.i("=====",sysinfoBeen.get(m).getStitle());
                     }
@@ -102,7 +104,7 @@ public class FragmentMyProject extends Fragment {
                     map.put(parentPro.get(i), list);
                     spidmap.put(proId.get(i),spidlist);
                 }
-                BuddyAdapter adapter = new BuddyAdapter(parentPro, map, getContext());
+                BuddyAdapter adapter = new BuddyAdapter(parentImg,parentPro, map, getContext());
                 elvCompany.setAdapter(adapter);
             }
 
@@ -158,10 +160,10 @@ public class FragmentMyProject extends Fragment {
                 intent.putExtra("title",course.get(groupPosition).get(childPosition).getCtitle());
                 intent.putExtra("sid",proId.get(groupPosition));
                 intent.putExtra("spid",spidmap.get(proId.get(groupPosition)).get(childPosition));
-                Toast.makeText(getActivity(),
-                        "proId="+proId.get(groupPosition)+"pid"+spidmap.get(proId.get(groupPosition)).get(childPosition)+ ":" +map.get(parentPro.get(groupPosition)).get(childPosition),
-                        Toast.LENGTH_SHORT).show();
-                Log.i("===","proId="+proId.get(groupPosition)+"pid"+spidmap.get(proId.get(groupPosition)).get(childPosition));
+//                Toast.makeText(getActivity(),
+//                        "proId="+proId.get(groupPosition)+"pid"+spidmap.get(proId.get(groupPosition)).get(childPosition)+ ":" +map.get(parentPro.get(groupPosition)).get(childPosition),
+//                        Toast.LENGTH_SHORT).show();
+//                Log.i("===","proId="+proId.get(groupPosition)+"pid"+spidmap.get(proId.get(groupPosition)).get(childPosition));
                 startActivity(intent);
                 return false;
             }

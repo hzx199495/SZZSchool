@@ -28,9 +28,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
- * Created by Admin on 2016/5/27.
+ *
  */
 public class CommentAdapter extends BaseAdapter {
     private int resourceId;
@@ -107,6 +108,7 @@ public class CommentAdapter extends BaseAdapter {
         mholder.commentItemTime.setText(getSpaceTime(commentBean.getAddtime()));
         mholder.commentItemContent.setText(commentBean.getContent());
         ImageLoader imageloader = ImageLoader.getInstance();
+//        Log.i("_____",list.get(position).getLogo());
         if(Path.IMG(list.get(position).getLogo()).contains("http")) {
             imageloader.displayImage(list.get(position).getLogo(), mholder.commentImage, options, new AnimateFirstDisplayListener());
         }else {
@@ -159,41 +161,11 @@ public class CommentAdapter extends BaseAdapter {
             }
         }
     }
-    public static String convert(long datetime){
-        SimpleDateFormat sdf = null;
-        String dateTime = null;
-        try {
-            sdf = new SimpleDateFormat("yyyy-MM");
-            String strDatatime = datetime+"000";
-            Long lDatatime = Long.parseLong(strDatatime);
-            dateTime = sdf.format(lDatatime);
-        } catch (Exception e) {
-            //TODO 处理异常
-            e.printStackTrace();
-        }
-        return dateTime;
-    }
-    public static String convertDay(Long datetime){
-        SimpleDateFormat sdf = null;
-        String dateTime = null;
-        try {
-            sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String strDatatime = datetime+"000";
-            Long lDatatime = Long.parseLong(strDatatime);
-            dateTime = sdf.format(lDatatime);
-        } catch (Exception e) {
-            //TODO 处理异常
-            e.printStackTrace();
-        }
-        return dateTime;
-    }
-    public static String getSpaceTime(Long millisecond) {
-        Calendar calendar = Calendar.getInstance();
-        Long currentMillisecond = calendar.getTimeInMillis();
 
+    public static String getSpaceTime(Long millisecond) {
+        long currentMillisecond = System.currentTimeMillis();
         //间隔秒
         Long spaceSecond = (currentMillisecond - millisecond*1000) / 1000;
-        Log.i("===","millisecond"+millisecond);
         //一分钟之内
         if (spaceSecond >= 0 && spaceSecond < 60) {
             return "刚刚";
@@ -220,9 +192,12 @@ public class CommentAdapter extends BaseAdapter {
      * @param millisecond
      * @return
      */
-    public static String getDateTimeFromMillisecond(Long millisecond){
+    public static String getDateTimeFromMillisecond(long millisecond){
+        System.setProperty("user.timezone", "Asia/Shanghai");
+        TimeZone tz = TimeZone.getTimeZone("Asia/Shanghai");
+        TimeZone.setDefault(tz);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(millisecond);
+        Date date = new Date(millisecond*1000);
         String dateStr = simpleDateFormat.format(date);
         return dateStr;
     }

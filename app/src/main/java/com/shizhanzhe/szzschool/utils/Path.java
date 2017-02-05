@@ -14,7 +14,7 @@ public  class Path {
         String path="http://shizhanzhe.com/index.php?m=pcdata.zc&pc=1&username="+username+"&password="+pswd;
         return path;
     }
-    //修改
+    //修改密码
     public static String CHANGE(String username,String pswd){
         String path="http://shizhanzhe.com/index.php?m=pcdata.xmm&pc=1&username="+username+"&password="+pswd;
         return path;
@@ -52,6 +52,56 @@ public  class Path {
     //评论
     public static String COMMENT(String spid,String uid,String token) {
         String path = "http://shizhanzhe.com/index.php?m=pcdata.question&pc=1&spid=" + spid + "&uid=" + uid + "&token=" + token;
+        return path;
+    }
+    //消费记录
+    public static String XF(String uid,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.xiaofee&pc=1&uid="+uid+"&token="+token;
+        return path;
+    }
+    //消费记录
+    public static String DelXF(String uid,String id,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.del_xiaofee&pc=1&uid="+uid+"&id="+id+"&token="+token;
+        return path;
+    }
+    //收藏
+    public static String COLLECT(String uid,String id,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.collect_sys&pc=1&uid="+uid+"&systemid="+id+"&token="+token;
+        return path;
+    }
+    //取消收藏
+    public static String DELCOLLECT(String uid,String id,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.del_collect&pc=1&uid="+uid+"&id="+id+"&token="+token;
+        return path;
+    }
+    //收藏列表
+    public static String COLLECTLIST(String uid,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.get_collect&pc=1&uid="+uid+"&token="+token;
+        return path;
+    }
+    //论坛首页
+    public static String FORUMHOME() {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.get_ltmodel&pc=1";
+        return path;
+    }
+    //论坛版块
+    public static String FORUMBK(String fid) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.get_ltpost&pc=1&fid="+fid+"&page=1";
+        return path;
+    }
+    //帖子内容
+    public static String FORUMCONTENT(String pid) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.get_postda&pc=1&pid="+pid;
+        return path;
+    }
+    //帖子评论
+    public static String FORUMCOMMENT(String pid) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.get_tzdata&pc=1&pid="+pid+"&page=1";
+        return path;
+    }
+    //团购
+    public static String TG() {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.showtuangou&pc=1";
         return path;
     }
 }

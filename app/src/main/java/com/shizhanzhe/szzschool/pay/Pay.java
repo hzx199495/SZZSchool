@@ -147,6 +147,7 @@ public class Pay {
 				String s=response.body().string();
 				Log.i("success",s);
 				String a[] = s.split("</script>");
+
 				Gson gson = new Gson();
 				PayBean payBean = gson.fromJson(a[1], PayBean.class);
 				long order = payBean.getOrder();

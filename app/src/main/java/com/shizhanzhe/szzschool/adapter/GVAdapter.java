@@ -8,18 +8,25 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
+import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.List;
+
+import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
  * Created by hasee on 2016/11/17.
@@ -61,7 +68,7 @@ public class GVAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        ViewHolder holder=null;
         if(convertView==null){
             convertView=inflater.inflate(R.layout.fl_gv,null);
              holder = new ViewHolder();
@@ -71,8 +78,8 @@ public class GVAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-
-        x.image().bind(holder.iv, Path.IMG(list.get(position).getThumb()), MyApplication.options);
+        ImageLoader imageloader = ImageLoader.getInstance();
+        imageloader.displayImage(Path.IMG(list.get(position).getThumb()), holder.iv, displayoptions);
         holder.tv.setText(list.get(position).getStitle());
         return convertView;
     }

@@ -24,7 +24,7 @@
             android:id="@+id/back" />
     </RelativeLayout>
     <ListView
-        android:id="@+id/SC"
+        android:id="@+id/lv_collect"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

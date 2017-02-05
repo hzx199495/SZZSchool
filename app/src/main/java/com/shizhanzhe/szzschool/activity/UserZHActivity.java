@@ -3,13 +3,18 @@ package com.shizhanzhe.szzschool.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +40,10 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     TextView money;
     @ViewInject(R.id.recharge)
     TextView cz;
+    @ViewInject(R.id.xf)
+    TextView xf;
+    @ViewInject(R.id.back)
+    ImageView back;
     Dialog dialog;
     EditText czmoney;
     TextView zh;
@@ -49,29 +58,31 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
         x.view().inject(this);
 
         money.setText(MyApplication.money);
-         dialog = new Dialog(this,R.style.Dialog_Fullscreen);
-        dialog.setContentView(R.layout.dialog_cz);
+//         dialog = new Dialog(this,R.style.Dialog_Fullscreen);
+//        dialog.setContentView(R.layout.dialog_cz);
         cz.setOnClickListener(this);
+        xf.setOnClickListener(this);
+        back.setOnClickListener(this);
             }
-    public void refresh(){
-        OkHttpDownloadJsonUtil.downloadJson(this, MyApplication.path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
-                Gson gson = new Gson();
-                LoginBean loginData = gson.fromJson(json, LoginBean.class);
-                token = loginData.getToken();
-                mymoney=loginData.getMoney();
-            }
-        });
-        MyApplication.token=token;
-        MyApplication.money=mymoney;
-        money.setText(mymoney);
-    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.recharge:
+                dialog = new Dialog(this, R.style.popupDialog);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_cz);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setCancelable(true);
+                WindowManager.LayoutParams lay = dialog.getWindow().getAttributes();
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                Rect rect = new Rect();
+                View view = getWindow().getDecorView();//decorView是window中的最顶层view，可以从window中获取到decorView
+                view.getWindowVisibleDisplayFrame(rect);
+                lay.height = dm.heightPixels - rect.top;
+                lay.width = dm.widthPixels;
                 dialog.show();
                 czmoney = (EditText) dialog.getWindow().findViewById(R.id.edit_money);
                 zh = (TextView) dialog.getWindow().findViewById(R.id.cz_zh);
@@ -81,17 +92,28 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn_czpay:
                 String str = czmoney.getText().toString();
-                new Pay(UserZHActivity.this, str, new Pay.PayListener() {
-                    @Override
-                    public void refreshPriorityUI(String string) {
-                        money.setText(string);
-                    }
-                });
+                if(str!=null&!"".equals(str)){
+                    new Pay(UserZHActivity.this, str, new Pay.PayListener() {
+                        @Override
+                        public void refreshPriorityUI(String string) {
+                            money.setText(string);
+                        }
+                    });
+                }else{
+                    Toast.makeText(getApplicationContext(),"金额不能为空",Toast.LENGTH_SHORT).show();
+                }
+                break;
 
+            case R.id.xf:
+                startActivity(new Intent(UserZHActivity.this,XFActivity.class));
+                break;
+            case R.id.back:
+                finish();
                 break;
             default:
                 break;
         }
     }
+
 }
 

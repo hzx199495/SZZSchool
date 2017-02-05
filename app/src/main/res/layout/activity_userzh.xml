@@ -16,6 +16,7 @@
             android:textSize="17sp" />
         <ImageView
             android:layout_width="wrap_content"
+            android:paddingLeft="15dp"
             android:layout_height="20dp"
             android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
@@ -93,35 +94,37 @@
         android:layout_height="10dip"
         android:background="@color/line" />
 
-    <LinearLayout
-        android:id="@+id/ll_pass"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_white_selected"
+        <LinearLayout
 
-        android:orientation="vertical"
-        android:paddingBottom="12.5dip"
-        android:paddingLeft="15.0dip"
-        android:paddingRight="15.0dip"
-        android:paddingTop="12.5dip">
-
-        <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_white_selected"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="12.5dip"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:paddingTop="12.5dip">
+        <TextView
+            android:id="@+id/xf"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
             android:text="消费记录"
             android:textColor="@color/one_level"
             android:textSize="14.0sp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="7.5dip"
+            android:drawableRight="@drawable/ic_list_right_jt"
+            android:textColor="@color/four_level"
+            android:textSize="13.0sp" />
     </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.5dip"
         android:background="@color/line" />
-    <com.shizhanzhe.szzschool.utils.MyGridView
-        android:id="@+id/gv_xf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="1"/>
 </LinearLayout>
     </ScrollView>
 </LinearLayout>

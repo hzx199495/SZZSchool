@@ -78,7 +78,9 @@ public class FragmentDetailProject extends Fragment {
                     }
                     map.put(parent.get(i), list);
                 }
-                BuddyAdapter adapter = new BuddyAdapter(parent, map, getActivity());
+                ArrayList<String> parentImg=new ArrayList<String>();
+                parentImg=null;
+                BuddyAdapter adapter = new BuddyAdapter(parentImg,parent, map, getActivity());
                 elvCompany.setAdapter(adapter);
             }
 

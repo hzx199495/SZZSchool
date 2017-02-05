@@ -23,14 +23,11 @@ import java.util.List;
 public class ListAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
     private List<String> proname;
-    String img;
     private Context context;
 
-    public ListAdapter(Context context, List<String> proname,String img) {
+    public ListAdapter(Context context, List<String> proname) {
         this.context = context;
         this.proname = proname;
-
-        this.img=img;
         inflater = LayoutInflater.from(context);
     }
 
@@ -56,28 +53,15 @@ public class ListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.activity_pro, null);
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.prolisttv);
-            holder.iv = (ImageView) convertView.findViewById(R.id.prolistiv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(img), holder.iv,MyApplication.displayoptions);
-        holder.tv.setText(proname.get(position));
-//        holder.btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String comment= Path.COMMENT(pid.get(position), MyApplication.myid, MyApplication.token);
-//                IjkVideoActicity.intentTo(context, IjkVideoActicity.PlayMode.portrait, IjkVideoActicity.PlayType.vid, url.get(position),
-//                        false,comment,sid,spid,pid.get(position),proname.get(position));
-//            }
-//        });
+        holder.tv.setText("第"+(position+1)+"节 "+proname.get(position));
         return convertView;
     }
 
     class ViewHolder {
-        ImageView iv;
         TextView tv;
-
     }
 }

@@ -54,7 +54,8 @@
                 android:id="@+id/cb_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/more_check_select" />
+                android:button="@drawable/more_check_select"
+                android:checked="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -88,7 +89,8 @@
                     android:id="@+id/cb_play_vido_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/more_check_select" />
+                    android:button="@drawable/more_check_select"
+                    android:checked="true"/>
             </LinearLayout>
 
             <View

@@ -5,10 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.utils.Path;
+
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +25,14 @@ import java.util.List;
 public class BuddyAdapter extends BaseExpandableListAdapter {
 
     ArrayList<String> parent;
+    ArrayList<String> parentImg=null;
     HashMap<String, List<String>> map;
     private Context context;
     private LayoutInflater inflater;
 
-    public BuddyAdapter(ArrayList<String> parent, HashMap<String, List<String>> map, Context context) {
+    public BuddyAdapter(ArrayList<String> parentImg,ArrayList<String> parent, HashMap<String, List<String>> map, Context context) {
         super();
+        this.parentImg=parentImg;
         this.parent = parent;
         this.map = map;
         this.context = context;
@@ -59,7 +65,7 @@ public class BuddyAdapter extends BaseExpandableListAdapter {
         }
         TextView tv = (TextView) convertView
                 .findViewById(R.id.second_textview);
-        tv.setText(info);
+        tv.setText((childPosition+1)+"."+info);
         return tv;
     }
 
@@ -96,8 +102,13 @@ public class BuddyAdapter extends BaseExpandableListAdapter {
         }
         TextView tv = (TextView) convertView
                 .findViewById(R.id.parent_textview);
+        ImageView iv = (ImageView) convertView
+                .findViewById(R.id.parent_imgview);
         tv.setText(this.parent.get(groupPosition));
-        return tv;
+        if (this.parentImg!=null) {
+            x.image().bind(iv, Path.IMG(this.parentImg.get(groupPosition)));
+        }
+        return convertView;
     }
 
     @Override

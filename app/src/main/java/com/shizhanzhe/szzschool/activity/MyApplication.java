@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.shizhanzhe.szzschool.BuildConfig;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.video.PolyvDemoService;
 
@@ -46,7 +47,7 @@ public class MyApplication extends Application {
     public static String token="";
     public static String img="";
     public static String path="";
-
+    public static boolean SC=false;
     public static ImageOptions options;
     public static DisplayImageOptions displayoptions;
     private static final String TAG = MyApplication.class.getSimpleName();
@@ -68,7 +69,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
-
+//        x.Ext.setDebug(BuildConfig.DEBUG); // 开启debug会影响性能
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 

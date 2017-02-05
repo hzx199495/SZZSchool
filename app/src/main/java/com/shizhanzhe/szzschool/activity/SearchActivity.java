@@ -1,15 +1,16 @@
 package com.shizhanzhe.szzschool.activity;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 
 import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
@@ -22,7 +23,6 @@ import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class SearchActivity extends Activity implements SearchView.SearchViewListener {
     /**
@@ -71,7 +71,7 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
     /**
      * 默认提示框显示项的个数
      */
-    private static int DEFAULT_HINT_SIZE = 4;
+    private static int DEFAULT_HINT_SIZE = 10;
 
     /**
      * 提示框显示项的个数
@@ -118,6 +118,7 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
                 intent.putExtra("img",resultData.get(position).getImg());
                 intent.putExtra("title",resultData.get(position).getTitle());
                 intent.putExtra("intro",resultData.get(position).getIntro());
+                intent.putExtra("price",resultData.get(position).getPrice());
                 startActivity(intent);
             }
         });
@@ -170,11 +171,10 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
         } else {
             // 根据text 获取auto data
             autoCompleteData.clear();
-            for (int i = 0, count = 0; i < dbData.size()
-                    && count < hintSize; i++) {
+            for (int i = 0, count = 0; i < dbData.size()&& count < hintSize; i++) {
                 if (dbData.get(i).getTitle().contains(text.trim())) {
                     autoCompleteData.add(dbData.get(i).getTitle());
-                    count++;
+                    Log.i("获取自动补全data 和adapter",dbData.get(i).getTitle());
                 }
             }
         }
@@ -201,7 +201,7 @@ public class SearchActivity extends Activity implements SearchView.SearchViewLis
             }
         }
         if (resultAdapter == null) {
-            resultAdapter = new SearchAdapter(this, resultData, R.layout.item_bean_list);
+            resultAdapter = new SearchAdapter(this, resultData);
         } else {
             resultAdapter.notifyDataSetChanged();
         }

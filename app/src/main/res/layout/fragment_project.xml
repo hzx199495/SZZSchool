@@ -7,5 +7,6 @@
         android:id="@+id/android_mylist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:groupIndicator="@null"
         />
 </LinearLayout>

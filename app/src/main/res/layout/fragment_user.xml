@@ -76,6 +76,7 @@
                                             android:contentDescription="@string/app_name"
                                             android:scaleType="centerCrop"
                                             android:src="@drawable/userhead"
+
                                             />
                                     </LinearLayout>
 
@@ -108,7 +109,6 @@
                         android:id="@+id/ll_action_button"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
                         android:background="@color/white"
                         android:showDividers="middle">
 
@@ -141,19 +141,7 @@
                             android:textColor="@color/one_level"
                             android:textSize="13.0sp" />
 
-                        <TextView
-                            android:id="@+id/user_meg"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:drawablePadding="7.5dip"
-                            android:drawableTop="@drawable/ic_home_more"
-                            android:gravity="center"
-                            android:padding="11.0dip"
-                            android:text="我的消息"
-                            android:textColor="@color/one_level"
-                            android:textSize="13.0sp" />
+
 
                         <TextView
                             android:id="@+id/user_sz"
@@ -170,9 +158,271 @@
                             android:textSize="13.0sp" />
                     </LinearLayout>
                 </LinearLayout>
-                <include android:id="@+id/b" layout="@layout/my_coures_content_view"
+                <!--<include android:id="@+id/b" layout="@layout/my_coures_content_view"-->
 
-                    />
+                    <!--/>-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+                    <TextView
+                        android:id="@+id/sq"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:drawablePadding="7.5dip"
+                        android:drawableTop="@drawable/ic_home_more"
+                        android:gravity="center"
+                        android:padding="11.0dip"
+                        android:text="实战者社区"
+                        android:textColor="@color/one_level"
+                        android:textSize="13.0sp" />
+                </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:padding="2dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical"-->
+                <!--android:showDividers="middle">-->
+                <!--<TextView-->
+                    <!--android:padding="2dp"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:text="我的团购"/>-->
+                <!--<TextView-->
+                    <!--android:padding="2dp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="我的开团"/>-->
+                <!--<com.shizhanzhe.szzschool.utils.MyGridView-->
+                    <!--android:id="@+id/list_kt"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/no_kt"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:text="暂无开团  快去团购看看吧!"/>-->
+                <!--<TextView-->
+                    <!--android:padding="2dp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="我的参团"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/no_ct"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:text="暂无参团  快去团购看看吧!"-->
+                    <!--android:gravity="center"/>-->
+                <!--<com.shizhanzhe.szzschool.utils.MyGridView-->
+                    <!--android:id="@+id/list_ct"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"/>-->
+                <!--</LinearLayout>-->
+
+                <LinearLayout
+                    android:id="@+id/ll_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/app_bg"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10.0dip"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+                        <TextView
+                            android:padding="2dp"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="16sp"
+                            android:text="我的团购"/>
+                        <TextView
+                            android:id="@+id/tv_my_course"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10.0dip"
+                            android:layout_marginLeft="15.0dip"
+                            android:layout_marginTop="10.0dip"
+                            android:gravity="center"
+                            android:text="我的开团"
+                            android:textColor="@color/max_level"
+                            android:textSize="14.0sp" />
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.5dip"
+                            android:background="@color/line" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15.0dip"
+                            android:paddingRight="5.0dip"
+                            android:paddingTop="10.0dip">
+
+                            <com.shizhanzhe.szzschool.utils.MyGridView
+                                android:id="@+id/gv_my_course"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:cacheColorHint="@color/white"
+                                android:columnWidth="55.0dip"
+                                android:gravity="center"
+                                android:horizontalSpacing="3.0dip"
+                                android:listSelector="@color/white"
+                                android:numColumns="2"
+                                android:scrollbars="none"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_choose_my"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20.0dip"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_mycourse_nozyk" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="41.5dip"
+                                    android:layout_marginTop="10.0dip"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="暂无开团，马上"
+                                        android:textColor="@color/three_level"
+                                        android:textSize="12.0sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="去团购"
+                                        android:textColor="@color/green"
+                                        android:textSize="12.0sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="10.0dip"
+                        android:background="@color/app_bg" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10.0dip"
+                            android:layout_marginLeft="15.0dip"
+                            android:layout_marginTop="10.0dip"
+                            android:gravity="center"
+                            android:text="我的参团"
+                            android:textColor="@color/max_level"
+                            android:textSize="14.0sp" />
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.5dip"
+                            android:background="@color/line" />
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.shizhanzhe.szzschool.utils.MyGridView
+                                android:id="@+id/gv_free_course"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:cacheColorHint="@color/white"
+                                android:columnWidth="55.0dip"
+                                android:gravity="center"
+                                android:horizontalSpacing="3.0dip"
+                                android:listSelector="@color/white"
+                                android:numColumns="2"
+                                android:paddingLeft="15.0dip"
+                                android:paddingRight="5.0dip"
+                                android:paddingTop="10.0dip"
+                                android:scrollbars="none"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_choose_free"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="30.0dip"
+                                    android:contentDescription="@string/app_name"
+                                    android:src="@drawable/ic_mycourse_notfreekc" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="41.5dip"
+                                    android:layout_marginTop="10.0dip"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="暂无参团，马上"
+                                        android:textColor="@color/three_level"
+                                        android:textSize="12.0sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:singleLine="true"
+                                        android:text="去团购"
+                                        android:textColor="@color/green"
+                                        android:textSize="12.0sp" />
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="10.0dip"
+                                    android:background="@color/app_bg" />
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

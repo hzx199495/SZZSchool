@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/item_search_tv_title"
-        android:layout_marginLeft="20dp"
-        android:text="Title"
-        android:textSize="14sp"
-        android:textColor="#000"
+        android:id="@+id/item_search_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="20dp" />
-    <view
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="Title"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/blue"/>
+        android:background="@color/blue" />
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -44,7 +45,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.RetrievePassword).setOnClickListener(this);
     }
 
-
     /**
      * 登录按钮
      */
@@ -53,7 +53,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
         dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
         dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setMessage("正在登录...");
+        dialog.setMessage("正在登录...Loading");
         dialog.show();
         final String username = mEditUid.getText().toString();
         String password = mEditPsw.getText().toString();
@@ -80,19 +80,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
-//                    Log.i("====",json);
                     if(json.length()<=5){
                         Toast.makeText(LoginActivity.this,"帐号或密码错误，请重新输入",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }else {
+                        dialog.setMessage("登陆成功");
                         MyApplication.zh=username;
                         Intent intent = new Intent();
                         intent.setClass(LoginActivity.this, MainActivity.class);
                         intent.putExtra("data", json);
                         startActivity(intent);
-                        Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
+//                        Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+//
+//                                dialog.dismiss();
+                            }
+
+
+
                 }
             });
         }else{
@@ -120,5 +124,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+
 }
 

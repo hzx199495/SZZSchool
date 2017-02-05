@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="app_bg">#fff5f5f5</color>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
     <color name="blue">#C2C9F9</color>
     <color name="green">#00ff00</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="fl">#f4f4f4</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
     <color name="red">#ff0000</color>
     <color name="dimgray">#5b5b5b</color>
     <color name="btn_login_press">#a83a3a</color>
     <color name="btn_login_normal">#f15353</color>
     <color name="btn_login_disabled">#e1e1e3</color>
     <color name="app_color">#ff00aae5</color>
+    <color name="radiobg">#87CEFA</color>
     <color name="three_level">#ffb8b1b2</color>
     <color name="title_bg">#ffffffff</color>
     <color name="transparent_33w">#33ffffff</color>

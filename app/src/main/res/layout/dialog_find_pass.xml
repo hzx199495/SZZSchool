@@ -26,6 +26,7 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
         <TextView
+            android:id="@+id/forget_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="下一步"
@@ -44,7 +45,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/et_tel"
+            android:id="@+id/forget_tel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10.0dip"
@@ -78,7 +79,7 @@
             android:paddingTop="7.5dip">
 
             <EditText
-                android:id="@+id/et_ic"
+                android:id="@+id/forget_yzm"
                 android:layout_width="0.0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="3.0"
@@ -86,13 +87,13 @@
                 android:gravity="center|left"
                 android:hint="@string/hint_input_ic"
                 android:inputType="number"
-                android:maxLength="4"
+                android:maxLength="6"
                 android:textColor="@color/one_level"
                 android:textColorHint="@color/hint"
                 android:textSize="14.0sp" />
 
-            <TextView
-                android:id="@+id/tv_ic"
+            <Button
+                android:id="@+id/get_yzm"
                 android:layout_width="0.0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="2.0"

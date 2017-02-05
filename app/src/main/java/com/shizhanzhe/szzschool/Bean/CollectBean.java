@@ -10,38 +10,27 @@ import org.xutils.db.annotation.Table;
 public class CollectBean {
     @Column(name = "id",isId = true)
     private int id;
+    @Column(name = "collectId")
+    private  String collectId;
+    @Column(name = "proId")
+    private  String proId;
     @Column(name = "proname")
     private  String proname;
-    @Column(name = "url")
-    private String url;
-    @Column(name = "pid")
-    private String pid;
-    @Column(name = "sid")
-    private String sid;
-    @Column(name = "spid")
-    private String spid;
+    @Column(name = "img")
+    private String img;
+    @Column(name = "intro")
+    private String intro;
+
 
     public CollectBean() {
     }
 
-    public CollectBean(String proname, String url, String pid, String sid, String spid) {
+    public CollectBean(String collectId, String proId, String proname, String img, String intro) {
+        this.collectId = collectId;
+        this.proId = proId;
         this.proname = proname;
-        this.url = url;
-        this.pid = pid;
-        this.sid = sid;
-        this.spid = spid;
-    }
-
-    @Override
-    public String toString() {
-        return "CollectBean{" +
-                "id=" + id +
-                ", proname='" + proname + '\'' +
-                ", url='" + url + '\'' +
-                ", pid='" + pid + '\'' +
-                ", sid='" + sid + '\'' +
-                ", spid='" + spid + '\'' +
-                '}';
+        this.img = img;
+        this.intro = intro;
     }
 
     public int getId() {
@@ -52,6 +41,22 @@ public class CollectBean {
         this.id = id;
     }
 
+    public String getCollectId() {
+        return collectId;
+    }
+
+    public void setCollectId(String collectId) {
+        this.collectId = collectId;
+    }
+
+    public String getProId() {
+        return proId;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
+    }
+
     public String getProname() {
         return proname;
     }
@@ -60,35 +65,19 @@ public class CollectBean {
         this.proname = proname;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImg() {
+        return img;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public String getPid() {
-        return pid;
+    public String getIntro() {
+        return intro;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
-
-    public String getSpid() {
-        return spid;
-    }
-
-    public void setSpid(String spid) {
-        this.spid = spid;
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 }

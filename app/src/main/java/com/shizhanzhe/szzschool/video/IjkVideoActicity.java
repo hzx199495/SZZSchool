@@ -6,8 +6,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,6 +49,7 @@ import com.shizhanzhe.szzschool.Bean.CommentBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.CommentAdapter;
+import com.shizhanzhe.szzschool.utils.InternetReceiver;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 
 import java.io.InputStream;
@@ -1135,6 +1138,7 @@ public class IjkVideoActicity extends Activity {
 		}
 		danmakuManager.release();
 		SendDanmakuDialog.realse();
+		unregisterReceiver(receiver);
 	};
 
 	/**
@@ -1228,4 +1232,14 @@ public class IjkVideoActicity extends Activity {
 //	public void btn2(View view) {
 //		videoView.setVid("2273463aee8bb8027f8fb60d1ee090fb_2");
 //	}
+	InternetReceiver receiver;
+	@Override
+	protected void onStart() {
+		super.onStart();
+		receiver = new InternetReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		registerReceiver(receiver, filter);
+	}
+
 }

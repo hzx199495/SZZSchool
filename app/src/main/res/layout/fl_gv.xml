@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    >
     <ImageView
         android:id="@+id/fl_gv_iv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:scaleType="centerInside"
         android:src="@mipmap/ic_launcher"/>
     <TextView
         android:id="@+id/fl_gv_tv"

@@ -308,7 +308,6 @@ public class MediaController extends IjkBaseMediaController {
 					return;
 				}
 				// 设置保存路径，没有设置时将使用默认的保存路径
-				// polyvScreenshot.setSavePath(Environment.getExternalStorageDirectory().getAbsolutePath()+"/test");
 				polyvScreenshot.screenshot(ijkVideoView, mContext, true);
 			}
 		});

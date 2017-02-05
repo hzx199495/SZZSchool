@@ -3,20 +3,29 @@ package com.shizhanzhe.szzschool.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.shizhanzhe.szzschool.Bean.CollectBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
+import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -36,9 +45,13 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     TextView detail_price;
     @ViewInject(R.id.share)
     ImageView share;
-    public static FragmentDetail newInstance(String img, String title, String intro,String price) {
+    @ViewInject(R.id.collect)
+    ImageView collect;
+    DbManager manager = DatabaseOpenHelper.getInstance();
+    public static FragmentDetail newInstance(String id,String img, String title, String intro,String price) {
 
         Bundle args = new Bundle();
+        args.putString("id",id);
         args.putString("img",img);
         args.putString("title",title);
         args.putString("intro",intro);
@@ -54,10 +67,26 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     String title;
     String intro;
     String img;
+    String id;
+    boolean flag;
+    List<CollectBean> bean;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
+        id = bundle.getString("id");
+        try {
+            bean = manager.selector(CollectBean.class).where("proId", "=", id).findAll();
+            if (bean!=null&&bean.size()>0){
+                flag=true;
+        collect.setImageResource(R.drawable.ic_courseplay_star1);
+            }else {
+                flag=false;
+        collect.setImageResource(R.drawable.ic_courseplay_star2);
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
           img = bundle.getString("img");
          title = bundle.getString("title");
          intro = bundle.getString("intro");
@@ -66,8 +95,9 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
         imageloader.displayImage(Path.IMG(img), detail_iv,MyApplication.displayoptions);
         detail_title.setText(title);
         detail_intro.setText(intro);
-        detail_price.setText(price);
+        detail_price.setText("￥"+price);
         share.setOnClickListener(this);
+        collect.setOnClickListener(this);
     }
 
     @Override
@@ -75,6 +105,42 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.share:
                 showShare();
+                break;
+            case R.id.collect:
+                if (flag){
+                    flag=false;
+                    try {
+                        List<CollectBean> pro = manager.selector(CollectBean.class).where("proId", "=", id).findAll();
+                        manager.delete(pro);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                    collect.setImageResource(R.drawable.ic_courseplay_star2);
+                    Toast.makeText(getActivity(),"取消收藏",Toast.LENGTH_SHORT).show();
+                    OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.DELCOLLECT(MyApplication.myid, bean.get(0).getCollectId(), MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                        @Override
+                        public void onsendJson(String json) {
+
+                        }
+                    });
+                }else{
+                    MyApplication.SC=true;
+                    flag=true;
+                    collect.setImageResource(R.drawable.ic_courseplay_star1);
+                    Toast.makeText(getActivity(),"已收藏",Toast.LENGTH_SHORT).show();
+                    OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECT(MyApplication.myid, id, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                        @Override
+                        public void onsendJson(String json) {
+
+                        }
+                    });
+                    try {
+                        manager.save(new CollectBean("0",id,title,img,intro));
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
         }
     }
     private void showShare() {

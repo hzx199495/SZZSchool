@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class MyDetailActivity extends Activity {
     ListView lv;
     @ViewInject(R.id.proxj)
     TextView tv;
+    @ViewInject(R.id.back)
+    ImageView back;
     ArrayList<String> parent;
     HashMap<String, List<String>> map;
     @Override
@@ -48,7 +51,7 @@ public class MyDetailActivity extends Activity {
         final String sid = getIntent().getStringExtra("sid");
         final String spid = getIntent().getStringExtra("spid");
         tv.setText(title);
-        ListAdapter adapter = new ListAdapter(MyDetailActivity.this, proname,img);
+        ListAdapter adapter = new ListAdapter(MyDetailActivity.this, proname);
         lv.setAdapter(adapter);
         final ArrayList<String> finalPid = pid;
         final ArrayList<String> finalProname = proname;
@@ -59,6 +62,12 @@ public class MyDetailActivity extends Activity {
                 String comment= Path.COMMENT(finalPid.get(position), MyApplication.myid, MyApplication.token);
                 IjkVideoActicity.intentTo(MyDetailActivity.this, IjkVideoActicity.PlayMode.portrait, IjkVideoActicity.PlayType.vid, finalUrl.get(position),
                         false,comment,sid,spid, finalPid.get(position), finalProname.get(position));
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

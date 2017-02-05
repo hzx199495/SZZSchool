@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+    <ImageView
+    android:id="@+id/userimg"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:src="@mipmap/ic_launcher"
+    android:scaleType="centerInside"/>
+
+    <LinearLayout
+        android:id="@+id/lltop"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/userimg"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="帖子标题"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:id="@+id/bktitle" />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/vip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIP专享"
+            android:textColor="@color/white"
+            android:background="@color/red"
+            android:padding="1dp"
+            />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/jh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:text="精华"
+            android:textColor="@color/white"
+            android:background="#FFA500"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lldown"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/lltop"
+        android:layout_toRightOf="@+id/userimg"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户名"
+            android:textSize="11sp"
+            android:textColor="@color/black"
+            android:id="@+id/user" />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="V2"
+            android:textColor="#FFA500"
+            android:id="@+id/vip2"
+            android:textSize="11sp"/>
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时间：2016-12-28"
+            android:id="@+id/time"
+            android:textColor="@color/black"
+            android:textSize="11sp"/>
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地区：陕西省-西安市"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:id="@+id/where" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lldown"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:paddingRight="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看:100"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:id="@+id/look" />
+
+        <TextView
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="回复:100"
+            android:textSize="11sp"
+            android:textColor="@color/black"
+            android:id="@+id/rep" />
+    </LinearLayout>
+
+
+</RelativeLayout>

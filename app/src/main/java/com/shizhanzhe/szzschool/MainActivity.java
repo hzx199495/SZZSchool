@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
@@ -13,12 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.shizhanzhe.szzschool.Bean.CollectBean;
-import com.shizhanzhe.szzschool.Bean.FLBean;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
-import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.Bean.SearchBean;
+import com.shizhanzhe.szzschool.Bean.TGsqlBean;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.SearchActivity;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
@@ -26,17 +24,12 @@ import com.shizhanzhe.szzschool.fragment.FragmentCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentFl;
 import com.shizhanzhe.szzschool.fragment.FragmentMyProject;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
-import com.shizhanzhe.szzschool.update.UpdateManager;
-import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
-import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -48,13 +41,11 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     RadioGroup rg;
     @ViewInject(R.id.search_tv)
     TextView tv;
-    List<ProBean> gvlist;
     DbManager manager = DatabaseOpenHelper.getInstance();
     private FragmentCenter fragmentCenter;
     private FragmentMyProject fragmentMyProject;
     private FragmentUser fragmentUser;
     private FragmentFl fragmentFl;
-    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +53,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         x.view().inject(this);
         // 初始化ShareSDK
         ShareSDK.initSDK(this);
-        new UpdateManager(this).checkUpdate(true);
+//        new UpdateManager(this).checkUpdate(true);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
@@ -83,7 +74,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         MyApplication.img=img;
         MyApplication.money=money;
         deleteData();
-        getData();
+
         fragmentUser = new FragmentUser().newInstance(username,img);
         fragmentCenter = new FragmentCenter();
         fragmentFl = new FragmentFl();
@@ -152,29 +143,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     }
     public void deleteData(){
         try {
-            manager.delete(CollectBean.class);
             manager.delete(SearchBean.class);
+            manager.delete(TGsqlBean.class);
         } catch (DbException e) {
             e.printStackTrace();
         }
-    }
-    public void getData() {
-        OkHttpDownloadJsonUtil.downloadJson(this, Path.CENTER(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-
-
-            @Override
-            public void onsendJson(String json) {
-                Gson gson = new Gson();
-                gvlist = gson.fromJson(json, new TypeToken<List<ProBean>>() {
-                }.getType());
-                for (int i = 0; i < gvlist.size(); i++) {
-                    try {
-                        manager.save(new FLBean(gvlist.get(i).getId(), gvlist.get(i).getThumb(), gvlist.get(i).getStitle(), gvlist.get(i).getIntroduce(), gvlist.get(i).getNowprice(), gvlist.get(i).getCatid()));
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
     }
 }

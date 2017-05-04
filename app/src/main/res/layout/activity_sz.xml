@@ -17,6 +17,7 @@
             android:textColor="@color/black"
             android:textSize="17sp" />
         <ImageView
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:src="@drawable/back_arrow"
@@ -264,6 +265,21 @@
                     android:textColor="@color/four_level"
                     android:textSize="13.0sp" />
             </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="10dip"
+
+                android:background="@color/line" />
+            <TextView
+                android:id="@+id/user_exit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selected"
+                android:gravity="center"
+                android:padding="12.0dip"
+                android:text="退出帐号"
+                android:textColor="@color/app_color"
+                android:textSize="15.0sp" />
         </LinearLayout>
     </LinearLayout>
 

@@ -48,6 +48,7 @@ public class MyApplication extends Application {
     public static String img="";
     public static String path="";
     public static boolean SC=false;
+    public static double version;
     public static ImageOptions options;
     public static DisplayImageOptions displayoptions;
     private static final String TAG = MyApplication.class.getSimpleName();

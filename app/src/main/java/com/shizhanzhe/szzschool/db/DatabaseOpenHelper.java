@@ -10,7 +10,7 @@ import org.xutils.x;
 public class DatabaseOpenHelper {
     private DbManager.DaoConfig daoConfig;
     private static DbManager db;
-    private final String DB_NAME = "Search";
+    private final String DB_NAME = "MyDB";
     private final int VERSION = 1;
     private DatabaseOpenHelper() {
         daoConfig = new DbManager.DaoConfig()

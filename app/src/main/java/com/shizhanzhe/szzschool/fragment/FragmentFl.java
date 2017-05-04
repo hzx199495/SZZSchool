@@ -18,6 +18,7 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.GVAdapter;
+import com.shizhanzhe.szzschool.adapter.TGAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
@@ -38,7 +39,8 @@ public class FragmentFl extends Fragment implements RadioGroup.OnCheckedChangeLi
     RadioGroup rg;
     @ViewInject(R.id.fl_gv)
     GridView fl_gv;
-    private ArrayList<ProBean> gvlist;
+    List<ProBean.TxBean> gvlist;
+    List<ProBean.TgBean> tglist;
 
 
 
@@ -57,9 +59,9 @@ public class FragmentFl extends Fragment implements RadioGroup.OnCheckedChangeLi
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-                gvlist = gson.fromJson(json, new TypeToken<List<ProBean>>() {
-                }.getType());
-                final ArrayList<ProBean> tx = new ArrayList<>();
+                gvlist = gson.fromJson(json,ProBean.class).getTx();
+                tglist=gson.fromJson(json,ProBean.class).getTg();
+                final ArrayList<ProBean.TxBean> tx = new ArrayList<>();
                 for (int i=0;i<gvlist.size();i++) {
                     if(gvlist.get(i).getCatid().equals("2")){
                         tx.add(gvlist.get(i));
@@ -97,7 +99,7 @@ public class FragmentFl extends Fragment implements RadioGroup.OnCheckedChangeLi
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.rg_tx:
-                final ArrayList<ProBean> tx = new ArrayList<>();
+                final ArrayList<ProBean.TxBean> tx = new ArrayList<>();
                 for (int i=0;i<gvlist.size();i++) {
                     if(gvlist.get(i).getCatid().equals("2")){
                         tx.add(gvlist.get(i));
@@ -126,7 +128,7 @@ public class FragmentFl extends Fragment implements RadioGroup.OnCheckedChangeLi
                 });
                 break;
             case R.id.rg_jj:
-                final ArrayList<ProBean> jj = new ArrayList<>();
+                final ArrayList<ProBean.TxBean> jj = new ArrayList<>();
             for (int i=0;i<gvlist.size();i++) {
             if(gvlist.get(i).getCatid().equals("3")){
                 jj.add(gvlist.get(i));
@@ -155,7 +157,7 @@ public class FragmentFl extends Fragment implements RadioGroup.OnCheckedChangeLi
                 });
                 break;
             case R.id.rg_zy:
-                final ArrayList<ProBean> zy = new ArrayList<>();
+                final ArrayList<ProBean.TxBean> zy = new ArrayList<>();
                 for (int i=0;i<gvlist.size();i++) {
                     if(gvlist.get(i).getCatid().equals("4")){
                         zy.add(gvlist.get(i));
@@ -184,7 +186,7 @@ public class FragmentFl extends Fragment implements RadioGroup.OnCheckedChangeLi
                 });
                 break;
             case R.id.rg_rm:
-                final ArrayList<ProBean> rm = new ArrayList<>();
+                final ArrayList<ProBean.TxBean> rm = new ArrayList<>();
                 for (int i=0;i<gvlist.size();i++) {
                     if(gvlist.get(i).getCatid().equals("2")){
                         rm.add(gvlist.get(i));
@@ -212,6 +214,7 @@ public class FragmentFl extends Fragment implements RadioGroup.OnCheckedChangeLi
                     }
                 });
                 break;
+
         }
     }
 }

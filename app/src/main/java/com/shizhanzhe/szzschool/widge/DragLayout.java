@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 /**
  * 这是一个viewGroup容器，实现上下两个frameLayout拖动切换
  * 
- * @author sistone.Zhang
+ *
  */
 @SuppressLint("NewApi")
 public class DragLayout extends ViewGroup {

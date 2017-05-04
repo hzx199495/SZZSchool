@@ -17,23 +17,18 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.BuyBean;
-import com.shizhanzhe.szzschool.Bean.CollectBean;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.fragment.FragmentDetail;
 import com.shizhanzhe.szzschool.fragment.FragmentDetailProject;
 import com.shizhanzhe.szzschool.pay.Pay;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -101,18 +96,17 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
                         final TextView price = (TextView) dialog.getWindow().findViewById(R.id.buy_pr);
                         Button btn = (Button) dialog.getWindow().findViewById(R.id.buy_yes);
                         pro.setText(title);
-                        price.setText(proprice);
+                        price.setText("￥"+proprice);
                         btn.setOnClickListener(this);
                         break;
                     case R.id.buy_yes:
-//                        if(MyApplication.money<proprice){}
                         OkHttpClient client = new OkHttpClient();
                         RequestBody body = new FormBody.Builder()
                                 .add("uid", MyApplication.myid).add("systemid", id)
                                 .add("type", "1").add("pid", "0").add("coid", "0").add("catid", "0")
                                 .build();
                         Request request = new Request.Builder()
-                                .url("http://2.huobox.com/index.php?m=courSystem.buy&pc=1")
+                                .url("http://shizhanzhe.com/index.php?m=courSystem.buy&pc=1")
                                 .post(body)
                                 .build();
                         client.newCall(request).enqueue(new Callback() {
@@ -132,6 +126,7 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
                             @Override
                             public void onResponse(Call call,  Response response) throws IOException {
                                 final String buy = response.body().string();
+                                Log.i("_____",buy);
                                 if (response.isSuccessful()) {
                                     runOnUiThread(new Runnable() {
                                         @Override

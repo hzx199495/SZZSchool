@@ -1,7 +1,9 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -32,6 +34,8 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
     CheckBox msg;
     @ViewInject(R.id.tv_cache)
     TextView cache;
+    @ViewInject(R.id.user_exit)
+    TextView exit;
     @ViewInject(R.id.ll_clean_cache)
     LinearLayout cleanCache;
     boolean flag=true;
@@ -47,6 +51,7 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
             e.printStackTrace();
         }
         cleanCache.setOnClickListener(this);
+        exit.setOnClickListener(this);
     }
 
     @Override
@@ -79,6 +84,17 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
                         }
                     }
                 });
+
+                break;
+            case R.id.user_exit:
+                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("uname");
+                editor.remove("upawd");
+                editor.commit();
+                startActivity(new Intent(SZActivity.this,LoginActivity.class));
+                finish();
+                break;
         }
     }
 }

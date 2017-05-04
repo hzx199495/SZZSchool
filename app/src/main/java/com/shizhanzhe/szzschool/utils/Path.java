@@ -104,4 +104,14 @@ public  class Path {
         String path = "http://shizhanzhe.com/index.php?m=pcdata.showtuangou&pc=1";
         return path;
     }
+    //我的开团
+    public static String MYKT(String id,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid="+id+"&token="+token;
+        return path;
+    }
+    //我的参团
+    public static String MYCT(String id,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.mycantuan&pc=1&uid="+id+"&token="+token;
+        return path;
+    }
 }

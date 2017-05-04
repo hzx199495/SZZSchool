@@ -32,25 +32,13 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
  * Created by hasee on 2016/11/17.
  */
 public class GVAdapter extends BaseAdapter {
-    private List<ProBean> list;
+    private List<ProBean.TxBean> list;
     private LayoutInflater inflater;
-    private Context context;
-
-    public GVAdapter(List<ProBean> list, Context context) {
+    public GVAdapter(List<ProBean.TxBean> list, Context context) {
         this.list = list;
-        this.context=context;
         inflater = LayoutInflater.from(context);
     }
-    public void GVAdapterClear(){
-        DbManager manager = DatabaseOpenHelper.getInstance();
-        try {
-            manager.delete(SearchBean.class);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-        list.clear();
-        notifyDataSetChanged();
-    }
+
     @Override
     public int getCount() {
         return list.size();
@@ -68,7 +56,7 @@ public class GVAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder=null;
+        ViewHolder holder;
         if(convertView==null){
             convertView=inflater.inflate(R.layout.fl_gv,null);
              holder = new ViewHolder();

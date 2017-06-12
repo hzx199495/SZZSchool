@@ -21,7 +21,9 @@ import java.util.ArrayList;
 
 /**
  * Created by hasee on 2016/11/7.
+ * 课程中心
  */
+
 @ContentView(R.layout.fragment_fl)
 public class FragmentKCCenter extends Fragment  {
     @ViewInject(R.id.tablayout)

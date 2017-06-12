@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,8 +18,8 @@ import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.SearchActivity;
 import com.shizhanzhe.szzschool.fragment.FragmentCenter;
-import com.shizhanzhe.szzschool.fragment.FragmentKCCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentForum;
+import com.shizhanzhe.szzschool.fragment.FragmentKCCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
 
 import org.xutils.view.annotation.ContentView;
@@ -34,6 +36,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     RadioGroup rg;
     @ViewInject(R.id.search_tv)
     TextView tv;
+    @ViewInject(R.id.img_main)
+    ImageView goMain;
+    @ViewInject(R.id.center)
+    RadioButton center;
     private FragmentCenter fragmentCenter;
     private FragmentForum fragmentForum;
     private FragmentUser fragmentUser;
@@ -46,8 +52,8 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         // 初始化ShareSDK
         ShareSDK.initSDK(this);
 //        new UpdateManager(this).checkUpdate(true);
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
+        final FragmentManager manager = getSupportFragmentManager();
+        final FragmentTransaction transaction = manager.beginTransaction();
 
         Intent intent = getIntent();
         String data = intent.getStringExtra("data");
@@ -84,6 +90,16 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 Intent intent1 = new Intent();
                 intent1.setClass(getApplicationContext(), SearchActivity.class);
                 startActivity(intent1);
+            }
+        });
+        goMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FragmentTransaction ft=manager.beginTransaction();
+                ft.show(fragmentCenter);
+                ft.commit();
+                center.setChecked(true);
             }
         });
     }

@@ -2,16 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E8E8E8"
     android:padding="5dp">
     <ImageView
     android:id="@+id/userimg"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
     android:src="@mipmap/ic_launcher"
     android:scaleType="centerInside"/>
 
     <LinearLayout
         android:id="@+id/lltop"
+        android:paddingRight="5dp"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_alignParentTop="true"
@@ -24,8 +26,9 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:id="@+id/bktitle" />
-        <TextView
-            android:layout_width="2dp"
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             />
         <TextView
@@ -33,12 +36,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="VIP专享"
+            android:textSize="10sp"
             android:textColor="@color/white"
             android:background="@color/red"
             android:padding="1dp"
             />
         <TextView
-            android:layout_width="2dp"
+            android:layout_width="3dp"
             android:layout_height="wrap_content"
             />
         <TextView
@@ -46,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="1dp"
+            android:textSize="10sp"
             android:text="精华"
             android:textColor="@color/white"
             android:background="#FFA500"/>

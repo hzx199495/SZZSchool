@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.shizhanzhe.szzschool.R;
 
 import java.io.File;
@@ -133,7 +134,7 @@ public class RecordActivity extends FragmentActivity {
 	                    dialog.cancel();
 	               }
 	           });
-	    AlertDialog alert = builder.create();
+	    AlertDialog alert = builder.create(); 
 	    alert.show();
 	}
 	/**
@@ -196,7 +197,7 @@ public class RecordActivity extends FragmentActivity {
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-								 Bundle savedInstanceState) {
+				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_record, container, false);
 			start = (Button) rootView.findViewById(R.id.startButton);
 			start.setOnClickListener(startListener);

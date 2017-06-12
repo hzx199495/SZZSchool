@@ -146,19 +146,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     intent.setClass(LoginActivity.this, MainActivity.class);
                     intent.putExtra("data", json);
                     startActivity(intent);
-
+                    finish();
                 }
 
 
             }
         });
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        finish();
-    }
-
 
 }
 

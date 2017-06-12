@@ -1,12 +1,10 @@
 package com.shizhanzhe.szzschool;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
@@ -81,7 +79,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         fragmentMyProject = new FragmentMyProject();
 
         transaction.add(R.id.fragment, fragmentCenter);
-        transaction.add(R.id.fragment, fragmentUser);
+//        transaction.add(R.id.fragment, fragmentUser);
         transaction.add(R.id.fragment, fragmentFl);
         transaction.add(R.id.fragment, fragmentMyProject);
         transaction.commit();

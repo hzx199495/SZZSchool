@@ -56,7 +56,7 @@ public class PolyvPlayerSRTPopupView extends RelativeLayout implements View.OnCl
 	private void initViews() {
 		LayoutInflater.from(mContext).inflate(R.layout.polyv_player_srt_popup_view, this);
 		closeBtn = (Button) findViewById(R.id.srt_popup_view_close_btn);
-		closeBtn.setOnClickListener(new View.OnClickListener() {
+		closeBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -71,7 +71,7 @@ public class PolyvPlayerSRTPopupView extends RelativeLayout implements View.OnCl
 		mPopupWindow.setFocusable(true);
 		mPopupWindow.setTouchable(true);
 		mPopupWindow.setOutsideTouchable(true);
-		mPopupWindow.setTouchInterceptor(new View.OnTouchListener() {
+		mPopupWindow.setTouchInterceptor(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {

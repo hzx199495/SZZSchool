@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 
 import com.easefun.polyvsdk.ijk.IjkVideoView;
 
-
 /**
  * 用于处理IjkVideoView的视屏外的触摸事件
  *

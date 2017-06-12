@@ -110,6 +110,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             public void onsendJson(String json) {
                 Gson gson = new Gson();
                 rm = gson.fromJson(json, ProBean.class).getTx();
+                Log.i("_____",rm.get(0).getStitle());
                 gvAdapter = new GVAdapter(rm, getContext());
                 gv_rm.setAdapter(gvAdapter);
 
@@ -123,15 +124,14 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                 tg = gson.fromJson(json, ProBean.class).getTg();
                 tgAdapter = new TGAdapter(tg, getContext());
                 gv_tg.setAdapter(tgAdapter);
-                for (int j = 0; j < tg.size(); j++) {
-                    try {
-                        List<SearchBean> proid = manager.selector(SearchBean.class).where("proid", "=", tg.get(j).getTxid()).findAll();
-                        manager.save(new TGsqlBean(tg.get(j).getId(), proid.get(0).getProid(), proid.get(0).getImg(), proid.get(0).getTitle(), proid.get(0).getIntro(), tg.get(j).getKaikedata(), proid.get(0).getPrice(), tg.get(j).getPtmoney()));
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+//                for (int j = 0; j < tg.size(); j++) {
+//                    try {
+//                        List<SearchBean> proid = manager.selector(SearchBean.class).where("proid", "=", tg.get(j).getTxid()).findAll();
+//                        manager.save(new TGsqlBean(tg.get(j).getId(), proid.get(0).getProid(), proid.get(0).getImg(), proid.get(0).getTitle(), proid.get(0).getIntro(), tg.get(j).getKaikedata(), proid.get(0).getPrice(), tg.get(j).getPtmoney()));
+//                    } catch (DbException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
                 dialog.dismiss();
             }
         });
@@ -156,11 +156,11 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
         });
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            rootview.invalidate();
-        }
-    }
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        if (!hidden) {
+//            rootview.invalidate();
+//        }
+//    }
 }

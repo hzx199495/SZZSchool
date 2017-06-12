@@ -93,7 +93,7 @@ public class PolyvPlayerAdvertisementView extends RelativeLayout {
     private void initViews() {
     	LayoutInflater.from(getContext()).inflate(R.layout.polyv_player_advertisement_view, this);
     	mAdvertisementImage = (ImageView) findViewById(R.id.advertisement_image);
-    	mAdvertisementImage.setOnClickListener(new View.OnClickListener() {
+    	mAdvertisementImage.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -115,7 +115,7 @@ public class PolyvPlayerAdvertisementView extends RelativeLayout {
     	mCountDown = (TextView) findViewById(R.id.count_down);
 
     	mStartBtn = (ImageButton) findViewById(R.id.advertisement_start_btn);
-    	mStartBtn.setOnClickListener(new View.OnClickListener() {
+    	mStartBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

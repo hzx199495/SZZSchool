@@ -7,10 +7,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.R;
 
@@ -25,7 +27,7 @@ public class WelcomeGuideActivity extends Activity {
 	@ViewInject(R.id.welcome_guide_viewpager)
 	ViewPager pager;
 	@ViewInject(R.id.welcome_guide_btn)
-	 ImageView btn;  //btn用imageview 实现的
+	TextView btn;  //btn用TextView 实现的
 
 	private List<View> list;
 
@@ -50,16 +52,19 @@ public class WelcomeGuideActivity extends Activity {
 	{
 
 		list=new ArrayList<View>();
-		ImageView iv=new ImageView(this);
-		iv.setImageResource(R.drawable.ic_launcher);
+		TextView iv=new TextView(this);
+		iv.setText("1");
+		iv.setGravity(Gravity.CENTER);
 //		iv.setScaleType(ScaleType.FIT_XY);
 		list.add(iv);
-		ImageView iv1=new ImageView(this);
-		iv1.setImageResource(R.drawable.ic_launcher);
+		TextView iv1=new TextView(this);
+		iv1.setText("2");
+		iv1.setGravity(Gravity.CENTER);
 //		iv1.setScaleType(ScaleType.FIT_XY);
 		list.add(iv1);
-		ImageView iv2=new ImageView(this);
-		iv2.setImageResource(R.drawable.ic_launcher);
+		TextView iv2=new TextView(this);
+		iv2.setText("3");
+		iv2.setGravity(Gravity.CENTER);
 //		iv2.setScaleType(ScaleType.FIT_XY);
 		list.add(iv2);
 		pager.setAdapter(new MyViewPagerAdapter());

@@ -18,7 +18,6 @@ import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;

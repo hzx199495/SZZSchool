@@ -229,7 +229,7 @@ public class MediaController extends IjkBaseMediaController {
 		});
 
 		selectSRT = (Button) mRoot.findViewById(R.id.select_srt);
-		selectSRT.setOnClickListener(new View.OnClickListener() {
+		selectSRT.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -294,6 +294,9 @@ public class MediaController extends IjkBaseMediaController {
 				case PolyvScreenshot.GETVIDEO_FAIL:
 					ActivityTool.toastMsg(mContext, "截图失败：无法获取video对象");
 					break;
+				case PolyvScreenshot.DATA_EXCEPTION:
+					ActivityTool.toastMsg(mContext, "截图失败：数据异常");
+					break;
 				}
 			}
 		});
@@ -308,6 +311,7 @@ public class MediaController extends IjkBaseMediaController {
 					return;
 				}
 				// 设置保存路径，没有设置时将使用默认的保存路径
+				// polyvScreenshot.setSavePath(Environment.getExternalStorageDirectory().getAbsolutePath()+"/test");
 				polyvScreenshot.screenshot(ijkVideoView, mContext, true);
 			}
 		});
@@ -389,7 +393,7 @@ public class MediaController extends IjkBaseMediaController {
 		return mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
 	}
 
-	private View.OnClickListener mPreListener = new View.OnClickListener() {
+	private OnClickListener mPreListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View arg0) {
@@ -398,7 +402,7 @@ public class MediaController extends IjkBaseMediaController {
 		}
 	};
 
-	private View.OnClickListener mNextListener = new View.OnClickListener() {
+	private OnClickListener mNextListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View arg0) {
@@ -406,7 +410,7 @@ public class MediaController extends IjkBaseMediaController {
 				onPreNextListener.onNext();
 		}
 	};
-	private View.OnClickListener mBoardListener = new View.OnClickListener() {
+	private OnClickListener mBoardListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
@@ -421,7 +425,7 @@ public class MediaController extends IjkBaseMediaController {
 		}
 	};
 
-	private View.OnClickListener mFfwdListener = new View.OnClickListener() {
+	private OnClickListener mFfwdListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View arg0) {
@@ -434,7 +438,7 @@ public class MediaController extends IjkBaseMediaController {
 			show(sDefaultTimeout);
 		}
 	};
-	private View.OnClickListener mRewListener = new View.OnClickListener() {
+	private OnClickListener mRewListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View arg0) {
@@ -447,7 +451,7 @@ public class MediaController extends IjkBaseMediaController {
 		}
 	};
 
-	private View.OnClickListener mSelectBitRate = new View.OnClickListener() {
+	private OnClickListener mSelectBitRate = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
@@ -727,7 +731,7 @@ public class MediaController extends IjkBaseMediaController {
 		return super.dispatchKeyEvent(event);
 	}
 
-	private View.OnClickListener mPauseListener = new View.OnClickListener() {
+	private OnClickListener mPauseListener = new OnClickListener() {
 		public void onClick(View v) {
 			doPauseResume();
 			show(sDefaultTimeout);
@@ -863,7 +867,7 @@ public class MediaController extends IjkBaseMediaController {
 			selectBitrate.setText(BitRateEnum.getBitRateName(currBitRate));
 			Button bitRateBtn = null;
 			int minBitRate = BitRateEnum.getMinBitRateFromAll().getNum();
-			int maxBitRate = BitRateEnum.getMaxBitRate().getNum();
+			int maxBitRate = BitRateEnum.getMaxBitRate(result).getNum();
 			for (int i = maxBitRate; i >= minBitRate; i--) {
 				bitRateBtn = bitRateBtnArray.get(i);
 				bitRateBtn.setVisibility(View.VISIBLE);
@@ -877,7 +881,7 @@ public class MediaController extends IjkBaseMediaController {
 	 *
 	 * @author TanQu 2015-10-8
 	 */
-	private class bitRateClientListener implements View.OnClickListener {
+	private class bitRateClientListener implements OnClickListener {
 		private final String vid;
 		private final int currBitRate;
 		private final int targetBitRate;

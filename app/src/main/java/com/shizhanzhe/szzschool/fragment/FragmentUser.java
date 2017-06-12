@@ -106,7 +106,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getTG();
+//        getTG();
         Bundle bundle = getArguments();
         final String img = bundle.getString("img");
         final String username = bundle.getString("username");
@@ -231,14 +231,14 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             }
         });
     }
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            getTG();
-            rootview.invalidate();
-        }
-    }
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        if (!hidden) {
+//            getTG();
+//            rootview.invalidate();
+//        }
+//    }
 }
 //    //下载网络图片
 //    public Bitmap getLocalOrNetBitmap(String url) {

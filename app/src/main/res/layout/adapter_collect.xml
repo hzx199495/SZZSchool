@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/collect_img"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="centerInside"
+         />
+<RelativeLayout
+    android:padding="10dp"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent">
+    <TextView
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:id="@+id/collect_title"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="课程标题"
+         />
+
+
+
+
+    <TextView
+        android:id="@+id/delcollect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:textSize="16sp"
+        android:maxEms="10"
+        android:gravity="right"
+        android:textColor="@color/blue2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
+</LinearLayout>

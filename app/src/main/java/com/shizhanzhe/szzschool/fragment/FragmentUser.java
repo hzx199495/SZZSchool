@@ -35,6 +35,7 @@ import com.shizhanzhe.szzschool.activity.ForumActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.activity.TGDetailActivity;
+import com.shizhanzhe.szzschool.activity.UserSetActivity;
 import com.shizhanzhe.szzschool.activity.UserZHActivity;
 import com.shizhanzhe.szzschool.adapter.MyCTAdapter;
 import com.shizhanzhe.szzschool.adapter.MyKTAdapter;
@@ -62,6 +63,8 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     ImageView topbg;
     @ViewInject(R.id.setuser)
     FrameLayout setuser;
+    @ViewInject(R.id.zl)
+    ImageView zl;
     @ViewInject(R.id.cv)
     CircleImageView mImageHeader;
     @ViewInject(R.id.tv_name)
@@ -113,7 +116,12 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         user_sc.setOnClickListener(this);
         user_sz.setOnClickListener(this);
         user_tg.setOnClickListener(this);
-
+        zl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), UserSetActivity.class));
+            }
+        });
     }
 
     //模糊效果

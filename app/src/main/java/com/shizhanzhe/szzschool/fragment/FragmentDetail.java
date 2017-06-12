@@ -50,7 +50,6 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     ImageView share;
     @ViewInject(R.id.collect)
     ImageView collect;
-    DbManager manager = DatabaseOpenHelper.getInstance();
 
     public static FragmentDetail newInstance(String id, String img, String title, String intro, String price) {
 
@@ -101,7 +100,6 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                     sysinfo.add(Bean.getSysinfo());
                     listId.add(Bean.getId());
                 }
-                Log.i("______",sysinfo.size()+"_"+listId.size());
                 for (int i = 0; i < listId.size(); i++) {
                     List<CollectListBean.SysinfoBean> sysinfoBeen = sysinfo.get(i);
                     for (int j = 0; j < sysinfoBeen.size(); j++) {

@@ -131,8 +131,7 @@ public class MyApplication extends Application {
         serviceStartErrorBroadcastReceiver = new ServiceStartErrorBroadcastReceiver();
         LocalBroadcastManager.getInstance(this).registerReceiver(serviceStartErrorBroadcastReceiver, statusIntentFilter);
 
-        //网络方式取得SDK加密串，（推荐）
-//		new LoadConfigTask().execute();
+
         PolyvSDKClient client = PolyvSDKClient.getInstance();
         //设置SDK加密串
 //		client.setConfig("你的SDK加密串", aeskey, iv);

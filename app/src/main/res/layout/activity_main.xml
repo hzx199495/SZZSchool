@@ -74,7 +74,7 @@
                 android:drawablePadding="4.0dip"
                 android:drawableTop="@drawable/home_tab_more_selected"
                 android:gravity="center"
-                android:text="分类"
+                android:text="课程中心"
                 android:textColor="@drawable/btn_selector"
                 android:textSize="14.0sp"
                 android:checked="false" />
@@ -89,7 +89,7 @@
                 android:drawablePadding="4.0dip"
                 android:drawableTop="@drawable/home_tab_more_selected"
                 android:gravity="center"
-                android:text="我的课程"
+                android:text="社区论坛"
                 android:textColor="@drawable/btn_selector"
                 android:textSize="14.0sp"
                 android:checked="false" />

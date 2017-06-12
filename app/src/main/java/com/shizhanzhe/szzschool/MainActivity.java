@@ -20,7 +20,7 @@ import com.shizhanzhe.szzschool.activity.SearchActivity;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.fragment.FragmentCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentFl;
-import com.shizhanzhe.szzschool.fragment.FragmentMyProject;
+import com.shizhanzhe.szzschool.fragment.FragmentForum;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
 
 import org.xutils.DbManager;
@@ -41,7 +41,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     TextView tv;
     DbManager manager = DatabaseOpenHelper.getInstance();
     private FragmentCenter fragmentCenter;
-    private FragmentMyProject fragmentMyProject;
+    private FragmentForum fragmentMyProject;
     private FragmentUser fragmentUser;
     private FragmentFl fragmentFl;
     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         fragmentUser = new FragmentUser().newInstance(username,img);
         fragmentCenter = new FragmentCenter();
         fragmentFl = new FragmentFl();
-        fragmentMyProject = new FragmentMyProject();
+        fragmentMyProject = new FragmentForum();
 
         transaction.add(R.id.fragment, fragmentCenter);
 //        transaction.add(R.id.fragment, fragmentUser);

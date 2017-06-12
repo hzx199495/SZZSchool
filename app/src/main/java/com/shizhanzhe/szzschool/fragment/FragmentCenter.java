@@ -85,6 +85,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
         swip.setColorSchemeResources(R.color.blue2,R.color.red,R.color.green_color,R.color.dimgray);
         ArrayList<String> images = new ArrayList<>();
         images.add("http://m.shizhanzhe.com/style/images/banner.jpg");
+        images.add("http://m.juejinyun.com/upload//222222.png");
         banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
     }
 

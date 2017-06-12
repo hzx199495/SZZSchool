@@ -1224,14 +1224,6 @@ public class IjkVideoActicity extends Activity {
 		msg.setData(data);
 		handler.sendMessage(msg);
 	}
-	
-//	public void btn1(View view) {
-//		videoView.setVid("2273463aee027300ec391928e431fe8b_2");
-//	}
-//	
-//	public void btn2(View view) {
-//		videoView.setVid("2273463aee8bb8027f8fb60d1ee090fb_2");
-//	}
 	InternetReceiver receiver;
 	@Override
 	protected void onStart() {

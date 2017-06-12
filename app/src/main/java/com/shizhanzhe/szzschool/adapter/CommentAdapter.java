@@ -3,7 +3,6 @@ package com.shizhanzhe.szzschool.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,8 @@ import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 import com.shizhanzhe.szzschool.video.NoScrollListView;
 
-import org.xutils.x;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;

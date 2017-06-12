@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.ListAdapter;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.IjkVideoActicity;
+//import com.shizhanzhe.szzschool.video.IjkVideoActicity;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -45,6 +47,7 @@ public class MyDetailActivity extends Activity {
         ArrayList<String> pid = new ArrayList<String>();
         proname = getIntent().getStringArrayListExtra("name");
         url = getIntent().getStringArrayListExtra("url");
+        Log.i("________",url.get(0));
         pid = getIntent().getStringArrayListExtra("pid");
         String img=getIntent().getStringExtra("img");
         String title = getIntent().getStringExtra("title");

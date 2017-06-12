@@ -70,7 +70,6 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
         String intro = intent.getStringExtra("intro");
          title = intent.getStringExtra("title");
         proprice = intent.getStringExtra("price");
-
         FragmentDetail fragmentDetail = new FragmentDetail().newInstance(id,img, title, intro,proprice);
         FragmentDetailProject fragmentDetailProject = new FragmentDetailProject().newInstance(id, uid, token);
         getSupportFragmentManager().beginTransaction()

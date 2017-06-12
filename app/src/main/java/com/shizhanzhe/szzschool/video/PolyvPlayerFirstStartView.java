@@ -63,7 +63,7 @@ public class PolyvPlayerFirstStartView extends RelativeLayout {
     	LayoutInflater.from(getContext()).inflate(R.layout.polyv_player_first_start_view, this);
     	mFirstStartImage = (ImageView) findViewById(R.id.first_start_image);
     	mFirstStartBtn = (ImageButton) findViewById(R.id.first_start_btn);
-    	mFirstStartBtn.setOnClickListener(new View.OnClickListener() {
+    	mFirstStartBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

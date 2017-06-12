@@ -75,7 +75,7 @@ public class PolyvAuditionView extends RelativeLayout {
 	private void init() {
 		LayoutInflater.from(getContext()).inflate(R.layout.audition, this);
 		passBtn = (TextView) findViewById(R.id.audition_pass_btn);
-		passBtn.setOnClickListener(new View.OnClickListener() {
+		passBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -91,7 +91,7 @@ public class PolyvAuditionView extends RelativeLayout {
 		});
 		title = (TextView) findViewById(R.id.title);
 		playPauseBtn = (ImageButton) findViewById(R.id.audition_play_pause);
-		playPauseBtn.setOnClickListener(new View.OnClickListener() {
+		playPauseBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

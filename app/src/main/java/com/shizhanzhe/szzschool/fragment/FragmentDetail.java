@@ -50,7 +50,6 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     ImageView share;
     @ViewInject(R.id.collect)
     ImageView collect;
-    DbManager manager = DatabaseOpenHelper.getInstance();
 
     public static FragmentDetail newInstance(String id, String img, String title, String intro, String price) {
 
@@ -101,7 +100,6 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                     sysinfo.add(Bean.getSysinfo());
                     listId.add(Bean.getId());
                 }
-                Log.i("______",sysinfo.size()+"_"+listId.size());
                 for (int i = 0; i < listId.size(); i++) {
                     List<CollectListBean.SysinfoBean> sysinfoBeen = sysinfo.get(i);
                     for (int j = 0; j < sysinfoBeen.size(); j++) {
@@ -142,45 +140,10 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                     flag = false;
                     collect.setImageResource(R.drawable.ic_courseplay_star2);
                     Toast.makeText(getActivity(), "取消收藏", Toast.LENGTH_SHORT).show();
-                    OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.DELCOLLECT(MyApplication.myid,tag, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                        @Override
-                        public void onsendJson(String json) {
-
-                        }
-                    });
                 } else {
                     flag = true;
                     collect.setImageResource(R.drawable.ic_courseplay_star1);
                     Toast.makeText(getActivity(), "已收藏", Toast.LENGTH_SHORT).show();
-                    OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECT(MyApplication.myid, id, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                        @Override
-                        public void onsendJson(String json) {
-
-                        }
-                    });
-//                    OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECTLIST(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-//
-//                        @Override
-//                        public void onsendJson(String json) {
-//
-//                            JsonParser parser = new JsonParser();
-//
-//                            JsonArray jsonArray = parser.parse(json).getAsJsonArray();
-//
-//                            Gson gson = new Gson();
-//                            ArrayList<List<CollectListBean.SysinfoBean>> sysinfo = new ArrayList<>();
-//                            ArrayList<String> listId = new ArrayList<>();
-//
-//                            //加强for循环遍历JsonArray
-//                            for (JsonElement pro : jsonArray) {
-//                                //使用GSON，直接转成Bean对象
-//                                CollectListBean Bean = gson.fromJson(pro, CollectListBean.class);
-//                                sysinfo.add(Bean.getSysinfo());
-//                                listId.add(Bean.getId());
-//                            }
-//                         tag=listId.get(listId.size()-1);
-//                        }
-//                    });
                     break;
                 }
         }
@@ -211,5 +174,25 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
 
 // 启动分享GUI
         oks.show(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (flag){
+            OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECT(MyApplication.myid, id, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                @Override
+                public void onsendJson(String json) {
+
+                }
+            });
+        }else {
+            OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.DELCOLLECT(MyApplication.myid,tag, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                @Override
+                public void onsendJson(String json) {
+
+                }
+            });
+        }
     }
 }

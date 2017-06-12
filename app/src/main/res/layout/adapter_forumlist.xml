@@ -83,7 +83,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="时间：2016-12-28"
+            android:text=" 时间：2016-12-28 "
             android:id="@+id/time"
             android:textColor="@color/black"
             android:textSize="11sp"/>
@@ -94,7 +94,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="地区：陕西省-西安市"
+            android:text=" 地区：陕西省-西安市 "
             android:textColor="@color/black"
             android:textSize="11sp"
             android:id="@+id/where" />

@@ -54,7 +54,6 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     SwipeRefreshLayout swip;
     GVAdapter gvAdapter;
     TGAdapter tgAdapter;
-    DbManager manager = DatabaseOpenHelper.getInstance();
     List<ProBean.TxBean> rm;
     List<ProBean.TgBean> tg;
     View rootview;
@@ -111,28 +110,11 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             public void onsendJson(String json) {
                 Gson gson = new Gson();
                 rm = gson.fromJson(json, ProBean.class).getTx();
-                Log.i("_____",rm.get(0).getStitle());
                 gvAdapter = new GVAdapter(rm, getContext());
                 gv_rm.setAdapter(gvAdapter);
-
-                for (int i = 0; i < rm.size(); i++) {
-                    try {
-                        manager.save(new SearchBean(rm.get(i).getId(), rm.get(i).getThumb(), rm.get(i).getStitle(), rm.get(i).getIntroduce(), rm.get(i).getNowprice(), rm.get(i).getCatid()));
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
-                }
                 tg = gson.fromJson(json, ProBean.class).getTg();
                 tgAdapter = new TGAdapter(tg, getContext());
                 gv_tg.setAdapter(tgAdapter);
-//                for (int j = 0; j < tg.size(); j++) {
-//                    try {
-//                        List<SearchBean> proid = manager.selector(SearchBean.class).where("proid", "=", tg.get(j).getTxid()).findAll();
-//                        manager.save(new TGsqlBean(tg.get(j).getId(), proid.get(0).getProid(), proid.get(0).getImg(), proid.get(0).getTitle(), proid.get(0).getIntro(), tg.get(j).getKaikedata(), proid.get(0).getPrice(), tg.get(j).getPtmoney()));
-//                    } catch (DbException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
                 dialog.dismiss();
             }
         });
@@ -156,12 +138,4 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             }
         });
     }
-
-//    @Override
-//    public void onHiddenChanged(boolean hidden) {
-//        super.onHiddenChanged(hidden);
-//        if (!hidden) {
-//            rootview.invalidate();
-//        }
-//    }
 }

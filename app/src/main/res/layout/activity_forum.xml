@@ -40,42 +40,5 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="板块推荐"
-                android:textSize="16sp" />
-
-            <com.shizhanzhe.szzschool.utils.MyGridView
-                android:id="@+id/gv_bk"
-                android:layout_width="match_parent"
-                android:horizontalSpacing="5dp"
-                android:layout_height="wrap_content"
-                android:numColumns="3" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingLeft="5dp"
-                android:text="社区热帖"
-                android:textSize="16sp" />
-            <com.shizhanzhe.szzschool.utils.MyGridView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="1"
-                android:id="@+id/gv_forum" />
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

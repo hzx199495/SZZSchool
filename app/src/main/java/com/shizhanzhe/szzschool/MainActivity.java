@@ -13,18 +13,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
-import com.shizhanzhe.szzschool.Bean.SearchBean;
-import com.shizhanzhe.szzschool.Bean.TGsqlBean;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.SearchActivity;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.fragment.FragmentCenter;
-import com.shizhanzhe.szzschool.fragment.FragmentFl;
+import com.shizhanzhe.szzschool.fragment.FragmentKCCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentForum;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
 
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -39,11 +34,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     RadioGroup rg;
     @ViewInject(R.id.search_tv)
     TextView tv;
-    DbManager manager = DatabaseOpenHelper.getInstance();
     private FragmentCenter fragmentCenter;
-    private FragmentForum fragmentMyProject;
+    private FragmentForum fragmentForum;
     private FragmentUser fragmentUser;
-    private FragmentFl fragmentFl;
+    private FragmentKCCenter fragmentKCCenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,17 +65,17 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         MyApplication.token=token;
         MyApplication.img=img;
         MyApplication.money=money;
-        deleteData();
 
         fragmentUser = new FragmentUser().newInstance(username,img);
         fragmentCenter = new FragmentCenter();
-        fragmentFl = new FragmentFl();
-        fragmentMyProject = new FragmentForum();
+        fragmentKCCenter = new FragmentKCCenter();
+        fragmentForum = new FragmentForum();
 
+
+        transaction.add(R.id.fragment, fragmentUser);
+        transaction.add(R.id.fragment, fragmentKCCenter);
+        transaction.add(R.id.fragment, fragmentForum);
         transaction.add(R.id.fragment, fragmentCenter);
-//        transaction.add(R.id.fragment, fragmentUser);
-        transaction.add(R.id.fragment, fragmentFl);
-        transaction.add(R.id.fragment, fragmentMyProject);
         transaction.commit();
         rg.setOnCheckedChangeListener(this);
         tv.setOnClickListener(new View.OnClickListener() {
@@ -102,27 +96,27 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         switch (checkedId) {
             case R.id.center:
                 transaction.show(fragmentCenter);
-                transaction.hide(fragmentFl);
+                transaction.hide(fragmentKCCenter);
                 transaction.hide(fragmentUser);
-                transaction.hide(fragmentMyProject);
+                transaction.hide(fragmentForum);
                 break;
             case R.id.fl:
                 transaction.hide(fragmentCenter);
-                transaction.show(fragmentFl);
+                transaction.show(fragmentKCCenter);
                 transaction.hide(fragmentUser);
-                transaction.hide(fragmentMyProject);
+                transaction.hide(fragmentForum);
                 break;
             case R.id.course:
                 transaction.hide(fragmentCenter);
-                transaction.hide(fragmentFl);
+                transaction.hide(fragmentKCCenter);
                 transaction.show(fragmentUser);
-                transaction.hide(fragmentMyProject);
+                transaction.hide(fragmentForum);
                 break;
             case R.id.project:
                 transaction.hide(fragmentCenter);
-                transaction.hide(fragmentFl);
+                transaction.hide(fragmentKCCenter);
                 transaction.hide(fragmentUser);
-                transaction.show(fragmentMyProject);
+                transaction.show(fragmentForum);
                 break;
         }
         transaction.commit();
@@ -139,12 +133,5 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
-    public void deleteData(){
-        try {
-            manager.delete(SearchBean.class);
-            manager.delete(TGsqlBean.class);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

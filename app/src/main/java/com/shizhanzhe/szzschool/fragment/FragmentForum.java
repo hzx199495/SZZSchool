@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by hasee on 2016/10/26.
  */
-@ContentView(R.layout.fragmetn_forum)
+@ContentView(R.layout.fragment_forum)
 public class FragmentForum extends Fragment {
     @ViewInject(R.id.gv_bk)
     MyGridView bk;

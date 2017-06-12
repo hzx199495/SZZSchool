@@ -72,18 +72,14 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     TextView user_sc;
     @ViewInject(R.id.user_sz)
     TextView user_sz;
-    @ViewInject(R.id.sq)
-    TextView sq;
-    @ViewInject(R.id.lv_kt)
-    MyGridView lv_kt;
-    @ViewInject(R.id.lv_ct)
-    MyGridView lv_ct;
-    @ViewInject(R.id.nokt)
-    LinearLayout nokt;
-    @ViewInject(R.id.noct)
-    LinearLayout noct;
+    @ViewInject(R.id.user_tg)
+    TextView user_tg;
+    @ViewInject(R.id.lv_kc)
+    MyGridView lv_kc;
+    @ViewInject(R.id.nokc)
+    LinearLayout nokc;
+
     private Bitmap bitmapbg;
-    DbManager manager = DatabaseOpenHelper.getInstance();
     View rootview;
 
     public static FragmentUser newInstance(String username, String img) {
@@ -106,7 +102,6 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getTG();
         Bundle bundle = getArguments();
         final String img = bundle.getString("img");
         final String username = bundle.getString("username");
@@ -117,7 +112,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         user_zh.setOnClickListener(this);
         user_sc.setOnClickListener(this);
         user_sz.setOnClickListener(this);
-        sq.setOnClickListener(this);
+        user_tg.setOnClickListener(this);
 
     }
 
@@ -153,92 +148,54 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             case R.id.user_sz:
                 startActivity(new Intent(getActivity(), SZActivity.class));
                 break;
-            case R.id.sq:
+            case R.id.user_tg:
                 startActivity(new Intent(getActivity(), ForumActivity.class));
         }
     }
-    public void getTG(){
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYKT(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
-                Gson gson = new Gson();
-                final List<MyKTBean> list = gson.fromJson(json, new TypeToken<List<MyKTBean>>() {
-                }.getType());
-                if (list!=null&&list.size()>0){
-                    lv_kt.setVisibility(View.VISIBLE);
-                    nokt.setVisibility(View.GONE);
-                    lv_kt.setAdapter(new MyKTAdapter(getContext(),list));
-                    lv_kt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            try {
-                                List<TGsqlBean> proid = manager.selector(TGsqlBean.class).where("tuanid", "=", list.get(position).getTuanid()).findAll();
-                                Intent intent = new Intent();
-                                intent.setClass(getContext(), TGDetailActivity.class);
-                                intent.putExtra("title",proid.get(0).getTitle());
-                                intent.putExtra("img",proid.get(0).getImg());
-                                intent.putExtra("time",proid.get(0).getTime());
-                                intent.putExtra("intro",proid.get(0).getIntro());
-                                intent.putExtra("yjprice",proid.get(0).getYjprice());
-                                intent.putExtra("id",proid.get(0).getId());
-                                intent.putExtra("tuanid",proid.get(0).getTuanid());
-                                intent.putExtra("price","100");
-                                intent.putExtra("type",1);
-                                getContext().startActivity(intent);
-                            } catch (DbException e) {
-                                e.printStackTrace();
-                            }
 
-                        }
-                    });
-                }
+//    public void getTG() {
+//        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYKT(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//            @Override
+//            public void onsendJson(String json) {
+//                Gson gson = new Gson();
+//                final List<MyKTBean> list = gson.fromJson(json, new TypeToken<List<MyKTBean>>() {
+//                }.getType());
+//                if (list != null && list.size() > 0) {
+//                    lv_kc.setVisibility(View.VISIBLE);
+//                    nokc.setVisibility(View.GONE);
+//                    lv_kc.setAdapter(new MyKTAdapter(getContext(), list));
+//                    lv_kc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            try {
+//                                List<TGsqlBean> proid = manager.selector(TGsqlBean.class).where("tuanid", "=", list.get(position).getTuanid()).findAll();
+//                                Intent intent = new Intent();
+//                                intent.setClass(getContext(), TGDetailActivity.class);
+//                                intent.putExtra("title", proid.get(0).getTitle());
+//                                intent.putExtra("img", proid.get(0).getImg());
+//                                intent.putExtra("time", proid.get(0).getTime());
+//                                intent.putExtra("intro", proid.get(0).getIntro());
+//                                intent.putExtra("yjprice", proid.get(0).getYjprice());
+//                                intent.putExtra("id", proid.get(0).getId());
+//                                intent.putExtra("tuanid", proid.get(0).getTuanid());
+//                                intent.putExtra("price", "100");
+//                                intent.putExtra("type", 1);
+//                                getContext().startActivity(intent);
+//                            } catch (DbException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    });
+//                }
+//
+//
+//            }
+//
+//        });
+//    }
 
-            }
-        });
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYCT(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
-                Gson gson = new Gson();
-                final List<MyCTBean> list = gson.fromJson(json, new TypeToken<List<MyCTBean>>() {
-                }.getType());
-                if (list!=null&&list.size()>0){
-                    lv_ct.setVisibility(View.VISIBLE);
-                    noct.setVisibility(View.GONE);
-                    lv_ct.setAdapter(new MyCTAdapter(getContext(),list));
-                    lv_ct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            try{
-                                List<TGsqlBean> proid = manager.selector(TGsqlBean.class).where("tuanid", "=", list.get(position).getTuanid()).findAll();
-                            Intent intent = new Intent();
-                            intent.setClass(getContext(), TGDetailActivity.class);
-                            intent.putExtra("title",proid.get(0).getTitle());
-                            intent.putExtra("img",proid.get(0).getImg());
-                            intent.putExtra("time",proid.get(0).getTime());
-                            intent.putExtra("intro",proid.get(0).getIntro());
-                            intent.putExtra("yjprice",proid.get(0).getYjprice());
-                            intent.putExtra("id",proid.get(0).getId()+"");
-                            intent.putExtra("tuanid",proid.get(0).getTuanid());
-                            intent.putExtra("price",proid.get(0).getTgprice());
-                            intent.putExtra("type",2);
-                            getContext().startActivity(intent);
-                        } catch (DbException e) {
-                            e.printStackTrace();
-                        }
-                        }
-                    });
-                }
-            }
-        });
-    }
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            getTG();
-            rootview.invalidate();
-        }
-    }
+
 }
 //    //下载网络图片
 //    public Bitmap getLocalOrNetBitmap(String url) {

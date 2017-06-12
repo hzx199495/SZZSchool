@@ -52,19 +52,15 @@ public class ForumBKAdapter extends BaseAdapter {
             convertView=inflater.inflate(R.layout.adapter_forumbk,null);
             holder=new ViewHold();
             holder.tv= (TextView) convertView.findViewById(R.id.bk_tv);
-            holder.iv= (ImageView) convertView.findViewById(R.id.bk_iv);
             convertView.setTag(holder);
         }else{
             holder= (ViewHold) convertView.getTag();
         }
         ForumBean.LtmodelBean bean = list.get(position);
         holder.tv.setText(bean.getName());
-        ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(bean.getImgurl()), holder.iv, displayoptions,new AnimateFirstDisplayListener());
         return convertView;
     }
     class  ViewHold{
-        ImageView iv;
         TextView tv;
     }
 

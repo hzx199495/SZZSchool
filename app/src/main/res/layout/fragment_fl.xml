@@ -2,110 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:background="#cdcdcd" />-->
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="#fbfbfb"-->
-        <!--android:orientation="horizontal" >-->
-
-        <!--&lt;!&ndash;<ListView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/lv_title"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:scrollbars="none"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_weight="1.0"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:background="#f4f4f4" />&ndash;&gt;-->
-        <!--<RadioGroup-->
-            <!--android:id="@+id/fl_rg"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="#f4f4f4">-->
-        <!--<RadioButton-->
-            <!--android:id="@+id/rg_tx"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:button="@null"-->
-            <!--android:checked="true"-->
-            <!--android:background="@drawable/button_selector"-->
-            <!--android:text="课程体系"-->
-            <!--android:gravity="center"/>-->
-
-            <!--<RadioButton-->
-                <!--android:id="@+id/rg_jj"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:background="@drawable/button_selector"-->
-                <!--android:button="@null"-->
-                <!--android:gravity="center"-->
-                <!--android:text="进阶课程"/>-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/rg_zy"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:button="@null"-->
-                <!--android:gravity="center"-->
-                <!--android:background="@drawable/button_selector"-->
-                <!--android:text="职业课程"/>-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/rg_rm"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:button="@null"-->
-                <!--android:background="@drawable/button_selector"-->
-                <!--android:gravity="center"-->
-                <!--android:text="热门推荐"/>-->
-            <!--<RadioButton-->
-                <!--android:id="@+id/rg_tg"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:button="@null"-->
-                <!--android:background="@drawable/button_selector"-->
-                <!--android:gravity="center"-->
-                <!--android:text="团购报名"/>-->
-    <!--</RadioGroup>-->
-    <!--<View-->
-        <!--android:layout_width="1dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="#cdcdcd" />-->
-        <!--<ScrollView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_weight="3.0"-->
-            <!--android:layout_height="match_parent">-->
-    <!--<com.shizhanzhe.szzschool.utils.MyGridView-->
-        <!--android:id="@+id/fl_gv"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
-        <!--</ScrollView>-->
-<!--</LinearLayout>-->
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
         app:tabTextColor="@color/black"
-        app:tabSelectedTextColor="@color/blue"
-        app:tabIndicatorColor="@color/blue"
+        app:tabSelectedTextColor="@color/blue2"
+        app:tabIndicatorColor="@color/blue2"
         android:background="#fff5f5f5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!--<android.support.design.widget.TabItem-->
-        <!--android:id="@+id/tab1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="注册"/>-->
-        <!--<android.support.design.widget.TabItem-->
-        <!--android:id="@+id/tab2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="登陆"-->
-        <!--/>-->
+
 
     </android.support.design.widget.TabLayout>
     <android.support.v4.view.ViewPager

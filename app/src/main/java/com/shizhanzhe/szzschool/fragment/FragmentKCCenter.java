@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * Created by hasee on 2016/11/7.
- * 课程中心
+ * 课程
  */
 
 @ContentView(R.layout.fragment_fl)

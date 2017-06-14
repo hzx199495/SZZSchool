@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -38,12 +39,16 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     TextView tv;
     @ViewInject(R.id.img_main)
     ImageView goMain;
-    @ViewInject(R.id.center)
-    RadioButton center;
+    @ViewInject(R.id.main)
+    RadioButton main;
     private FragmentCenter fragmentCenter;
     private FragmentForum fragmentForum;
     private FragmentUser fragmentUser;
     private FragmentKCCenter fragmentKCCenter;
+    private FragmentManager manager;
+    private Fragment nowFragment;
+    String username;
+    String img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,24 +57,24 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         // 初始化ShareSDK
         ShareSDK.initSDK(this);
 //        new UpdateManager(this).checkUpdate(true);
-        final FragmentManager manager = getSupportFragmentManager();
-        final FragmentTransaction transaction = manager.beginTransaction();
+        manager = getSupportFragmentManager();
+
 
         Intent intent = getIntent();
         String data = intent.getStringExtra("data");
         Gson gson = new Gson();
         LoginBean loginData = gson.fromJson(data, LoginBean.class);
-        String username = loginData.getUsername();
-        String img = loginData.getHeadimg();
+         username = loginData.getUsername();
+        img = loginData.getHeadimg();
         String uid = loginData.getId();
         String token = loginData.getToken();
         String money=loginData.getMoney();
         String vip = loginData.getVip();
 
-        MyApplication.username=username;
+
         MyApplication.myid=uid;
         MyApplication.token=token;
-        MyApplication.img=img;
+
         MyApplication.money=money;
 
 //        fragmentUser = new FragmentUser().newInstance(username,img);
@@ -104,7 +109,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 FragmentTransaction ft=manager.beginTransaction();
                 ft.show(fragmentCenter);
                 ft.commit();
-                center.setChecked(true);
+                main.setChecked(true);
             }
         });
     }
@@ -113,13 +118,13 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
-            case R.id.center:
+            case R.id.main:
                 if(fragmentCenter==null){
                     fragmentCenter=new FragmentCenter();
                 }
                 switchContent(nowFragment,fragmentCenter);
                 break;
-            case R.id.fl:
+            case R.id.kc:
                 if(fragmentKCCenter==null){
                     fragmentKCCenter=new FragmentKCCenter();
                 }
@@ -131,14 +136,13 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 }
                 switchContent(nowFragment,fragmentUser);
                 break;
-            case R.id.project:
+            case R.id.forum:
                 if(fragmentForum==null){
                     fragmentForum=new FragmentForum();
                 }
                 switchContent(nowFragment,fragmentForum);
                 break;
         }
-        transaction.commit();
     }
     private long exitTime = 0;
     @Override

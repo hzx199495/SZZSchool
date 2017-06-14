@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
+
 import com.shizhanzhe.szzschool.utils.NoScrollListView;
 import com.shizhanzhe.szzschool.utils.Path;
 

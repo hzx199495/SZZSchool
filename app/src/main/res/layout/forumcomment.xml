@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="5dp"
     >
 
     <LinearLayout
@@ -44,7 +43,7 @@
             <!--</LinearLayout>-->
         <!--</LinearLayout>-->
     </LinearLayout>
-    <com.shizhanzhe.szzschool.video.NoTouchLinearLayout
+    <com.shizhanzhe.szzschool.utils.NoTouchLinearLayout
         android:id="@+id/edit_vg_lyt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,5 +94,5 @@
                     android:visibility="visible" />
             </RelativeLayout>
         </LinearLayout>
-    </com.shizhanzhe.szzschool.video.NoTouchLinearLayout>
+    </com.shizhanzhe.szzschool.utils.NoTouchLinearLayout>
 </FrameLayout>

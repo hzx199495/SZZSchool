@@ -83,12 +83,12 @@
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
-        <com.shizhanzhe.szzschool.video.NoScrollListView
+        <com.shizhanzhe.szzschool.utils.NoScrollListView
             android:id="@+id/no_scroll_list_reply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="#ffffff">
 
-        </com.shizhanzhe.szzschool.video.NoScrollListView>
+        </com.shizhanzhe.szzschool.utils.NoScrollListView>
     </LinearLayout>
 </LinearLayout>

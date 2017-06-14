@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.PagerAdapter;
@@ -30,7 +31,8 @@ public class FragmentKCCenter extends Fragment  {
     TabLayout tabLayout;
     @ViewInject(R.id.tab_viewpager)
     ViewPager vp;
-
+@ViewInject(R.id.layout_login_topbar)
+RelativeLayout topbar;
 
     @Nullable
     @Override
@@ -41,6 +43,7 @@ public class FragmentKCCenter extends Fragment  {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        topbar.setVisibility(View.GONE);
         FragmentManager manager = getChildFragmentManager();
         ArrayList<Fragment> list = new ArrayList<>();
         KCFragment tg = new KCFragment().newInstance(0);

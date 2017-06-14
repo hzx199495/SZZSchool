@@ -82,7 +82,6 @@ public class ForumItemActivity extends Activity {
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.i("===",json);
                 MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
                 MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
                 Spanned spanned = Html.fromHtml(json, imageGetter, tagHandler);
@@ -125,6 +124,7 @@ public class ForumItemActivity extends Activity {
         mLytEdittextVG = (NoTouchLinearLayout) findViewById(R.id.edit_vg_lyt);
         mCommentEdittext = (EditText) findViewById(R.id.edit_comment);
         mSendBut = (Button) findViewById(R.id.but_comment_send);
+
 
         ClickListener cl = new ClickListener();
         mSendBut.setOnClickListener(cl);

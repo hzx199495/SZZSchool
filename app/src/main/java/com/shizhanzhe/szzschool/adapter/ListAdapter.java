@@ -5,15 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.IjkVideoActicity;
 
 import java.util.List;
 

@@ -17,9 +17,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.CommentBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.utils.NoScrollListView;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
-import com.shizhanzhe.szzschool.video.NoScrollListView;
 
 
 import java.text.SimpleDateFormat;
@@ -107,9 +106,9 @@ public class CommentAdapter extends BaseAdapter {
         ImageLoader imageloader = ImageLoader.getInstance();
 //        Log.i("_____",list.get(position).getLogo());
         if(Path.IMG(list.get(position).getLogo()).contains("http")) {
-            imageloader.displayImage(list.get(position).getLogo(), mholder.commentImage, options, new AnimateFirstDisplayListener());
+            imageloader.displayImage(list.get(position).getLogo(), mholder.commentImage, options);
         }else {
-            imageloader.displayImage(Path.IMG(list.get(position).getLogo()), mholder.commentImage, options, new AnimateFirstDisplayListener());
+            imageloader.displayImage(Path.IMG(list.get(position).getLogo()), mholder.commentImage, options);
         }
         if(commentBean.getReply()!=null) {
             ReplyAdapter adapter = new ReplyAdapter(context, commentBean.getReply(), R.layout.reply_item);

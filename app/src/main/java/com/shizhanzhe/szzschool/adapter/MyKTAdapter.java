@@ -70,19 +70,19 @@ public class MyKTAdapter extends BaseAdapter {
         }
         MyKTBean bean = list.get(position);
 
-        try {
-            List<TGsqlBean> tg = manager.selector(TGsqlBean.class).where("tuanid", "=", bean.getTuanid()).findAll();
-            if (tg.size()>0) {
-                ImageLoader imageloader = ImageLoader.getInstance();
-                imageloader.displayImage(Path.IMG(tg.get(0).getImg()), holder.iv, displayoptions);
-                holder.title.setText(tg.get(0).getTitle());
-                holder.time.setText("结算：" + tg.get(0).getTime());
-                holder.num.setText("参团人数：" + bean.getTynum());
-            }
-            return convertView;
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            List<TGsqlBean> tg = manager.selector(TGsqlBean.class).where("tuanid", "=", bean.getTuanid()).findAll();
+//            if (tg.size()>0) {
+//                ImageLoader imageloader = ImageLoader.getInstance();
+//                imageloader.displayImage(Path.IMG(tg.get(0).getImg()), holder.iv, displayoptions);
+//                holder.title.setText(tg.get(0).getTitle());
+//                holder.time.setText("结算：" + tg.get(0).getTime());
+//                holder.num.setText("参团人数：" + bean.getTynum());
+//            }
+//            return convertView;
+//        } catch (DbException e) {
+//            e.printStackTrace();
+//        }
         return convertView;
     }
 

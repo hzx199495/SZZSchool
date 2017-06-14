@@ -18,11 +18,9 @@ import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 //import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 
 import org.xutils.DbManager;
-import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
@@ -76,7 +74,7 @@ public class CollectAdapter extends BaseAdapter {
         }
         final CollectListBean.SysinfoBean bean = list.get(position).get(0);
         ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions, new AnimateFirstDisplayListener());
+        imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
         holder.title.setText(bean.getStitle());
 
         holder.del.setOnClickListener(new View.OnClickListener() {

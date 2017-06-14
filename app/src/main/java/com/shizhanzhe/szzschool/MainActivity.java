@@ -77,11 +77,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         fragmentKCCenter = new FragmentKCCenter();
         fragmentForum = new FragmentForum();
 
-
+        transaction.add(R.id.fragment, fragmentCenter);
         transaction.add(R.id.fragment, fragmentUser);
         transaction.add(R.id.fragment, fragmentKCCenter);
         transaction.add(R.id.fragment, fragmentForum);
-        transaction.add(R.id.fragment, fragmentCenter);
         transaction.commit();
         rg.setOnCheckedChangeListener(this);
         tv.setOnClickListener(new View.OnClickListener() {
@@ -110,29 +109,33 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         switch (checkedId) {
-            case R.id.center:
+            case R.id.main:
+//                transaction.replace(R.id.fragment,fragmentCenter);
                 transaction.show(fragmentCenter);
                 transaction.hide(fragmentKCCenter);
                 transaction.hide(fragmentUser);
                 transaction.hide(fragmentForum);
                 break;
-            case R.id.fl:
+            case R.id.kc:
+//                transaction.replace(R.id.fragment,fragmentKCCenter);
                 transaction.hide(fragmentCenter);
                 transaction.show(fragmentKCCenter);
                 transaction.hide(fragmentUser);
                 transaction.hide(fragmentForum);
                 break;
-            case R.id.course:
-                transaction.hide(fragmentCenter);
-                transaction.hide(fragmentKCCenter);
-                transaction.show(fragmentUser);
-                transaction.hide(fragmentForum);
-                break;
-            case R.id.project:
+            case R.id.forum:
+//                transaction.replace(R.id.fragment,fragmentForum);
                 transaction.hide(fragmentCenter);
                 transaction.hide(fragmentKCCenter);
                 transaction.hide(fragmentUser);
                 transaction.show(fragmentForum);
+                break;
+            case R.id.course:
+//                transaction.replace(R.id.fragment,fragmentUser);
+                transaction.hide(fragmentCenter);
+                transaction.hide(fragmentKCCenter);
+                transaction.show(fragmentUser);
+                transaction.hide(fragmentForum);
                 break;
         }
         transaction.commit();

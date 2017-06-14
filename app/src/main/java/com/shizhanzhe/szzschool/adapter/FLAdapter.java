@@ -10,13 +10,8 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.FLBean;
-import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
-
-import org.xutils.x;
 
 import java.util.List;
 
@@ -62,7 +57,7 @@ public class FLAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
         ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(list.get(position).getImg()), holder.iv, displayoptions, new AnimateFirstDisplayListener());
+        imageloader.displayImage(Path.IMG(list.get(position).getImg()), holder.iv, displayoptions);
         holder.tv.setText(list.get(position).getTitle());
         return convertView;
     }

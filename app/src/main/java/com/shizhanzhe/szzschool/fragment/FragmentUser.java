@@ -15,37 +15,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.shizhanzhe.szzschool.Bean.MyCTBean;
-import com.shizhanzhe.szzschool.Bean.MyKTBean;
-import com.shizhanzhe.szzschool.Bean.SearchBean;
-import com.shizhanzhe.szzschool.Bean.TGsqlBean;
+import com.shizhanzhe.szzschool.Bean.MyProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.CollectActivity;
-import com.shizhanzhe.szzschool.activity.ForumActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.MyTGActivity;
 import com.shizhanzhe.szzschool.activity.SZActivity;
-import com.shizhanzhe.szzschool.activity.TGDetailActivity;
 import com.shizhanzhe.szzschool.activity.UserSetActivity;
 import com.shizhanzhe.szzschool.activity.UserZHActivity;
-import com.shizhanzhe.szzschool.adapter.MyCTAdapter;
-import com.shizhanzhe.szzschool.adapter.MyKTAdapter;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
+import com.shizhanzhe.szzschool.adapter.MyProAdapter;
 import com.shizhanzhe.szzschool.utils.MyGridView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -105,6 +94,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getMyProject();
         Bundle bundle = getArguments();
         final String img = bundle.getString("img");
         final String username = bundle.getString("username");
@@ -116,18 +106,12 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         user_sc.setOnClickListener(this);
         user_sz.setOnClickListener(this);
         user_tg.setOnClickListener(this);
-        zl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), UserSetActivity.class));
-            }
-        });
+        zl.setOnClickListener(this);
     }
 
     //模糊效果
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public Bitmap blurBitmap(Bitmap bitmap) {
-
         Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         RenderScript rs = RenderScript.create(getActivity());
         ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
@@ -147,6 +131,9 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.user_tg:
+                startActivity(new Intent(getActivity(), MyTGActivity.class));
+                break;
             case R.id.user_zh:
                 startActivity(new Intent(getActivity(), UserZHActivity.class));
                 break;
@@ -156,11 +143,24 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             case R.id.user_sz:
                 startActivity(new Intent(getActivity(), SZActivity.class));
                 break;
-            case R.id.user_tg:
-                startActivity(new Intent(getActivity(), ForumActivity.class));
+            case R.id.zl:
+                startActivity(new Intent(getActivity(), UserSetActivity.class));
+                break;
         }
     }
-
+    public void getMyProject(){
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYCLASS(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                Gson gson = new Gson();
+//                List<MyProBean.SysinfoBean> sysinfo = gson.fromJson(json, MyProBean.class).getSysinfo();
+//                MyProAdapter myProAdapter = new MyProAdapter(sysinfo, getContext());
+//                nokc.setVisibility(View.GONE);
+//                lv_kc.setVisibility(View.VISIBLE);
+//                lv_kc.setAdapter(myProAdapter);
+            }
+        });
+    }
 //    public void getTG() {
 //        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYKT(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 //            @Override

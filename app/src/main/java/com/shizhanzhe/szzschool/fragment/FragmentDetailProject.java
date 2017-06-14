@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,12 +17,14 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.BuddyAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
 
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 
 /**
@@ -122,7 +125,8 @@ public class FragmentDetailProject extends Fragment {
                 Toast.makeText(getActivity(),
                         parent.get(groupPosition)+ ":" +map.get(parent.get(groupPosition)).get(childPosition),
                         Toast.LENGTH_SHORT).show();
-
+                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, "d9a628711e944cc26c0073ee8f2d348c_d");
+                getContext().startActivity(intent);
                 Log.i("========",gvlist.get(groupPosition).getChoice_kc().get(childPosition).getMv_url());
                 return false;
             }

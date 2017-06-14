@@ -1,254 +1,262 @@
-<resources>
-
-    <!-- Base application theme. -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:seekBarStyle">@android:style/Widget.SeekBar</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    !-- 标题栏 -->
-    <style name="TopbarStyle">
+    -<style name="TopbarStyle">
+
+    <item name="android:layout_width">match_parent</item>
+
+    <item name="android:layout_height">@dimen/topbar_height</item>
+
+    <item name="android:background">@drawable/drawable_topbar_bg</item>
+
+</style>
+    <style name="iv_click_controller_land_top_dm">
+        <item name="android:layout_width">@dimen/dmcolor_commom_wh</item>
+        <item name="android:layout_height">@dimen/dmcolor_commom_wh</item>
+        <item name="android:clickable">true</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:translationX">@dimen/dmcolor_commom_tran</item>
+        <item name="android:translationY">@dimen/talk_common_margin</item>
+    </style>
+
+    <style name="iv_click_controller_land_top">
+        <item name="android:layout_width">@dimen/top_layout_height_s</item>
+        <item name="android:layout_height">@dimen/top_layout_height_s</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/polyv_commom_click_color_gray</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="iv_click_controller_land_top_l">
+        <item name="android:layout_width">@dimen/top_layout_dm_height</item>
+        <item name="android:layout_height">@dimen/top_layout_dm_height</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/polyv_commom_click_color_gray</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="iv_click_controller_land_center">
+        <item name="android:layout_width">@dimen/center_right_layout_height</item>
+        <item name="android:layout_height">@dimen/center_right_layout_height</item>
+        <item name="android:clickable">true</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="iv_click_controller_land_bottom">
+        <item name="android:layout_width">@dimen/bottom_layout_height_l</item>
+        <item name="android:layout_height">@dimen/bottom_layout_height_l</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:background">@drawable/polyv_commom_click_color_gray</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="tv_click_controller_land_center">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">@color/polyv_bit_text_color</item>
+        <item name="android:textSize">@dimen/center_text_size_l</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="tv_click_controller_land_center_s">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">@color/polyv_bit_text_color</item>
+        <item name="android:textSize">@dimen/center_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="tv_click_controller_land_center_s_padding_tb" parent="tv_click_controller_land_center_s">
+        <item name="android:paddingTop">@dimen/talk_common_margin</item>
+        <item name="android:paddingBottom">@dimen/talk_common_margin</item>
+    </style>
+
+    <style name="tv_click_controller_land_center_not_click">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/top_layout_color_white</item>
+        <item name="android:textSize">@dimen/center_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="tv_click_controller_land_bottom">
+        <item name="android:layout_width">@dimen/bottom_layout_height_l</item>
+        <item name="android:layout_height">@dimen/bottom_layout_height_l</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">@dimen/center_bottom_margin_left_s</item>
+        <item name="android:textColor">@color/polyv_play_bt_color</item>
+        <item name="android:textSize">@dimen/bottom_right_text_size</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:background">@drawable/polyv_commom_click_color_gray</item>
+    </style>
+
+    <style name="iv_click_controller_port_bottom">
+        <item name="android:layout_width">@dimen/bottom_layout_height</item>
+        <item name="android:layout_height">@dimen/bottom_layout_height</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/polyv_commom_click_color_gray</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="iv_click_commom">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/polyv_commom_click_color_gray</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="lo_click_commom">
+        <item name="android:background">@drawable/polyv_commom_click_color_gray</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="lo_intr_commom">
+        <item name="android:background">@color/top_layout_color_white</item>
+        <item name="android:paddingBottom">@dimen/common_margin_tb</item>
+        <item name="android:paddingLeft">@dimen/common_margin_lr</item>
+        <item name="android:paddingRight">@dimen/common_margin_lr</item>
+        <item name="android:paddingTop">@dimen/common_margin_tb</item>
+    </style>
+
+    <style name="lo_download_commom">
+        <item name="android:layout_marginBottom">@dimen/center_bottom_margin_top_m</item>
+        <item name="android:layout_marginLeft">@dimen/common_margin_lr</item>
+        <item name="android:layout_marginRight">@dimen/common_margin_lr</item>
+        <item name="android:layout_marginTop">@dimen/center_bottom_margin_top_m</item>
+    </style>
+
+    <style name="lv_commom">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/topbar_height</item>
-        <item name="android:background">@drawable/drawable_topbar_bg</item>
-    </style>
-    <!--<style name="MediaButton">-->
-        <!--<item name="android:background">@null</item>-->
-        <!--<item name="android:layout_width">71dip</item>-->
-        <!--<item name="android:layout_height">52dip</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaButton.Previous">-->
-        <!--<item name="android:src">@android:drawable/ic_media_previous</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaButton.Next">-->
-        <!--<item name="android:src">@android:drawable/ic_media_next</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaButton.Play">-->
-        <!--<item name="android:src">@android:drawable/ic_media_play</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaButton.Ffwd">-->
-        <!--<item name="android:src">@android:drawable/ic_media_ff</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaButton.Rew">-->
-        <!--<item name="android:src">@android:drawable/ic_media_rew</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaButton.Pause">-->
-        <!--<item name="android:src">@android:drawable/ic_media_pause</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaController_Button">-->
-        <!--<item name="android:background">@drawable/bg_mediacontroller_button</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaController_Button_Style">-->
-        <!--<item name="android:background">@drawable/bg_title_button_player</item>-->
-    <!--</style>-->
-    <!--&lt;!&ndash; for IjkPlayer &ndash;&gt;-->
-
-    <!--<style name="MediaController_SeekBar" parent="android:Widget.SeekBar">-->
-        <!--<item name="android:progressDrawable">@drawable/scrubber_progress_horizontal_holo_dark</item>-->
-        <!--<item name="android:indeterminateDrawable">@drawable/scrubber_progress_horizontal_holo_dark</item>-->
-        <!--<item name="android:minHeight">13dip</item>-->
-        <!--<item name="android:maxHeight">13dip</item>-->
-        <!--<item name="android:thumb">@drawable/scrubber_control_selector_holo</item>-->
-        <!--<item name="android:thumbOffset">16dip</item>-->
-        <!--<item name="android:paddingLeft">16dip</item>-->
-        <!--<item name="android:paddingRight">16dip</item>-->
-    <!--</style>-->
-
-    <!--<style name="MediaController_Text">-->
-        <!--<item name="android:textColor">#ffffffff</item>-->
-        <!--<item name="android:textSize">14sp</item>-->
-        <!--<item name="android:textStyle">bold</item>-->
-    <!--</style>-->
-    <!--&lt;!&ndash; 垂直progressbar &ndash;&gt;-->
-    <!--<style name="Widget"></style>-->
-
-    <!--<style name="Widget.ProgressBar">-->
-        <!--<item name="android:indeterminateOnly">true</item>-->
-        <!--<item name="android:indeterminateBehavior">repeat</item>-->
-        <!--<item name="android:indeterminateDuration">3500</item>-->
-        <!--<item name="android:minWidth">48dip</item>-->
-        <!--<item name="android:maxWidth">48dip</item>-->
-        <!--<item name="android:minHeight">48dip</item>-->
-        <!--<item name="android:maxHeight">48dip</item>-->
-    <!--</style>-->
-
-    <!--<style name="Widget.ProgressBar.Vertical">-->
-        <!--<item name="android:indeterminateOnly">false</item>-->
-        <!--<item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>-->
-        <!--<item name="android:minWidth">1dip</item>-->
-        <!--<item name="android:maxWidth">12dip</item>-->
-    <!--</style>-->
-
-    <!--<style name="NotificationContent">-->
-        <!--<item name="android:textColor">?android:attr/textColorPrimaryInverse</item>-->
-    <!--</style>-->
-
-    <!--<style name="NotificationTitle">-->
-        <!--<item name="android:textColor">?android:attr/textColorPrimaryInverse</item>-->
-        <!--<item name="android:textStyle">bold</item>-->
-    <!--</style>-->
-
-    <!--<style name="NoBorderDialog" parent="@android:style/Theme.Dialog">-->
-        <!--<item name="android:windowFrame">@null</item> &lt;!&ndash; 边框 &ndash;&gt;-->
-        <!--<item name="android:windowBackground">@android:color/transparent</item> &lt;!&ndash; 设置window背景透明，也就是去边框 &ndash;&gt;-->
-        <!--<item name="android:windowIsFloating">true</item> &lt;!&ndash; 是否浮现在activity之上 &ndash;&gt;-->
-        <!--<item name="android:windowIsTranslucent">false</item> &lt;!&ndash; 半透明 &ndash;&gt;-->
-        <!--<item name="android:windowNoTitle">true</item> &lt;!&ndash; 无标题 &ndash;&gt;-->
-        <!--<item name="android:backgroundDimEnabled">false</item> &lt;!&ndash; 模糊 &ndash;&gt;-->
-    <!--</style>-->
-
-    <style name="MediaButton">
-        <item name="android:background">@null</item>
-        <item name="android:layout_width">71dip</item>
-        <item name="android:layout_height">52dip</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:fastScrollEnabled">false</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:headerDividersEnabled">false</item>
+        <item name="android:smoothScrollbar">true</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@android:color/transparent</item>
     </style>
 
-    <style name="MediaButton.Previous">
-        <item name="android:src">@android:drawable/ic_media_previous</item>
+    <style name="at_talk_et" parent="AppTheme">
+
+        <!-- 去除初始背景 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="MediaButton.Next">
-        <item name="android:src">@android:drawable/ic_media_next</item>
+    <style name="alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textSize">@dimen/dialog_top_right_text_size</item>
+
+
+        -->
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="MediaButton.Play">
-        <item name="android:src">@android:drawable/ic_media_play</item>
+    <style name="popupwindow">
+        <item name="android:windowEnterAnimation">@anim/polyv_expand</item>
+        <item name="android:windowExitAnimation">@anim/polyv_collapse</item>
     </style>
 
-    <style name="MediaButton.Ffwd">
-        <item name="android:src">@android:drawable/ic_media_ff</item>
-    </style>
-
-    <style name="MediaButton.Rew">
-        <item name="android:src">@android:drawable/ic_media_rew</item>
-    </style>
-
-    <style name="MediaButton.Pause">
-        <item name="android:src">@android:drawable/ic_media_pause</item>
-    </style>
-
-    <style name="MediaController_Button">
-        <item name="android:background">@drawable/bg_mediacontroller_button</item>
-    </style>
-
-    <style name="MediaController_Button_Style">
-        <item name="android:background">@drawable/bg_title_button_player</item>
-    </style>
-    <!-- for IjkPlayer -->
-
-    <style name="MediaController_SeekBar" parent="android:Widget.SeekBar">
-        <item name="android:progressDrawable">@drawable/scrubber_progress_horizontal_holo_dark</item>
-        <item name="android:indeterminateDrawable">@drawable/scrubber_progress_horizontal_holo_dark</item>
-        <item name="android:minHeight">13dip</item>
-        <item name="android:maxHeight">13dip</item>
-        <item name="android:thumb">@drawable/scrubber_control_selector_holo</item>
-        <item name="android:thumbOffset">16dip</item>
-        <item name="android:paddingLeft">16dip</item>
-        <item name="android:paddingRight">16dip</item>
-    </style>
-
-    <style name="MediaController_Text">
-        <item name="android:textColor">#ffffffff</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-    <!-- 垂直progressbar -->
-    <style name="Widget"></style>
-
-    <style name="Widget.ProgressBar">
-        <item name="android:indeterminateOnly">true</item>
-        <item name="android:indeterminateBehavior">repeat</item>
-        <item name="android:indeterminateDuration">3500</item>
-        <item name="android:minWidth">48dip</item>
-        <item name="android:maxWidth">48dip</item>
-        <item name="android:minHeight">48dip</item>
-        <item name="android:maxHeight">48dip</item>
-    </style>
-
-    <style name="Widget.ProgressBar.Vertical">
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
-        <item name="android:minWidth">1dip</item>
-        <item name="android:maxWidth">12dip</item>
-    </style>
-
-    <style name="NotificationContent">
-        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
-    </style>
-
-    <style name="NotificationTitle">
-        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-    <style name="NoBorderDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item> <!-- 边框 -->
-        <item name="android:windowBackground">@android:color/transparent</item> <!-- 设置window背景透明，也就是去边框 -->
-        <item name="android:windowIsFloating">true</item> <!-- 是否浮现在activity之上 -->
-        <item name="android:windowIsTranslucent">false</item> <!-- 半透明 -->
-        <item name="android:windowNoTitle">true</item> <!-- 无标题 -->
-        <item name="android:backgroundDimEnabled">false</item> <!-- 模糊 -->
+    <style name="selbit_text">
+        <item name="android:layout_width">@dimen/selbit_text_width</item>
+        <item name="android:layout_height">@dimen/selbit_text_height</item>
+        <item name="android:background">@drawable/polyv_white_click_to_gray</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">@color/center_view_color_blue</item>
     </style>
     //dialog
-    <style name="dialog" parent="@android:style/Theme.Dialog">
-        //Dialog的windowFrame框为无
-        <item name="android:windowFrame">@null</item>
-        //是否浮现在activity之上
-        <item name="android:windowIsFloating">true</item>
-        //是否半透明
-        <item name="android:windowIsTranslucent">true</item>
-        //是否显示title
-        <item name="android:windowNoTitle">true</item>
-        //设置dialog的背景
-        <item name="android:background">@android:color/transparent</item>
-        //显示区域背景是否透明
-        <item name="android:windowBackground">@android:color/transparent</item>
-        //就是用来控制灰度的值，当为1时，界面除了我们的dialog内容是高亮显示的，dialog以外的区域是黑色的，完全看不到其他内容，系统的默认值是0.5
-        <item name="android:backgroundDimAmount">0.5</item>
-        //显示区域以外是否使用黑色半透明背景
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
 
-    <!-- 全屏dialog样式 左右插入 -->
-    <style name="Dialog_Fullscreen" >
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-    <style name="NoActionBar" parent="android:Theme.Light">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
+    -<style parent="@android:style/Theme.Dialog" name="dialog">
+    //Dialog的windowFrame框为无
+    <item name="android:windowFrame">@null</item>
+    //是否浮现在activity之上
+    <item name="android:windowIsFloating">true</item>
+    //是否半透明
+    <item name="android:windowIsTranslucent">true</item>
+    //是否显示title
+    <item name="android:windowNoTitle">true</item>
+    //设置dialog的背景
+    <item name="android:background">@android:color/transparent</item>
+    //显示区域背景是否透明
+    <item name="android:windowBackground">@android:color/transparent</item>
+    //就是用来控制灰度的值，当为1时，界面除了我们的dialog内容是高亮显示的，dialog以外的区域是黑色的，完全看不到其他内容，系统的默认值是0.5
+    <item name="android:backgroundDimAmount">0.5</item>
+    //显示区域以外是否使用黑色半透明背景
+    <item name="android:backgroundDimEnabled">true</item>
 
-
-
+</style>
     <style name="popupDialog">
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <!--<item name="android:windowAnimationStyle">@style/dialog_animation</item>-->
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:backgroundDimAmount">0.6</item><!-- 灰度 -->
-        <!--<item name="android:windowFullscreen">true</item>-->
-    </style>
+
+    <item name="android:windowBackground">@color/white</item>
+
+    <item name="android:backgroundDimEnabled">false</item>
+
+    <item name="android:windowIsFloating">true</item>
+
+    <item name="android:windowIsTranslucent">true</item>
+
+    <item name="android:windowNoTitle">true</item>
+
+    <item name="android:windowContentOverlay">@null</item>
+
+    <!--<item name="android:windowAnimationStyle">@style/dialog_animation</item>-->
+
+
+    <item name="android:colorBackgroundCacheHint">@null</item>
+
+    <item name="android:backgroundDimAmount">0.6</item>
+
+    <!-- 灰度 -->
+
+
+    <!--<item name="android:windowFullscreen">true</item>-->
+
+
+</style>
+    <!-- 全屏dialog样式 左右插入 -->
+
+
+
+    -<style name="Dialog_Fullscreen">
+
+    <item name="android:windowFullscreen">true</item>
+
+    <item name="android:windowNoTitle">true</item>
+
+</style>
+
+
+    -<style parent="android:Theme.Light" name="NoActionBar">
+
+    <item name="android:windowNoTitle">true</item>
+
+    <item name="android:windowFullscreen">true</item>
+
+    <item name="android:windowContentOverlay">@null</item>
+
+</style>
 </resources>

@@ -10,6 +10,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        //64K 引用限制
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -31,17 +33,8 @@ dependencies {
     // 轮播图
     compile 'com.youth.banner:banner:1.4.2'
     //PolyvSDK
-    compile files('libs/alicloud-android-sdk-httpdns-1.1.0.jar')
-    compile files('libs/alicloud-android-utils-1.0.2.jar')
-    compile files('libs/bugly_crash_release.jar')
-    compile files('libs/jikmediaplayer.jar')
-    compile files('libs/jikmediawidget.jar')
-    compile files('libs/master-flame-danmaku.jar')
-    compile files('libs/org.apache.http.legacy.jar')
-    compile files('libs/polyvSDK1.0.35.jar')
-    compile files('libs/relinker-1.2.2.jar')
-    compile files('libs/universal-image-loader-1.9.3-SNAPSHOT.jar')
-    compile files('libs/utdid4all-1.1.5.3_proguard.jar')
+//64K 引用限制
+    compile 'com.android.support:multidex:1.0.1'
     //支付宝
     compile files('libs/alipaySingle-20170510.jar')
     //shareSDK
@@ -65,4 +58,5 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     //省市区三级联动
     compile 'liji.library.dev:citypickerview:1.1.0'
+    compile files('libs/universal-image-loader-1.9.5.jar')
 }

@@ -17,9 +17,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.utils.NoScrollListView;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
-import com.shizhanzhe.szzschool.video.NoScrollListView;
 
 
 import java.util.List;
@@ -109,9 +108,9 @@ public class ForumCommentAdapter extends BaseAdapter {
         mholder.commentItemPosition.setText((position+1)+"楼");
         ImageLoader imageloader = ImageLoader.getInstance();
         if(Path.IMG(list.get(position).getLogo()).contains("http")) {
-            imageloader.displayImage(list.get(position).getLogo(), mholder.commentImage, options, new AnimateFirstDisplayListener());
+            imageloader.displayImage(list.get(position).getLogo(), mholder.commentImage, options);
         }else {
-            imageloader.displayImage(Path.IMG(list.get(position).getLogo()), mholder.commentImage, options, new AnimateFirstDisplayListener());
+            imageloader.displayImage(Path.IMG(list.get(position).getLogo()), mholder.commentImage, options);
         }
         if(commentBean.getMan_reply()!=null) {
             ForumReplyAdapter adapter = new ForumReplyAdapter(context, commentBean.getMan_reply(), R.layout.reply_item);

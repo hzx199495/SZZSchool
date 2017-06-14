@@ -58,7 +58,7 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/center"
+                android:id="@+id/main"
                 android:layout_width="0.0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1.0"
@@ -73,7 +73,7 @@
                 android:textSize="14.0sp"
                 />
             <RadioButton
-                android:id="@+id/fl"
+                android:id="@+id/kc"
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -88,7 +88,7 @@
                 android:checked="false" />
 
             <RadioButton
-                android:id="@+id/project"
+                android:id="@+id/forum"
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"

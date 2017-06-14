@@ -24,9 +24,9 @@ import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.ForumCommentAdapter;
 import com.shizhanzhe.szzschool.utils.MyGridView;
+import com.shizhanzhe.szzschool.utils.NoTouchLinearLayout;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.NoTouchLinearLayout;
 import com.shizhanzhe.szzschool.widge.MyImageGetter;
 import com.shizhanzhe.szzschool.widge.MyTagHandler;
 

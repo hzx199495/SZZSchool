@@ -5,18 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 
 import java.util.List;
-
-import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
  * Created by hasee on 2016/12/28.

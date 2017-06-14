@@ -47,6 +47,8 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
     Button buy;
     @ViewInject(R.id.back)
     ImageView back;
+    @ViewInject(R.id.study)
+            Button study;
     String id;
     Dialog dialog;
     String img;
@@ -63,6 +65,7 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
         back.setOnClickListener(this);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
+        int mypro = intent.getIntExtra("mypro", 0);
 
         String uid = MyApplication.myid;
         String token = MyApplication.token;
@@ -85,6 +88,10 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
         lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         buy.setOnClickListener(this);
+        if (mypro!=0){
+            study.setVisibility(View.VISIBLE);
+            buy.setVisibility(View.GONE);
+        }
     }
             @Override
             public void onClick(View v) {

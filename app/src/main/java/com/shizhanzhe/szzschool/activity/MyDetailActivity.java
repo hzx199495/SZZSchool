@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.ListAdapter;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.video.IjkVideoActicity;
 //import com.shizhanzhe.szzschool.video.IjkVideoActicity;
 
 import org.xutils.view.annotation.ContentView;
@@ -59,20 +58,20 @@ public class MyDetailActivity extends Activity {
         final ArrayList<String> finalPid = pid;
         final ArrayList<String> finalProname = proname;
         final ArrayList<String> finalUrl = url;
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String comment= Path.COMMENT(finalPid.get(position), MyApplication.myid, MyApplication.token);
-                IjkVideoActicity.intentTo(MyDetailActivity.this, IjkVideoActicity.PlayMode.portrait, IjkVideoActicity.PlayType.vid, finalUrl.get(position),
-                        false,comment,sid,spid, finalPid.get(position), finalProname.get(position));
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String comment= Path.COMMENT(finalPid.get(position), MyApplication.myid, MyApplication.token);
+//                IjkVideoActicity.intentTo(MyDetailActivity.this, IjkVideoActicity.PlayMode.portrait, IjkVideoActicity.PlayType.vid, finalUrl.get(position),
+//                        false,comment,sid,spid, finalPid.get(position), finalProname.get(position));
+//            }
+//        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
 
     }
 

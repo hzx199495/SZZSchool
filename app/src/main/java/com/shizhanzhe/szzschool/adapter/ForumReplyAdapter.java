@@ -1,7 +1,6 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -13,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.shizhanzhe.szzschool.Bean.CommentBean;
 import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
 
@@ -67,9 +65,9 @@ public class ForumReplyAdapter extends BaseAdapter{
         //Spanned.SPAN_INCLUSIVE_EXCLUSIVE(前面包括，后面不包括)
         //Spanned.SPAN_EXCLUSIVE_INCLUSIVE(前面不包括，后面包括)
         //Spanned.SPAN_INCLUSIVE_INCLUSIVE(前后都包括)
-        ss = new SpannableString(replyNickName+"回复"
+        ss = new SpannableString(replyNickName+" 回复"
                 +"："+replyContentStr);
-        ss.setSpan(new ForegroundColorSpan(Color.BLUE),0,
+        ss.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.blue_name)),0,
                 replyNickName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         //为回复的人昵称添加点击事件

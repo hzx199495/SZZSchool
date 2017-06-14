@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
         style="@style/TopbarStyle">
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/top_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,6 +30,7 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
+
             android:scaleType="centerInside"
             android:src="@drawable/back_arrow" />
 
@@ -61,31 +62,44 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_marginLeft="@dimen/text_margin"
                     android:id="@+id/item_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="标题"
                     android:textColor="#FFA500"
                     android:textSize="17sp" />
 
                 <TextView
+                    android:layout_marginLeft="@dimen/text_margin"
+                    android:layout_marginTop="5dp"
                     android:id="@+id/item_editortime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="13sp"
                     android:text="发表人：abc 时间：2016-1-3" />
 
-                <TextView
-
+                <View
+                    android:layout_marginTop="4dp"
+                    android:background="@color/three_level"
                     android:layout_width="match_parent"
-                    android:layout_height="5dp" />
+                    android:layout_height="0.5dp" />
 
                 <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="@dimen/text_margin"
+                    android:layout_marginRight="@dimen/text_margin"
                     android:id="@+id/item_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     android:text="内容" />
             </LinearLayout>
-
+            <View
+                android:layout_marginTop="15dp"
+                android:background="@color/three_level"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

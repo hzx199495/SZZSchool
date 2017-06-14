@@ -4,6 +4,10 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
+    <View
+        android:background="@color/three_level"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
     <TextView
         android:id="@+id/lyt_text1"
         android:layout_width="match_parent"
@@ -11,6 +15,8 @@
         android:visibility="gone"
         />
     <TextView
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:id="@+id/replyContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

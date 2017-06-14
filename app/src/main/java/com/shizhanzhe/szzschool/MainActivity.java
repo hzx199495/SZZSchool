@@ -72,16 +72,22 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         MyApplication.img=img;
         MyApplication.money=money;
 
-        fragmentUser = new FragmentUser().newInstance(username,img);
-        fragmentCenter = new FragmentCenter();
-        fragmentKCCenter = new FragmentKCCenter();
-        fragmentForum = new FragmentForum();
-
-        transaction.add(R.id.fragment, fragmentCenter);
-        transaction.add(R.id.fragment, fragmentUser);
-        transaction.add(R.id.fragment, fragmentKCCenter);
-        transaction.add(R.id.fragment, fragmentForum);
-        transaction.commit();
+//        fragmentUser = new FragmentUser().newInstance(username,img);
+//        fragmentCenter = new FragmentCenter();
+//        fragmentKCCenter = new FragmentKCCenter();
+//        fragmentForum = new FragmentForum();
+//
+//
+//        transaction.add(R.id.fragment, fragmentUser);
+//        transaction.add(R.id.fragment, fragmentKCCenter);
+//        transaction.add(R.id.fragment, fragmentForum);
+//        transaction.add(R.id.fragment, fragmentCenter);
+        FragmentTransaction ft=manager.beginTransaction();
+        if(nowFragment==null){
+            nowFragment=new FragmentCenter();
+        }
+        ft.replace(R.id.fragment,nowFragment);
+        ft.commit();
         rg.setOnCheckedChangeListener(this);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,36 +112,30 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
         switch (checkedId) {
-            case R.id.main:
-//                transaction.replace(R.id.fragment,fragmentCenter);
-                transaction.show(fragmentCenter);
-                transaction.hide(fragmentKCCenter);
-                transaction.hide(fragmentUser);
-                transaction.hide(fragmentForum);
+            case R.id.center:
+                if(fragmentCenter==null){
+                    fragmentCenter=new FragmentCenter();
+                }
+                switchContent(nowFragment,fragmentCenter);
                 break;
-            case R.id.kc:
-//                transaction.replace(R.id.fragment,fragmentKCCenter);
-                transaction.hide(fragmentCenter);
-                transaction.show(fragmentKCCenter);
-                transaction.hide(fragmentUser);
-                transaction.hide(fragmentForum);
-                break;
-            case R.id.forum:
-//                transaction.replace(R.id.fragment,fragmentForum);
-                transaction.hide(fragmentCenter);
-                transaction.hide(fragmentKCCenter);
-                transaction.hide(fragmentUser);
-                transaction.show(fragmentForum);
+            case R.id.fl:
+                if(fragmentKCCenter==null){
+                    fragmentKCCenter=new FragmentKCCenter();
+                }
+               switchContent(nowFragment,fragmentKCCenter);
                 break;
             case R.id.course:
-//                transaction.replace(R.id.fragment,fragmentUser);
-                transaction.hide(fragmentCenter);
-                transaction.hide(fragmentKCCenter);
-                transaction.show(fragmentUser);
-                transaction.hide(fragmentForum);
+                if(fragmentUser==null){
+                    fragmentUser=new FragmentUser().newInstance(username,img);
+                }
+                switchContent(nowFragment,fragmentUser);
+                break;
+            case R.id.project:
+                if(fragmentForum==null){
+                    fragmentForum=new FragmentForum();
+                }
+                switchContent(nowFragment,fragmentForum);
                 break;
         }
         transaction.commit();
@@ -152,5 +152,13 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
-
+    public void switchContent(Fragment from, Fragment to) {
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (!to.isAdded()) {
+            transaction.hide(from).add(R.id.fragment, to).commit();
+        } else {
+            transaction.hide(from).show(to).commit();
+        }
+        nowFragment=to;
+    }
 }

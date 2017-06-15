@@ -101,7 +101,7 @@ public class CommentAdapter extends BaseAdapter {
         }
 
         mholder.commentNickname.setText(commentBean.getUsername());
-        mholder.commentItemTime.setText(getSpaceTime(commentBean.getAddtime()));
+//        mholder.commentItemTime.setText(getSpaceTime(commentBean.getAddtime()));
         mholder.commentItemContent.setText(commentBean.getContent());
         ImageLoader imageloader = ImageLoader.getInstance();
 //        Log.i("_____",list.get(position).getLogo());

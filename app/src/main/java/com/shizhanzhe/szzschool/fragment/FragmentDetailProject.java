@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.BuddyAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -125,9 +126,9 @@ public class FragmentDetailProject extends Fragment {
                 Toast.makeText(getActivity(),
                         parent.get(groupPosition)+ ":" +map.get(parent.get(groupPosition)).get(childPosition),
                         Toast.LENGTH_SHORT).show();
+                MyApplication.videotitle=map.get(parent.get(groupPosition)).get(childPosition);
                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, "d9a628711e944cc26c0073ee8f2d348c_d");
                 getContext().startActivity(intent);
-                Log.i("========",gvlist.get(groupPosition).getChoice_kc().get(childPosition).getMv_url());
                 return false;
             }
         });

@@ -28,7 +28,7 @@ public class CommentBean {
     private String logo;
     private String status;
     private String content;
-    private  long addtime;
+    private  Long addtime;
     private String classid;
     private String sid;
     private String pid;
@@ -82,11 +82,11 @@ public class CommentBean {
         this.content = content;
     }
 
-    public  long getAddtime() {
+    public  Long getAddtime() {
         return addtime;
     }
 
-    public void setAddtime( long addtime) {
+    public void setAddtime( Long addtime) {
         this.addtime = addtime;
     }
 
@@ -133,7 +133,7 @@ public class CommentBean {
         private String content;
         private String username;
         private String logo;
-        private String addtime;
+        private Long addtime;
 
         public String getContent() {
             return content;
@@ -159,11 +159,11 @@ public class CommentBean {
             this.logo = logo;
         }
 
-        public String getAddtime() {
+        public Long getAddtime() {
             return addtime;
         }
 
-        public void setAddtime(String addtime) {
+        public void setAddtime(Long addtime) {
             this.addtime = addtime;
         }
     }

@@ -114,4 +114,12 @@ public  class Path {
         String path = "http://shizhanzhe.com/index.php?m=pcdata.mycantuan&pc=1&uid="+id+"&token="+token;
         return path;
     }
+    public static String SENDQUESTION(String classid,String sid ,String pid,String videoid,String content,String username,String zh,String uid,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.t_question&pc=1&classid="+classid+"&sid="+sid+"&pid="+pid+"&id="+videoid+"&content="+content+"&username="+zh+"&realname="+username+"&uid="+uid+"&token="+token;
+        return path;
+    }
+    public static String ANSWERQUESTION(String videoid,String requid,String content,String qid,String quid,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.r_question&pc=1&spid="+videoid+"&requid="+requid+"&content="+content+"&qid="+qid+"&quid="+quid+"&token="+token;
+        return path;
+    }
 }

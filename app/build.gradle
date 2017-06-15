@@ -54,8 +54,6 @@ dependencies {
     //rx升级
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'io.reactivex:rxandroid:1.2.0'
-    compile 'com.squareup.okhttp3:okhttp:3.3.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
     //省市区三级联动
     compile 'liji.library.dev:citypickerview:1.1.0'
     compile files('libs/universal-image-loader-1.9.5.jar')

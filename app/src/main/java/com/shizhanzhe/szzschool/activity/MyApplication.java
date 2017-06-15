@@ -32,6 +32,7 @@ public class MyApplication extends MultiDexApplication {
     public static String token = "";
     public static String img = "";
     public static String path = "";
+    public static String videotitle = "";
     public static boolean SC = false;
     public static double version;
     public static ImageOptions options;

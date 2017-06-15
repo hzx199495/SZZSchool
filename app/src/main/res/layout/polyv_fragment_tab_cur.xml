@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/center_layout_color_gray" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_bot">
+
+        <ListView
+            android:id="@+id/lv_cur"
+            style="@style/lv_commom"
+            android:dividerHeight="@dimen/common_margin_tb" />
+
+        <include layout="@layout/polyv_center_loadlayout" />
+    </RelativeLayout>
+
+</RelativeLayout>

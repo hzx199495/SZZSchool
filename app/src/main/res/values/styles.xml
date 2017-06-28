@@ -190,7 +190,7 @@
     </style>
     //dialog
 
-    -<style parent="@android:style/Theme.Dialog" name="dialog">
+    <style parent="@android:style/Theme.Dialog" name="dialog">
     //Dialog的windowFrame框为无
     <item name="android:windowFrame">@null</item>
     //是否浮现在activity之上

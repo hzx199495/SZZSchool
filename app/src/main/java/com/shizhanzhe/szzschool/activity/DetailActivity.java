@@ -18,11 +18,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.BuyBean;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
+import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.fragment.FragmentDetail;
-import com.shizhanzhe.szzschool.fragment.FragmentDetailProject;
 import com.shizhanzhe.szzschool.pay.Pay;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -54,31 +55,35 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
     String img;
     String title;
     String proprice;
-//    DbManager manager = DatabaseOpenHelper.getInstance();
-//    Handler handler=new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+
         back.setOnClickListener(this);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        int mypro = intent.getIntExtra("mypro", 0);
+        OkHttpDownloadJsonUtil.downloadJson(this, Path.SECOND(id, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                Gson gson = new Gson();
+                ProBean2.TxBean tx = gson.fromJson(json, ProBean2.class).getTx();
+                String isbuy = tx.getIsbuy();
+                if (isbuy.equals("0")){
 
-        String uid = MyApplication.myid;
-        String token = MyApplication.token;
-         img = intent.getStringExtra("img");
-        String intro = intent.getStringExtra("intro");
-         title = intent.getStringExtra("title");
-        proprice = intent.getStringExtra("price");
+                }else if (isbuy.equals("1")){
+                    buy.setVisibility(View.GONE);
+                    study.setVisibility(View.VISIBLE);
+                }
+                FragmentDetail fragmentDetail = new FragmentDetail().newInstance(id);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.ll, fragmentDetail).commit();
+            }
+        });
 
-        FragmentDetail fragmentDetail = new FragmentDetail().newInstance(id,img, title, intro,proprice);
-        FragmentDetailProject fragmentDetailProject = new FragmentDetailProject().newInstance(id, uid, token);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.first, fragmentDetail).add(R.id.second, fragmentDetailProject)
-                .commit();
         dialog = new Dialog(this,R.style.dialog);
         dialog.setContentView(R.layout.dialog_buy);
         WindowManager windowManager = getWindowManager();
@@ -88,10 +93,6 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
         lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         buy.setOnClickListener(this);
-        if (mypro!=0){
-            study.setVisibility(View.VISIBLE);
-            buy.setVisibility(View.GONE);
-        }
     }
             @Override
             public void onClick(View v) {
@@ -133,7 +134,6 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
                             @Override
                             public void onResponse(Call call,  Response response) throws IOException {
                                 final String buy = response.body().string();
-                                Log.i("_____",buy);
                                 if (response.isSuccessful()) {
                                     runOnUiThread(new Runnable() {
                                         @Override
@@ -144,9 +144,9 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
                                                 Toast.makeText(DetailActivity.this, "购买成功", Toast.LENGTH_LONG).show();
                                             }else if(bean.getStatus()==3){
                                                 Toast.makeText(DetailActivity.this, "余额不足，使用支付宝支付", Toast.LENGTH_LONG).show();
-                                                new Pay(DetailActivity.this,proprice, new Pay.PayListener() {
+                                                new Pay(DetailActivity.this,proprice,title, new Pay.PayListener() {
                                                     @Override
-                                                    public void refreshPriorityUI(String string) {
+                                                    public void refreshPriorityUI() {
                                                         OkHttpDownloadJsonUtil.downloadJson(DetailActivity.this, MyApplication.path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                                                             @Override
                                                             public void onsendJson(String json) {

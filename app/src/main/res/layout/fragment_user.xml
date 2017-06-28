@@ -209,16 +209,14 @@
                         android:paddingRight="5.0dip"
                         android:paddingTop="10.0dip">
 
-                        <com.shizhanzhe.szzschool.utils.MyGridView
+                        <com.shizhanzhe.szzschool.utils.MyListView
                             android:id="@+id/lv_kc"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:cacheColorHint="@color/white"
-                            android:columnWidth="55.0dip"
                             android:gravity="center"
                             android:horizontalSpacing="3.0dip"
                             android:listSelector="@color/white"
-                            android:numColumns="1"
                             android:scrollbars="none"
                             android:visibility="gone" />
 
@@ -247,102 +245,96 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
-                                    android:text="暂无课程，马上"
+                                    android:text="暂无课程"
                                     android:textColor="@color/three_level"
                                     android:textSize="12.0sp" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:singleLine="true"
-                                    android:text="去购买"
-                                    android:textColor="@color/green"
-                                    android:textSize="12.0sp" />
+
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10.0dip"
-                    android:background="@color/white"
-                    android:orientation="vertical">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="10.0dip"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:gravity="center"
-                        android:padding="2dp"
-                        android:text="推荐课程"
-                        android:textSize="16sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@color/white"-->
+                        <!--android:gravity="center"-->
+                        <!--android:padding="2dp"-->
+                        <!--android:text="推荐课程"-->
+                        <!--android:textSize="16sp" />-->
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="0.5dip"
-                        android:background="@color/line" />
-                    <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="15.0dip"
-                        android:paddingRight="5.0dip"
-                        android:paddingTop="10.0dip">
+                    <!--<View-->
+                        <!--android:layout_width="fill_parent"-->
+                        <!--android:layout_height="0.5dip"-->
+                        <!--android:background="@color/line" />-->
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="fill_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="15.0dip"-->
+                        <!--android:paddingRight="5.0dip"-->
+                        <!--android:paddingTop="10.0dip">-->
 
-                        <com.shizhanzhe.szzschool.utils.MyGridView
-                            android:id="@+id/lv_tj"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:cacheColorHint="@color/white"
-                            android:columnWidth="55.0dip"
-                            android:gravity="center"
-                            android:horizontalSpacing="3.0dip"
-                            android:listSelector="@color/white"
-                            android:numColumns="1"
-                            android:scrollbars="none"
-                            android:visibility="gone" />
+                        <!--<com.shizhanzhe.szzschool.utils.MyGridView-->
+                            <!--android:id="@+id/lv_tj"-->
+                            <!--android:layout_width="fill_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:cacheColorHint="@color/white"-->
+                            <!--android:columnWidth="55.0dip"-->
+                            <!--android:gravity="center"-->
+                            <!--android:horizontalSpacing="3.0dip"-->
+                            <!--android:listSelector="@color/white"-->
+                            <!--android:numColumns="1"-->
+                            <!--android:scrollbars="none"-->
+                            <!--android:visibility="gone" />-->
 
-                        <LinearLayout
-                            android:id="@+id/notj"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                        <!--<LinearLayout-->
+                            <!--android:id="@+id/notj"-->
+                            <!--android:layout_width="fill_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:gravity="center"-->
+                            <!--android:orientation="vertical">-->
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="20.0dip"
-                                android:contentDescription="@string/app_name"
-                                android:src="@drawable/ic_mycourse_nozyk" />
+                            <!--<ImageView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginTop="20.0dip"-->
+                                <!--android:contentDescription="@string/app_name"-->
+                                <!--android:src="@drawable/ic_mycourse_nozyk" />-->
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="41.5dip"
-                                android:layout_marginTop="10.0dip"
-                                android:orientation="horizontal">
+                            <!--<LinearLayout-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginBottom="41.5dip"-->
+                                <!--android:layout_marginTop="10.0dip"-->
+                                <!--android:orientation="horizontal">-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:singleLine="true"
-                                    android:text="暂无课程，马上"
-                                    android:textColor="@color/three_level"
-                                    android:textSize="12.0sp" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:singleLine="true"-->
+                                    <!--android:text="暂无课程，马上"-->
+                                    <!--android:textColor="@color/three_level"-->
+                                    <!--android:textSize="12.0sp" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:singleLine="true"
-                                    android:text="去购买"
-                                    android:textColor="@color/green"
-                                    android:textSize="12.0sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </RelativeLayout>
-                  </LinearLayout>
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:singleLine="true"-->
+                                    <!--android:text="去购买"-->
+                                    <!--android:textColor="@color/green"-->
+                                    <!--android:textSize="12.0sp" />-->
+                            <!--</LinearLayout>-->
+                        <!--</LinearLayout>-->
+                    <!--</RelativeLayout>-->
+                  <!--</LinearLayout>-->
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

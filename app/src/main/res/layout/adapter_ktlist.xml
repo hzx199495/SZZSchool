@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     >
-    <TextView
-        android:id="@+id/title"
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="@dimen/common_margin_lr"
+        android:scaleType="fitXY"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="团购课程：XXXXXX"
-        android:textColor="@color/black"/>
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="团长：XXX"
-        android:textColor="@color/black"/>
+        android:layout_height="80dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="团购课程：XXXXXX"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="团长：XXX"
+            android:textColor="@color/black"/>
 
-    <TextView
-        android:id="@+id/num"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="参团人数：0"
-        android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="参团人数：0"
+            android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/join"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="参团"
-        android:gravity="right"
-        android:textColor="@color/blue2"
-        />
+        <TextView
+            android:id="@+id/join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:gravity="right"
+            android:text="立即参团"
+            android:layout_marginRight="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_gravity="end"/>
+    </LinearLayout>
+
+
 </LinearLayout>

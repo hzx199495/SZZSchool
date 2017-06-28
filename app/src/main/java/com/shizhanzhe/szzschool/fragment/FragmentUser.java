@@ -12,19 +12,23 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.MyProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.CollectActivity;
+import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.MyTGActivity;
 import com.shizhanzhe.szzschool.activity.SZActivity;
@@ -32,6 +36,7 @@ import com.shizhanzhe.szzschool.activity.UserSetActivity;
 import com.shizhanzhe.szzschool.activity.UserZHActivity;
 import com.shizhanzhe.szzschool.adapter.MyProAdapter;
 import com.shizhanzhe.szzschool.utils.MyGridView;
+import com.shizhanzhe.szzschool.utils.MyListView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
@@ -39,6 +44,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -50,8 +56,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FragmentUser extends Fragment implements View.OnClickListener {
     @ViewInject(R.id.bg)
     ImageView topbg;
-    @ViewInject(R.id.setuser)
-    FrameLayout setuser;
+    @ViewInject(R.id.cv)
+    CircleImageView cv;
     @ViewInject(R.id.zl)
     ImageView zl;
     @ViewInject(R.id.cv)
@@ -67,7 +73,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @ViewInject(R.id.user_tg)
     TextView user_tg;
     @ViewInject(R.id.lv_kc)
-    MyGridView lv_kc;
+    MyListView lv_kc;
     @ViewInject(R.id.nokc)
     LinearLayout nokc;
 
@@ -106,7 +112,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         user_sc.setOnClickListener(this);
         user_sz.setOnClickListener(this);
         user_tg.setOnClickListener(this);
-        zl.setOnClickListener(this);
+        cv.setOnClickListener(this);
     }
 
     //模糊效果
@@ -143,7 +149,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             case R.id.user_sz:
                 startActivity(new Intent(getActivity(), SZActivity.class));
                 break;
-            case R.id.zl:
+            case R.id.cv:
                 startActivity(new Intent(getActivity(), UserSetActivity.class));
                 break;
         }
@@ -153,56 +159,24 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-//                List<MyProBean.SysinfoBean> sysinfo = gson.fromJson(json, MyProBean.class).getSysinfo();
-//                MyProAdapter myProAdapter = new MyProAdapter(sysinfo, getContext());
-//                nokc.setVisibility(View.GONE);
-//                lv_kc.setVisibility(View.VISIBLE);
-//                lv_kc.setAdapter(myProAdapter);
+                final List<MyProBean> list=gson.fromJson(json, new TypeToken<List<MyProBean>>(){}.getType());
+                MyProAdapter myProAdapter = new MyProAdapter(list, getContext());
+                nokc.setVisibility(View.GONE);
+                lv_kc.setVisibility(View.VISIBLE);
+                lv_kc.setAdapter(myProAdapter);
+                lv_kc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), DetailActivity.class);
+                        String proid =list.get(position).getSysinfo().get(0).getId();
+                        intent.putExtra("id", proid);
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }
-//    public void getTG() {
-//        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYKT(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-//            @Override
-//            public void onsendJson(String json) {
-//                Gson gson = new Gson();
-//                final List<MyKTBean> list = gson.fromJson(json, new TypeToken<List<MyKTBean>>() {
-//                }.getType());
-//                if (list != null && list.size() > 0) {
-//                    lv_kc.setVisibility(View.VISIBLE);
-//                    nokc.setVisibility(View.GONE);
-//                    lv_kc.setAdapter(new MyKTAdapter(getContext(), list));
-//                    lv_kc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            try {
-//                                List<TGsqlBean> proid = manager.selector(TGsqlBean.class).where("tuanid", "=", list.get(position).getTuanid()).findAll();
-//                                Intent intent = new Intent();
-//                                intent.setClass(getContext(), TGDetailActivity.class);
-//                                intent.putExtra("title", proid.get(0).getTitle());
-//                                intent.putExtra("img", proid.get(0).getImg());
-//                                intent.putExtra("time", proid.get(0).getTime());
-//                                intent.putExtra("intro", proid.get(0).getIntro());
-//                                intent.putExtra("yjprice", proid.get(0).getYjprice());
-//                                intent.putExtra("id", proid.get(0).getId());
-//                                intent.putExtra("tuanid", proid.get(0).getTuanid());
-//                                intent.putExtra("price", "100");
-//                                intent.putExtra("type", 1);
-//                                getContext().startActivity(intent);
-//                            } catch (DbException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                        }
-//                    });
-//                }
-//
-//
-//            }
-//
-//        });
-//    }
-
 
 }
 //    //下载网络图片

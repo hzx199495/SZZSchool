@@ -18,6 +18,7 @@ import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.ForumBKAdapter;
 import com.shizhanzhe.szzschool.adapter.ForumLVAdapter;
 import com.shizhanzhe.szzschool.utils.MyGridView;
+import com.shizhanzhe.szzschool.utils.MyListView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
@@ -36,7 +37,7 @@ public class FragmentForum extends Fragment {
     @ViewInject(R.id.gv_bk)
     MyGridView bk;
     @ViewInject(R.id.gv_forum)
-    MyGridView gv;
+    MyListView gv;
     List<ForumBean.LtmodelBean> ltmodel;
     List<ForumBean.SzanBean> szan;
     @Nullable
@@ -69,6 +70,8 @@ public class FragmentForum extends Fragment {
                 long time = szan.get(position).getDateline();
                 String pid = szan.get(position).getPid();
                 String fid = szan.get(position).getFid();
+                String logo = szan.get(position).getLogo();
+                String rep = szan.get(position).getAlltip();
                 OkHttpDownloadJsonUtil.downloadJson(getContext(), "http://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + MyApplication.myid + "&pid=" + pid + "+&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
                     public void onsendJson(String json) {
@@ -79,7 +82,9 @@ public class FragmentForum extends Fragment {
                 intent.putExtra("pid",pid);
                 intent.putExtra("title",title);
                 intent.putExtra("name",name);
+                intent.putExtra("img",logo);
                 intent.putExtra("time",time);
+                intent.putExtra("rep",rep);
                 intent.putExtra("fid",fid);
                 startActivity(intent);
             }

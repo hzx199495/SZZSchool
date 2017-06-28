@@ -70,39 +70,41 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.recharge:
+                Intent intent = new Intent(getApplicationContext(), MoneyActivity.class);
+                startActivityForResult(intent, 1);
                 dialog = new Dialog(this, R.style.popupDialog);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_cz);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setCancelable(true);
-                WindowManager.LayoutParams lay = dialog.getWindow().getAttributes();
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                Rect rect = new Rect();
-                View view = getWindow().getDecorView();//decorView是window中的最顶层view，可以从window中获取到decorView
-                view.getWindowVisibleDisplayFrame(rect);
-                lay.height = dm.heightPixels - rect.top;
-                lay.width = dm.widthPixels;
-                dialog.show();
-                czmoney = (EditText) dialog.getWindow().findViewById(R.id.edit_money);
-                zh = (TextView) dialog.getWindow().findViewById(R.id.cz_zh);
-                btnpay = (Button) dialog.getWindow().findViewById(R.id.btn_czpay);
-                btnpay.setOnClickListener(this);
-                zh.setText("充值账户:"+MyApplication.zh);
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                dialog.setContentView(R.layout.dialog_cz);
+//                dialog.setCanceledOnTouchOutside(false);
+//                dialog.setCancelable(true);
+//                WindowManager.LayoutParams lay = dialog.getWindow().getAttributes();
+//                DisplayMetrics dm = new DisplayMetrics();
+//                getWindowManager().getDefaultDisplay().getMetrics(dm);
+//                Rect rect = new Rect();
+//                View view = getWindow().getDecorView();//decorView是window中的最顶层view，可以从window中获取到decorView
+//                view.getWindowVisibleDisplayFrame(rect);
+//                lay.height = dm.heightPixels - rect.top;
+//                lay.width = dm.widthPixels;
+//                dialog.show();
+//                czmoney = (EditText) dialog.getWindow().findViewById(R.id.edit_money);
+//                zh = (TextView) dialog.getWindow().findViewById(R.id.cz_zh);
+//                btnpay = (Button) dialog.getWindow().findViewById(R.id.btn_czpay);
+//                btnpay.setOnClickListener(this);
+//                zh.setText("充值账户:"+MyApplication.zh);
                 break;
-            case R.id.btn_czpay:
-                String str = czmoney.getText().toString();
-                if(str!=null&!"".equals(str)){
-                    new Pay(UserZHActivity.this, str, new Pay.PayListener() {
-                        @Override
-                        public void refreshPriorityUI(String string) {
-                            money.setText(string);
-                        }
-                    });
-                }else{
-                    Toast.makeText(getApplicationContext(),"金额不能为空",Toast.LENGTH_SHORT).show();
-                }
-                break;
+//            case R.id.btn_czpay:
+//                String str = czmoney.getText().toString();
+//                if(str!=null&!"".equals(str)){
+//                    new Pay(UserZHActivity.this, str, new Pay.PayListener() {
+//                        @Override
+//                        public void refreshPriorityUI(String string) {
+//                            money.setText(string);
+//                        }
+//                    });
+//                }else{
+//                    Toast.makeText(getApplicationContext(),"金额不能为空",Toast.LENGTH_SHORT).show();
+//                }
+//                break;
 
             case R.id.xf:
                 startActivity(new Intent(UserZHActivity.this,XFActivity.class));
@@ -115,5 +117,13 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case 2:
+                money.setText(MyApplication.money);
+        }
+    }
 }
 

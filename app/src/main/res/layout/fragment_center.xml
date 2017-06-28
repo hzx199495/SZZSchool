@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/center_swip"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,8 +26,8 @@
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:focusableInTouchMode="true"
-                   />
+                    android:focusableInTouchMode="true" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -40,15 +42,17 @@
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
                     android:background="@color/line" />
-                    <com.shizhanzhe.szzschool.utils.MyGridView
-                        android:id="@+id/gridview_rm"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:horizontalSpacing="5dp"
-                        android:numColumns="2"
-                        android:padding="5dp"
-                        android:scrollbars="none"
-                        android:verticalSpacing="10dp" />
+
+                <com.shizhanzhe.szzschool.utils.MyGridView
+                    android:id="@+id/gridview_rm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="5dp"
+                    android:numColumns="2"
+                    android:padding="5dp"
+                    android:scrollbars="none"
+                    android:verticalSpacing="10dp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp" />
@@ -67,6 +71,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
                     android:background="@color/line" />
+
                 <com.shizhanzhe.szzschool.utils.MyGridView
                     android:id="@+id/gridview_tg"
                     android:layout_width="match_parent"
@@ -75,11 +80,12 @@
                     android:padding="5dp"
                     android:scrollbars="none"
                     android:verticalSpacing="10dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="已经到底了"/>
+                    android:text="已经到底了" />
             </LinearLayout>
         </ScrollView>
 

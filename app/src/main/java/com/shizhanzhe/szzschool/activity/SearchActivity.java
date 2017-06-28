@@ -4,240 +4,120 @@ package com.shizhanzhe.szzschool.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.SearchAdapter;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
-import com.shizhanzhe.szzschool.widge.SearchView;
+import com.shizhanzhe.szzschool.utils.MyListView;
+import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.Path;
 
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends Activity implements SearchView.SearchViewListener {
-    /**
-     * 搜索结果列表view
-     */
-    private ListView lvResults;
-
-    /**
-     * 搜索view
-     */
-    private SearchView searchView;
-
-
-    /**
-     * 热搜框列表adapter
-     */
-    private ArrayAdapter<String> hintAdapter;
-
-    /**
-     * 自动补全列表adapter
-     */
-    private ArrayAdapter<String> autoCompleteAdapter;
-
-    /**
-     * 搜索结果列表adapter
-     */
-    private SearchAdapter resultAdapter;
-
-    private List<SearchBean> dbData;
-
-//    /**
-//     * 热搜版数据
-//     */
-//    private List<String> hintData;
-
-    /**
-     * 搜索过程中自动补全数据
-     */
-    private List<String> autoCompleteData;
-
-    /**
-     * 搜索结果的数据
-     */
-    private List<SearchBean> resultData;
-
-    /**
-     * 默认提示框显示项的个数
-     */
-    private static int DEFAULT_HINT_SIZE = 10;
-
-    /**
-     * 提示框显示项的个数
-     */
-    private static int hintSize = DEFAULT_HINT_SIZE;
-
-    /**
-     * 设置提示框显示项的个数
-     *
-     * @param hintSize 提示框显示个数
-     */
-    public static void setHintSize(int hintSize) {
-        SearchActivity.hintSize = hintSize;
-    }
-
-
+@ContentView(R.layout.activity_search)
+public class SearchActivity extends Activity {
+@ViewInject(R.id.search_et_input)
+    EditText et;
+    @ViewInject(R.id.search_btn_back)
+    Button back;
+    @ViewInject(R.id.kc)
+    MyListView kc;
+    @ViewInject(R.id.lt)
+    MyListView lt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_search);
-        initData();
-        initViews();
-    }
-
-    /**
-     * 初始化视图
-     */
-    private void initViews() {
-        lvResults = (ListView) findViewById(R.id.main_lv_search_results);
-        searchView = (SearchView) findViewById(R.id.main_search_layout);
-        //设置监听
-        searchView.setSearchViewListener(this);
-        //设置adapter
-        searchView.setTipsHintAdapter(hintAdapter);
-        searchView.setAutoCompleteAdapter(autoCompleteAdapter);
-
-        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        x.view().inject(this);
+        et.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent();
-                intent.setClass(SearchActivity.this, DetailActivity.class);
-                intent.putExtra("id",resultData.get(position).getProid());
-                intent.putExtra("img",resultData.get(position).getImg());
-                intent.putExtra("title",resultData.get(position).getTitle());
-                intent.putExtra("intro",resultData.get(position).getIntro());
-                intent.putExtra("price",resultData.get(position).getPrice());
-                startActivity(intent);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!"".equals(et.getText().toString().trim())){
+                    OkHttpDownloadJsonUtil.downloadJson(SearchActivity.this, Path.SEARCH(et.getText().toString().trim()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                        @Override
+                        public void onsendJson(String json) {
+                            Log.i("_______",json);
+                            Gson gson = new Gson();
+                            final List<SearchBean.TxBean> tx = gson.fromJson(json, SearchBean.class).getTx();
+                            final List<SearchBean.TzBean> tz = gson.fromJson(json, SearchBean.class).getTz();
+                            kc.setAdapter(new SearchAdapter(getApplicationContext(),tx,null));
+                            lt.setAdapter(new SearchAdapter(getApplicationContext(),null,tz));
+                            kc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(SearchActivity.this, DetailActivity.class);
+                                    String title = tx.get(position).getStitle();
+                                    String img = tx.get(position).getThumb();
+                                    String intro = tx.get(position).getIntroduce();
+                                    String proid = tx.get(position).getId();
+                                    String price = tx.get(position).getNowprice();
+                                    intent.putExtra("id", proid);
+                                    intent.putExtra("img", img);
+                                    intent.putExtra("title", title);
+                                    intent.putExtra("intro", intro);
+                                    intent.putExtra("price", price);
+                                    startActivity(intent);
+                                }
+                            });
+                            lt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    String title = tz.get(position).getSubject();
+                                    String name = tz.get(position).getAuthorid();
+                                    long time = tz.get(position).getDateline();
+                                    String pid = tz.get(position).getPid();
+                                    String logo = tz.get(position).getImgurl();
+                                    String rep = tz.get(position).getAlltip();
+                                    String fid = tz.get(position).getFid();
+
+                                    Intent intent = new Intent(SearchActivity.this, ForumItemActivity.class);
+                                    intent.putExtra("pid",pid);
+                                    intent.putExtra("title",title);
+                                    intent.putExtra("name",name);
+                                    intent.putExtra("img",logo);
+                                    intent.putExtra("time",time);
+                                    intent.putExtra("rep",rep);
+                                    intent.putExtra("fid",fid);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    });
+                }
+
             }
         });
-    }
 
-    /**
-     * 初始化数据
-     */
-    private void initData() {
-        //从数据库获取数据
-        getDbData();
-//        //初始化热搜版数据
-//        getHintData();
-        //初始化自动补全数据
-        getAutoCompleteData(null);
-        //初始化搜索结果数据
-        getResultData(null);
-    }
-
-    /**
-     * 获取db 数据
-     */
-    private void getDbData() {
-        DbManager manager = DatabaseOpenHelper.getInstance();
-        try {
-            dbData = manager.findAll(SearchBean.class);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-    }
-
-//    /**
-//     * 获取热搜版data 和adapter
-//     */
-//    private void getHintData() {
-//        hintData = new ArrayList<>(hintSize);
-//        for (int i = 1; i <= hintSize; i++) {
-//            hintData.add("热搜" + i + "：Android自定义View");
-//        }
-//        hintAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hintData);
-//    }
-
-    /**
-     * 获取自动补全data 和adapter
-     */
-    private void getAutoCompleteData(String text) {
-        if (autoCompleteData == null) {
-            //初始化
-            autoCompleteData = new ArrayList<>(hintSize);
-        } else {
-            // 根据text 获取auto data
-            autoCompleteData.clear();
-            for (int i = 0, count = 0; i < dbData.size()&& count < hintSize; i++) {
-                if (dbData.get(i).getTitle().contains(text.trim())) {
-                    autoCompleteData.add(dbData.get(i).getTitle());
-                    Log.i("获取自动补全data 和adapter",dbData.get(i).getTitle());
-                }
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
-        }
-        if (autoCompleteAdapter == null) {
-            autoCompleteAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, autoCompleteData);
-        } else {
-            autoCompleteAdapter.notifyDataSetChanged();
-        }
-    }
-
-    /**
-     * 获取搜索结果data和adapter
-     */
-    private void getResultData(String text) {
-        if (resultData == null) {
-            // 初始化
-            resultData = new ArrayList<>();
-        } else {
-            resultData.clear();
-            for (int i = 0; i < dbData.size(); i++) {
-                if (dbData.get(i).getTitle().contains(text.trim())) {
-                    resultData.add(dbData.get(i));
-                }
-            }
-        }
-        if (resultAdapter == null) {
-            resultAdapter = new SearchAdapter(this, resultData);
-        } else {
-            resultAdapter.notifyDataSetChanged();
-        }
-    }
-
-    /**
-     * 当搜索框 文本改变时 触发的回调 ,更新自动补全数据
-     * @param text
-     */
-    @Override
-    public void onRefreshAutoComplete(String text) {
-        //更新数据
-        getAutoCompleteData(text);
-    }
-
-    /**
-     * 点击搜索键时edit text触发的回调
-     *
-     * @param text
-     */
-    @Override
-    public void onSearch(String text) {
-        //更新result数据
-        getResultData(text);
-        lvResults.setVisibility(View.VISIBLE);
-        //第一次获取结果 还未配置适配器
-        if (lvResults.getAdapter() == null) {
-            //获取搜索数据 设置适配器
-            lvResults.setAdapter(resultAdapter);
-        } else {
-            //更新搜索数据
-            resultAdapter.notifyDataSetChanged();
-        }
-        Toast.makeText(this, "完成搜索", Toast.LENGTH_SHORT).show();
-
-
+        });
     }
 
 

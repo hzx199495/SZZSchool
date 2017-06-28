@@ -1,8 +1,6 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.MyKTBean;
-import com.shizhanzhe.szzschool.Bean.SearchBean;
-import com.shizhanzhe.szzschool.Bean.TGsqlBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
-import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 
 import java.util.List;
-
-import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
  * Created by zz9527 on 2017/3/14.

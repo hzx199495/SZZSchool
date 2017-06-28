@@ -1,7 +1,6 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,11 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.CollectListBean;
-import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 //import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
-
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,28 +84,28 @@ public class CollectAdapter extends BaseAdapter {
 
             }
         });
-        holder.iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DbManager manager = DatabaseOpenHelper.getInstance();
-                try {
-                    List<SearchBean> intentbean= manager.selector(SearchBean.class).where("proid", "=", bean.getId()).findAll();
-
-                    Intent intent=new Intent(context, DetailActivity.class);
-                    intent.putExtra("id",intentbean.get(0).getProid());
-                    intent.putExtra("img",intentbean.get(0).getImg());
-                    intent.putExtra("title",intentbean.get(0).getTitle());
-                    intent.putExtra("intro",intentbean.get(0).getIntro());
-                    intent.putExtra("price",intentbean.get(0).getPrice());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                } catch (DbException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
+//        holder.iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DbManager manager = DatabaseOpenHelper.getInstance();
+//                try {
+//                    List<SearchBean> intentbean= manager.selector(SearchBean.class).where("proid", "=", bean.getId()).findAll();
+//
+//                    Intent intent=new Intent(context, DetailActivity.class);
+//                    intent.putExtra("id",intentbean.get(0).getProid());
+//                    intent.putExtra("img",intentbean.get(0).getImg());
+//                    intent.putExtra("title",intentbean.get(0).getTitle());
+//                    intent.putExtra("intro",intentbean.get(0).getIntro());
+//                    intent.putExtra("price",intentbean.get(0).getPrice());
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(intent);
+//                } catch (DbException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//        });
         return convertView;
     }
     class ViewHolder{

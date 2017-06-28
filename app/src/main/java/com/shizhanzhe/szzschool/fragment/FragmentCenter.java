@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +14,17 @@ import android.widget.AdapterView;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.ProBean;
-import com.shizhanzhe.szzschool.Bean.SearchBean;
-import com.shizhanzhe.szzschool.Bean.TGsqlBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.GVAdapter;
 import com.shizhanzhe.szzschool.adapter.TGAdapter;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
 import com.shizhanzhe.szzschool.utils.GlideImageLoader;
 import com.shizhanzhe.szzschool.utils.MyGridView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.youth.banner.Banner;
 
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -102,7 +96,6 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     public void getData() {
-
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.CENTER(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
@@ -124,18 +117,11 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), DetailActivity.class);
-                String title = rm.get(position).getStitle();
-                String img = rm.get(position).getThumb();
-                String intro = rm.get(position).getIntroduce();
                 String proid = rm.get(position).getId();
-                String price = rm.get(position).getNowprice();
                 intent.putExtra("id", proid);
-                intent.putExtra("img", img);
-                intent.putExtra("title", title);
-                intent.putExtra("intro", intro);
-                intent.putExtra("price", price);
                 startActivity(intent);
             }
         });
+
     }
 }

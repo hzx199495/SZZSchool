@@ -135,7 +135,7 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
                     String p2 = ed2.getText().toString();
                     if (p1.length() != 0 && p2.length() != 0) {
                         if (p1.equals(p2)) {
-                            OkHttpDownloadJsonUtil.downloadJson(FindPWActivity.this, Path.CHANGE(MyApplication.zh, p1), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                            OkHttpDownloadJsonUtil.downloadJson(FindPWActivity.this, Path.CHANGE(MyApplication.zh, p1,MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                                 @Override
                                 public void onsendJson(String json) {
                                     Gson gson = new Gson();

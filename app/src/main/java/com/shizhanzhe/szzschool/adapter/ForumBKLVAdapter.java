@@ -58,7 +58,7 @@ public class ForumBKLVAdapter extends BaseAdapter {
             holder.vip = (TextView) convertView.findViewById(R.id.vip);
             holder.jh = (TextView) convertView.findViewById(R.id.jh);
             holder.user = (TextView) convertView.findViewById(R.id.user);
-            holder.vip2 = (TextView) convertView.findViewById(R.id.vip2);
+//            holder.vip2 = (TextView) convertView.findViewById(R.id.vip2);
             holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.where = (TextView) convertView.findViewById(R.id.where);
             holder.look = (TextView) convertView.findViewById(R.id.look);
@@ -72,8 +72,8 @@ public class ForumBKLVAdapter extends BaseAdapter {
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
         holder.vip.setVisibility(View.GONE);
-        holder.time.setText("时间:"+getDateTimeFromMillisecond(bean.getDateline()));
-        holder.where.setText("地区:"+bean.getLocation_p()+"-"+bean.getLocation_c());
+        holder.time.setText(getSpaceTime(bean.getDateline()));
+        holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
         holder.look.setText("查看:"+bean.getLooknum());
         holder.rep.setText("回复:"+bean.getAlltip());
         return convertView;
@@ -90,6 +90,29 @@ public class ForumBKLVAdapter extends BaseAdapter {
         TextView where;
         TextView look;
         TextView rep;
+    }
+    public static String getSpaceTime(Long millisecond) {
+        long currentMillisecond = System.currentTimeMillis();
+        //间隔秒
+        Long spaceSecond = (currentMillisecond - millisecond*1000) / 1000;
+        //一分钟之内
+        if (spaceSecond >= 0 && spaceSecond < 60) {
+            return "刚刚";
+        }
+        //一小时之内
+        else if (spaceSecond / 60 > 0 && spaceSecond / 60 < 60) {
+            return spaceSecond / 60 + "分钟之前";
+        }
+        //一天之内
+        else if (spaceSecond / (60 * 60) > 0 && spaceSecond / (60 * 60) < 24) {
+            return spaceSecond / (60 * 60) + "小时之前";
+        }
+        //3天之内
+        else if (spaceSecond/(60*60*24)>0&&spaceSecond/(60*60*24)<3){
+            return spaceSecond/(60*60*24)+"天之前";
+        }else {
+            return getDateTimeFromMillisecond(millisecond);
+        }
     }
     /**
      * 将毫秒转化成固定格式的时间

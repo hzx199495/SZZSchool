@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class ForumBKActivity extends Activity {
     ListView lv;
     @ViewInject(R.id.puttext)
     TextView puttext;
+    @ViewInject(R.id.back)
+    ImageView back;
     List<BKBean> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,8 @@ public class ForumBKActivity extends Activity {
                 String name = list.get(position).getRealname();
                 long time = list.get(position).getDateline();
                 String pid = list.get(position).getPid();
+                String logo = list.get(position).getLogo();
+                String rep = list.get(position).getAlltip();
                 OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "http://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + MyApplication.myid + "&pid=" + pid + "+&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
                     public void onsendJson(String json) {
@@ -75,7 +80,9 @@ public class ForumBKActivity extends Activity {
                 intent.putExtra("pid",pid);
                 intent.putExtra("title",title);
                 intent.putExtra("name",name);
+                intent.putExtra("img",logo);
                 intent.putExtra("time",time);
+                intent.putExtra("rep",rep);
                 intent.putExtra("fid",fid);
                 startActivity(intent);
             }
@@ -87,6 +94,12 @@ public class ForumBKActivity extends Activity {
                 i.setClass(ForumBKActivity.this,PostActivity.class);
                 i.putExtra("fid",fid);
                 startActivity(i);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

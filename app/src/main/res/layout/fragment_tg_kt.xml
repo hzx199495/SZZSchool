@@ -204,9 +204,10 @@
                     android:layout_height="wrap_content"
                     android:text="开团后参团人数达到最低标准，即为开团成功，反之失败！"/>
                 <TextView
+                    android:id="@+id/ktprice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="开团需缴纳保底金额100元，如开团成功将返回到您的账户，反之将不予返回！ "/>
+                    android:text="开团需缴纳保底金额100元，如开团成功将返回到您的账户，反之将不予返回！"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -14,7 +14,7 @@
             style="@style/lv_commom"
             android:dividerHeight="@dimen/common_margin_tb" />
 
-        <include layout="@layout/polyv_center_loadlayout" />
+        <!--<include layout="@layout/polyv_center_loadlayout" />-->
     </RelativeLayout>
 
 </RelativeLayout>

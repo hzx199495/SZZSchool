@@ -8,20 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.ProBean;
-import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
-import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
-import org.xutils.x;
 
 import java.util.List;
 

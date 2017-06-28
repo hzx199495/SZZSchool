@@ -39,14 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
-        <TextView
-            android:id="@+id/gohome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:drawableTop="@drawable/home_tab_my_coures_selected"
-            android:gravity="center"
-            android:text="前往首页" />
+
         <LinearLayout
             android:id="@+id/buy"
             android:layout_width="0dp"
@@ -60,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:text="￥998"
+                android:text="￥XXXX"
                 android:textColor="@color/white"/>
             <TextView
 
@@ -73,10 +66,10 @@
 
 
         <TextView
-            android:id="@+id/Offered"
+            android:id="@+id/tg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:background="@color/red"
             android:gravity="center"
             android:text="立即参团"

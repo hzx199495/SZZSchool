@@ -26,8 +26,8 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 public class MyProAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<MyProBean.SysinfoBean> list;
-    public MyProAdapter(List<MyProBean.SysinfoBean> list, Context context) {
+    List<MyProBean> list;
+    public MyProAdapter(List<MyProBean> list, Context context) {
         inflater = LayoutInflater.from(context);
         this.list=list;
     }
@@ -60,10 +60,10 @@ public class MyProAdapter extends BaseAdapter {
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
-        MyProBean.SysinfoBean bean = list.get(position);
-        holder.title.setText(bean.getStitle());
-        holder.totletime.setText("时长： "+bean.getSys_hours());
-        com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(Path.IMG(list.get(position).getThumb()), holder.iv, displayoptions);
+        List<MyProBean.SysinfoBean> bean = list.get(position).getSysinfo();
+        holder.title.setText(bean.get(0).getStitle());
+        holder.totletime.setText("时长： "+bean.get(0).getSys_hours());
+        com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(Path.IMG(bean.get(0).getThumb()), holder.iv, displayoptions);
         return convertView;
     }
     class ViewHolder{

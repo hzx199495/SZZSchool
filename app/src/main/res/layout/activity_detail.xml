@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
@@ -24,24 +25,11 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
     </RelativeLayout>
-    <com.shizhanzhe.szzschool.widge.DragLayout
-        android:id="@+id/draglayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/first"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/second"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-    </com.shizhanzhe.szzschool.widge.DragLayout>
+   <LinearLayout
+       android:id="@+id/ll"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_weight="1"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">

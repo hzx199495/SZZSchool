@@ -3,16 +3,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <com.shizhanzhe.szzschool.widge.SearchView
-        android:id="@+id/main_search_layout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"></com.shizhanzhe.szzschool.widge.SearchView>
+        android:orientation="horizontal"
+        android:background="#87CEFA">
 
-    <ListView
-        android:id="@+id/main_lv_search_results"
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <EditText
+                android:paddingLeft="8dp"
+                android:id="@+id/search_et_input"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_rectangle"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:hint="请输入关键字"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/three_level"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/search_iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/iv_delete_bg"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/search_btn_back"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_search_bg"
+            android:text="返回"
+            android:textSize="14sp"
+            android:textColor="@color/color_white" />
+    </LinearLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"></ListView>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.shizhanzhe.szzschool.utils.MyListView
+                android:id="@+id/kc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"/>
+            <com.shizhanzhe.szzschool.utils.MyListView
+                android:id="@+id/lt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

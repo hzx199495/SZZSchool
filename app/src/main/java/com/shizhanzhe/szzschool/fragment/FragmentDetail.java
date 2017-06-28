@@ -1,8 +1,11 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +18,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.CollectListBean;
+import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
+import com.shizhanzhe.szzschool.activity.ProjectDetailActivity;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
-import org.xutils.DbManager;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -50,15 +54,13 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     ImageView share;
     @ViewInject(R.id.collect)
     ImageView collect;
+    @ViewInject(R.id.videolist)
+    TextView videolist;
 
-    public static FragmentDetail newInstance(String id, String img, String title, String intro, String price) {
+    public static FragmentDetail newInstance(String id) {
 
         Bundle args = new Bundle();
         args.putString("id", id);
-        args.putString("img", img);
-        args.putString("title", title);
-        args.putString("intro", intro);
-        args.putString("price", price);
         FragmentDetail fragment = new FragmentDetail();
         fragment.setArguments(args);
         return fragment;
@@ -75,6 +77,7 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     String id;
     boolean flag;
     String tag;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -86,9 +89,7 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
             public void onsendJson(String json) {
 
                 JsonParser parser = new JsonParser();
-
                 JsonArray jsonArray = parser.parse(json).getAsJsonArray();
-
                 Gson gson = new Gson();
                 ArrayList<List<CollectListBean.SysinfoBean>> sysinfo = new ArrayList<>();
                 ArrayList<String> listId = new ArrayList<>();
@@ -115,18 +116,23 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
-        img = bundle.getString("img");
-        title = bundle.getString("title");
-        intro = bundle.getString("intro");
-        String price = bundle.getString("price");
-        ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(img), detail_iv, MyApplication.displayoptions);
-        detail_title.setText(title);
-        detail_intro.setText(intro);
-        detail_price.setText("￥" + price);
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.SECOND(id, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                MyApplication.videojson=json;
+                Gson gson = new Gson();
+                ProBean2.TxBean tx = gson.fromJson(json, ProBean2.class).getTx();
+                detail_title.setText(tx.getStitle());
+                detail_intro.setText(tx.getIntroduce());
+                ImageLoader imageloader = ImageLoader.getInstance();
+                imageloader.displayImage(Path.IMG(tx.getThumb()), detail_iv, MyApplication.displayoptions);
+                MyApplication.proimg=tx.getThumb();
+                detail_price.setText("￥" + tx.getNowprice());
+            }
+        });
         share.setOnClickListener(this);
         collect.setOnClickListener(this);
+        videolist.setOnClickListener(this);
     }
 
     @Override
@@ -144,17 +150,20 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                     flag = true;
                     collect.setImageResource(R.drawable.ic_courseplay_star1);
                     Toast.makeText(getActivity(), "已收藏", Toast.LENGTH_SHORT).show();
-                    break;
+
                 }
+                break;
+            case R.id.videolist:
+                Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
     private void showShare() {
-
         OnekeyShare oks = new OnekeyShare();
 //关闭sso授权
         oks.disableSSOWhenAuthorize();
-
 // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
         oks.setTitle(title);
 // titleUrl是标题的网络链接，QQ和QQ空间等使用
@@ -179,15 +188,15 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        if (flag){
+        if (flag) {
             OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECT(MyApplication.myid, id, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
 
                 }
             });
-        }else {
-            OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.DELCOLLECT(MyApplication.myid,tag, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        } else {
+            OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.DELCOLLECT(MyApplication.myid, tag, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
 

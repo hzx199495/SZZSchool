@@ -76,17 +76,6 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         MyApplication.token=token;
 
         MyApplication.money=money;
-
-//        fragmentUser = new FragmentUser().newInstance(username,img);
-//        fragmentCenter = new FragmentCenter();
-//        fragmentKCCenter = new FragmentKCCenter();
-//        fragmentForum = new FragmentForum();
-//
-//
-//        transaction.add(R.id.fragment, fragmentUser);
-//        transaction.add(R.id.fragment, fragmentKCCenter);
-//        transaction.add(R.id.fragment, fragmentForum);
-//        transaction.add(R.id.fragment, fragmentCenter);
         FragmentTransaction ft=manager.beginTransaction();
         if(nowFragment==null){
             nowFragment=new FragmentCenter();
@@ -97,9 +86,9 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent();
-                intent1.setClass(getApplicationContext(), SearchActivity.class);
-                startActivity(intent1);
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
             }
         });
         goMain.setOnClickListener(new View.OnClickListener() {

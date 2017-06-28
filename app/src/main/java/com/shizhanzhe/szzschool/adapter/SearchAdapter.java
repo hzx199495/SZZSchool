@@ -1,8 +1,7 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,62 +10,50 @@ import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.utils.ViewHolder;
-import com.shizhanzhe.szzschool.widge.CommonAdapter;
 
-import org.xutils.x;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 
 /**
  * Created by yetwish on 2015-05-11
  */
-
-//public class SearchAdapter extends CommonAdapter<SearchBean> {
-//
-//    public SearchAdapter(Context context, List<SearchBean> data, int layoutId) {
-//        super(context, data, layoutId);
-//    }
-//
-//    @Override
-//    public void convert(ViewHolder holder, int position) {
-//
-//        holder.setText(R.id.item_search_tv_title, mData.get(position).getTitle());
-//
-//    }
-
 public class SearchAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    Context context;
-    List<SearchBean> list;
-    public SearchAdapter(Context context, List<SearchBean> data) {
+    private Context context;
+    private List<SearchBean.TxBean> Txlist;
+    private List<SearchBean.TzBean> Tzlist;
+    public SearchAdapter(Context context, List<SearchBean.TxBean> data1,List<SearchBean.TzBean> data2) {
         this.context = context;
-        this.list = data;
+        if (data1!=null){
+            this.Txlist = data1;
+        }
+
+        if (data2!=null){
+            this.Tzlist = data2;
+        }
         inflater = LayoutInflater.from(context);
     }
-//
-//    @Override
-//    public void convert(ViewHolder holder, int position) {
-//        holder.setText(R.id.item_search_tv_title,mData.get(position).getName())
-//                .setText(R.id.item_search_tv_content,mData.get(position).getAge()+"");
-//    }
 
     @Override
     public int getCount() {
-        return list.size();
+        if (Txlist!=null){
+            return Txlist.size();
+        }
+        if (Tzlist!=null){
+            return Tzlist.size();
+        }
+        return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        if (Txlist!=null){
+            return Txlist.get(position);
+        }
+        if (Tzlist!=null){
+            return Tzlist.get(position);
+        }
+        return 0;
     }
 
     @Override
@@ -85,7 +72,14 @@ public class SearchAdapter extends BaseAdapter {
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.tv.setText(list.get(position).getTitle());
+        if (Txlist!=null){
+            holder.tv.setTextColor(Color.RED);
+            holder.tv.setText(Txlist.get(position).getStitle());
+        }
+        if (Tzlist!=null){
+            holder.tv.setTextColor(Color.BLUE);
+            holder.tv.setText(Tzlist.get(position).getSubject());
+        }
         return convertView;
     }
     class  ViewHolder{

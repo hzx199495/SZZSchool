@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
+import com.shizhanzhe.szzschool.Bean.PersonalDataBean;
+import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import java.io.IOException;
 import java.util.Map;
@@ -41,11 +44,8 @@ public class Pay {
 	String price;
 	/** 支付宝支付业务：入参app_id */
 	public static final String APPID = "2016111602874326";
-	
-	/** 支付宝账户登录授权业务：入参pid值 */
-	public static final String PID = "2088221759489241";
-	/** 支付宝账户登录授权业务：入参target_id值 */
-	public static final String TARGET_ID = "211179021@qq.com";
+
+
 
 	/** 商户私钥，pkcs8格式 */
 	public static final String RSA_PRIVATE ="MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAM86f2dVKswmSDMg\n" +
@@ -81,24 +81,15 @@ public class Pay {
 				// 判断resultStatus 为9000则代表支付成功
 				if (TextUtils.equals(resultStatus, "9000")) {
 					// 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-//					 double l = Double.parseDouble(price);
-//                	 double o = Double.parseDouble(MyApplication.money);
-//					MyApplication.money=l+o+"";
-					OkHttpDownloadJsonUtil.downloadJson(context, MyApplication.path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+					OkHttpDownloadJsonUtil.downloadJson(context, Path.PERSONALDATA(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 						@Override
 						public void onsendJson(String json) {
 							Gson gson = new Gson();
-							LoginBean loginData = gson.fromJson(json, LoginBean.class);
-							String token = loginData.getToken();
-							String mymoney=loginData.getMoney();
-							Log.i("======",mymoney);
-							MyApplication.token=token;
-							MyApplication.money=mymoney;
-							listener.refreshPriorityUI(mymoney);
+							PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
+							MyApplication.money=bean.getFrozen_money();
+							listener.refreshPriorityUI();
 						}
 					});
-
-
 					Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
 				} else {
 					// 该笔订单真实的支付结果，需要依赖服务端的异步通知。
@@ -111,18 +102,15 @@ public class Pay {
 			}
 		};
 	};
-	public void refresh(){
 
-
-	}
 	PayListener listener;
 	public interface PayListener {
 		/**
 		 * 回调函数，用于在Dialog的监听事件触发后刷新Activity的UI显示
 		 */
-		public void refreshPriorityUI(String string);
+		public void refreshPriorityUI();
 	}
-	public Pay(Activity activity, final String price,PayListener listener){
+	public Pay(Activity activity, final String price, final String subject, PayListener listener){
 		this.listener=listener;
 		this.price=price;
 		this.activity=activity;
@@ -151,39 +139,19 @@ public class Pay {
 				Gson gson = new Gson();
 				PayBean payBean = gson.fromJson(a[1], PayBean.class);
 				long order = payBean.getOrder();
-				Log.i("======","订单号"+order);
-				payV2(order,price);
+				Log.i("订单号","订单号"+order);
+				payV2(order,price,subject);
 			}
 		});
-//		RequestBody body=new FormBody.Builder()
-//				.add("uid","849").add("systemid","34")
-//				.add("type","1").add("pid","0").add("coid","0").add("catid","0")
-//				.build();
-////在构建Request对象时，调用post方法，传入RequestBody对象
-//		Request request=new Request.Builder()
-//				.url("http://2.huobox.com/index.php?m=courSystem.buy&pc=1")
-//				.post(body)
-//				.build();
-//		client.newCall(request).enqueue(new Callback() {
-//			@Override
-//			public void onFailure(Call call, IOException e) {
-//				Log.e("fail",e.toString());
-//			}
-//
-//			@Override
-//			public void onResponse(Call call, Response response) throws IOException {
-//				String s=response.body().string();
-//				Log.i("success",s);
-//			}
-//		});
+
 	}
 
 	/**
 	 * 支付宝支付业务
 	 * 
-	 * @param v
+	 * @param
 	 */
-	public void payV2(long order,String price) {
+	public void payV2(long order,String price,String subject) {
 		if (TextUtils.isEmpty(APPID) || TextUtils.isEmpty(RSA_PRIVATE)) {
 			new AlertDialog.Builder(context).setTitle("警告").setMessage("需要配置APPID | RSA_PRIVATE")
 					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -204,12 +172,12 @@ public class Pay {
 		 *
 		 */
 
-		Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID,order,price);
+		Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID,order,price,subject);
 		String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
-		Log.i("====","拼接字符串"+orderParam);
+		Log.i("拼接字符串","拼接字符串"+orderParam);
 		String sign = OrderInfoUtil2_0.getSign(params, RSA_PRIVATE);
 		final String orderInfo = orderParam + "&" + sign;
-		
+		Log.i("orderInfo=",orderParam);
 		Runnable payRunnable = new Runnable() {
 
 			@Override

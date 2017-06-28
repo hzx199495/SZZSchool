@@ -205,7 +205,7 @@ public class ForumCommentBean {
         private String pid;
         private String author;
         private String authorid;
-        private String dateline;
+        private Long dateline;
         private String comment;
         private String score;
         private String useip;
@@ -255,11 +255,11 @@ public class ForumCommentBean {
             this.authorid = authorid;
         }
 
-        public String getDateline() {
+        public Long getDateline() {
             return dateline;
         }
 
-        public void setDateline(String dateline) {
+        public void setDateline(Long dateline) {
             this.dateline = dateline;
         }
 

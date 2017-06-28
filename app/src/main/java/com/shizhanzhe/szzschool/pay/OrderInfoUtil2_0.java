@@ -67,20 +67,23 @@ public class OrderInfoUtil2_0 {
 	 * @param target_id
 	 * @return
 	 */
-	public static Map<String, String> buildOrderParamMap(String app_id, long order,String price) {
+	public static Map<String, String> buildOrderParamMap(String app_id, long order,String price,String subject) {
 		Map<String, String> keyValues = new HashMap<String, String>();
 
 		keyValues.put("app_id", app_id);
 
-		keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""+price+"\",\"subject\":\"商品的标题\",\"body\":\"具体描述信息\",\"out_trade_no\":\"" + order+  "\"}");
+		keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""+price+"\",\"subject\":\""+subject+"\",\"body\":\"具体描述信息\",\"out_trade_no\":\"" + order+  "\"}");
 		Log.i("======","拼接时"+order+"金额"+price);
 		keyValues.put("charset", "utf-8");
 
 		keyValues.put("method", "alipay.trade.app.pay");
 
 		keyValues.put("sign_type", "RSA");
+		Date dt = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String timestamp=sdf.format(dt);
 
-		keyValues.put("timestamp", "2016-07-29 16:55:53");
+		keyValues.put("timestamp", timestamp);
 
 		keyValues.put("version", "1.0");
 

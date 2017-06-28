@@ -31,8 +31,14 @@ public class MyApplication extends MultiDexApplication {
     public static String money = "";
     public static String token = "";
     public static String img = "";
+    public static String proimg = "";
     public static String path = "";
     public static String videotitle = "";
+    public static String videojson;
+    public static int videotype;
+    public static String  videoitemid;
+    public static String tgjson;
+
     public static boolean SC = false;
     public static double version;
     public static ImageOptions options;

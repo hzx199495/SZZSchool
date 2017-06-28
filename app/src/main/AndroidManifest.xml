@@ -101,6 +101,9 @@
         <activity android:name=".activity.TGDetailActivity"/>
         <activity android:name=".activity.KTListActivity"/>
         <activity android:name=".activity.MyTGActivity"/>
+        <activity android:name=".activity.ForumTalkEdittextActivity"
+            android:theme="@style/at_talk_et"/>
+        <activity android:name=".activity.ProjectDetailActivity"/>
         <activity android:name=".video.PolyvTalkSendActivity">
         <intent-filter>
             <action android:name="TalkEdittextActivity" />
@@ -132,12 +135,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.alipay.sdk.app.H5PayActivity"
-            android:configChanges="orientation|keyboardHidden|navigation"
-            android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
+
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

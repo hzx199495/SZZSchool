@@ -62,6 +62,8 @@ public class ForumActivity extends Activity implements View.OnClickListener {
                 long time = szan.get(position).getDateline();
                 String pid = szan.get(position).getPid();
                 String fid = szan.get(position).getFid();
+                String logo = szan.get(position).getLogo();
+                String rep = szan.get(position).getAlltip();
                 OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "http://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + MyApplication.myid + "&pid=" + pid + "+&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
                     public void onsendJson(String json) {
@@ -72,7 +74,9 @@ public class ForumActivity extends Activity implements View.OnClickListener {
                 intent.putExtra("pid",pid);
                 intent.putExtra("title",title);
                 intent.putExtra("name",name);
+                intent.putExtra("img",logo);
                 intent.putExtra("time",time);
+                intent.putExtra("rep",rep);
                 intent.putExtra("fid",fid);
                 startActivity(intent);
             }

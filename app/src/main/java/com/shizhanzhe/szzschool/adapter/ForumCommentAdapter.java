@@ -1,8 +1,15 @@
 package com.shizhanzhe.szzschool.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +22,23 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.shizhanzhe.szzschool.Bean.CommentBean;
 import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
 
+import com.shizhanzhe.szzschool.activity.ForumTalkEdittextActivity;
 import com.shizhanzhe.szzschool.utils.NoScrollListView;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.video.LinearListView;
+import com.shizhanzhe.szzschool.video.PolyvSubTalkListViewAdapter;
+import com.shizhanzhe.szzschool.video.PolyvTalkEdittextActivity;
+import com.shizhanzhe.szzschool.video.PolyvTalkListViewAdapter;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import static com.shizhanzhe.szzschool.adapter.CommentAdapter.getSpaceTime;
 
@@ -31,46 +47,33 @@ import static com.shizhanzhe.szzschool.adapter.CommentAdapter.getSpaceTime;
  */
 
 public class ForumCommentAdapter extends BaseAdapter {
-    private int resourceId;
-    private Context context;
-    private Handler handler;
-    private List<ForumCommentBean> list;
+    private Activity context;
+    private List<ForumCommentBean> lists;
     private LayoutInflater inflater;
-    private ViewHolder mholder = null;
+    private ForumCommentAdapter.ViewHolder viewHolder;
     private DisplayImageOptions options;
-
-    private android.view.animation.Animation animation;//动画效果的
-    public void addData(List<ForumCommentBean> list){
-        this.list=list;
-        notifyDataSetChanged();
-    }
-    public ForumCommentAdapter(Context context, List<ForumCommentBean> list
-            , int resourceId, Handler handler) {
-        this.list = list;
+    private SpannableString ss;
+    public ForumCommentAdapter(Activity context, List<ForumCommentBean>  lists) {
         this.context = context;
-        this.handler = handler;
-        this.resourceId = resourceId;
-        inflater = LayoutInflater.from(context);
-
-        options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.bg_loading) // 设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.ic_launcher) // 设置图片加载/解码过程中错误时候显示的图片
-                .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
-                .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
-                .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
-                .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
-                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).build();// 构建完成
+        this.lists = lists;
+        this.inflater = LayoutInflater.from(context);
+        this.options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.polyv_avatar_def) // resource
+                // or
+                // drawable
+                .showImageForEmptyUri(R.drawable.polyv_avatar_def) // resource or
+                // drawable
+                .showImageOnFail(R.drawable.polyv_avatar_def) // resource or drawable
+                .bitmapConfig(Bitmap.Config.RGB_565).cacheInMemory(true).cacheOnDisk(true)
+                .build();
     }
-
-
     @Override
     public int getCount() {
-        return list.size();
+        return lists.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return lists.get(position);
     }
 
     @Override
@@ -80,85 +83,103 @@ public class ForumCommentAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ForumCommentBean commentBean = list.get(position);
-        ViewHolder mholder = null;
         if (convertView == null) {
-            mholder = new ViewHolder();
-            convertView = inflater.inflate(resourceId, null);
-            mholder.commentImage= (ImageView) convertView.findViewById(R.id.comment_iv);
-            mholder.commentNickname = (TextView)
-                    convertView.findViewById(R.id.comment_name);
-            mholder.commentItemTime = (TextView)
-                    convertView.findViewById(R.id.comment_time);
-            mholder.commentItemPosition = (TextView)
-                    convertView.findViewById(R.id.comment_position);
-            mholder.commentItemContent = (TextView)
-                    convertView.findViewById(R.id.comment_content);
-            mholder.replyList = (NoScrollListView)
-                    convertView.findViewById(R.id.no_scroll_list_reply);
-            mholder.replyBut = (Button)
-                    convertView.findViewById(R.id.but_comment_reply);
-            convertView.setTag(mholder);
+            convertView = inflater.inflate(R.layout.polyv_listview_talk_item, null);
+            viewHolder = new ForumCommentAdapter.ViewHolder();
+            viewHolder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
+            viewHolder.tv_msg=(TextView) convertView.findViewById(R.id.tv_msg);
+            viewHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+            viewHolder.sublv_talk = (LinearListView) convertView.findViewById(R.id.sublv_talk);
+            convertView.setTag(viewHolder);
         } else {
-            mholder = (ViewHolder) convertView.getTag();
+            viewHolder = (ForumCommentAdapter.ViewHolder) convertView.getTag();
+        }
+        final int pPosition = position;
+        final ForumCommentBean bean = lists.get(pPosition);
+        List<ForumCommentBean.ManReplyBean> reply = bean.getMan_reply();
+        if (reply.size() > 0) {
+            viewHolder.adapter = new ForumCommentSubTalkListViewAdapter(context, reply);
+            viewHolder.sublv_talk.setVisibility(View.VISIBLE);
+            viewHolder.sublv_talk.setAdapter(viewHolder.adapter);
+            viewHolder.sublv_talk.setOnItemClickListener(new LinearListView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(LinearListView parent, View view, int position, long id) {
+                    Intent intent = new Intent(context, ForumTalkEdittextActivity.class);
+                    intent.putExtra("questionid", bean.getId());
+                    // 由于接口只能回复发表讨论的人，故这里使用发表讨论的人的昵称
+                    intent.putExtra("nickname", bean.getAuthor());
+                    context.startActivityForResult(intent, 13);
+                }
+            });
+        } else {
+            viewHolder.sublv_talk.setVisibility(View.GONE);
         }
 
-        mholder.commentNickname.setText(commentBean.getAuthor());
-        mholder.commentItemTime.setText(getSpaceTime(commentBean.getDateline()));
-        mholder.commentItemContent.setText(commentBean.getComment());
-        mholder.commentItemPosition.setText((position+1)+"楼");
-        ImageLoader imageloader = ImageLoader.getInstance();
-        if(Path.IMG(list.get(position).getLogo()).contains("http")) {
-            imageloader.displayImage(list.get(position).getLogo(), mholder.commentImage, options);
+        ss = new SpannableString(bean.getAuthor()
+                +"："+bean.getComment());
+        ss.setSpan(new ForegroundColorSpan(Color.BLUE),0,
+                bean.getAuthor().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(Color.BLUE),bean.getAuthor().length(),
+                bean.getAuthor().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //为回复的人昵称添加点击事件
+        viewHolder.tv_msg.setText(ss);
+        //添加点击事件时，必须设置
+        viewHolder.tv_msg.setMovementMethod(LinkMovementMethod.getInstance());
+        viewHolder.tv_time.setText(getSpaceTime(bean.getDateline()));
+        if(Path.IMG(bean.getLogo()).contains("http")) {
+            ImageLoader.getInstance().displayImage(bean.getLogo(), viewHolder.iv_avatar, options);
         }else {
-            imageloader.displayImage(Path.IMG(list.get(position).getLogo()), mholder.commentImage, options);
-        }
-        if(commentBean.getMan_reply()!=null) {
-            ForumReplyAdapter adapter = new ForumReplyAdapter(context, commentBean.getMan_reply(), R.layout.reply_item);
-            mholder.replyList.setAdapter(adapter);
-            TextviewClickListener tcl = new TextviewClickListener(position);
-            mholder.replyBut.setOnClickListener(tcl);
+            ImageLoader.getInstance().displayImage(Path.IMG(bean.getLogo()), viewHolder.iv_avatar, options);
         }
         return convertView;
     }
 
-    private final class ViewHolder {
-        public ImageView commentImage;            //评论人头像
-        public TextView commentNickname;            //评论人昵称
-        public TextView commentItemPosition;            //评论顺序
-        public TextView commentItemTime;            //评论时间
-        public TextView commentItemContent;         //评论内容
-        public NoScrollListView replyList;          //评论回复列表
-        public Button replyBut;                     //回复
-
-
+    private class ViewHolder {
+        ImageView iv_avatar;
+        TextView tv_msg;
+        TextView tv_time;
+        LinearListView sublv_talk;
+        ForumCommentSubTalkListViewAdapter adapter;
     }
-
-    /**
-     * 获取回复评论
-     */
-    public void getReplyComment(ForumCommentBean.ManReplyBean bean, int position) {
-        List<ForumCommentBean.ManReplyBean> rList = list.get(position).getMan_reply();
-        rList.add(rList.size(), bean);
+    public static String getSpaceTime(Long millisecond) {
+        long currentMillisecond = System.currentTimeMillis();
+        //间隔秒
+        Long spaceSecond = (currentMillisecond - millisecond*1000) / 1000;
+        //一分钟之内
+        if (spaceSecond >= 0 && spaceSecond < 60) {
+            return "刚刚";
+        }
+        //一小时之内
+        else if (spaceSecond / 60 > 0 && spaceSecond / 60 < 60) {
+            return spaceSecond / 60 + "分钟之前";
+        }
+        //一天之内
+        else if (spaceSecond / (60 * 60) > 0 && spaceSecond / (60 * 60) < 24) {
+            return spaceSecond / (60 * 60) + "小时之前";
+        }
+        //3天之内
+        else if (spaceSecond/(60*60*24)>0&&spaceSecond/(60*60*24)<3){
+            return spaceSecond/(60*60*24)+"天之前";
+        }else {
+            return getDateTimeFromMillisecond(millisecond);
+        }
     }
-
     /**
-     * 事件点击监听器
+     * 将毫秒转化成固定格式的时间
+     * 时间格式: yyyy-MM-dd HH:mm:ss
+     *
+     * @param millisecond
+     * @return
      */
-    private final class TextviewClickListener implements View.OnClickListener {
-        private int position;
-
-        public TextviewClickListener(int position) {
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.but_comment_reply:
-                    handler.sendMessage(handler.obtainMessage(10, position));
-                    break;
-            }
-        }
+    public static String getDateTimeFromMillisecond(long millisecond){
+        System.setProperty("user.timezone", "Asia/Shanghai");
+        TimeZone tz = TimeZone.getTimeZone("Asia/Shanghai");
+        TimeZone.setDefault(tz);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(millisecond*1000);
+        String dateStr = simpleDateFormat.format(date);
+        return dateStr;
     }
 }
+

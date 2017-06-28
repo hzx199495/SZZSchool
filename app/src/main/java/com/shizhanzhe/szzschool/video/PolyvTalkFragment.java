@@ -26,8 +26,6 @@ import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
-import org.xutils.x;
-
 import java.util.List;
 
 public class PolyvTalkFragment extends Fragment {
@@ -41,8 +39,6 @@ public class PolyvTalkFragment extends Fragment {
     private int position;
     // 话题，发送的信息
     private String topic, sendMsg;
-    // 传过来课程对象
-    private PolyvCoursesInfo.Course course;
     // 加载中控件
     private ProgressBar pb_loading;
     // 空数据控件,重新加载控件
@@ -51,10 +47,8 @@ public class PolyvTalkFragment extends Fragment {
     CommentBean bean;
     String questionunameid;
     String questionid;
-// private String
     private void addNewQuestion() {
-        Log.i("_______addNewQuestion",Path.SENDQUESTION(list.get(7).getClassid(), list.get(7).getSid(), list.get(7).getPid(), "262", sendMsg, MyApplication.zh, MyApplication.username, MyApplication.myid, MyApplication.token));
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.SENDQUESTION(list.get(7).getClassid(), list.get(7).getSid(), list.get(7).getPid(), "262", sendMsg, MyApplication.zh, MyApplication.username, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.SENDQUESTION(list.get(0).getClassid(), list.get(0).getSid(), list.get(0).getPid(), MyApplication.videoitemid, sendMsg, MyApplication.zh, MyApplication.username, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 if (json.contains("1")){
@@ -69,8 +63,7 @@ public class PolyvTalkFragment extends Fragment {
     }
 
     private void addNewAnswer() {
-        Log.i("_______addNewAnswer",Path.ANSWERQUESTION("262", questionunameid,sendMsg,questionid,MyApplication.myid, MyApplication.token));
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.ANSWERQUESTION("262", questionunameid,sendMsg,questionid,MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.ANSWERQUESTION(MyApplication.videoitemid, questionunameid,sendMsg,questionid,MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 if (json.contains("1")){
@@ -95,7 +88,7 @@ public class PolyvTalkFragment extends Fragment {
     PolyvTalkListViewAdapter adapter;
     private void initView() {
         // fragment在onCreate之后才可以获取
-        OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COMMENT("262", MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COMMENT(MyApplication.videoitemid, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
@@ -168,7 +161,6 @@ public class PolyvTalkFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("_________返回","");
         switch (resultCode) {
             case 19:
                 // 回答
@@ -187,7 +179,11 @@ public class PolyvTalkFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        initView();
+    }
 
     @Override
     public void onDestroyView() {

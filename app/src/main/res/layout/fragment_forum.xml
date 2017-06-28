@@ -36,7 +36,7 @@
                 android:textStyle="bold"
                 android:text="| 社区热帖"
                 android:textSize="16sp" />
-            <com.shizhanzhe.szzschool.utils.MyGridView
+            <com.shizhanzhe.szzschool.utils.MyListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:numColumns="1"

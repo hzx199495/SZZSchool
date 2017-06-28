@@ -51,7 +51,8 @@
                 android:gravity="center"
                 android:text="0人在学"
                 android:textColor="@color/center_bottom_text_color_blue"
-                android:textSize="@dimen/center_right_text_size" />
+                android:textSize="@dimen/center_right_text_size"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <RelativeLayout

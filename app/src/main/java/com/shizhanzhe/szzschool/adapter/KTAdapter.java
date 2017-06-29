@@ -7,18 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.KTListBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
-import com.shizhanzhe.szzschool.utils.Path;
 
 import java.util.List;
-
-import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
  * Created by zz9527 on 2017/3/14.
@@ -60,48 +53,19 @@ public class KTAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.adapter_ktlist, null);
             holder = new ViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.title);
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.num = (TextView) convertView.findViewById(R.id.num);
-//            holder.join = (TextView) convertView.findViewById(R.id.join);
-            holder.img = (ImageView) convertView.findViewById(R.id.img);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         final KTListBean bean = list.get(position);
-        holder.title.setText("团购课程：" + tgtitle);
-        holder.name.setText("团长：" + bean.getUname());
-        holder.num.setText("参团人数：" + bean.getTynum());
-        ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(img), holder.img, displayoptions);
-//        holder.join.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                OkHttpDownloadJsonUtil.downloadJson(context, "http://shizhanzhe.com/index.php?m=pcdata.cantuan&pc=1&ktid=" + bean.getId() + "&uid=" + MyApplication.myid + "&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-//                    @Override
-//                    public void onsendJson(String json) {
-//                        if (json.contains("0")) {
-//                            Toast.makeText(context, "无此开团", Toast.LENGTH_SHORT).show();
-//                        } else if (json.contains("1")) {
-//                            Toast.makeText(context, "参团成功", Toast.LENGTH_SHORT).show();
-//                        } else if (json.contains("2")) {
-//                            Toast.makeText(context, "数据库操作失败", Toast.LENGTH_SHORT).show();
-//                        } else if (json.contains("3")) {
-//                            Toast.makeText(context, "已经参团", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//            }
-//        });
+        holder.name.setText(bean.getUname()+"的学习团,已有"+bean.getTynum()+"人参团");
+
         return convertView;
     }
 
     class ViewHolder {
-        TextView title;
         TextView name;
-        TextView num;
-        TextView join;
         ImageView img;
     }
 }

@@ -68,7 +68,7 @@ public class KTListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(KTListActivity.this);
                 builder.setTitle("提示");
-                builder.setMessage("确认支付￥"+price+"参团？");
+                builder.setMessage("确认支付￥"+price+"定金参团？");
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
 
                     @Override

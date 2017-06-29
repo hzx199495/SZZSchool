@@ -53,6 +53,22 @@ public class PolyvPlayerViewPagerFragment extends Fragment {
         adapter = new PolyvPlayerFragmentAdapter(getActivity().getSupportFragmentManager(), lists);
         vp_player.setAdapter(adapter);
         vp_player.setCurrentItem(0);
+        vp_player.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                vp_player.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         currentIndex = 0;
         vp_player.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 

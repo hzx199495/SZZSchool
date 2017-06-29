@@ -30,34 +30,35 @@ public class ProBean {
 
     public static class TgBean {
         /**
-         * id : 17
+         * id : 18
          * catid : 0
-         * title : 团购测试请勿购买
+         * title : 团购测试
          * style :
-         * thumb : /var/upload/image/2017/01/20170113115344_29146.jpg
+         * thumb : /var/upload/image/2017/05/20170523172658_48487.jpg
          * listorder : 0
-         * updatetime : 2017-01-13 11:52:49
-         * price : 100
-         * jiangshi : 团购测试
-         * jiangimg : /var/upload/image/2017/01/20170113115453_52871.jpg
-         * pingfei : 0
+         * updatetime : 2017-05-23 17:26:13
+         * price : 1000
+         * jiangshi :
+         * jiangimg :
+         * pingfei :
          * keshi : 100
-         * jieshao : 团购测试请勿购买
+         * jieshao :
          * renshu : 10000
          * kechengbiao :
-         * zhicheng : 团购测试
-         * kaikedata : 2017-02-25 11:52:00
-         * kechengjj : 团购测试请勿购买
+         * zhicheng :
+         * kaikedata : 1
+         * kechengjj : 团购测试
          * kechengshuoming :
          * ptmoney : 100-299|1000-199|10000-99
-         * txid : 78
+         * txid : 83
          * iszhibo : 0
          * zbtime : 0
          * holdtime : 0
          * playarea : 0
-         * kfm : 20.00
-         * tfm : 50.00
-         * pfm : 30.00
+         * kfm : 0.00
+         * tfm : 0.00
+         * pfm : 100.00
+         * nowprice : 2680.00
          */
 
         private String id;
@@ -88,6 +89,7 @@ public class ProBean {
         private String kfm;
         private String tfm;
         private String pfm;
+        private String nowprice;
 
         public String getId() {
             return id;
@@ -312,34 +314,42 @@ public class ProBean {
         public void setPfm(String pfm) {
             this.pfm = pfm;
         }
+
+        public String getNowprice() {
+            return nowprice;
+        }
+
+        public void setNowprice(String nowprice) {
+            this.nowprice = nowprice;
+        }
     }
 
     public static class TxBean {
         /**
-         * id : 3
-         * stitle : Swift语言开发入门
-         * thumb : /var/upload/image/2015/05/20150511100104_57213.jpg
-         * listorder : 1
-         * updatetime : 1429614887
-         * inputtime : 1429614887
-         * picture : /var/upload/image/2015/05/20150511100104_57213.jpg
-         * introduce : Swift语言编程的相关概念和基础知识，教学中将Swift和C/OC相关内容进行比较和总结，充分的刨析Swift的语法知识，而且通过Swift 类库和OC类库进行比较让学员能够充分的了解并掌握Swift语法特点、和OC的联系和区别，为学员后续学习和进行Swift相关开发打下坚实的语法基础。
-         * exception : 2,3,4,5
+         * id : 78
+         * stitle : 网络推广变现·掘金
+         * thumb : /var/upload/image/2017/04/20170417112743_93883.jpg
+         * listorder : 0
+         * updatetime : 1487320622
+         * inputtime : 1487320622
+         * picture : /var/upload/image/2017/05/20170516163246_16264.png
+         * introduce : 淘宝客只是一种结果，当你学会所有的方法和模式之后，你会发现变现的方法很多很多！新手学推广技能，应用实操赚钱！老手学战略布局，放大思维格局！不仅仅是淘宝客实战赚钱，更是网络推广技术的灵活运用，快速打造自己团队的巧妙布局！
+         * exception : 1,2
          * style :
-         * catid : 3
-         * couClass : 18
-         * sys_hours : 8时16分47秒
-         * keyword : 11Swift语言开发入门
-         * description : 22Swift语言开发入门
-         * l_nanyi : 1
-         * l_jiage : 5
-         * keshi : 1
+         * catid : 41
+         * couClass : 241
+         * sys_hours : 100
+         * keyword : 淘宝客,微信淘宝客,网络推广,网络赚钱
+         * description :
+         * l_nanyi : 3
+         * l_jiage : 1
+         * keshi : 34
          * status : 0
-         * tfm : 0.00
-         * pfm : 0.00
-         * tcid : 0
+         * tfm : 40.00
+         * pfm : 60.00
+         * tcid : 1203
          * editor :
-         * nowprice : 10000.00
+         * nowprice : 2980.00
          */
 
         private String id;

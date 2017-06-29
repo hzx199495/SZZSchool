@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,24 +51,27 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     TextView detail_intro;
     @ViewInject(R.id.detail_price)
     TextView detail_price;
-    @ViewInject(R.id.share)
-    ImageView share;
     @ViewInject(R.id.collect)
     ImageView collect;
-    @ViewInject(R.id.videolist)
-    TextView videolist;
+    @ViewInject(R.id.detail_study)
+    TextView detail_study;
 
     public static FragmentDetail newInstance(String id) {
-
         Bundle args = new Bundle();
         args.putString("id", id);
         FragmentDetail fragment = new FragmentDetail();
         fragment.setArguments(args);
         return fragment;
     }
-
+    ProgressDialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        dialog = new ProgressDialog(getActivity());
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        dialog.setMessage("正在加载...Loading");
+
         return x.view().inject(this, inflater, null);
     }
 
@@ -81,6 +85,7 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dialog.show();
         Bundle bundle = getArguments();
         id = bundle.getString("id");
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECTLIST(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
@@ -128,19 +133,19 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                 imageloader.displayImage(Path.IMG(tx.getThumb()), detail_iv, MyApplication.displayoptions);
                 MyApplication.proimg=tx.getThumb();
                 detail_price.setText("￥" + tx.getNowprice());
+                detail_study.setText("学习人数："+tx.getNum()+"人");
+                dialog.dismiss();
             }
         });
-        share.setOnClickListener(this);
+
         collect.setOnClickListener(this);
-        videolist.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.share:
-                showShare();
-                break;
+
             case R.id.collect:
                 if (flag) {
                     flag = false;
@@ -152,10 +157,6 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "已收藏", Toast.LENGTH_SHORT).show();
 
                 }
-                break;
-            case R.id.videolist:
-                Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
-                startActivity(intent);
                 break;
         }
     }

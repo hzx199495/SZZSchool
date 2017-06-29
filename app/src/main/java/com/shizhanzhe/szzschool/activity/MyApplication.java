@@ -37,8 +37,9 @@ public class MyApplication extends MultiDexApplication {
     public static String videojson;
     public static int videotype;
     public static String  videoitemid;
-    public static String tgjson;
-
+    public static String tuanid;
+    public static String  vip;
+    public static String ktagent;
     public static boolean SC = false;
     public static double version;
     public static ImageOptions options;

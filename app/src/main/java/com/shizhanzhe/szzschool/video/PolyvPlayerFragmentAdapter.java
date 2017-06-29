@@ -9,7 +9,6 @@ import java.util.List;
 
 public class PolyvPlayerFragmentAdapter extends FragmentPagerAdapter {
 	List<Fragment> fragmentList = new ArrayList<Fragment>();
-
 	public PolyvPlayerFragmentAdapter(FragmentManager fm) {
 		super(fm);
 	}
@@ -26,7 +25,11 @@ public class PolyvPlayerFragmentAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
+
 		return fragmentList.size();
 	}
-
+	@Override
+	public int getItemPosition(Object object) {
+		return POSITION_NONE;
+	}
 }

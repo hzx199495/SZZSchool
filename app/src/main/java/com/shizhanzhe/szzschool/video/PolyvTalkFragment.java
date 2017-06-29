@@ -158,7 +158,6 @@ public class PolyvTalkFragment extends Fragment {
             initView();
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
@@ -177,12 +176,6 @@ public class PolyvTalkFragment extends Fragment {
                 break;
         }
 
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        initView();
     }
 
     @Override

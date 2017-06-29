@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -50,12 +51,13 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
     ImageView back;
     @ViewInject(R.id.study)
             Button study;
+    @ViewInject(R.id.videobtn)
+    Button videobtn;
     String id;
     Dialog dialog;
     String img;
     String title;
     String proprice;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
         lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         buy.setOnClickListener(this);
+        videobtn.setOnClickListener(this);
     }
             @Override
             public void onClick(View v) {
@@ -171,6 +174,10 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
 
                             }
                         });
+                        break;
+                    case R.id.videobtn:
+                        Intent intent = new Intent(DetailActivity.this, ProjectDetailActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.back:
                         finish();

@@ -5,21 +5,26 @@ package com.shizhanzhe.szzschool.Bean;
  */
 public class LoginBean {
 
+
     /**
      * username : 壮壮
-     * id : 849
+     * id : 999
      * headimg : http://wx.qlogo.cn/mmopen/PiajxSqBRaELn1B3ibb6YuVhia4aLsDjdaUf1GiaYok3yTaMflCrePXZ7ArGaN6BjticKqichFv8TarLic2Spb856Swcg/0
-     * money : 8000.27
+     * money : 2461.02
+     * jyan : 1
      * bbh : 1.3.3.20161114_beta
+     * kaiagent : 1
      * vip : 0
-     * token : 1481162653fe8c15fed5f808006ce95eddb7366e35452600
+     * token : 1498645100b706835de79a2b4e80506f582af3676a861100
      */
 
     private String username;
     private String id;
     private String headimg;
     private String money;
+    private String jyan;
     private String bbh;
+    private String kaiagent;
     private String vip;
     private String token;
 
@@ -55,12 +60,28 @@ public class LoginBean {
         this.money = money;
     }
 
+    public String getJyan() {
+        return jyan;
+    }
+
+    public void setJyan(String jyan) {
+        this.jyan = jyan;
+    }
+
     public String getBbh() {
         return bbh;
     }
 
     public void setBbh(String bbh) {
         this.bbh = bbh;
+    }
+
+    public String getKaiagent() {
+        return kaiagent;
+    }
+
+    public void setKaiagent(String kaiagent) {
+        this.kaiagent = kaiagent;
     }
 
     public String getVip() {

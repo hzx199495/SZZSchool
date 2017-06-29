@@ -18,6 +18,7 @@ import com.shizhanzhe.szzschool.Bean.MyKTBean;
 import com.shizhanzhe.szzschool.Bean.TGsqlBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.TGDetailActivity;
 import com.shizhanzhe.szzschool.adapter.MyCTAdapter;
 import com.shizhanzhe.szzschool.adapter.MyKTAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
@@ -42,11 +43,12 @@ public class MyTGFragment extends Fragment {
     public static MyTGFragment newInstance(int type) {
 
         Bundle args = new Bundle();
-        args.putInt("type",type);
+        args.putInt("type", type);
         MyTGFragment fragment = new MyTGFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,8 +59,8 @@ public class MyTGFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-         int type = bundle.getInt("type");
-        if (type==1) {
+        final int type = bundle.getInt("type");
+        if (type == 1) {
             OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYKT(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
@@ -68,36 +70,24 @@ public class MyTGFragment extends Fragment {
 
                     if (kclist != null && kclist.size() > 0) {
                         gv.setAdapter(new MyKTAdapter(getContext(), kclist));
-//                    gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            try {
-//                                List<TGsqlBean> proid = manager.selector(TGsqlBean.class).where("tuanid", "=", list.get(position).getTuanid()).findAll();
-//                                Intent intent = new Intent();
-//                                intent.setClass(getContext(), TGDetailActivity.class);
-//                                intent.putExtra("title", proid.get(0).getTitle());
-//                                intent.putExtra("img", proid.get(0).getImg());
-//                                intent.putExtra("time", proid.get(0).getTime());
-//                                intent.putExtra("intro", proid.get(0).getIntro());
-//                                intent.putExtra("yjprice", proid.get(0).getYjprice());
-//                                intent.putExtra("id", proid.get(0).getId());
-//                                intent.putExtra("tuanid", proid.get(0).getTuanid());
-//                                intent.putExtra("price", "100");
-//                                intent.putExtra("type", 1);
-//                                getContext().startActivity(intent);
-//                            } catch (DbException e) {
-//                                e.printStackTrace();
-//                            }
+                        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                        }
-//                    });
-//                }
+                                Intent intent = new Intent();
+                                intent.setClass(getContext(), TGDetailActivity.class);
+                                intent.putExtra("tuanid", kclist.get(position).getTuanid());
+                                intent.putExtra("type", 1);
+                                getContext().startActivity(intent);
 
 
+                            }
+                        });
                     }
                 }
             });
-        }else if (type==2) {
+
+        } else if (type == 2) {
             OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYCT(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
@@ -106,9 +96,23 @@ public class MyTGFragment extends Fragment {
                     }.getType());
                     if (ctlist != null && ctlist.size() > 0) {
                         gv.setAdapter(new MyCTAdapter(getContext(), ctlist));
+                        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent();
+                                intent.setClass(getContext(), TGDetailActivity.class);
+                                intent.putExtra("tuanid", ctlist.get(position).getTuanid());
+                                intent.putExtra("type", 2);
+                                getContext().startActivity(intent);
+                            }
+                        });
                     }
                 }
             });
         }
     }
 }
+
+
+
+

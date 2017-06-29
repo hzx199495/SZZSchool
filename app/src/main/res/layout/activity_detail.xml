@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
-        style="@style/TopbarStyle" >
+        style="@style/TopbarStyle">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,41 +17,63 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textSize="17sp" />
+
         <ImageView
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
             android:scaleType="centerInside"
-            android:id="@+id/back" />
+            android:src="@drawable/back_arrow" />
     </RelativeLayout>
-   <LinearLayout
-       android:id="@+id/ll"
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:layout_weight="1"/>
-    <FrameLayout
+
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
         <Button
-            android:id="@+id/buy"
-            android:layout_width="match_parent"
+            android:id="@+id/videobtn"
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            android:background="#00bfff"
-            android:text="购买此课程"
-            android:textColor="#fff" />
-        <Button
-            android:id="@+id/study"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="#f00"
-            android:text="立即学习"
-            android:textColor="#fff"
-            android:visibility="gone"/>
-    </FrameLayout>
+            android:layout_weight="2"
+            android:text="课程详情"
+            android:background="#FFA500"
+            android:textColor="#fff"/>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp">
+
+            <Button
+                android:id="@+id/buy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#00bfff"
+                android:text="购买此课程"
+                android:textColor="#fff" />
+
+            <Button
+                android:id="@+id/study"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="#f00"
+                android:text="立即学习"
+                android:textColor="#fff"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

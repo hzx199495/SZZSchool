@@ -7,17 +7,24 @@ package com.shizhanzhe.szzschool.Bean;
 public class MyKTBean {
 
     /**
-     * id : 30
+     * id : 1151
      * uid : 999
      * uname : 壮壮
-     * tuanid : 17
-     * kttime : 1487562350
-     * ktfee : 100.00
+     * tuanid : 18
+     * kttime : 1498704797
+     * ktfee : 1000.00
      * tynum : 0
      * status : 0
      * isshow : 0
      * tuifee : 0
      * ttnum : 0
+     * title : 团购测试
+     * thumb : /var/upload/image/2017/05/20170523172658_48487.jpg
+     * sid : 83
+     * endtime : 2017-06-29 17:25:00
+     * guize : 100-299|1000-199|10000-99
+     * iszhibo : 0
+     * str : 正常开团中···
      */
 
     private String id;
@@ -31,6 +38,13 @@ public class MyKTBean {
     private String isshow;
     private String tuifee;
     private String ttnum;
+    private String title;
+    private String thumb;
+    private String sid;
+    private String endtime;
+    private String guize;
+    private String iszhibo;
+    private String str;
 
     public String getId() {
         return id;
@@ -118,5 +132,61 @@ public class MyKTBean {
 
     public void setTtnum(String ttnum) {
         this.ttnum = ttnum;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
+
+    public String getGuize() {
+        return guize;
+    }
+
+    public void setGuize(String guize) {
+        this.guize = guize;
+    }
+
+    public String getIszhibo() {
+        return iszhibo;
+    }
+
+    public void setIszhibo(String iszhibo) {
+        this.iszhibo = iszhibo;
+    }
+
+    public String getStr() {
+        return str;
+    }
+
+    public void setStr(String str) {
+        this.str = str;
     }
 }

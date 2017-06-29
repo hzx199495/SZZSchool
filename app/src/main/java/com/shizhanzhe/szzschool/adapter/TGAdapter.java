@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,8 +43,6 @@ public class TGAdapter extends BaseAdapter {
     private List<ProBean.TgBean> list;
     private LayoutInflater inflater;
     private Context context;
-    String tgprice = "";
-    DbManager manager = DatabaseOpenHelper.getInstance();
 
     public TGAdapter(List<ProBean.TgBean> list, Context context) {
         this.list = list;
@@ -50,10 +50,7 @@ public class TGAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void TGAdapterClear() {
-        list.clear();
-        notifyDataSetChanged();
-    }
+
 
     @Override
     public int getCount() {
@@ -93,35 +90,30 @@ public class TGAdapter extends BaseAdapter {
         ImageLoader imageloader = ImageLoader.getInstance();
         imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
         holder.title.setText(bean.getTitle());
-        final ViewHolder finalHolder = holder;
-        OkHttpDownloadJsonUtil.downloadJson(context, Path.SECOND(bean.getTxid(), MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
-                MyApplication.tgjson = json;
-                Gson gson = new Gson();
-                ProBean2.TxBean tx = gson.fromJson(json, ProBean2.class).getTx();
-                finalHolder.yj.setText("原价：" + tx.getNowprice() + "元");
-            }
-        });
+        holder.yj.setText("原价：" + bean.getNowprice() + "元");
         String[] strs = bean.getPtmoney().split("\\|");
+        String tgprice="";
         for (int i = 0; i < strs.length; i++) {
             String[] strs2 = strs[i].split("-");
-            tgprice += strs2[1] + "元/";
+            tgprice +=strs2[1] + "元/";
         }
         holder.tgj.setText("团：" + tgprice);
         if (bean.getKaikedata().contains("1")) {
-            holder.kt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(context, TGDetailActivity.class);
-                    intent.putExtra("tuanid", bean.getId());
-                    intent.putExtra("type", 1);
-                    context.startActivity(intent);
+            if (MyApplication.ktagent.equals("1")){
+                holder.kt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(context, TGDetailActivity.class);
+                        intent.putExtra("tuanid", bean.getId());
+                        intent.putExtra("type", 1);
+                        context.startActivity(intent);
+                    }
+                });
+            }else{
+                Toast.makeText(context,"帐号无开团权限",Toast.LENGTH_SHORT).show();
+            }
 
-
-                }
-            });
             holder.ct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

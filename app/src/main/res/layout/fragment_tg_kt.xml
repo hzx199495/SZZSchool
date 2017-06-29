@@ -16,8 +16,9 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:src="@drawable/ic_launcher" />
+                android:layout_height="200dp"
+                android:src="@drawable/ic_launcher"
+                android:scaleType="fitXY"/>
 
             <View
                 android:layout_width="match_parent"
@@ -209,6 +210,7 @@
                     android:layout_height="wrap_content"
                     android:text="开团需缴纳保底金额100元，如开团成功将返回到您的账户，反之将不予返回！"/>
                 <TextView
+                    android:id="@+id/percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="开团成功福利，可获得团总交易额的20.00%！"/>

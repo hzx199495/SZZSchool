@@ -61,25 +61,19 @@ public class MyCTAdapter extends BaseAdapter {
             holder.iv = (ImageView) convertView.findViewById(R.id.iv);
             holder.title = (TextView) convertView.findViewById(R.id.title);
             holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.num = (TextView) convertView.findViewById(R.id.num);
+            holder.state = (TextView) convertView.findViewById(R.id.state);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-//        try {
-//            MyCTBean bean = list.get(position);
-//            List<TGsqlBean> tg = manager.selector(TGsqlBean.class).where("tuanid", "=", bean.getTuanid()).findAll();
-//            if (tg.size()>0) {
-//                Log.i("______", tg.get(0).getTime());
-//                ImageLoader imageloader = ImageLoader.getInstance();
-//                imageloader.displayImage(Path.IMG(tg.get(0).getImg()), holder.iv, displayoptions);
-//                holder.title.setText(tg.get(0).getTitle());
-//                holder.time.setText("结算：" + tg.get(0).getTime());
-//            }
-//        } catch (DbException e) {
-//            e.printStackTrace();
-//        }
-
+        MyCTBean bean = list.get(position);
+        ImageLoader imageloader = ImageLoader.getInstance();
+        imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
+        holder.title.setText(bean.getTitle());
+        holder.time.setText("结算时间：" + bean.getEndtime());
+        holder.num.setText("参团人数：" + bean.getTynum());
+        holder.state.setText("本团状态："+bean.getStr());
         return convertView;
     }
 
@@ -87,5 +81,7 @@ public class MyCTAdapter extends BaseAdapter {
         ImageView iv;
         TextView title;
         TextView time;
+        TextView num;
+        TextView state;
     }
 }

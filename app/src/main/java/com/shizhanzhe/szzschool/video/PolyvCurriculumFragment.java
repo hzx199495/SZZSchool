@@ -120,6 +120,7 @@ public class PolyvCurriculumFragment extends Fragment {
         lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MyApplication.videoitemid=videolist.get(position).getId();
                 videoId = videolist.get(position).getMv_url();
                 polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
                 polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {

@@ -69,8 +69,8 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         String uid = loginData.getId();
         String token = loginData.getToken();
         String money=loginData.getMoney();
-        String vip = loginData.getVip();
-
+        MyApplication.vip = loginData.getVip();
+        MyApplication.ktagent = loginData.getKaiagent();
 
         MyApplication.myid=uid;
         MyApplication.token=token;

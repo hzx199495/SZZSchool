@@ -30,11 +30,11 @@ public class ForumBean {
 
     public static class LtmodelBean {
         /**
-         * fid : 57
-         * name : 新媒体运营
-         * description : 新媒体运营简介
-         * systemid : 34
-         * imgurl : /var/upload/image/2016/10/20161025092352_91015.jpg
+         * fid : 58
+         * name : 创业实战者
+         * description : 全站VIP享有的高级板块
+         * systemid : 3
+         * imgurl : /var/upload/image/2016/12/20161206135603_70029.jpg
          */
 
         private String fid;
@@ -86,15 +86,15 @@ public class ForumBean {
 
     public static class SzanBean {
         /**
-         * pid : 10
+         * pid : 45
          * tid : 0
-         * fid : 58
+         * fid : 59
          * first : 1
          * author : 15655555202
          * authorid : 852
-         * subject : 微信淘客实战思维导图
+         * subject : 实战课程问答专题！
          * content :
-         * dateline : 1482393728
+         * dateline : 2017-02-28
          * message :
          * useip :
          * invisible : 0
@@ -112,9 +112,9 @@ public class ForumBean {
          * comment : 0
          * replycredit : 0
          * position : 0
-         * looknum : 124
-         * recoverytime : 1483372096
-         * alltip : 12
+         * looknum : 5298
+         * recoverytime : 1498737742
+         * alltip : 75
          * is_show : 0
          * lmorder : 0
          * showindex : 0
@@ -126,7 +126,7 @@ public class ForumBean {
          * sizecolor :
          * location_p : 陕西省
          * location_c : 西安市
-         * typeclass : 2
+         * typeclass : 0
          * logo : http://wx.qlogo.cn/mmopen/XB40pUV1u88KPq4pTzpBb3ce59Tc5TqjiazwcwcVOWZP96E3vPIAHz9SKt4IaLywuzmGSZiaoZFnMsUoR5AFWPuJwfUzE5EYYl/0
          * realname : 灯火
          */
@@ -139,7 +139,7 @@ public class ForumBean {
         private String authorid;
         private String subject;
         private String content;
-        private long dateline;
+        private String dateline;
         private String message;
         private String useip;
         private String invisible;
@@ -239,11 +239,11 @@ public class ForumBean {
             this.content = content;
         }
 
-        public long getDateline() {
+        public String getDateline() {
             return dateline;
         }
 
-        public void setDateline(long dateline) {
+        public void setDateline(String dateline) {
             this.dateline = dateline;
         }
 

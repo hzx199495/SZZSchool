@@ -1,12 +1,9 @@
 package com.shizhanzhe.szzschool.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +22,6 @@ import com.shizhanzhe.szzschool.Bean.CollectListBean;
 import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.activity.ProjectDetailActivity;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
@@ -63,7 +59,9 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
         fragment.setArguments(args);
         return fragment;
     }
+
     ProgressDialog dialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         dialog = new ProgressDialog(getActivity());
@@ -80,7 +78,7 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     String img;
     String id;
     boolean flag;
-    String tag;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -88,35 +86,20 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
         dialog.show();
         Bundle bundle = getArguments();
         id = bundle.getString("id");
+        MyApplication.txId=id;
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECTLIST(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
-
-                JsonParser parser = new JsonParser();
-                JsonArray jsonArray = parser.parse(json).getAsJsonArray();
                 Gson gson = new Gson();
-                ArrayList<List<CollectListBean.SysinfoBean>> sysinfo = new ArrayList<>();
-                ArrayList<String> listId = new ArrayList<>();
+                List<CollectListBean> list = gson.fromJson(json, new TypeToken<List<CollectListBean>>() {
+                }.getType());
+                for (CollectListBean bean : list
+                        ) {
 
-                //加强for循环遍历JsonArray
-                for (JsonElement pro : jsonArray) {
-                    //使用GSON，直接转成Bean对象
-                    CollectListBean Bean = gson.fromJson(pro, CollectListBean.class);
-                    sysinfo.add(Bean.getSysinfo());
-                    listId.add(Bean.getId());
-                }
-                for (int i = 0; i < listId.size(); i++) {
-                    List<CollectListBean.SysinfoBean> sysinfoBeen = sysinfo.get(i);
-                    for (int j = 0; j < sysinfoBeen.size(); j++) {
-                        if (sysinfoBeen.get(j).getId().equals(id)) {
-                            flag = true;
-                            collect.setImageResource(R.drawable.ic_courseplay_star1);
-                            tag = listId.get(i);
-                        } else {
-                            flag = false;
-                            collect.setImageResource(R.drawable.ic_courseplay_star2);
-                        }
+                    if (bean.getSysinfo().get(0).getId().equals(id)) {
+                        flag = true;
+                        collect.setImageResource(R.drawable.ic_courseplay_star1);
                     }
                 }
             }
@@ -124,16 +107,16 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
         OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.SECOND(id, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                MyApplication.videojson=json;
+                MyApplication.videojson = json;
                 Gson gson = new Gson();
                 ProBean2.TxBean tx = gson.fromJson(json, ProBean2.class).getTx();
                 detail_title.setText(tx.getStitle());
                 detail_intro.setText(tx.getIntroduce());
                 ImageLoader imageloader = ImageLoader.getInstance();
                 imageloader.displayImage(Path.IMG(tx.getThumb()), detail_iv, MyApplication.displayoptions);
-                MyApplication.proimg=tx.getThumb();
+                MyApplication.proimg = tx.getThumb();
                 detail_price.setText("￥" + tx.getNowprice());
-                detail_study.setText("学习人数："+tx.getNum()+"人");
+                detail_study.setText("学习人数：" + tx.getNum() + "人");
                 dialog.dismiss();
             }
         });
@@ -189,18 +172,17 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
+
         if (flag) {
             OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COLLECT(MyApplication.myid, id, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
-
                 }
             });
         } else {
-            OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.DELCOLLECT(MyApplication.myid, tag, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.DELCOLLECT(MyApplication.myid, id, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
-
                 }
             });
         }

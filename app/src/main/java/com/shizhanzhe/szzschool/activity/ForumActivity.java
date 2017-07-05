@@ -59,7 +59,7 @@ public class ForumActivity extends Activity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String title = szan.get(position).getSubject();
                 String name = szan.get(position).getRealname();
-                long time = szan.get(position).getDateline();
+                String time = szan.get(position).getDateline();
                 String pid = szan.get(position).getPid();
                 String fid = szan.get(position).getFid();
                 String logo = szan.get(position).getLogo();

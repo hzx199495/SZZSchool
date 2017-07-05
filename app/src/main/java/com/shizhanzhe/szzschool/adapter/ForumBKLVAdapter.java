@@ -72,7 +72,7 @@ public class ForumBKLVAdapter extends BaseAdapter {
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
         holder.vip.setVisibility(View.GONE);
-        holder.time.setText(getSpaceTime(bean.getDateline()));
+        holder.time.setText(bean.getDateline());
         holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
         holder.look.setText("查看:"+bean.getLooknum());
         holder.rep.setText("回复:"+bean.getAlltip());

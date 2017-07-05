@@ -16,7 +16,7 @@ public class BKBean {
      * authorid : 899
      * subject : 丑丑的有问必答！
      * content :
-     * dateline : 1482308752
+     * dateline : 2016-12-21
      * message :
      * useip :
      * invisible : 0
@@ -34,9 +34,9 @@ public class BKBean {
      * comment : 0
      * replycredit : 0
      * position : 0
-     * looknum : 35
-     * recoverytime : 1483372434
-     * alltip : 8
+     * looknum : 144
+     * recoverytime : 1483422601
+     * alltip : 14
      * is_show : 0
      * lmorder : 0
      * showindex : 0
@@ -62,7 +62,7 @@ public class BKBean {
     private String authorid;
     private String subject;
     private String content;
-    private long dateline;
+    private String dateline;
     private String message;
     private String useip;
     private String invisible;
@@ -163,11 +163,11 @@ public class BKBean {
         this.content = content;
     }
 
-    public long getDateline() {
+    public String getDateline() {
         return dateline;
     }
 
-    public void setDateline(long dateline) {
+    public void setDateline(String dateline) {
         this.dateline = dateline;
     }
 

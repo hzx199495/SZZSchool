@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.activity;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
@@ -18,6 +19,8 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -40,6 +43,7 @@ public class MyApplication extends MultiDexApplication {
     public static String tuanid;
     public static String  vip;
     public static String ktagent;
+    public static String txId;
     public static boolean SC = false;
     public static double version;
     public static ImageOptions options;
@@ -130,7 +134,32 @@ public class MyApplication extends MultiDexApplication {
             }
         });
     }
+    private static MyApplication instance;
+    private List<Activity> activityList = new LinkedList();
 
+    //单例模式中获取唯一的ExitApplication实例
+    public static MyApplication getInstance() {
+        if (null == instance) {
+            instance = new MyApplication();
+        }
+        return instance;
+
+    }
+
+    //添加Activity到容器中
+    public void addActivity(Activity activity) {
+        activityList.add(activity);
+    }
+    //遍历所有Activity并finish
+
+    public void exit() {
+        for (Activity activity : activityList) {
+            activity.finish();
+        }
+
+        System.exit(0);
+
+    }
 }
 
 

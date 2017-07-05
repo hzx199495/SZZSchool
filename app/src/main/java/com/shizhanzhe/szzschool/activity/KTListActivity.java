@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.KTListBean;
-import com.shizhanzhe.szzschool.Bean.MyKTBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.KTAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
@@ -40,6 +39,7 @@ public class KTListActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        this.setFinishOnTouchOutside(true);
         Intent intent = getIntent();
         String tuanid = intent.getStringExtra("tuanid");
         final String img = intent.getStringExtra("img");

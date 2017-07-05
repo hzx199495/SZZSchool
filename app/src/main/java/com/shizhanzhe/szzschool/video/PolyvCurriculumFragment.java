@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.easefun.polyvsdk.PolyvBitRate;
 import com.google.gson.Gson;
@@ -116,19 +117,24 @@ public class PolyvCurriculumFragment extends Fragment {
                 videolist.add(video);
             }
         }
-        lv_cur.setAdapter(new Videoadapter(getContext(),videolist));
+        lv_cur.setAdapter(new Videoadapter(getContext(),videolist,"0"));
         lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MyApplication.videoitemid=videolist.get(position).getId();
-                videoId = videolist.get(position).getMv_url();
-                polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
-                polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
-                    @Override
-                    public void callback() {
-                        requestPermissionWriteSettings();
-                    }
-                });
+                if (videolist.get(position).getGrade().contains("2") || videolist.get(position).getGrade().contains("1")) {
+                    MyApplication.videoitemid=videolist.get(position).getId();
+                    videoId = videolist.get(position).getMv_url();
+                    polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
+                    polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
+                        @Override
+                        public void callback() {
+                            requestPermissionWriteSettings();
+                        }
+                    });
+                }else {
+                    Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

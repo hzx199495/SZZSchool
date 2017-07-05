@@ -124,7 +124,7 @@ public class PolyvPlayerDanmuFragment extends Fragment {
 
             @Override
             public void success(BaseDanmakuParser baseDanmakuParser, PolyvDanmakuEntity entity) {
-                toastMsg("获取弹幕成功，总数" + entity.getAllDanmaku().size());
+//                toastMsg("获取弹幕成功，总数" + entity.getAllDanmaku().size());
                 if (iDanmakuView != null)
                     iDanmakuView.prepare(baseDanmakuParser, mContext);
             }

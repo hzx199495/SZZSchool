@@ -59,7 +59,7 @@ public class MyKTAdapter extends BaseAdapter {
             holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.num = (TextView) convertView.findViewById(R.id.num);
             holder.state = (TextView) convertView.findViewById(R.id.state);
-
+            holder.tgmoney= (TextView) convertView.findViewById(R.id.tgmoney);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -80,5 +80,6 @@ public class MyKTAdapter extends BaseAdapter {
         TextView time;
         TextView num;
         TextView state;
+        TextView tgmoney;
     }
 }

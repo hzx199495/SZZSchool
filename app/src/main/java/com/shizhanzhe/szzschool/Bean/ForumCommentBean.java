@@ -8,14 +8,15 @@ import java.util.List;
 
 public class ForumCommentBean {
 
+
     /**
-     * id : 46
-     * tid : 10
-     * pid : 58
-     * author : 晓亮
-     * authorid : 897
-     * dateline : 1482393928
-     * comment : 前排沙发点位！
+     * id : 246
+     * tid : 45
+     * pid : 59
+     * author : 我也是醉了
+     * authorid : 987
+     * dateline : 2017-02-28
+     * comment : 求微帮详细广告文案和话术
      * score : 0
      * useip :
      * rpid : 0
@@ -23,9 +24,10 @@ public class ForumCommentBean {
      * classid : 0
      * mood : 0
      * poststatus : 0
-     * man_reply : [{"id":"50","tid":"10","pid":"58","author":"灯火","authorid":"852","dateline":"1482395356","comment":"沙发很正确呀！！！！！！","score":"0","useip":"","rpid":"46","uid":"0","classid":"0","mood":"0","poststatus":"0"}]
-     * logo : http://wx.qlogo.cn/mmopen/6tOpeHFIAJY8XT40C5VZyuaiabYAmKwhRtzkIg9Fh7psXmtQBS3mRWXPtakcEIHxicH0Drxw2wovEhkKphQzspfsibFNyjexibGt/0
-     * num : 12
+     * image :
+     * man_reply : [{"id":"272","tid":"45","pid":"59","author":"灯火","authorid":"852","dateline":"2017-03-02","comment":" 发现淘宝一个内部的购物方法，一般情况下，你看到的宝贝，都能一折拿到，想要在淘宝低价购物的朋友，可以扫下面的二维码加好友，给你提供内部渠道！！！！ 配图就是很高大上的东西，低价购买到的！","score":"0","useip":"","rpid":"246","uid":"0","classid":"0","mood":"0","poststatus":"0","image":""}]
+     * logo : http://wx.qlogo.cn/mmopen/XB40pUV1u88mYapno0m1wsC2AXJuazg8Ip387YmCMicFDr45hQ59tZdL5J2mhCVrDSWCWQkXIFwwCbtXhWkmx8OVPiceOO9BGib/0
+     * num : 75
      */
 
     private String id;
@@ -33,7 +35,7 @@ public class ForumCommentBean {
     private String pid;
     private String author;
     private String authorid;
-    private long dateline;
+    private String dateline;
     private String comment;
     private String score;
     private String useip;
@@ -42,6 +44,7 @@ public class ForumCommentBean {
     private String classid;
     private String mood;
     private String poststatus;
+    private String image;
     private String logo;
     private String num;
     private List<ManReplyBean> man_reply;
@@ -86,11 +89,11 @@ public class ForumCommentBean {
         this.authorid = authorid;
     }
 
-    public long getDateline() {
+    public String getDateline() {
         return dateline;
     }
 
-    public void setDateline(long dateline) {
+    public void setDateline(String dateline) {
         this.dateline = dateline;
     }
 
@@ -158,6 +161,14 @@ public class ForumCommentBean {
         this.poststatus = poststatus;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getLogo() {
         return logo;
     }
@@ -184,20 +195,21 @@ public class ForumCommentBean {
 
     public static class ManReplyBean {
         /**
-         * id : 50
-         * tid : 10
-         * pid : 58
+         * id : 272
+         * tid : 45
+         * pid : 59
          * author : 灯火
          * authorid : 852
-         * dateline : 1482395356
-         * comment : 沙发很正确呀！！！！！！
+         * dateline : 2017-03-02
+         * comment :  发现淘宝一个内部的购物方法，一般情况下，你看到的宝贝，都能一折拿到，想要在淘宝低价购物的朋友，可以扫下面的二维码加好友，给你提供内部渠道！！！！ 配图就是很高大上的东西，低价购买到的！
          * score : 0
          * useip :
-         * rpid : 46
+         * rpid : 246
          * uid : 0
          * classid : 0
          * mood : 0
          * poststatus : 0
+         * image :
          */
 
         private String id;
@@ -205,7 +217,7 @@ public class ForumCommentBean {
         private String pid;
         private String author;
         private String authorid;
-        private Long dateline;
+        private String dateline;
         private String comment;
         private String score;
         private String useip;
@@ -214,6 +226,7 @@ public class ForumCommentBean {
         private String classid;
         private String mood;
         private String poststatus;
+        private String image;
 
         public String getId() {
             return id;
@@ -255,11 +268,11 @@ public class ForumCommentBean {
             this.authorid = authorid;
         }
 
-        public Long getDateline() {
+        public String getDateline() {
             return dateline;
         }
 
-        public void setDateline(Long dateline) {
+        public void setDateline(String dateline) {
             this.dateline = dateline;
         }
 
@@ -325,6 +338,14 @@ public class ForumCommentBean {
 
         public void setPoststatus(String poststatus) {
             this.poststatus = poststatus;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
         }
     }
 }

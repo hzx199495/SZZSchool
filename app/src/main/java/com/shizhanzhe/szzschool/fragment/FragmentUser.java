@@ -12,14 +12,13 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -35,7 +34,6 @@ import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.activity.UserSetActivity;
 import com.shizhanzhe.szzschool.activity.UserZHActivity;
 import com.shizhanzhe.szzschool.adapter.MyProAdapter;
-import com.shizhanzhe.szzschool.utils.MyGridView;
 import com.shizhanzhe.szzschool.utils.MyListView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -44,7 +42,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -76,7 +73,8 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     MyListView lv_kc;
     @ViewInject(R.id.nokc)
     LinearLayout nokc;
-
+    @ViewInject(R.id.scroll)
+    ScrollView scroll;
     private Bitmap bitmapbg;
     View rootview;
 
@@ -100,6 +98,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        scroll.smoothScrollTo(0,20);
         getMyProject();
         Bundle bundle = getArguments();
         final String img = bundle.getString("img");

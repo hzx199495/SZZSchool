@@ -10,7 +10,6 @@
         android:background="#87CEFA">
 
         <ImageView
-            android:id="@+id/img_main"
             android:src="@drawable/logo_other"
             android:layout_gravity="center"
             android:layout_width="0dp"

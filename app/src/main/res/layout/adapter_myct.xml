@@ -5,15 +5,17 @@
     android:padding="2dp">
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="100dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher"/>
+        android:layout_marginLeft="5dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_marginLeft="5dp"
+        >
 
         <TextView
             android:id="@+id/title"
@@ -36,5 +38,12 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="本团状态："/>
+        <TextView
+            android:id="@+id/tgmoney"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="补齐团费"
+            android:textColor="@color/blue2"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

@@ -37,8 +37,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     RadioGroup rg;
     @ViewInject(R.id.search_tv)
     TextView tv;
-    @ViewInject(R.id.img_main)
-    ImageView goMain;
+
     @ViewInject(R.id.main)
     RadioButton main;
     private FragmentCenter fragmentCenter;
@@ -64,17 +63,15 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         String data = intent.getStringExtra("data");
         Gson gson = new Gson();
         LoginBean loginData = gson.fromJson(data, LoginBean.class);
-         username = loginData.getUsername();
+        username = loginData.getUsername();
         img = loginData.getHeadimg();
         String uid = loginData.getId();
         String token = loginData.getToken();
         String money=loginData.getMoney();
         MyApplication.vip = loginData.getVip();
         MyApplication.ktagent = loginData.getKaiagent();
-
         MyApplication.myid=uid;
         MyApplication.token=token;
-
         MyApplication.money=money;
         FragmentTransaction ft=manager.beginTransaction();
         if(nowFragment==null){
@@ -91,16 +88,8 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 startActivity(intent);
             }
         });
-        goMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                FragmentTransaction ft=manager.beginTransaction();
-                ft.show(fragmentCenter);
-                ft.commit();
-                main.setChecked(true);
-            }
-        });
+        MyApplication.getInstance().addActivity(this);
     }
 
 

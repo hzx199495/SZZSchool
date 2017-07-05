@@ -68,24 +68,7 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
         back.setOnClickListener(this);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        OkHttpDownloadJsonUtil.downloadJson(this, Path.SECOND(id, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
-                Gson gson = new Gson();
-                ProBean2.TxBean tx = gson.fromJson(json, ProBean2.class).getTx();
-                String isbuy = tx.getIsbuy();
-                if (isbuy.equals("0")){
-
-                }else if (isbuy.equals("1")){
-                    buy.setVisibility(View.GONE);
-                    study.setVisibility(View.VISIBLE);
-                }
-                FragmentDetail fragmentDetail = new FragmentDetail().newInstance(id);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.ll, fragmentDetail).commit();
-            }
-        });
-
+        getData();
         dialog = new Dialog(this,R.style.dialog);
         dialog.setContentView(R.layout.dialog_buy);
         WindowManager windowManager = getWindowManager();
@@ -96,6 +79,7 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
         dialog.getWindow().setAttributes(lp);
         buy.setOnClickListener(this);
         videobtn.setOnClickListener(this);
+        study.setOnClickListener(this);
     }
             @Override
             public void onClick(View v) {
@@ -145,39 +129,25 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
                                             BuyBean bean = gson.fromJson(buy, BuyBean.class);
                                             if (bean.getStatus()==1){
                                                 Toast.makeText(DetailActivity.this, "购买成功", Toast.LENGTH_LONG).show();
+                                                getData();
                                             }else if(bean.getStatus()==3){
-                                                Toast.makeText(DetailActivity.this, "余额不足，使用支付宝支付", Toast.LENGTH_LONG).show();
-                                                new Pay(DetailActivity.this,proprice,title, new Pay.PayListener() {
-                                                    @Override
-                                                    public void refreshPriorityUI() {
-                                                        OkHttpDownloadJsonUtil.downloadJson(DetailActivity.this, MyApplication.path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                                                            @Override
-                                                            public void onsendJson(String json) {
-                                                                Gson gson = new Gson();
-                                                                LoginBean loginData = gson.fromJson(json, LoginBean.class);
-                                                                String token = loginData.getToken();
-                                                                String mymoney=loginData.getMoney();
-                                                                MyApplication.token=token;
-                                                                MyApplication.money=mymoney;
-                                                                Toast.makeText(DetailActivity.this, "购买成功", Toast.LENGTH_LONG).show();
-                                                            }
-                                                        });
-                                                    }
-                                                });
+                                                Toast.makeText(DetailActivity.this, "余额不足,请充值", Toast.LENGTH_LONG).show();
                                             }
-
                                             dialog.dismiss();
                                         }
 
                                     });
                                 }
-
                             }
                         });
                         break;
                     case R.id.videobtn:
                         Intent intent = new Intent(DetailActivity.this, ProjectDetailActivity.class);
                         startActivity(intent);
+                        break;
+                    case R.id.study:
+                        Intent intent2 = new Intent(DetailActivity.this, ProjectDetailActivity.class);
+                        startActivity(intent2);
                         break;
                     case R.id.back:
                         finish();
@@ -187,5 +157,30 @@ public class  DetailActivity extends FragmentActivity implements View.OnClickLis
 
             }
 
+    void getData(){
+        OkHttpDownloadJsonUtil.downloadJson(this, Path.SECOND(id, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
+            @Override
+            public void onsendJson(String json) {
+                Gson gson = new Gson();
+                ProBean2.TxBean tx = gson.fromJson(json, ProBean2.class).getTx();
+                String isbuy = tx.getIsbuy();
+                if (MyApplication.vip.equals("1")){
+                    buy.setVisibility(View.GONE);
+                    study.setVisibility(View.VISIBLE);
+                }else{
+                    if (isbuy.equals("0")){
+
+                    }else if (isbuy.equals("1")){
+                        buy.setVisibility(View.GONE);
+                        study.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                FragmentDetail fragmentDetail = new FragmentDetail().newInstance(id);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.ll, fragmentDetail).commit();
+            }
+        });
+    }
 }

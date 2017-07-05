@@ -10,22 +10,22 @@ public class CollectListBean {
 
 
     /**
-     * id : 357
+     * id : 358
      * userID : 999
      * oid :
      * integralAll : 0
      * integral : 0
      * sourceType : 1
-     * addtime : 1496888307
+     * addtime : 1496891937
      * sourceID :
      * sHash :
      * coid :
      * isshow : 1
-     * systemid : 82
+     * systemid : 3
      * type :
      * pid :
      * catid : 2
-     * sysinfo : [{"id":"82","stitle":"PHP网站建设","thumb":"/var/upload/image/2017/03/20170327170216_77901.jpg","listorder":"0","updatetime":"1490604015","inputtime":"1490604015","picture":"/var/upload/image/2017/05/20170516163113_82369.png","introduce":"从基础到入门，结合公众号，淘宝客与学院教育网站建设实例，带你一起成长！","exception":"","style":"","catid":"42","couClass":"0","sys_hours":"","keyword":"PHP网站建设","description":"PHP网站建设","l_nanyi":"1","l_jiage":"5","keshi":"1","status":"0","tfm":"0.00","pfm":"100.00","tcid":"1203","editor":"","count":"0"}]
+     * sysinfo : [{"id":"3","stitle":"Swift语言开发入门","thumb":"/var/upload/image/2015/05/20150511100104_57213.jpg","listorder":"1","updatetime":"1429614887","inputtime":"1429614887","picture":"/var/upload/image/2015/05/20150511100104_57213.jpg","introduce":"Swift语言编程的相关概念和基础知识，教学中将Swift和C/OC相关内容进行比较和总结，充分的刨析Swift的语法知识，而且通过Swift 类库和OC类库进行比较让学员能够充分的了解并掌握Swift语法特点、和OC的联系和区别，为学员后续学习和进行Swift相关开发打下坚实的语法基础。","exception":"2,3,4,5","style":"","catid":"3","couClass":"18","sys_hours":"8时16分47秒","keyword":"11Swift语言开发入门","description":"22Swift语言开发入门","l_nanyi":"1","l_jiage":"5","keshi":"1","status":"0","tfm":"0.00","pfm":"0.00","tcid":"0","editor":"","count":"0"}]
      */
 
     private String id;
@@ -175,28 +175,28 @@ public class CollectListBean {
 
     public static class SysinfoBean {
         /**
-         * id : 82
-         * stitle : PHP网站建设
-         * thumb : /var/upload/image/2017/03/20170327170216_77901.jpg
-         * listorder : 0
-         * updatetime : 1490604015
-         * inputtime : 1490604015
-         * picture : /var/upload/image/2017/05/20170516163113_82369.png
-         * introduce : 从基础到入门，结合公众号，淘宝客与学院教育网站建设实例，带你一起成长！
-         * exception :
+         * id : 3
+         * stitle : Swift语言开发入门
+         * thumb : /var/upload/image/2015/05/20150511100104_57213.jpg
+         * listorder : 1
+         * updatetime : 1429614887
+         * inputtime : 1429614887
+         * picture : /var/upload/image/2015/05/20150511100104_57213.jpg
+         * introduce : Swift语言编程的相关概念和基础知识，教学中将Swift和C/OC相关内容进行比较和总结，充分的刨析Swift的语法知识，而且通过Swift 类库和OC类库进行比较让学员能够充分的了解并掌握Swift语法特点、和OC的联系和区别，为学员后续学习和进行Swift相关开发打下坚实的语法基础。
+         * exception : 2,3,4,5
          * style :
-         * catid : 42
-         * couClass : 0
-         * sys_hours :
-         * keyword : PHP网站建设
-         * description : PHP网站建设
+         * catid : 3
+         * couClass : 18
+         * sys_hours : 8时16分47秒
+         * keyword : 11Swift语言开发入门
+         * description : 22Swift语言开发入门
          * l_nanyi : 1
          * l_jiage : 5
          * keshi : 1
          * status : 0
          * tfm : 0.00
-         * pfm : 100.00
-         * tcid : 1203
+         * pfm : 0.00
+         * tcid : 0
          * editor :
          * count : 0
          */

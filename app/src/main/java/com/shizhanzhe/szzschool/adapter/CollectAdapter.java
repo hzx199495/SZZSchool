@@ -27,13 +27,13 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 public class CollectAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    ArrayList<List<CollectListBean.SysinfoBean>>  list;
+    List<CollectListBean>  list;
     Context context;
-    ArrayList<String> listId;
-    public CollectAdapter(Context context, ArrayList<List<CollectListBean.SysinfoBean>>  list,ArrayList<String> listId) {
+
+    public CollectAdapter(Context context, List<CollectListBean> list) {
         this.context=context;
         this.list=list;
-        this.listId=listId;
+
         inflater = LayoutInflater.from(context);
     }
 
@@ -65,7 +65,7 @@ public class CollectAdapter extends BaseAdapter {
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
-        final CollectListBean.SysinfoBean bean = list.get(position).get(0);
+        final CollectListBean.SysinfoBean bean = list.get(position).getSysinfo().get(0);
         ImageLoader imageloader = ImageLoader.getInstance();
         imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
         holder.title.setText(bean.getStitle());
@@ -76,7 +76,7 @@ public class CollectAdapter extends BaseAdapter {
                     list.remove(position);
                     notifyDataSetChanged();
 
-                    OkHttpDownloadJsonUtil.downloadJson(context, Path.DELCOLLECT(MyApplication.myid, listId.get(position), MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                    OkHttpDownloadJsonUtil.downloadJson(context, Path.DELCOLLECT(MyApplication.myid, bean.getId(), MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
                         public void onsendJson(String json) {
                         }
@@ -84,28 +84,6 @@ public class CollectAdapter extends BaseAdapter {
 
             }
         });
-//        holder.iv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DbManager manager = DatabaseOpenHelper.getInstance();
-//                try {
-//                    List<SearchBean> intentbean= manager.selector(SearchBean.class).where("proid", "=", bean.getId()).findAll();
-//
-//                    Intent intent=new Intent(context, DetailActivity.class);
-//                    intent.putExtra("id",intentbean.get(0).getProid());
-//                    intent.putExtra("img",intentbean.get(0).getImg());
-//                    intent.putExtra("title",intentbean.get(0).getTitle());
-//                    intent.putExtra("intro",intentbean.get(0).getIntro());
-//                    intent.putExtra("price",intentbean.get(0).getPrice());
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(intent);
-//                } catch (DbException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//            }
-//        });
         return convertView;
     }
     class ViewHolder{

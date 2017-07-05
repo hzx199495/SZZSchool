@@ -30,15 +30,6 @@
             android:textColor="@color/black"
             android:textSize="24sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="课程简介"
-            android:layout_marginTop="21dp"
-            android:id="@+id/textView4"
-            android:layout_below="@+id/detail_study"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/detail_study"
@@ -49,46 +40,73 @@
             android:layout_below="@+id/detail_title"
             android:layout_marginTop="10dp"
             android:text="学习人数：1000人" />
+
         <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/detail_study"
             android:layout_marginTop="10dp"
-            android:background="#e4e4e4"/>
+            android:background="#e4e4e4" />
+
         <TextView
             android:id="@+id/detail_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:paddingLeft="20dp"
+            android:layout_below="@+id/view"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
             android:text="￥498"
             android:textColor="#FF0000"
             android:textSize="23sp" />
 
         <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/detail_price"
+            android:layout_marginTop="20dp"
+            android:text="课程简介" />
+
+        <TextView
             android:id="@+id/detail_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="课程简介"
-            android:layout_below="@+id/textView4"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView4"
+            android:layout_marginTop="10dp"
+
+            android:text="课程简介" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@id/detail_price"
             android:layout_marginTop="10dp"
+            android:background="#e4e4e4" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_below="@id/detail_intro"
-            android:background="#e4e4e4"/>
+            android:layout_marginTop="10dp"
+            android:background="#e4e4e4" />
+
         <ImageView
             android:id="@+id/collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/detail_title"
+            android:layout_alignTop="@+id/detail_study"
+            android:layout_marginEnd="79dp"
+            android:layout_marginRight="79dp"
             android:src="@drawable/ic_courseplay_star2" />
     </RelativeLayout>
 

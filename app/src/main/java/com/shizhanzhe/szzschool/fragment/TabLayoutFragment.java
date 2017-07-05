@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
@@ -70,7 +71,9 @@ public class TabLayoutFragment extends Fragment {
         getData();
 
     }
+
     ProBean2.CiBean list;
+
     protected void initView() {
 
 
@@ -78,8 +81,8 @@ public class TabLayoutFragment extends Fragment {
             case 1:
 
                 final ArrayList<VideoBean> videolist1 = new ArrayList<>();
-                for (ProBean2.CiBean.A0Bean.ChoiceKcBean bean: list.getA0().getChoice_kc()
-                     ) {
+                for (ProBean2.CiBean.A0Bean.ChoiceKcBean bean : list.getA0().getChoice_kc()
+                        ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
                     video.setId(bean.getId());
@@ -89,14 +92,23 @@ public class TabLayoutFragment extends Fragment {
                     video.setSort(bean.getSort());
                     videolist1.add(video);
                 }
-                lv.setAdapter(new Videoadapter(getContext(),videolist1));
+                lv.setAdapter(new Videoadapter(getContext(), videolist1, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MyApplication.videotype=type;
-                        MyApplication.videoitemid=videolist1.get(position).getId();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist1.get(position).getMv_url());
-                        getContext().startActivity(intent);
+                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                            if (videolist1.get(position).getGrade().contains("2") || videolist1.get(position).getGrade().contains("1")) {
+                                MyApplication.videotype = type;
+                                MyApplication.videoitemid = videolist1.get(position).getId();
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist1.get(position).getMv_url());
+                                getContext().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
                 break;
@@ -114,20 +126,28 @@ public class TabLayoutFragment extends Fragment {
                     video.setSort(bean.getSort());
                     videolist2.add(video);
                 }
-                lv.setAdapter(new Videoadapter(getContext(),videolist2));
+                lv.setAdapter(new Videoadapter(getContext(), videolist2, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MyApplication.videotype=type;
-                        MyApplication.videoitemid=videolist2.get(position).getId();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist2.get(position).getMv_url());
-                        getContext().startActivity(intent);
+                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                            if (videolist2.get(position).getGrade().contains("2") || videolist2.get(position).getGrade().contains("1")) {
+                                MyApplication.videotype = type;
+                                MyApplication.videoitemid = videolist2.get(position).getId();
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist2.get(position).getMv_url());
+                                getContext().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
             case 3:
                 final ArrayList<VideoBean> videolist3 = new ArrayList<>();
-                for (ProBean2.CiBean.A2Bean.ChoiceKcBeanXX bean: list.getA2().getChoice_kc()
+                for (ProBean2.CiBean.A2Bean.ChoiceKcBeanXX bean : list.getA2().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -138,20 +158,28 @@ public class TabLayoutFragment extends Fragment {
                     video.setSort(bean.getSort());
                     videolist3.add(video);
                 }
-                lv.setAdapter(new Videoadapter(getContext(),videolist3));
+                lv.setAdapter(new Videoadapter(getContext(), videolist3, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MyApplication.videotype=type;
-                        MyApplication.videoitemid=videolist3.get(position).getId();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist3.get(position).getMv_url());
-                        getContext().startActivity(intent);
+                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                            if (videolist3.get(position).getGrade().contains("2") || videolist3.get(position).getGrade().contains("1")) {
+                                MyApplication.videotype = type;
+                                MyApplication.videoitemid = videolist3.get(position).getId();
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist3.get(position).getMv_url());
+                                getContext().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
             case 4:
                 final ArrayList<VideoBean> videolist4 = new ArrayList<>();
-                for (ProBean2.CiBean.A3Bean.ChoiceKcBeanXXX bean: list.getA3().getChoice_kc()
+                for (ProBean2.CiBean.A3Bean.ChoiceKcBeanXXX bean : list.getA3().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -162,20 +190,28 @@ public class TabLayoutFragment extends Fragment {
                     video.setSort(bean.getSort());
                     videolist4.add(video);
                 }
-                lv.setAdapter(new Videoadapter(getContext(),videolist4));
+                lv.setAdapter(new Videoadapter(getContext(), videolist4, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MyApplication.videotype=type;
-                        MyApplication.videoitemid=videolist4.get(position).getId();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist4.get(position).getMv_url());
-                        getContext().startActivity(intent);
+                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                            if (videolist4.get(position).getGrade().contains("2") || videolist4.get(position).getGrade().contains("1")) {
+                                MyApplication.videotype = type;
+                                MyApplication.videoitemid = videolist4.get(position).getId();
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist4.get(position).getMv_url());
+                                getContext().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
             case 5:
                 final ArrayList<VideoBean> videolist5 = new ArrayList<>();
-                for (ProBean2.CiBean.A4Bean.ChoiceKcBeanXXXX bean: list.getA4().getChoice_kc()
+                for (ProBean2.CiBean.A4Bean.ChoiceKcBeanXXXX bean : list.getA4().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -186,14 +222,22 @@ public class TabLayoutFragment extends Fragment {
                     video.setSort(bean.getSort());
                     videolist5.add(video);
                 }
-                lv.setAdapter(new Videoadapter(getContext(),videolist5));
+                lv.setAdapter(new Videoadapter(getContext(), videolist5, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        MyApplication.videotype=type;
-                        MyApplication.videoitemid=videolist5.get(position).getId();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist5.get(position).getMv_url());
-                        getContext().startActivity(intent);
+                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                            if (videolist5.get(position).getGrade().contains("2") || videolist5.get(position).getGrade().contains("1")) {
+                                MyApplication.videotype = type;
+                                MyApplication.videoitemid = videolist5.get(position).getId();
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist5.get(position).getMv_url());
+                                getContext().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
@@ -201,11 +245,29 @@ public class TabLayoutFragment extends Fragment {
 
 
     }
-    void getData(){
+
+    String txId;
+    String isbuy;
+
+    void getData() {
         Gson gson = new Gson();
         list = gson.fromJson(MyApplication.videojson, ProBean2.class).getCi();
+        ProBean2.TxBean tx = gson.fromJson(MyApplication.videojson, ProBean2.class).getTx();
+        txId = tx.getId();
+        isbuy = tx.getIsbuy();
         initView();
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.SECOND(MyApplication.txId, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                MyApplication.videojson = json;
+                getData();
+            }
+        });
+    }
 }

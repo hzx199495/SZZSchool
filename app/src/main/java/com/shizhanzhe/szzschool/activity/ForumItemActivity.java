@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -73,6 +74,8 @@ public class ForumItemActivity extends Activity {
     ImageView back;
     @ViewInject(R.id.scroll)
     ScrollView scroll;
+    @ViewInject(R.id.ds)
+    Button ds;
     private String fid;
     private String pid;
     // 讨论的listView
@@ -94,6 +97,7 @@ public class ForumItemActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
         findIdAndNew();
+
         Intent intent = getIntent();
         fid = intent.getStringExtra("fid");
         pid = intent.getStringExtra("pid");
@@ -101,7 +105,17 @@ public class ForumItemActivity extends Activity {
         String img = intent.getStringExtra("img");
         String replies = intent.getStringExtra("rep");
         String name = intent.getStringExtra("name");
-        long time = intent.getLongExtra("time", 0);
+        String time = intent.getStringExtra("time");
+        final String authorid = intent.getStringExtra("authorid");
+        ds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(ForumItemActivity.this, RewardActivity.class);
+                intent1.putExtra("fid",fid);
+                intent1.putExtra("authorid",authorid);
+                startActivity(intent1);
+            }
+        });
         initView();
         DisplayImageOptions options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.polyv_avatar_def) // resource
                 // or
@@ -120,11 +134,10 @@ public class ForumItemActivity extends Activity {
         } else {
             ImageLoader.getInstance().displayImage(Path.IMG(img), avatar, options);
         }
-        edtime.setText(getDateTimeFromMillisecond(time));
+        edtime.setText(time);
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.i("_________CONTENT",json+"");
                 MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
                 MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
                 Spanned spanned = Html.fromHtml(json, imageGetter, tagHandler);

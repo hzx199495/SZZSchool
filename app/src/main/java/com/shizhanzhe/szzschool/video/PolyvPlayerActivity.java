@@ -2,12 +2,15 @@ package com.shizhanzhe.szzschool.video;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -131,7 +134,7 @@ public class PolyvPlayerActivity extends FragmentActivity {
         addFragment();
         findIdAndNew();
         initView();
-
+        connect();
         int playModeCode = getIntent().getIntExtra("playMode", PlayMode.portrait.getCode());
         PlayMode playMode = PlayMode.getPlayMode(playModeCode);
         if (playMode == null)
@@ -156,7 +159,7 @@ public class PolyvPlayerActivity extends FragmentActivity {
     private void addFragment() {
         danmuFragment = new PolyvPlayerDanmuFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.fl_danmu,danmuFragment,"danmuFragment");
+        ft.add(R.id.fl_danmu, danmuFragment, "danmuFragment");
 
         topFragment = new PolyvPlayerTopFragment().newInstance(MyApplication.videotitle);
         tabFragment = new PolyvPlayerTabFragment();
@@ -225,7 +228,7 @@ public class PolyvPlayerActivity extends FragmentActivity {
         videoView.setOnInfoListener(new IPolyvOnInfoListener2() {
             @Override
             public boolean onInfo(int what, int extra) {
-                switch (what){
+                switch (what) {
                     case PolyvMediaInfoType.MEDIA_INFO_BUFFERING_START:
                         danmuFragment.pause(false);
                         break;
@@ -532,7 +535,7 @@ public class PolyvPlayerActivity extends FragmentActivity {
                         fastForwardPos = 0;
                     videoView.seekTo(fastForwardPos);
                     danmuFragment.seekTo();
-                    if (videoView.isCompletedState()){
+                    if (videoView.isCompletedState()) {
                         videoView.start();
                         danmuFragment.resume();
                     }
@@ -602,7 +605,7 @@ public class PolyvPlayerActivity extends FragmentActivity {
         advertCountDown.setVisibility(View.GONE);
         firstStartView.hide();
 
-        danmuFragment.setVid(vid,videoView);
+        danmuFragment.setVid(vid, videoView);
         if (startNow) {
             videoView.setVid(vid, bitrate, isMustFromLocal);
         } else {
@@ -620,8 +623,9 @@ public class PolyvPlayerActivity extends FragmentActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (viewPagerFragment != null){}
-            viewPagerFragment.getTalkFragment().onActivityResult(requestCode, resultCode, data);
+        if (viewPagerFragment != null) {
+        }
+        viewPagerFragment.getTalkFragment().onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -667,7 +671,6 @@ public class PolyvPlayerActivity extends FragmentActivity {
     }
 
 
-
     public static Intent newIntent(Context context, PlayMode playMode, String vid) {
         return newIntent(context, playMode, vid, PolyvBitRate.ziDong.getNum());
     }
@@ -710,12 +713,17 @@ public class PolyvPlayerActivity extends FragmentActivity {
 
     /**
      * 播放模式
+     *
      * @author TanQu
      */
     public enum PlayMode {
-        /** 横屏 */
+        /**
+         * 横屏
+         */
         landScape(3),
-        /** 竖屏 */
+        /**
+         * 竖屏
+         */
         portrait(4);
 
         private final int code;
@@ -726,6 +734,7 @@ public class PolyvPlayerActivity extends FragmentActivity {
 
         /**
          * 取得类型对应的code
+         *
          * @return
          */
         public int getCode() {
@@ -743,4 +752,16 @@ public class PolyvPlayerActivity extends FragmentActivity {
             return null;
         }
     }
+
+    public void connect() {
+        ConnectivityManager mConnectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mMobileNetworkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);   //获取移动网络信息
+        NetworkInfo wifi =mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (mMobileNetworkInfo != null) {
+            Toast.makeText(this,"当前使用数据流量连接",Toast.LENGTH_LONG).show();
+        }else if (wifi != null){
+            Toast.makeText(this,"当前使用WIFI连接",Toast.LENGTH_LONG).show();
+        }
+
+}
 }

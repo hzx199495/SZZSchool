@@ -45,11 +45,11 @@ public class MoneyActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String str = czmoney.getText().toString();
-                if(str!=null&!"".equals(str)){
-                    new Pay(MoneyActivity.this, str,"账户充值",new Pay.PayListener() {
+                if(!"".equals(str)){
+                    new Pay(MoneyActivity.this, str,"账户充值"+str,new Pay.PayListener() {
                         @Override
                         public void refreshPriorityUI() {
-                            Intent intent = new Intent(MoneyActivity.this, PolyvTalkFragment.class);
+                            Intent intent = new Intent(MoneyActivity.this, UserZHActivity.class);
                             setResult(2, intent);
                             finish();
                         }

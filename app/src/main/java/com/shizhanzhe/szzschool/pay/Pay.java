@@ -135,17 +135,31 @@ public class Pay {
 				String s=response.body().string();
 				Log.i("success",s);
 				String a[] = s.split("</script>");
-
 				Gson gson = new Gson();
 				PayBean payBean = gson.fromJson(a[1], PayBean.class);
 				long order = payBean.getOrder();
-				Log.i("订单号","订单号"+order);
+				Log.i("充值订单号","订单号"+order);
 				payV2(order,price,subject);
 			}
 		});
 
 	}
+	public Pay(Activity activity, final String price, final String subject, String path){
+		this.price=price;
+		this.activity=activity;
+		this.context=activity.getApplicationContext();
+		OkHttpDownloadJsonUtil.downloadJson(context, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+			@Override
+			public void onsendJson(String json) {
+				Gson gson = new Gson();
+				PayBean bean = gson.fromJson(json, PayBean.class);
+				long order = bean.getOrder();
+				Log.i("打赏订单号","订单号"+order);
+				payV2(order,price,subject);
+			}
+		});
 
+	}
 	/**
 	 * 支付宝支付业务
 	 * 

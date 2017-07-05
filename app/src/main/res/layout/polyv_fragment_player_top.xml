@@ -33,12 +33,12 @@
             android:ellipsize="marquee"
             android:textSize="@dimen/top_text_size" />
 
-        <ImageView
-            android:id="@+id/iv_share"
-            style="@style/iv_click_commom"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/polyv_btn_share" />
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_share"-->
+            <!--style="@style/iv_click_commom"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@drawable/polyv_btn_share" />-->
     </RelativeLayout>
 
 </LinearLayout>

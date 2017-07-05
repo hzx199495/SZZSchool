@@ -68,7 +68,7 @@ public  class Path {
     }
     //收藏列表
     public static String COLLECTLIST(String uid,String token) {
-        String path = "http://shizhanzhe.com/index.php?m=pcdata.get_collect&pc=1&uid="+uid+"&token="+token;
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.get_collect1&pc=1&uid="+uid+"&token="+token;
         return path;
     }
     //论坛首页
@@ -148,6 +148,47 @@ public  class Path {
     //个人资料修改
     public static String PERSONALUPDATE(String uid,String token) {
         String path = "http://shizhanzhe.com/index.php?m=pcdata.xmember&pc=1&uid="+uid+"&token="+token;
+        return path;
+    }
+    //考核题目
+    public static String EXAM(String videoID) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.do_exam&pc=1&coid="+videoID;
+        return path;
+    }
+    //考核满分
+    public static String EXAMSUCCESS(String videoID,String uid,String sid,String token) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.manfen&pc=1&coid="+videoID+"&uid="+uid+"&sid="+sid+"&token="+token;
+        return path;
+    }
+
+    //打赏提现
+    public static String DSTIXIAN(String money,String zh,String uid) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.app_zan_txsubmit&txfee="+money+"&aliaccout="+zh+"&uid="+uid;
+        return path;
+    }
+    //打赏转移
+    public static String DSZHUANYI(String money,String uid) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.app_zan_zzsubmit&zzfee="+money+"&uid="+uid;
+        return path;
+    }
+    //团购获利提现
+    public static String TGTIXIAN(String money,String zh,String uid) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.app_txsubmit&txfee="+money+"&aliaccout="+zh+"&uid="+uid;
+        return path;
+    }
+    //团购获利转移
+    public static String TGZHUANYI(String money,String uid) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.app_zzsubmit&zzfee="+money+"&uid="+uid;
+        return path;
+    }
+    //VIP接口
+    public static String VIPBUY(String money,String time,String uid) {
+        String path = "http://shizhanzhe.com/index.php?m=vipay.app_vip&uid="+uid+"&last_time="+time+"&money="+money;
+        return path;
+    }
+    //VIP单价查询接口 获取VIP的年单价
+    public static String GETVIP() {
+        String path = "http://shizhanzhe.com/index.php?m=vipay.app_vip&vip=1";
         return path;
     }
 }

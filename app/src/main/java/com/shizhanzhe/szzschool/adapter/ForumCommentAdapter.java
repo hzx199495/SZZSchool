@@ -126,7 +126,7 @@ public class ForumCommentAdapter extends BaseAdapter {
         viewHolder.tv_msg.setText(ss);
         //添加点击事件时，必须设置
         viewHolder.tv_msg.setMovementMethod(LinkMovementMethod.getInstance());
-        viewHolder.tv_time.setText(getSpaceTime(bean.getDateline()));
+        viewHolder.tv_time.setText(bean.getDateline());
         if(Path.IMG(bean.getLogo()).contains("http")) {
             ImageLoader.getInstance().displayImage(bean.getLogo(), viewHolder.iv_avatar, options);
         }else {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,9 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
     TextView exit;
     @ViewInject(R.id.ll_clean_cache)
     LinearLayout cleanCache;
+    @ViewInject(R.id.back)
+    ImageView back;
+
     boolean flag=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
         }
         cleanCache.setOnClickListener(this);
         exit.setOnClickListener(this);
+        back.setOnClickListener(this);
+        MyApplication.getInstance().addActivity(this);
     }
 
     @Override
@@ -93,6 +99,9 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
                 editor.remove("upawd");
                 editor.commit();
                 startActivity(new Intent(SZActivity.this,LoginActivity.class));
+                finish();
+                break;
+            case R.id.back:
                 finish();
                 break;
         }

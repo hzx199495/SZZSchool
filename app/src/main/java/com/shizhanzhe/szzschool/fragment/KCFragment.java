@@ -1,16 +1,19 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.GVAdapter;
 import com.shizhanzhe.szzschool.adapter.TGAdapter;
@@ -53,14 +56,29 @@ public class KCFragment extends Fragment {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-                List<ProBean.TxBean> tx = gson.fromJson(json, ProBean.class).getTx();
+                final List<ProBean.TxBean> tx = gson.fromJson(json, ProBean.class).getTx();
                 List<ProBean.TgBean> tg = gson.fromJson(json, ProBean.class).getTg();
                 if (type==0){
-
                    gv.setAdapter(new TGAdapter(tg,getContext()));
+                    gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        }
+                    });
                 }else if (type==1){
                     gv.setNumColumns(2);
                     gv.setAdapter(new GVAdapter(tx, getContext()));
+                    gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent();
+                            intent.setClass(getActivity(), DetailActivity.class);
+                            String proid = tx.get(position).getId();
+                            intent.putExtra("id", proid);
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
         });

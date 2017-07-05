@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.MyCTBean;
 import com.shizhanzhe.szzschool.Bean.MyKTBean;
-import com.shizhanzhe.szzschool.Bean.TGsqlBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.TGDetailActivity;
 import com.shizhanzhe.szzschool.adapter.MyCTAdapter;
@@ -29,8 +28,6 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;
-
-import static com.shizhanzhe.szzschool.R.id.lv_kc;
 
 /**
  * Created by zz9527 on 2017/6/13.
@@ -100,9 +97,8 @@ public class MyTGFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent();
-                                intent.setClass(getContext(), TGDetailActivity.class);
-                                intent.putExtra("tuanid", ctlist.get(position).getTuanid());
-                                intent.putExtra("type", 2);
+                                intent.setClass(getContext(), DetailActivity.class);
+                                intent.putExtra("id", ctlist.get(position).getSid());
                                 getContext().startActivity(intent);
                             }
                         });

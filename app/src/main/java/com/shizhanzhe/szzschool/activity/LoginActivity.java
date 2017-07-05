@@ -55,25 +55,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         editor = preferences.edit();
-//        final String uname = preferences.getString("uname", "");
-//        String upawd = preferences.getString("upawd", "");
-//        if (TextUtils.isEmpty(uname) && TextUtils.isEmpty(upawd)) {
-//
-//        } else {
-//            Log.i("________",uname+upawd);
-//            String path = Path.UZER(uname, upawd);
-//            MyApplication.path = path;
-//            OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-//                @Override
-//                public void onsendJson(String json) {
-//                    MyApplication.zh = uname;
-//                    Intent intent = new Intent();
-//                    intent.setClass(LoginActivity.this, MainActivity.class);
-//                    intent.putExtra("data", json);
-//                    startActivity(intent);
-//                }
-//            });
-//        }
     }
     ProgressDialog dialog;
     /**

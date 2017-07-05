@@ -192,6 +192,16 @@
 
                 </RelativeLayout>
 
+                    <Button
+                        android:id="@+id/ds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="打赏楼主"
+                        android:background="@drawable/shape"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        />
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"

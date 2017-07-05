@@ -94,7 +94,8 @@
                     android:gravity="center"
                     android:text="昵称"
                     android:textColor="@color/blue2"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:cursorVisible="false"/>
             </LinearLayout>
 
             <View
@@ -194,6 +195,7 @@
                     android:drawablePadding="7.5dip"
                     android:gravity="center"
                     android:text="99"
+                    android:cursorVisible="false"
                     android:textColor="@color/blue2"
                     android:textSize="14sp"/>
             </LinearLayout>
@@ -228,6 +230,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="123456@szz.com"
+                android:cursorVisible="false"
                 android:background="@null"
                 android:drawablePadding="7.5dip"
                 android:gravity="center"
@@ -301,6 +304,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="7.5dip"
+                android:cursorVisible="false"
                 android:gravity="center"
                 android:textColor="@color/blue2"
                 android:textSize="14sp" />
@@ -334,6 +338,7 @@
                 android:id="@+id/tv_qm"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
+                android:cursorVisible="false"
                 android:background="@drawable/bg_edittext"
                 android:drawablePadding="7.5dip"
                 android:gravity="top"

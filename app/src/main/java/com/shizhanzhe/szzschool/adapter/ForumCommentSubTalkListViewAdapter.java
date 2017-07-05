@@ -93,7 +93,7 @@ public class ForumCommentSubTalkListViewAdapter extends BaseAdapter{
         viewHolder.tv_msg.setText(ss);
         //添加点击事件时，必须设置
         viewHolder.tv_msg.setMovementMethod(LinkMovementMethod.getInstance());
-        viewHolder.tv_time.setText(getSpaceTime(replyBean.getDateline()));
+        viewHolder.tv_time.setText(replyBean.getDateline());
         return convertView;
     }
 

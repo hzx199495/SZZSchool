@@ -20,11 +20,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
+import com.shizhanzhe.szzschool.Bean.PersonalDataBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.pay.Pay;
 import com.shizhanzhe.szzschool.utils.MyDialog;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.Path;
 
+import org.w3c.dom.Text;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -44,25 +47,38 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     TextView xf;
     @ViewInject(R.id.back)
     ImageView back;
-    Dialog dialog;
-    EditText czmoney;
-    TextView zh;
-    Button btnpay;
-    String mymoney;
-    String token;
+    @ViewInject(R.id.dsmoney)
+    TextView dsmoney;
+    @ViewInject(R.id.tgmoney)
+    TextView tgmoney;
+    @ViewInject(R.id.vip)
+    TextView vip;
+    @ViewInject(R.id.ktvip)
+    TextView ktvip;
+    @ViewInject(R.id.dstx)
+    TextView dstx;
+    @ViewInject(R.id.dszy)
+    TextView dszy;
+    @ViewInject(R.id.tgtx)
+    TextView tgtx;
+    @ViewInject(R.id.tgzy)
+    TextView tgzy;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-
-        money.setText(MyApplication.money);
-//         dialog = new Dialog(this,R.style.Dialog_Fullscreen);
-//        dialog.setContentView(R.layout.dialog_cz);
+        getUserData();
         cz.setOnClickListener(this);
         xf.setOnClickListener(this);
+        ktvip.setOnClickListener(this);
         back.setOnClickListener(this);
+        dstx.setOnClickListener(this);
+        dszy.setOnClickListener(this);
+        tgtx.setOnClickListener(this);
+        tgzy.setOnClickListener(this);
             }
 
 
@@ -72,42 +88,34 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
             case R.id.recharge:
                 Intent intent = new Intent(getApplicationContext(), MoneyActivity.class);
                 startActivityForResult(intent, 1);
-                dialog = new Dialog(this, R.style.popupDialog);
-//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                dialog.setContentView(R.layout.dialog_cz);
-//                dialog.setCanceledOnTouchOutside(false);
-//                dialog.setCancelable(true);
-//                WindowManager.LayoutParams lay = dialog.getWindow().getAttributes();
-//                DisplayMetrics dm = new DisplayMetrics();
-//                getWindowManager().getDefaultDisplay().getMetrics(dm);
-//                Rect rect = new Rect();
-//                View view = getWindow().getDecorView();//decorView是window中的最顶层view，可以从window中获取到decorView
-//                view.getWindowVisibleDisplayFrame(rect);
-//                lay.height = dm.heightPixels - rect.top;
-//                lay.width = dm.widthPixels;
-//                dialog.show();
-//                czmoney = (EditText) dialog.getWindow().findViewById(R.id.edit_money);
-//                zh = (TextView) dialog.getWindow().findViewById(R.id.cz_zh);
-//                btnpay = (Button) dialog.getWindow().findViewById(R.id.btn_czpay);
-//                btnpay.setOnClickListener(this);
-//                zh.setText("充值账户:"+MyApplication.zh);
                 break;
-//            case R.id.btn_czpay:
-//                String str = czmoney.getText().toString();
-//                if(str!=null&!"".equals(str)){
-//                    new Pay(UserZHActivity.this, str, new Pay.PayListener() {
-//                        @Override
-//                        public void refreshPriorityUI(String string) {
-//                            money.setText(string);
-//                        }
-//                    });
-//                }else{
-//                    Toast.makeText(getApplicationContext(),"金额不能为空",Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-
             case R.id.xf:
                 startActivity(new Intent(UserZHActivity.this,XFActivity.class));
+                break;
+            case R.id.dstx:
+                Intent intent1 = new Intent(UserZHActivity.this, TXZYActivity.class);
+                intent1.putExtra("type",1);
+                startActivity(intent1);
+                break;
+            case R.id.dszy:
+                Intent intent2 = new Intent(UserZHActivity.this, TXZYActivity.class);
+                intent2.putExtra("type",2);
+                startActivity(intent2);
+                break;
+            case R.id.tgtx:
+                Intent intent3 = new Intent(UserZHActivity.this, TXZYActivity.class);
+                intent3.putExtra("type",3);
+                startActivity(intent3);
+                break;
+            case R.id.tgzy:
+                Intent intent4 = new Intent(UserZHActivity.this, TXZYActivity.class);
+                intent4.putExtra("type",4);
+                startActivity(intent4);
+                break;
+            case R.id.ktvip:
+                Intent intent5 = new Intent(UserZHActivity.this, TXZYActivity.class);
+                intent5.putExtra("type",5);
+                startActivity(intent5);
                 break;
             case R.id.back:
                 finish();
@@ -124,6 +132,30 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
             case 2:
                 money.setText(MyApplication.money);
         }
+    }
+    void getUserData(){
+        OkHttpDownloadJsonUtil.downloadJson(this, Path.PERSONALDATA(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                Gson gson = new Gson();
+                PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
+                MyApplication.money=bean.getFrozen_money();
+                money.setText(MyApplication.money);
+                dsmoney.setText(bean.getUser_money());
+                tgmoney.setText(bean.getTgfee());
+                if (MyApplication.vip.equals("1")){
+                    vip.setText("已开通");
+                }else{
+                    vip.setText("未开通");
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserData();
     }
 }
 

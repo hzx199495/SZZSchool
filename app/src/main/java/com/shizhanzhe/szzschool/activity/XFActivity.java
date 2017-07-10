@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.XFBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.XFAdapter;
@@ -27,6 +28,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by hasee on 2016/12/19.
@@ -53,18 +55,7 @@ public class XFActivity extends Activity {
             public void onsendJson(String json) {
                 Gson gson = new Gson();
                 //Json的解析类对象
-                JsonParser parser = new JsonParser();
-                //将JSON的String 转成一个JsonArray对象
-                JsonArray jsonArray = parser.parse(json).getAsJsonArray();
-                final ArrayList<XFBean> list = new ArrayList<>();
-
-                //加强for循环遍历JsonArray
-                for (JsonElement xf : jsonArray) {
-                    //使用GSON，直接转成Bean对象
-                    XFBean userBean = gson.fromJson(xf, XFBean.class);
-                    list.add(userBean);
-                }
-                Collections.reverse(list);
+                final List<XFBean> list = gson.fromJson(json, new TypeToken<List<XFBean>>(){}.getType());
                 final XFAdapter xfAdapter = new XFAdapter(getApplicationContext(), list);
                 xf.setAdapter(xfAdapter);
                 xf.setOnItemClickListener(new AdapterView.OnItemClickListener() {

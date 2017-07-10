@@ -12,7 +12,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#CD6600"
                 android:text="| 板块推荐"
@@ -25,11 +25,14 @@
                 android:layout_width="match_parent"
                 android:horizontalSpacing="5dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/polyv_border_s"
                 android:numColumns="3"
                 android:verticalSpacing="15dp"/>
 
+
+
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#CD6600"
                 android:padding="5dp"
@@ -40,8 +43,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:numColumns="1"
+                android:background="@drawable/polyv_border_s"
                 android:verticalSpacing="2dp"
                 android:id="@+id/gv_forum" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

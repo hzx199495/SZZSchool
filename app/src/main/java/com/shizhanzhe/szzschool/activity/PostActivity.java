@@ -121,7 +121,6 @@ public class PostActivity extends Activity implements View.OnClickListener {
     private String encode(String path) {
         //decode to bitmap
         Bitmap bitmap = BitmapFactory.decodeFile(path);
-        Log.i("-", "bitmap width: " + bitmap.getWidth() + " height: " + bitmap.getHeight());
         //convert to byte array
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -130,7 +129,6 @@ public class PostActivity extends Activity implements View.OnClickListener {
         //base64 encode
         byte[] encode = Base64.encode(bytes, Base64.DEFAULT);
         String encodeString = new String(encode);
-        Log.i("base64_", encodeString);
         return encodeString;
     }
     /**

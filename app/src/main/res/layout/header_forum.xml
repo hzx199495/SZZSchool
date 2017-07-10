@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/topic_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/top_left_iv_width"
+            android:layout_height="@dimen/top_left_iv_height"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/polyv_avatar_def" />
+
+
+        <TextView
+            android:id="@+id/text_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/avatar"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/avatar"
+            android:text="author"
+            android:textColor="#3bbd79"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/text_timeline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/avatar"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/avatar"
+            android:text="一分钟前"
+            android:textColor="#aaa"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text_replies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_timeline"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/text_timeline"
+            android:text="1个回复"
+            android:textColor="#aaa"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text_node"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/text_author"
+            android:layout_marginRight="16dp"
+            android:background="#e5e5e5"
+            android:text="Python"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/text_node"
+            android:layout_alignLeft="@+id/avatar"
+            android:layout_alignRight="@+id/text_node"
+            android:layout_below="@+id/avatar"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:text="主题"
+            android:textColor="#de000000"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divide_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/text_title"
+            android:layout_marginTop="8dp"
+            android:background="#ffe4e4e4" />
+
+        <TextView
+            android:id="@+id/item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/text_title"
+            android:layout_alignLeft="@+id/avatar"
+            android:layout_alignRight="@+id/text_title"
+            android:layout_below="@+id/divide_line"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="1.25dp"
+            android:text="帖子内容" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/ds"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="打赏楼主"
+        android:background="@drawable/shape"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>

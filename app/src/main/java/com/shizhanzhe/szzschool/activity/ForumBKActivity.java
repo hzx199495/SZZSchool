@@ -3,8 +3,10 @@ package com.shizhanzhe.szzschool.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -50,38 +53,29 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
     ImageView back;
     List<BKBean> list;
     String qx = "";
-    AlertDialog alertDialog;
     int page = 1;
     String fid;
-
+    SVProgressHUD mSVProgressHUD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        final String uid = preferences.getString("uid", "");
+        final String token = preferences.getString("token", "");
         init();
         setListener();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示");
-        builder.setMessage("未购买该体系,无法查看");
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog = builder.create();
         final Intent intent = getIntent();
         fid = intent.getStringExtra("fid");
         String name = intent.getStringExtra("name");
         title.setText(name);
-        bought(fid);
+        bought(fid,uid);
         getData();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (qx.equals("1")) {
+                if (qx.contains("1")) {
                     String title = list.get(position).getSubject();
                     String name = list.get(position).getRealname();
                     String time = list.get(position).getDateline();
@@ -90,12 +84,13 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
                     String rep = list.get(position).getAlltip();
                     String authorid = list.get(position).getAuthorid();
 
-                    OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "http://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + MyApplication.myid + "&pid=" + pid + "+&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                    OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
                         public void onsendJson(String json) {
 
                         }
                     });
+                    flag=true;
                     Intent intent = new Intent(ForumBKActivity.this, ForumItemActivity.class);
                     intent.putExtra("pid", pid);
                     intent.putExtra("title", title);
@@ -107,17 +102,24 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
                     intent.putExtra("authorid", authorid);
                     startActivity(intent);
                 } else {
-                    alertDialog.show();
+                    new SVProgressHUD(ForumBKActivity.this).showInfoWithStatus("未购买该体系,无法查看");
                 }
             }
         });
         puttext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent();
-                i.setClass(ForumBKActivity.this, PostActivity.class);
-                i.putExtra("fid", fid);
-                startActivity(i);
+                SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                String jy = preferences.getString("jy","");
+                if (jy.contains("0")){
+                    new SVProgressHUD(ForumBKActivity.this).showErrorWithStatus("已被禁言，无法发帖");
+                }else{
+                    Intent i = new Intent();
+                    i.setClass(ForumBKActivity.this, PostActivity.class);
+                    i.putExtra("fid", fid);
+                    startActivity(i);
+                }
+
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -148,8 +150,8 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
     }
 
     //购买权限
-    void bought(String fid) {
-        OkHttpDownloadJsonUtil.downloadJson(this, "http://shizhanzhe.com/index.php?m=pcdata.quanxian&pc=1&fid=" + fid + "&uid=" + MyApplication.myid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+    void bought(String fid,String uid) {
+        OkHttpDownloadJsonUtil.downloadJson(this, "https://shizhanzhe.com/index.php?m=pcdata.quanxian&pc=1&fid=" + fid + "&uid=" + uid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 if (json.contains("1")) {
@@ -162,6 +164,8 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
     ForumBKLVAdapter adapter;
 
     void getData() {
+        mSVProgressHUD = new SVProgressHUD(this);
+        mSVProgressHUD.showWithStatus("加载中...");
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMBK(fid, page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
@@ -172,6 +176,7 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
                 }.getType());
                 adapter = new ForumBKLVAdapter(ForumBKActivity.this, list);
                 lv.setAdapter(adapter);
+                mSVProgressHUD.dismiss();
             }
         });
     }
@@ -182,7 +187,8 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
 
             @Override
             public void run() {
-                // 更新数据  更新完后调用该方法结束刷新
+
+
                 page = 1;
                 getData();
                 swipeLayout.setRefreshing(false);
@@ -215,5 +221,15 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
                 });
             }
         }, 2000);
+    }
+boolean flag=false;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (flag){
+            flag=false;
+            onRefresh();
+        }
+
     }
 }

@@ -27,6 +27,11 @@ public class LoginBean {
     private String kaiagent;
     private String vip;
     private String token;
+    /**
+     * is_teacher : 0
+     */
+
+    private String is_teacher;
 
     public String getUsername() {
         return username;
@@ -98,5 +103,13 @@ public class LoginBean {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getIs_teacher() {
+        return is_teacher;
+    }
+
+    public void setIs_teacher(String is_teacher) {
+        this.is_teacher = is_teacher;
     }
 }

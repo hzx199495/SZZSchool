@@ -1,7 +1,9 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -65,8 +67,9 @@ public class TXZYActivity extends Activity {
             title.setText("购买VIP");
             getVIP();
         }
-
-        zh.setText(MyApplication.zh);
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String mzh = preferences.getString("uname", "");
+        zh.setText(mzh);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,15 +81,15 @@ public class TXZYActivity extends Activity {
             public void onClick(View v) {
                 if (!"".equals(money.getText().toString().trim())) {
                     if (type == 1) {
-                    getData(Path.DSTIXIAN(money.getText().toString().trim(),MyApplication.zh,MyApplication.myid));
+                    getData(new Path(TXZYActivity.this).DSTIXIAN(money.getText().toString().trim()));
                     } else if (type == 2) {
-                        getData(Path.DSZHUANYI(money.getText().toString().trim(),MyApplication.myid));
+                        getData(new Path(TXZYActivity.this).DSZHUANYI(money.getText().toString().trim()));
                     } else if (type == 3) {
-                        getData(Path.TGTIXIAN(money.getText().toString().trim(),MyApplication.zh,MyApplication.myid));
+                        getData(new Path(TXZYActivity.this).TGTIXIAN(money.getText().toString().trim()));
                     } else if (type == 4) {
-                        getData(Path.TGZHUANYI(money.getText().toString().trim(),MyApplication.myid));
+                        getData(new Path(TXZYActivity.this).TGZHUANYI(money.getText().toString().trim()));
                     } else if (type == 5) {
-                        getData(Path.VIPBUY(money.getText().toString().trim(),date,MyApplication.myid));
+                        getData(new Path(TXZYActivity.this).VIPBUY(money.getText().toString().trim(),date));
                     }
 
                 } else {
@@ -96,6 +99,8 @@ public class TXZYActivity extends Activity {
         });
     }
     void getData(String path){
+        SharedPreferences preferences =getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = preferences.edit();
         OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
@@ -105,7 +110,8 @@ public class TXZYActivity extends Activity {
                 if (status==1){
                     dialog.setMessage("提交成功");
                     if (type==5){
-                        MyApplication.vip="1";
+                        editor.putString("vip","1");
+                        editor.commit();
                     }
                 }else if (status==2){
                     dialog.setMessage(bean.getInfo());

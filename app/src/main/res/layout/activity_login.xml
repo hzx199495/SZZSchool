@@ -11,10 +11,9 @@
     <ImageView
         android:id="@+id/txtPull"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_height="200dp"
         android:alpha="0.75"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/login"
         android:scaleType="centerInside"
         android:layout_alignTop="@+id/topView"
         android:layout_alignParentLeft="true"

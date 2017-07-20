@@ -1,10 +1,11 @@
 package com.shizhanzhe.szzschool.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +130,10 @@ public class TGOpenFragment extends Fragment {
         dialog.dismiss();
     }
     void KT() {
-        OkHttpDownloadJsonUtil.downloadJson(getActivity(), "http://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid=" + MyApplication.myid + "&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+         String uid = preferences.getString("uid", "");
+         String token = preferences.getString("token", "");
+        OkHttpDownloadJsonUtil.downloadJson(getActivity(), "https://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid=" + uid + "&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();

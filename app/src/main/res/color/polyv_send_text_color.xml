@@ -2,6 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true" android:color="@color/center_bottom_text_color_red"/>
-    <item android:color="@color/top_text_color_black"/>
+    <item android:color="@color/blue2"/>
 
 </selector>

@@ -1,7 +1,9 @@
 package com.shizhanzhe.szzschool.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -21,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -77,20 +80,13 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     ScrollView scroll;
     private Bitmap bitmapbg;
     View rootview;
-
-    public static FragmentUser newInstance(String username, String img) {
-
-        Bundle args = new Bundle();
-        args.putString("username", username);
-        args.putString("img", img);
-        FragmentUser fragment = new FragmentUser();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    SVProgressHUD mSVProgressHUD;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mSVProgressHUD = new SVProgressHUD(getContext());
+        mSVProgressHUD.showWithStatus("加载中...");
         rootview = x.view().inject(this, inflater, null);
         return rootview;
     }
@@ -98,20 +94,14 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        scroll.smoothScrollTo(0,20);
+        mSVProgressHUD.show();
         getMyProject();
-        Bundle bundle = getArguments();
-        final String img = bundle.getString("img");
-        final String username = bundle.getString("username");
-        bitmapbg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.user_bg);
-        topbg.setImageBitmap(blurBitmap(bitmapbg));
-        ImageLoader.getInstance().displayImage(img, mImageHeader);
-        user_name.setText(username);
         user_zh.setOnClickListener(this);
         user_sc.setOnClickListener(this);
         user_sz.setOnClickListener(this);
         user_tg.setOnClickListener(this);
         cv.setOnClickListener(this);
+
     }
 
     //模糊效果
@@ -154,7 +144,19 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         }
     }
     public void getMyProject(){
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.MYCLASS(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        String img = preferences.getString("img", "");
+        String username = preferences.getString("username", "");
+        bitmapbg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.user_bg);
+        topbg.setImageBitmap(blurBitmap(bitmapbg));
+        if (img.contains("http")){
+            ImageLoader.getInstance().displayImage(img, mImageHeader);
+        }else {
+            ImageLoader.getInstance().displayImage(Path.IMG(img), mImageHeader);
+        }
+
+        user_name.setText(username);
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).MYCLASS(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
@@ -173,10 +175,30 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
                         startActivity(intent);
                     }
                 });
+                scroll.smoothScrollTo(0,20);
+                mSVProgressHUD.dismiss();
             }
         });
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        getMyProject();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        String img = preferences.getString("img", "");
+        if (img.contains("http")){
+            ImageLoader.getInstance().displayImage(img, mImageHeader);
+        }else {
+            ImageLoader.getInstance().displayImage(Path.IMG(img), mImageHeader);
+        }
+        scroll.smoothScrollTo(0,20);
+    }
 }
 //    //下载网络图片
 //    public Bitmap getLocalOrNetBitmap(String url) {

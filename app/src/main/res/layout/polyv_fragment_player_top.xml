@@ -24,7 +24,7 @@
             android:layout_toRightOf="@id/iv_finish"
             android:layout_toLeftOf="@+id/iv_share"
             android:singleLine="true"
-            android:text=""
+            android:text="课程学习"
             android:textColor="@color/top_text_color_black"
             android:focusable="true"
             android:focusableInTouchMode="true"

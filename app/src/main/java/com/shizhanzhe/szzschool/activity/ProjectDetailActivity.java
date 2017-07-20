@@ -1,23 +1,18 @@
 package com.shizhanzhe.szzschool.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.TabAdapter;
 import com.shizhanzhe.szzschool.fragment.TabLayoutFragment;
-import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
-import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -33,6 +28,10 @@ import java.util.List;
 public class ProjectDetailActivity extends FragmentActivity {
     @ViewInject(R.id.tab)
     TabLayout tab;
+    @ViewInject(R.id.projectName)
+    TextView name;
+    @ViewInject(R.id.back)
+    ImageView back;
     @ViewInject(R.id.viewpager)
     ViewPager viewpager;
     public static final String[] tabTitle = new String[]{"理论", "实战", "拓展", "融合", "精彩直播"};
@@ -53,6 +52,13 @@ public class ProjectDetailActivity extends FragmentActivity {
         tab.setupWithViewPager(viewpager);
         //设置可以滑动
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        name.setText(getIntent().getStringExtra("name"));
     }
 
 }

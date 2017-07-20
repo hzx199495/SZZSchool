@@ -2,8 +2,10 @@ package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.KTListBean;
@@ -40,6 +43,9 @@ public class KTListActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
         this.setFinishOnTouchOutside(true);
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        final String uid = preferences.getString("uid", "");
+        final String token = preferences.getString("token", "");
         Intent intent = getIntent();
         String tuanid = intent.getStringExtra("tuanid");
         final String img = intent.getStringExtra("img");
@@ -52,14 +58,17 @@ public class KTListActivity extends Activity {
             pricelist.add(strs2[1]);
         }
         final String price=pricelist.get(pricelist.size()-1);
-        OkHttpDownloadJsonUtil.downloadJson(this, "http://shizhanzhe.com/index.php?m=pcdata.kaituancha&pc=1&tid=" + tuanid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(this, "https://shizhanzhe.com/index.php?m=pcdata.kaituancha&pc=1&tid=" + tuanid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-                list = gson.fromJson(json, new TypeToken<List<KTListBean>>() {
-                }.getType());
+                if (json.equals("0")) {
+                    new SVProgressHUD(KTListActivity.this).showInfoWithStatus("暂无开团");
+                } else{
+                    list = gson.fromJson(json, new TypeToken<List<KTListBean>>() {
+                    }.getType());
                 lv.setAdapter(new KTAdapter(getApplicationContext(), list, tgtitle, img));
-
+            }
             }
 
         });
@@ -73,17 +82,17 @@ public class KTListActivity extends Activity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        OkHttpDownloadJsonUtil.downloadJson(KTListActivity.this, "http://shizhanzhe.com/index.php?m=pcdata.cantuan&pc=1&ktid=" + list.get(position).getId() + "&uid=" + MyApplication.myid + "&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                        OkHttpDownloadJsonUtil.downloadJson(KTListActivity.this, "https://shizhanzhe.com/index.php?m=pcdata.cantuan&pc=1&ktid=" + list.get(position).getId() + "&uid=" + uid + "&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                             @Override
                             public void onsendJson(String json) {
                                 if (json.contains("0")) {
-                                    Toast.makeText(KTListActivity.this, "无此开团", Toast.LENGTH_SHORT).show();
+                                    new SVProgressHUD(KTListActivity.this).showInfoWithStatus("无此开团");
                                 } else if (json.contains("1")) {
-                                    Toast.makeText(KTListActivity.this, "参团成功", Toast.LENGTH_SHORT).show();
+                                    new SVProgressHUD(KTListActivity.this).showSuccessWithStatus("参团成功");
                                 } else if (json.contains("2")) {
-                                    Toast.makeText(KTListActivity.this, "数据库操作失败", Toast.LENGTH_SHORT).show();
+                                    new SVProgressHUD(KTListActivity.this).showInfoWithStatus("数据库操作失败");
                                 } else if (json.contains("3")) {
-                                    Toast.makeText(KTListActivity.this, "已经参团", Toast.LENGTH_SHORT).show();
+                                    new SVProgressHUD(KTListActivity.this).showInfoWithStatus("已经参团");
                                 }
                             }
                         });

@@ -4,7 +4,11 @@
     android:layout_height="fill_parent"
     android:background="@color/app_bg"
     android:orientation="vertical">
-
+<LinearLayout
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
         style="@style/TopbarStyle" >
@@ -22,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:src="@drawable/back_arrow"
+            android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
             android:id="@+id/back" />
@@ -109,5 +114,95 @@
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
             android:background="@color/line" />
+    </LinearLayout>
+</LinearLayout>
+    <LinearLayout
+        android:id="@+id/set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            style="@style/TopbarStyle" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="设置密码"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:id="@+id/textView6" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:src="@drawable/back_arrow"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:scaleType="centerInside"
+                android:id="@+id/back2" />
+            <TextView
+                android:id="@+id/reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提交"
+                android:textColor="@color/blue2"
+                android:textSize="17sp"
+                android:layout_alignBottom="@+id/textView6"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="27dp"
+                android:layout_marginEnd="27dp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:background="@color/line" />
+
+            <EditText
+                android:id="@+id/reset_new_pass"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center|left"
+                android:hint="@string/hint_input_new_pass"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:paddingBottom="12.5dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.5dip"
+                android:textColor="@color/one_level"
+                android:textColorHint="@color/hint"
+                android:textSize="14.0sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:background="@color/line" />
+
+            <EditText
+                android:id="@+id/reset_new_pass_two"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center|left"
+                android:hint="@string/hint_input_new_pass_two"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:paddingBottom="12.5dip"
+                android:paddingLeft="15.0dip"
+                android:paddingRight="15.0dip"
+                android:paddingTop="12.5dip"
+                android:textColor="@color/one_level"
+                android:textColorHint="@color/hint"
+                android:textSize="14.0sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

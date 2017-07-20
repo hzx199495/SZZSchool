@@ -150,12 +150,21 @@ public class ExamActivity extends Activity {
     }
 
     void startExam() {
-
+        int count=0;
         if (position+1 == totle) {
             next.setText("提交答案");
         }
         Exam exam = list.get(position);
-        if (exam.getType().equals("1") && exam.getExam().size() == 2) {
+        String answer = exam.getAnswer();
+        List<Exam.ExamBean> beanList = exam.getExam();
+        for (Exam.ExamBean e:beanList
+        ){
+            if (e.getA3().contains(answer)){
+                count++;
+            }
+        }
+        Log.e("exam",exam.getExam().size()+"_"+exam.getType()+"_"+id);
+        if (exam.getExam().size() == 2) {
             question.setText("(单选题)" + (position + 1 + ".") + exam.getTitle());
             a.setText(exam.getExam().get(0).getA1() + "." + exam.getExam().get(0).getA2());
             b.setText(exam.getExam().get(1).getA1() + "." + exam.getExam().get(1).getA2());
@@ -163,9 +172,8 @@ public class ExamActivity extends Activity {
             d.setVisibility(View.GONE);
             e.setVisibility(View.GONE);
             f.setVisibility(View.GONE);
-        } else if (exam.getType().equals("1") && exam.getExam().size() == 4) {
+        } else if (count==1 && exam.getExam().size() == 4) {
             question.setText("(单选题)" + (position + 1 + ".") + exam.getTitle());
-
             a.setText(exam.getExam().get(0).getA1() + "." + exam.getExam().get(0).getA2());
             b.setText(exam.getExam().get(1).getA1() + "." + exam.getExam().get(1).getA2());
             c.setText(exam.getExam().get(2).getA1() + "." + exam.getExam().get(1).getA2());
@@ -174,9 +182,19 @@ public class ExamActivity extends Activity {
             d.setVisibility(View.VISIBLE);
             e.setVisibility(View.GONE);
             f.setVisibility(View.GONE);
-        } else if (exam.getExam().size() == 5) {
+        } else if (count>1 && exam.getExam().size() == 4) {
             question.setText("(多选题)" + (position + 1 + ".") + exam.getTitle());
+            a.setText(exam.getExam().get(0).getA1() + "." + exam.getExam().get(0).getA2());
+            b.setText(exam.getExam().get(1).getA1() + "." + exam.getExam().get(1).getA2());
+            c.setText(exam.getExam().get(2).getA1() + "." + exam.getExam().get(1).getA2());
+            d.setText(exam.getExam().get(3).getA1() + "." + exam.getExam().get(1).getA2());
+            c.setVisibility(View.VISIBLE);
+            d.setVisibility(View.VISIBLE);
+            e.setVisibility(View.GONE);
+            f.setVisibility(View.GONE);
+        }else if (exam.getExam().size() == 5) {
 
+            question.setText("(多选题)" + (position + 1 + ".") + exam.getTitle());
             a.setText(exam.getExam().get(0).getA1() + "." + exam.getExam().get(0).getA2());
             b.setText(exam.getExam().get(1).getA1() + "." + exam.getExam().get(1).getA2());
             c.setText(exam.getExam().get(2).getA1() + "." + exam.getExam().get(1).getA2());
@@ -235,7 +253,7 @@ public class ExamActivity extends Activity {
         startExam();
     }
     void success(){
-        OkHttpDownloadJsonUtil.downloadJson(this, Path.EXAMSUCCESS(id, MyApplication.myid,sid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).EXAMSUCCESS(id,sid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 Log.i("______",json);

@@ -69,7 +69,7 @@ public class RewardActivity extends Activity implements View.OnClickListener {
             case R.id.yes:
                 String str = edit.getText().toString();
                 if(!"".equals(str)){
-                    new Pay(RewardActivity.this, str,"打赏"+str,"http://shizhanzhe.com/index.php?m=courSystem.zanbuy&tid="+tid+"&money="+str+"&fromuid="+tuid);
+                    new Pay(RewardActivity.this, str,"打赏"+str,"https://shizhanzhe.com/index.php?m=courSystem.zanbuy&tid="+tid+"&money="+str+"&fromuid="+tuid);
                 }else{
                     Toast.makeText(getApplicationContext(),"金额不能为空",Toast.LENGTH_SHORT).show();
                 }

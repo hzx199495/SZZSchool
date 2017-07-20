@@ -26,6 +26,12 @@
             android:layout_marginLeft="15dp"
             android:scaleType="centerInside"
             android:src="@drawable/back_arrow" />
+        <ImageView
+            android:id="@+id/share"
+            style="@style/iv_click_commom"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/polyv_btn_share" />
     </RelativeLayout>
 
     <LinearLayout

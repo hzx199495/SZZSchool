@@ -12,6 +12,7 @@ import android.view.ViewConfiguration;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.shizhanzhe.szzschool.R;
@@ -80,6 +81,7 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 			int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
 		// 初始化ListView对象
+
 		if (mListView == null) {
 			getListView();
 		}
@@ -123,6 +125,7 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 
 		case MotionEvent.ACTION_UP:
 			// 抬起
+			Log.e("______抬起",canLoad()+"");
 			if (canLoad()) {
 				loadData();
 			}
@@ -140,6 +143,7 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 	 * @return
 	 */
 	private boolean canLoad() {
+		Log.e("______抬起",isBottom()+"_"+isLoading+"_"+isPullUp());
 		return isBottom() && !isLoading && isPullUp();
 	}
 
@@ -161,7 +165,7 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 	 * @return
 	 */
 	private boolean isPullUp() {
-		return (mYDown - mLastY) >= mTouchSlop;
+			return (mYDown - mLastY) >= mTouchSlop;
 	}
 
 	/**
@@ -205,10 +209,10 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
-		// 滚动时到了最底部也可以加载更多
-		if (canLoad()) {
-			loadData();
-		}
+//		// 滚动时到了最底部也可以加载更多
+//		if (canLoad()) {
+//			loadData();
+//		}
 	}
 	
 	/**

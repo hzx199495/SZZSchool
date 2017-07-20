@@ -26,6 +26,7 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
     </RelativeLayout>
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
         app:tabTextColor="@color/black"
@@ -43,4 +44,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
 </LinearLayout>

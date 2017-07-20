@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by hasee on 2016/11/24.
  */
-public class ProBean2 {
+public class ProDeatailBean {
 
 
     /**

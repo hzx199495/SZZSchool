@@ -50,7 +50,7 @@ public class XFActivity extends Activity {
                 finish();
             }
         });
-        OkHttpDownloadJsonUtil.downloadJson(XFActivity.this, Path.XF(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(XFActivity.this, new Path(this).XF(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
@@ -66,7 +66,7 @@ public class XFActivity extends Activity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         String xfid = list.get(position).getId();
-                                        OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), Path.DelXF(MyApplication.myid, xfid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                                        OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), new Path(XFActivity.this).DelXF(xfid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                                             @Override
                                             public void onsendJson(String json) {
                                                     Log.i("===","删除成功"+json);

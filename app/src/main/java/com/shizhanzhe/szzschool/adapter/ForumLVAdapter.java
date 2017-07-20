@@ -58,7 +58,6 @@ public class ForumLVAdapter extends BaseAdapter {
             holder.vip = (TextView) convertView.findViewById(R.id.vip);
             holder.jh = (TextView) convertView.findViewById(R.id.jh);
             holder.user = (TextView) convertView.findViewById(R.id.user);
-//            holder.vip2 = (TextView) convertView.findViewById(R.id.vip2);
             holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.where = (TextView) convertView.findViewById(R.id.where);
             holder.look = (TextView) convertView.findViewById(R.id.look);
@@ -68,6 +67,9 @@ public class ForumLVAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         ForumBean.SzanBean bean = list.get(position);
+        if (!bean.getFid().equals("58")){
+            holder.vip.setVisibility(View.GONE);
+        }
         x.image().bind(holder.iv,bean.getLogo());
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());

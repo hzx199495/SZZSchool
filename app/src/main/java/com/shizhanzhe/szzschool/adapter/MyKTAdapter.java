@@ -11,10 +11,10 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.MyKTBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
+
 import com.shizhanzhe.szzschool.utils.Path;
 
-import org.xutils.DbManager;
+
 
 import java.util.List;
 

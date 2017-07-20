@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.PagerAdapter;
 import com.shizhanzhe.szzschool.fragment.KCFragment;

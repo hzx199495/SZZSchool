@@ -6,35 +6,38 @@ package com.shizhanzhe.szzschool.Bean;
 
 public class TGBean {
 
+
     /**
-     * id : 17
+     * id : 18
      * catid : 0
-     * title : 团购测试请勿购买
+     * title : 团购测试
      * style :
-     * thumb : /var/upload/image/2017/01/20170113115344_29146.jpg
+     * thumb : /var/upload/image/2017/05/20170523172658_48487.jpg
      * listorder : 0
-     * updatetime : 2017-01-13 11:52:49
-     * price : 100
-     * jiangshi : 团购测试
-     * jiangimg : /var/upload/image/2017/01/20170113115453_52871.jpg
-     * pingfei : 0
+     * updatetime : 2017-05-23 17:26:13
+     * price : 1000
+     * jiangshi :
+     * jiangimg :
+     * pingfei :
      * keshi : 100
-     * jieshao : 团购测试请勿购买
+     * jieshao :
      * renshu : 10000
      * kechengbiao :
-     * zhicheng : 团购测试
-     * kaikedata : 2017-01-15 11:52:00
-     * kechengjj : 团购测试请勿购买
+     * zhicheng :
+     * kaikedata : 0
+     * kechengjj : 团购测试
      * kechengshuoming :
-     * ptmoney : 100-299|1000-199|10000-99
-     * txid : 34
+     * ptmoney : 1-299|1000-199|10000-99
+     * txid : 82
      * iszhibo : 0
      * zbtime : 0
      * holdtime : 0
      * playarea : 0
-     * kfm : 0.00
-     * tfm : 0.00
-     * pfm : 0.00
+     * kfm : 30.00
+     * tfm : 50.00
+     * pfm : 20.00
+     * nowprice : 2680.00
+     * num : 8
      */
 
     private String id;
@@ -65,6 +68,8 @@ public class TGBean {
     private String kfm;
     private String tfm;
     private String pfm;
+    private String nowprice;
+    private String num;
 
     public String getId() {
         return id;
@@ -288,5 +293,21 @@ public class TGBean {
 
     public void setPfm(String pfm) {
         this.pfm = pfm;
+    }
+
+    public String getNowprice() {
+        return nowprice;
+    }
+
+    public void setNowprice(String nowprice) {
+        this.nowprice = nowprice;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
     }
 }

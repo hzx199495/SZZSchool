@@ -1,7 +1,10 @@
 package com.shizhanzhe.szzschool.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.ExamActivity;
@@ -51,6 +53,7 @@ public class Videoadapter extends BaseAdapter{
         return position;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -61,7 +64,7 @@ public class Videoadapter extends BaseAdapter{
             holder.title= (TextView) convertView.findViewById(R.id.tv_title);
             holder.time= (TextView) convertView.findViewById(R.id.tv_time);
             holder.exam= (Button) convertView.findViewById(R.id.exam);
-            holder.study= (Button) convertView.findViewById(R.id.study);
+//            holder.study= (Button) convertView.findViewById(R.id.study);
             convertView.setTag(holder);
         }else {
             holder= (ViewHolder) convertView.getTag();
@@ -73,19 +76,20 @@ public class Videoadapter extends BaseAdapter{
         holder.time.setText(bean.getKc_hours());
 
         if (bean.getGrade().contains("0")){
-            holder.study.setText("开始学习");
-            holder.exam.setVisibility(View.GONE);
+            holder.exam.setBackground(context.getResources().getDrawable(R.drawable.btnstyle3));
+            holder.exam.setText("未学习");
+            holder.exam.setEnabled(false);
         }else if (bean.getGrade().contains("1")){
-            holder.exam.setVisibility(View.VISIBLE);
-            holder.exam.setText("考试通过");
-            holder.study.setText("已学习");
+            holder.exam.setBackground(context.getResources().getDrawable(R.drawable.btnstyle));
+            holder.exam.setText("已学习");
+//            holder.exam.setEnabled(false);
         }else if (bean.getGrade().contains("2")){
-            holder.study.setText("开始学习");
             holder.exam.setText("开始考试");
-            holder.exam.setVisibility(View.VISIBLE);
+            holder.exam.setEnabled(true);
+            holder.exam.setBackground(context.getResources().getDrawable(R.drawable.btnstyle2));
         }
         if (txId.equals("0")){
-            holder.study.setVisibility(View.GONE);
+
             holder.exam.setVisibility(View.GONE);
         }
         holder.exam.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +109,5 @@ public class Videoadapter extends BaseAdapter{
         TextView title;
         TextView time;
         Button exam;
-        Button study;
     }
 }

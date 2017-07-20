@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class SearchBean {
 
+
     private List<TxBean> tx;
     private List<TzBean> tz;
 
@@ -28,31 +29,31 @@ public class SearchBean {
 
     public static class TxBean {
         /**
-         * id : 78
-         * stitle : 网络推广变现·掘金
-         * thumb : /var/upload/image/2017/04/20170417112743_93883.jpg
+         * id : 80
+         * stitle : 微信被动快速吸粉
+         * thumb : /var/upload/image/2017/03/20170303165650_19415.jpg
          * listorder : 0
-         * updatetime : 1487320622
-         * inputtime : 1487320622
-         * picture : /var/upload/image/2017/05/20170516163246_16264.png
-         * introduce : 淘宝客只是一种结果，当你学会所有的方法和模式之后，你会发现变现的方法很多很多！新手学推广技能，应用实操赚钱！老手学战略布局，放大思维格局！不仅仅是淘宝客实战赚钱，更是网络推广技术的灵活运用，快速打造自己团队的巧妙布局！
-         * exception : 1,2
+         * updatetime : 1488461075
+         * inputtime : 1488461075
+         * picture : /var/upload/image/2017/05/20170516163135_81466.png
+         * introduce : 告别主动加用户的时代，步入用户主动加我们的时代！巧妙布局，让粉丝源源不断的主动加我们，微信被动快速吸粉！
+         * exception :
          * style :
          * catid : 41
-         * couClass : 241
-         * sys_hours : 100
-         * keyword : 淘宝客,微信淘宝客,网络推广,网络赚钱
+         * couClass : 0
+         * sys_hours :
+         * keyword : 微信吸粉，微信加粉，微商加好友，微信加粉，微商吸粉
          * description :
-         * l_nanyi : 3
+         * l_nanyi : 1
          * l_jiage : 1
-         * keshi : 31
+         * keshi : 6
          * status : 0
-         * tfm : 40.00
-         * pfm : 60.00
-         * tcid : 1203
+         * tfm : 0.00
+         * pfm : 100.00
+         * tcid : 0
          * editor :
-         * nowprice : 2980.00
-         * num : 7
+         * nowprice : 1680.00
+         * num : 1
          */
 
         private String id;
@@ -284,15 +285,15 @@ public class SearchBean {
 
     public static class TzBean {
         /**
-         * pid : 152
+         * pid : 153
          * tid : 0
          * fid : 59
          * first : 0
-         * author : 17620535359
-         * authorid : 1123
-         * subject : 淘宝助理上传宝贝的时候，上传窗口总是跳出来，做不了其它事情
+         * author : 18729369895
+         * authorid : 986
+         * subject : 学院微信小程序即将上线，敬请期待
          * content :
-         * dateline : 1498224950
+         * dateline : 2017-06-29
          * message :
          * useip :
          * invisible : 0
@@ -310,9 +311,9 @@ public class SearchBean {
          * comment : 0
          * replycredit : 0
          * position : 0
-         * looknum : 9
-         * recoverytime : 1498401034
-         * alltip : 1
+         * looknum : 41
+         * recoverytime : 0
+         * alltip : 2
          * is_show : 0
          * lmorder : 0
          * showindex : 0
@@ -322,10 +323,12 @@ public class SearchBean {
          * classid :
          * is_showindex :
          * sizecolor :
-         * location_p :
-         * location_c :
-         * typeclass : 0
-         * num : 125
+         * location_p : 河南省
+         * location_c : 信阳市
+         * typeclass : 2
+         * num : 15
+         * logo : http://shizhanzhe.com/img/m_m_m.jpg
+         * realname : 童童
          */
 
         private String pid;
@@ -336,7 +339,7 @@ public class SearchBean {
         private String authorid;
         private String subject;
         private String content;
-        private long dateline;
+        private String dateline;
         private String message;
         private String useip;
         private String invisible;
@@ -370,6 +373,8 @@ public class SearchBean {
         private String location_c;
         private String typeclass;
         private String num;
+        private String logo;
+        private String realname;
 
         public String getPid() {
             return pid;
@@ -435,11 +440,11 @@ public class SearchBean {
             this.content = content;
         }
 
-        public long getDateline() {
+        public String getDateline() {
             return dateline;
         }
 
-        public void setDateline(long dateline) {
+        public void setDateline(String dateline) {
             this.dateline = dateline;
         }
 
@@ -705,6 +710,22 @@ public class SearchBean {
 
         public void setNum(String num) {
             this.num = num;
+        }
+
+        public String getLogo() {
+            return logo;
+        }
+
+        public void setLogo(String logo) {
+            this.logo = logo;
+        }
+
+        public String getRealname() {
+            return realname;
+        }
+
+        public void setRealname(String realname) {
+            this.realname = realname;
         }
     }
 }

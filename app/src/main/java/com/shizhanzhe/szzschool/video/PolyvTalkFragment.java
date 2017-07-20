@@ -1,6 +1,8 @@
 package com.shizhanzhe.szzschool.video;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,11 +19,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.easefun.polyvsdk.sub.vlms.entity.PolyvCoursesInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.CommentBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.ForumItemActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -42,36 +46,40 @@ public class PolyvTalkFragment extends Fragment {
     // 加载中控件
     private ProgressBar pb_loading;
     // 空数据控件,重新加载控件
-    private TextView tv_empty, tv_reload;
+    private TextView tv_empty, tv_reload, nodata;
 
     CommentBean bean;
     String questionunameid;
     String questionid;
+    private String teacher;
+    private String uid;
+
     private void addNewQuestion() {
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.SENDQUESTION(list.get(0).getClassid(), list.get(0).getSid(), list.get(0).getPid(), MyApplication.videoitemid, sendMsg, MyApplication.zh, MyApplication.username, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).SENDQUESTION(MyApplication.videoclassid, MyApplication.txId, MyApplication.videotypeid, MyApplication.videoitemid, sendMsg), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                if (json.contains("1")){
+                if (json.contains("1")) {
                     tv_empty.setVisibility(View.GONE);
                     initView();
-                    Toast.makeText(getContext(), "发送成功！", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getContext(), "发表讨论失败，请重试！", Toast.LENGTH_SHORT).show();
+                    new SVProgressHUD(getActivity()).showSuccessWithStatus("发表成功！");
+                } else {
+                    new SVProgressHUD(getActivity()).showErrorWithStatus("发表评论失败，请重试！");
                 }
             }
         });
     }
 
     private void addNewAnswer() {
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.ANSWERQUESTION(MyApplication.videoitemid, questionunameid,sendMsg,questionid,MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).ANSWERQUESTION(MyApplication.videoitemid, questionunameid, sendMsg, questionid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                if (json.contains("1")){
+
+                if (json.contains("1")) {
                     tv_empty.setVisibility(View.GONE);
                     initView();
-                    Toast.makeText(getContext(), "回复成功！", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getContext(), "回复失败，请重试！", Toast.LENGTH_SHORT).show();
+                    new SVProgressHUD(getActivity()).showSuccessWithStatus("回复成功！");
+                } else {
+                    new SVProgressHUD(getActivity()).showErrorWithStatus("回复失败，请重试！");
                 }
             }
         });
@@ -83,21 +91,30 @@ public class PolyvTalkFragment extends Fragment {
         pb_loading = (ProgressBar) view.findViewById(R.id.pb_loading);
         tv_empty = (TextView) view.findViewById(R.id.tv_empty);
         tv_reload = (TextView) view.findViewById(R.id.tv_reload);
+        nodata = (TextView) view.findViewById(R.id.nodata);
     }
+
     List<CommentBean> list;
     PolyvTalkListViewAdapter adapter;
+
     private void initView() {
         // fragment在onCreate之后才可以获取
-        OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.COMMENT(MyApplication.videoitemid, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getContext()).COMMENT(MyApplication.videoitemid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
                 pb_loading.setVisibility(View.GONE);
                 Gson gson = new Gson();
-                 list = gson.fromJson(json, new TypeToken<List<CommentBean>>() {
+                list = gson.fromJson(json, new TypeToken<List<CommentBean>>() {
                 }.getType());
-                adapter = new PolyvTalkListViewAdapter(getActivity(), list);
-                lv_talk.setAdapter(adapter);
+                if (list.size() > 0) {
+                    adapter = new PolyvTalkListViewAdapter(getActivity(), list);
+                    lv_talk.setAdapter(adapter);
+                    nodata.setVisibility(View.GONE);
+                } else {
+                    nodata.setVisibility(View.VISIBLE);
+                }
+
             }
         });
         lv_talk.setOnItemClickListener(new OnItemClickListener() {
@@ -105,12 +122,17 @@ public class PolyvTalkFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 bean = list.get(position);
-                Intent intent = new Intent(getActivity(), PolyvTalkEdittextActivity.class);
-                intent.putExtra("questionid", bean.getId());
-                intent.putExtra("questionunameid", bean.getUid());
-                intent.putExtra("nickname", bean.getUsername());
-                getActivity().startActivityForResult(intent, 13);
-                getActivity().overridePendingTransition(R.anim.polyv_activity_alpha_in, 0);
+                if (uid.contains(bean.getUid()) || teacher.contains("1")) {
+                    Intent intent = new Intent(getActivity(), PolyvTalkEdittextActivity.class);
+                    intent.putExtra("questionid", bean.getId());
+                    intent.putExtra("questionunameid", bean.getUid());
+                    intent.putExtra("nickname", bean.getUsername());
+                    getActivity().startActivityForResult(intent, 13);
+                    getActivity().overridePendingTransition(R.anim.polyv_activity_alpha_in, 0);
+                } else {
+                    new SVProgressHUD(getActivity()).showInfoWithStatus("无权限回复!");
+                }
+
 
             }
         });
@@ -146,6 +168,9 @@ public class PolyvTalkFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        teacher = preferences.getString("teacher", "");
+        uid = preferences.getString("uid", "");
         findIdAndNew();
         initView();
     }
@@ -158,14 +183,15 @@ public class PolyvTalkFragment extends Fragment {
             initView();
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case 19:
                 // 回答
                 sendMsg = data.getStringExtra("sendMsg");
-                questionunameid= data.getStringExtra("questionunameid");
-                questionid=data.getStringExtra("questionid");
+                questionunameid = data.getStringExtra("questionunameid");
+                questionid = data.getStringExtra("questionid");
                 addNewAnswer();
                 break;
 

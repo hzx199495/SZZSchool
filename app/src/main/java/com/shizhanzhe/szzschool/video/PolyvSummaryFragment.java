@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Layout;
 import android.text.TextUtils.TruncateAt;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,15 +12,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.easefun.polyvsdk.sub.vlms.entity.PolyvCoursesInfo;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.shizhanzhe.szzschool.Bean.ProBean2;
-import com.shizhanzhe.szzschool.Bean.VideoBean;
+import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
-
-import java.util.List;
 
 public class PolyvSummaryFragment extends Fragment {
     // 标题,价格,学习人数,简介,其他,展开
@@ -42,7 +36,7 @@ public class PolyvSummaryFragment extends Fragment {
 
     private void initView() {
         Gson gson = new Gson();
-        final ProBean2.CiBean cibean= gson.fromJson(MyApplication.videojson, ProBean2.class).getCi();
+        final ProDeatailBean.CiBean cibean= gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
         if (MyApplication.videotype==1){
             title=cibean.getA0().getCtitle();
             intro=cibean.getA0().getIntroduce();
@@ -61,7 +55,7 @@ public class PolyvSummaryFragment extends Fragment {
         }
 
         tv_title.setText(title);
-        tv_sum.setText(gson.fromJson(MyApplication.videojson, ProBean2.class).getTx().getIntroduce());
+        tv_sum.setText(gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx().getIntroduce());
         tv_other.setText("暂无");
         tv_money.setText("付费");
         tv_money.setTextColor(getResources().getColor(R.color.center_right_text_color_green));

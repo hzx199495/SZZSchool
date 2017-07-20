@@ -1,8 +1,9 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,11 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 
-import com.google.gson.reflect.TypeToken;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.shizhanzhe.szzschool.Bean.ProBean2;
+import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
@@ -27,7 +27,6 @@ import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zz9527 on 2017/5/3.
@@ -50,6 +49,7 @@ public class TabLayoutFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             type = (int) getArguments().getSerializable(TABLAYOUT_FRAGMENT);
         }
@@ -63,16 +63,18 @@ public class TabLayoutFragment extends Fragment {
 
         return view;
     }
-
+    String vip;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+         vip = preferences.getString("vip", "");
         lv = (ListView) view.findViewById(R.id.lv);
         getData();
 
     }
 
-    ProBean2.CiBean list;
+    ProDeatailBean.CiBean list;
 
     protected void initView() {
 
@@ -81,7 +83,7 @@ public class TabLayoutFragment extends Fragment {
             case 1:
 
                 final ArrayList<VideoBean> videolist1 = new ArrayList<>();
-                for (ProBean2.CiBean.A0Bean.ChoiceKcBean bean : list.getA0().getChoice_kc()
+                for (ProDeatailBean.CiBean.A0Bean.ChoiceKcBean bean : list.getA0().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -96,17 +98,18 @@ public class TabLayoutFragment extends Fragment {
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                        if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist1.get(position).getGrade().contains("2") || videolist1.get(position).getGrade().contains("1")) {
+                                MyApplication.videotypeid=list.getA0().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist1.get(position).getId();
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist1.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
                             }
                         } else {
-                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                            new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
                         }
 
                     }
@@ -115,7 +118,7 @@ public class TabLayoutFragment extends Fragment {
             case 2:
 
                 final ArrayList<VideoBean> videolist2 = new ArrayList<>();
-                for (ProBean2.CiBean.A1Bean.ChoiceKcBeanX bean : list.getA1().getChoice_kc()
+                for (ProDeatailBean.CiBean.A1Bean.ChoiceKcBeanX bean : list.getA1().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -130,24 +133,25 @@ public class TabLayoutFragment extends Fragment {
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                        if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist2.get(position).getGrade().contains("2") || videolist2.get(position).getGrade().contains("1")) {
+                                MyApplication.videotypeid=list.getA1().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist2.get(position).getId();
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist2.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
                             }
                         } else {
-                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                            new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
                         }
                     }
                 });
                 break;
             case 3:
                 final ArrayList<VideoBean> videolist3 = new ArrayList<>();
-                for (ProBean2.CiBean.A2Bean.ChoiceKcBeanXX bean : list.getA2().getChoice_kc()
+                for (ProDeatailBean.CiBean.A2Bean.ChoiceKcBeanXX bean : list.getA2().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -162,24 +166,25 @@ public class TabLayoutFragment extends Fragment {
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                        if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist3.get(position).getGrade().contains("2") || videolist3.get(position).getGrade().contains("1")) {
+                                MyApplication.videotypeid=list.getA2().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist3.get(position).getId();
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist3.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
                             }
                         } else {
-                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                            new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
                         }
                     }
                 });
                 break;
             case 4:
                 final ArrayList<VideoBean> videolist4 = new ArrayList<>();
-                for (ProBean2.CiBean.A3Bean.ChoiceKcBeanXXX bean : list.getA3().getChoice_kc()
+                for (ProDeatailBean.CiBean.A3Bean.ChoiceKcBeanXXX bean : list.getA3().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -194,24 +199,25 @@ public class TabLayoutFragment extends Fragment {
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
+                        if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist4.get(position).getGrade().contains("2") || videolist4.get(position).getGrade().contains("1")) {
+                                MyApplication.videotypeid=list.getA3().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist4.get(position).getId();
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist4.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
                             }
                         } else {
-                            Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
+                            new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
                         }
                     }
                 });
                 break;
             case 5:
                 final ArrayList<VideoBean> videolist5 = new ArrayList<>();
-                for (ProBean2.CiBean.A4Bean.ChoiceKcBeanXXXX bean : list.getA4().getChoice_kc()
+                for (ProDeatailBean.CiBean.A4Bean.ChoiceKcBeanXXXX bean : list.getA4().getChoice_kc()
                         ) {
                     VideoBean video = new VideoBean();
                     video.setGrade(bean.getGrade());
@@ -226,15 +232,18 @@ public class TabLayoutFragment extends Fragment {
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (MyApplication.vip.equals("1") || isbuy.equals("1")) {
-                            if (videolist5.get(position).getGrade().contains("2") || videolist5.get(position).getGrade().contains("1")) {
+                        if (vip.equals("1") || isbuy.equals("1")) {
+                            MyApplication.videotypeid=list.getA4().getId();
+
+//                            if (videolist5.get(position).getGrade().contains("2") || videolist5.get(position).getGrade().contains("1")) {
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist5.get(position).getId();
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist5.get(position).getMv_url());
                                 getContext().startActivity(intent);
-                            } else {
-                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
-                            }
+//                            } else {
+
+//                                Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+//                            }
                         } else {
                             Toast.makeText(getActivity(), "未购买课程无法学习", Toast.LENGTH_SHORT).show();
                         }
@@ -251,10 +260,12 @@ public class TabLayoutFragment extends Fragment {
 
     void getData() {
         Gson gson = new Gson();
-        list = gson.fromJson(MyApplication.videojson, ProBean2.class).getCi();
-        ProBean2.TxBean tx = gson.fromJson(MyApplication.videojson, ProBean2.class).getTx();
+        list = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
+        ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
         txId = tx.getId();
         isbuy = tx.getIsbuy();
+        MyApplication.videotitle=tx.getStitle();
+        MyApplication.videoclassid=tx.getCouClass();
         initView();
 
     }
@@ -262,7 +273,7 @@ public class TabLayoutFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.SECOND(MyApplication.txId, MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).SECOND(MyApplication.txId), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 MyApplication.videojson = json;

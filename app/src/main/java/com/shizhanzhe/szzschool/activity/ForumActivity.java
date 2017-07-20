@@ -1,7 +1,9 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +44,9 @@ public class ForumActivity extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
         getdata();
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        final String uid = preferences.getString("uid", "");
+        final String token = preferences.getString("token", "");
         bk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -64,7 +69,8 @@ public class ForumActivity extends Activity implements View.OnClickListener {
                 String fid = szan.get(position).getFid();
                 String logo = szan.get(position).getLogo();
                 String rep = szan.get(position).getAlltip();
-                OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "http://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + MyApplication.myid + "&pid=" + pid + "+&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
+                OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
                     public void onsendJson(String json) {
 
@@ -88,7 +94,6 @@ public class ForumActivity extends Activity implements View.OnClickListener {
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMHOME(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.i("json=",json);
                 Gson gson = new Gson();
                 ltmodel = gson.fromJson(json, ForumBean.class).getLtmodel();
                 szan = gson.fromJson(json, ForumBean.class).getSzan();

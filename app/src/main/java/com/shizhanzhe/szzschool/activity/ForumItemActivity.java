@@ -17,12 +17,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -30,8 +29,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.ForumCommentAdapter;
-import com.shizhanzhe.szzschool.utils.MyGridView;
-import com.shizhanzhe.szzschool.utils.MyListView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.utils.RefreshLayout;
@@ -39,12 +36,13 @@ import com.shizhanzhe.szzschool.video.PolyvTalkSendActivity;
 import com.shizhanzhe.szzschool.widge.MyImageGetter;
 import com.shizhanzhe.szzschool.widge.MyTagHandler;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;
@@ -53,8 +51,6 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static com.shizhanzhe.szzschool.adapter.ForumCommentAdapter.getDateTimeFromMillisecond;
 
 /**
  * Created by hasee on 2017/1/3.
@@ -140,12 +136,20 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.e("145",json);
-                MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
-                MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
-                Spanned spanned = Html.fromHtml(json, imageGetter, tagHandler);
-                content.setText(spanned);
-                content.setMovementMethod(LinkMovementMethod.getInstance());
+
+                if (!json.contains(".pdf")) {
+                    MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
+                    MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
+                    Spanned spanned = Html.fromHtml(json, imageGetter, tagHandler);
+                    content.setText(spanned);
+                    content.setMovementMethod(LinkMovementMethod.getInstance());
+                }else {
+                    String s = json.replace("href=\"", "href=\"https://www.shizhanzhe.com");
+                    Document doc = Jsoup.parse(s);
+                    String html = doc.html();
+                    content.setText(Html.fromHtml(html));
+                    content.setMovementMethod(LinkMovementMethod.getInstance());
+                }
             }
         });
 
@@ -160,7 +164,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                bean = list.get(position);
+                bean = list.get(position-1);
                 Intent intent = new Intent(ForumItemActivity.this, ForumTalkEdittextActivity.class);
                 intent.putExtra("questionid", bean.getId());
                 intent.putExtra("nickname", bean.getAuthor());
@@ -214,12 +218,12 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCOMMENT(pid,page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.i("_______",json);
                 Gson gson = new Gson();
                 list = gson.fromJson(json, new TypeToken<List<ForumCommentBean>>() {
                 }.getType());
                 adapter = new ForumCommentAdapter(ForumItemActivity.this, list);
                 lv_talk.setAdapter(adapter);
+
             }
         });
 
@@ -255,21 +259,21 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
                 .build();
         //在构建Request对象时，调用post方法，传入RequestBody对象
         Request request = new Request.Builder()
-                .url(Path.FORUMCOMMENTREPLY(MyApplication.myid, pid, fid, MyApplication.token))
+                .url(new Path(this).FORUMCOMMENTREPLY(pid, fid))
                 .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this, "发表讨论失败，请重试！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForumItemActivity.this,"发表评论失败！",Toast.LENGTH_LONG);
                 Looper.loop();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this, "发送成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForumItemActivity.this,"发表成功！",Toast.LENGTH_LONG);
                 Looper.loop();
             }
         });
@@ -278,6 +282,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     @Override
     protected void onResume() {
         super.onResume();
+        page=1;
         initView();
     }
 
@@ -288,21 +293,21 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
                 .build();
         //在构建Request对象时，调用post方法，传入RequestBody对象
         Request request = new Request.Builder()
-                .url(Path.FORUMCOMMENTUSERREPLY(MyApplication.myid, questionid, pid, fid, MyApplication.token))
+                .url(new Path(this).FORUMCOMMENTUSERREPLY(questionid, pid, fid))
                 .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this, "回复失败，请重试！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForumItemActivity.this,"回复失败！",Toast.LENGTH_LONG);
                 Looper.loop();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this, "回复成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForumItemActivity.this,"回复成功！",Toast.LENGTH_LONG);
                 Looper.loop();
             }
         });

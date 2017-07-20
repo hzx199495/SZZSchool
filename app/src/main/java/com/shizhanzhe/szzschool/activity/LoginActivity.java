@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
@@ -25,6 +30,8 @@ import com.shizhanzhe.szzschool.utils.Path;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import okhttp3.internal.framed.Variant;
 
 /**
  * Created by hasee on 2016/10/31.
@@ -38,7 +45,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.txtMobileNum)
     EditText mEditPsw;
     private SharedPreferences.Editor editor;
-
+    SVProgressHUD mSVProgressHUD;
+    SVProgressHUD mSVProgressHUD1;
+    SVProgressHUD mSVProgressHUD2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,26 +56,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.tv_quick_sign_up).setOnClickListener(this);
         findViewById(R.id.RetrievePassword).setOnClickListener(this);
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setMessage("正在登录...Loading");
-
+        mSVProgressHUD = new SVProgressHUD(this);
+        mSVProgressHUD1 = new SVProgressHUD(this);
+        mSVProgressHUD2 = new SVProgressHUD(this);
         SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
-    ProgressDialog dialog;
     /**
      * 登录按钮
      */
     String username;
     String b;
     private void login() {
-        dialog.show();
+
         username = mEditUid.getText().toString();
         String password = mEditPsw.getText().toString();
         if (username != null && password.length() >= 6) {
+            mSVProgressHUD.showWithStatus("正在登陆...");
             StringBuffer sb = new StringBuffer(password);
             String s = sb.reverse().toString();
             s = s.replace("", "-"); //每个字符加个-
@@ -84,11 +90,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             String b2 = sb2.toString();
             b = b2 + t + y;
             String path = Path.UZER(username, b);
-            MyApplication.path = path;
-            okhttp(path);
+            getLogin(path);
         } else {
-            Toast.makeText(LoginActivity.this, "帐号或密码长度有误", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
+            new SVProgressHUD(this).showInfoWithStatus("帐号或密码长度有误");
         }
     }
 
@@ -110,29 +114,45 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-    public void okhttp(String path){
+
+
+
+
+    public void getLogin(String path){
+
         OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
+
                 if (json.length() <= 5) {
-                    Toast.makeText(LoginActivity.this, "帐号或密码错误，请重新输入", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    new SVProgressHUD(LoginActivity.this).showErrorWithStatus("帐号或密码错误！");
                 } else {
+                    new SVProgressHUD(LoginActivity.this).showSuccessWithStatus("登陆成功");
                     editor.putString("uname", username);
                     editor.putString("upawd", b);
                     editor.commit();
-                    dialog.setMessage("登陆成功");
-                    MyApplication.zh = username;
+                    SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor2 = preferences.edit();
+                    Gson gson = new Gson();
+                    LoginBean bean = gson.fromJson(json, LoginBean.class);
+                    editor2.putString("username", bean.getUsername());
+                    editor2.putString("uid", bean.getId());
+                    editor2.putString("token", bean.getToken());
+                    editor2.putString("vip", bean.getVip());
+                    editor2.putString("ktagent", bean.getKaiagent());
+                    editor2.putString("teacher", bean.getIs_teacher());
+                    editor2.putString("jy", bean.getJyan());
+                    editor2.putString("img", bean.getHeadimg());
+                    editor2.commit();
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, MainActivity.class);
                     intent.putExtra("data", json);
                     startActivity(intent);
                     finish();
                 }
-
-
             }
         });
+        mSVProgressHUD.dismiss();
     }
 
 }

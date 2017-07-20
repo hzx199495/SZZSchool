@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.pay.Pay;
 import com.shizhanzhe.szzschool.video.PolyvTalkEdittextActivity;
@@ -55,7 +56,7 @@ public class MoneyActivity extends Activity {
                         }
                     });
                 }else{
-                    Toast.makeText(getApplicationContext(),"金额不能为空",Toast.LENGTH_SHORT).show();
+                    new SVProgressHUD(MoneyActivity.this).showInfoWithStatus("请填写金额");
                 }
             }
         });

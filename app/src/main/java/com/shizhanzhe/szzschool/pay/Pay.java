@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.Bean.PersonalDataBean;
@@ -81,19 +83,11 @@ public class Pay {
 				// 判断resultStatus 为9000则代表支付成功
 				if (TextUtils.equals(resultStatus, "9000")) {
 					// 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-					OkHttpDownloadJsonUtil.downloadJson(context, Path.PERSONALDATA(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-						@Override
-						public void onsendJson(String json) {
-							Gson gson = new Gson();
-							PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
-							MyApplication.money=bean.getFrozen_money();
-							listener.refreshPriorityUI();
-						}
-					});
-					Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
+					listener.refreshPriorityUI();
+					new SVProgressHUD(activity).showSuccessWithStatus("支付成功");
 				} else {
 					// 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-					Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
+					new SVProgressHUD(activity).showErrorWithStatus("支付失败");
 				}
 				break;
 			}
@@ -115,9 +109,12 @@ public class Pay {
 		this.price=price;
 		this.activity=activity;
 		this.context=activity.getApplicationContext();
+		SharedPreferences preferences =context.getSharedPreferences("userjson", Context.MODE_PRIVATE);
+		 String uid = preferences.getString("uid", "");
+
 		OkHttpClient client = new OkHttpClient();
 		RequestBody body=new FormBody.Builder()
-				.add("uid", MyApplication.myid).add("price",price)
+				.add("uid", uid).add("price",price)
 				.build();
 //在构建Request对象时，调用post方法，传入RequestBody对象
 		Request request=new Request.Builder()

@@ -1,17 +1,21 @@
 package com.shizhanzhe.szzschool.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.R;
@@ -24,6 +28,7 @@ import com.shizhanzhe.szzschool.utils.MyGridView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerClickListener;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -51,15 +56,13 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     List<ProBean.TxBean> rm;
     List<ProBean.TgBean> tg;
     View rootview;
-    ProgressDialog dialog;
+    SVProgressHUD mSVProgressHUD;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dialog = new ProgressDialog(getContext());
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setMessage("正在加载...Loading");
+        mSVProgressHUD = new SVProgressHUD(getContext());
+        mSVProgressHUD.showWithStatus("加载中...");
+
     }
 
     @Nullable
@@ -72,14 +75,12 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dialog.show();
+        mSVProgressHUD.show();
+
         getData();
         swip.setOnRefreshListener(this);
         swip.setColorSchemeResources(R.color.blue2,R.color.red,R.color.green_color,R.color.dimgray);
-        ArrayList<String> images = new ArrayList<>();
-        images.add("http://m.shizhanzhe.com/style/images/banner.jpg");
-        images.add("http://m.juejinyun.com/upload//222222.png");
-        banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
+
     }
 
     @Override
@@ -88,7 +89,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
 
             @Override
             public void run() {
-                dialog.show();
+                mSVProgressHUD.showWithStatus("加载中...");
                 getData();
                 swip.setRefreshing(false);
             }
@@ -96,7 +97,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     public void getData() {
-        OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.CENTER(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getContext()).CENTER(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
             @Override
@@ -106,9 +107,25 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                 gvAdapter = new GVAdapter(rm, getContext());
                 gv_rm.setAdapter(gvAdapter);
                 tg = gson.fromJson(json, ProBean.class).getTg();
-                tgAdapter = new TGAdapter(tg, getContext());
+                SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                String ktagent = preferences.getString("ktagent", "");
+                tgAdapter = new TGAdapter(null,tg,getContext(),ktagent);
                 gv_tg.setAdapter(tgAdapter);
-                dialog.dismiss();
+                ArrayList<String> images = new ArrayList<>();
+                images.add(Path.IMG(rm.get(0).getThumb()));
+                images.add(Path.IMG(rm.get(1).getThumb()));
+                banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
+                banner.setOnBannerClickListener(new OnBannerClickListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                            Intent intent = new Intent();
+                            intent.setClass(getActivity(), DetailActivity.class);
+                            String proid = rm.get(position-1).getId();
+                            intent.putExtra("id", proid);
+                            startActivity(intent);
+                    }
+                });
+                mSVProgressHUD.dismiss();
             }
         });
 

@@ -18,15 +18,13 @@ import android.widget.Toast;
 
 import com.easefun.polyvsdk.PolyvBitRate;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.shizhanzhe.szzschool.Bean.ProBean2;
+import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.Videoadapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PolyvCurriculumFragment extends Fragment {
     // viewpager切换的时候，fragment执行销毁View方法，但fragment对象没有被销毁
@@ -54,10 +52,10 @@ public class PolyvCurriculumFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findIdAndNew();
         Gson gson = new Gson();
-        final ProBean2.CiBean cibean= gson.fromJson(MyApplication.videojson, ProBean2.class).getCi();
+        final ProDeatailBean.CiBean cibean= gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
         final ArrayList<VideoBean> videolist = new ArrayList<>();
         if (MyApplication.videotype==1){
-            for (ProBean2.CiBean.A0Bean.ChoiceKcBean bean: cibean.getA0().getChoice_kc()
+            for (ProDeatailBean.CiBean.A0Bean.ChoiceKcBean bean: cibean.getA0().getChoice_kc()
                     ) {
                 VideoBean video = new VideoBean();
                 video.setGrade(bean.getGrade());
@@ -69,7 +67,7 @@ public class PolyvCurriculumFragment extends Fragment {
                 videolist.add(video);
             }
         }else if (MyApplication.videotype==2){
-            for (ProBean2.CiBean.A1Bean.ChoiceKcBeanX bean: cibean.getA1().getChoice_kc()
+            for (ProDeatailBean.CiBean.A1Bean.ChoiceKcBeanX bean: cibean.getA1().getChoice_kc()
                     ) {
                 VideoBean video = new VideoBean();
                 video.setGrade(bean.getGrade());
@@ -81,7 +79,7 @@ public class PolyvCurriculumFragment extends Fragment {
                 videolist.add(video);
             }
         }else if (MyApplication.videotype==3){
-            for (ProBean2.CiBean.A2Bean.ChoiceKcBeanXX bean: cibean.getA2().getChoice_kc()
+            for (ProDeatailBean.CiBean.A2Bean.ChoiceKcBeanXX bean: cibean.getA2().getChoice_kc()
                     ) {
                 VideoBean video = new VideoBean();
                 video.setGrade(bean.getGrade());
@@ -93,7 +91,7 @@ public class PolyvCurriculumFragment extends Fragment {
                 videolist.add(video);
             }
         }else if (MyApplication.videotype==4){
-            for (ProBean2.CiBean.A3Bean.ChoiceKcBeanXXX bean: cibean.getA3().getChoice_kc()
+            for (ProDeatailBean.CiBean.A3Bean.ChoiceKcBeanXXX bean: cibean.getA3().getChoice_kc()
                     ) {
                 VideoBean video = new VideoBean();
                 video.setGrade(bean.getGrade());
@@ -105,7 +103,7 @@ public class PolyvCurriculumFragment extends Fragment {
                 videolist.add(video);
             }
         }else if (MyApplication.videotype==5){
-            for (ProBean2.CiBean.A4Bean.ChoiceKcBeanXXXX bean: cibean.getA4().getChoice_kc()
+            for (ProDeatailBean.CiBean.A4Bean.ChoiceKcBeanXXXX bean: cibean.getA4().getChoice_kc()
                     ) {
                 VideoBean video = new VideoBean();
                 video.setGrade(bean.getGrade());

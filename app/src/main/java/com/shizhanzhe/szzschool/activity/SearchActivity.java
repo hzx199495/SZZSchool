@@ -87,10 +87,10 @@ public class SearchActivity extends Activity {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     String title = tz.get(position).getSubject();
-                                    String name = tz.get(position).getAuthorid();
-                                    long time = tz.get(position).getDateline();
+                                    String name = tz.get(position).getRealname();
+                                    String time = tz.get(position).getDateline();
                                     String pid = tz.get(position).getPid();
-                                    String logo = tz.get(position).getImgurl();
+                                    String logo = tz.get(position).getLogo();
                                     String rep = tz.get(position).getAlltip();
                                     String fid = tz.get(position).getFid();
 

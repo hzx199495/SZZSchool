@@ -92,7 +92,6 @@
                 android:gravity="center"
                 android:textColor="@color/blue2"
                 android:hint="请输入金额"
-                android:background="@null"
                 android:cursorVisible="false"/>
         </LinearLayout>
 

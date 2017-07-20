@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/bottom_tv_margin_left"
-                android:text="讨论"
+                android:text="评论"
                 android:textColor="@color/top_layout_color_white"
                 android:textSize="@dimen/bottom_text_size" />
         </LinearLayout>
@@ -40,7 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_bot" >
-
+        <TextView
+            android:id="@+id/nodata"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="暂无评论"
+            android:visibility="gone"
+            />
         <ListView
             android:id="@+id/lv_talk"
             style="@style/lv_commom"

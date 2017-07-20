@@ -1,6 +1,10 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -10,6 +14,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -24,21 +30,30 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.Image;
 import com.shizhanzhe.szzschool.R;
 
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -59,23 +74,26 @@ public class PostActivity extends Activity implements View.OnClickListener {
     TextView post;
     private static int RESULT_LOAD_IMAGE = 1;
     String fid;
+    String uid;
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-         fid = getIntent().getStringExtra("fid");
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+         uid = preferences.getString("uid", "");
+         token = preferences.getString("token", "");
+        fid = getIntent().getStringExtra("fid");
         postimg.setOnClickListener(this);
         post.setOnClickListener(this);
-
-        con.setMovementMethod(LinkMovementMethod.getInstance()); //点击图片能不能有反应这句很关键
-//        updateContent(con, mContentStr);
+        con.setMovementMethod(LinkMovementMethod.getInstance()); //点击图片响应
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.postimg:
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
@@ -84,16 +102,20 @@ public class PostActivity extends Activity implements View.OnClickListener {
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
                 break;
             case R.id.post:
-                String title=subject.getText().toString();
+
+                String title = subject.getText().toString();
                 String content = con.getText().toString();
-                updateContent(content);
+                if ("".equals(title)&&"".equals(content)){
+                    new SVProgressHUD(PostActivity.this).showInfoWithStatus("标题与内容不能为空！");
+                    return;
+                }
                 OkHttpClient client = new OkHttpClient();
-                RequestBody body=new FormBody.Builder()
-                        .add("con",conend).add("subject",title)
+                RequestBody body = new FormBody.Builder()
+                        .add("con", content).add("subject", title)
                         .build();
-                 //在构建Request对象时，调用post方法，传入RequestBody对象
-                Request request=new Request.Builder()
-                        .url("http://shizhanzhe.com/index.php?m=pcdata.fabu_tiezi&pc=1&uid="+MyApplication.myid+"&fid="+fid+"&token="+MyApplication.token)
+                //在构建Request对象时，调用post方法，传入RequestBody对象
+                Request request = new Request.Builder()
+                        .url("https://shizhanzhe.com/index.php?m=pcdata.fabu_tiezi&pc=1&uid=" + uid + "&fid=" + fid + "&token=" + token)
                         .post(body)
                         .build();
                 client.newCall(request).enqueue(new Callback() {
@@ -104,20 +126,84 @@ public class PostActivity extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        Toast.makeText(getApplicationContext(),"发表成功",Toast.LENGTH_SHORT).show();
+                        str=response.body().string();
+                        mHandler.sendEmptyMessage(1);
                     }
                 });
                 break;
         }
     }
+    String str="";
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==1) {
 
+                if (str.contains("成功")){
+                    new SVProgressHUD(PostActivity.this).showSuccessWithStatus(str);
+                }
+            }else if (msg.what==2){
+                showGalleryPhoto(data);
+            }else if (msg.what==3){
+                new SVProgressHUD(PostActivity.this).showSuccessWithStatus("图片大小不超过100KB");
+            }
+        }
+    };
+    Intent data;
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            showGalleryPhoto(data);
+            this.data=data;
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Bitmap bm=BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+                MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("imgFile","1.jpg", RequestBody.create(MediaType.parse("image/jpeg"),byteArrayOutputStream.toByteArray()))
+                        ;
+                MultipartBody build = builder.build();
+
+                okhttp3.Request bi = new okhttp3.Request.Builder()
+                        .url("https://shizhanzhe.com/index.php?m=pcdata.uploadimg&pc=1&uid=" + uid + "&token=" + token+"&dir=image")
+                        .post(build)
+                        .build();
+
+                client.newCall(bi).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e("____resultonFailure",e.toString());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                        String s = response.body().string();
+                        Log.e("____resultonResponse",s);
+                        Gson gson = new Gson();
+                        Image image = gson.fromJson(s, Image.class);
+                        if (image.getUrl()==null){
+                            mHandler.sendEmptyMessage(3);
+                        }else {
+                            url = image.getUrl();
+                            mHandler.sendEmptyMessage(2);
+                        }
+
+                    }
+                });
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+
+
         }
+
     }
+    String url;
     private String encode(String path) {
         //decode to bitmap
         Bitmap bitmap = BitmapFactory.decodeFile(path);
@@ -131,6 +217,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
         String encodeString = new String(encode);
         return encodeString;
     }
+
     /**
      * 将图片转成可在EditView显示的CharSequence
      *
@@ -140,13 +227,13 @@ public class PostActivity extends Activity implements View.OnClickListener {
     private CharSequence getDrawableStr(String picPath) {
         InputStream is;
         try {
-            String str = "<img src=\"" + picPath + "\"/>";
+            String str = "<img src=\"" + url + "\"/>";
             is = new FileInputStream(picPath);
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inTempStorage = new byte[100 * 1024];
             opts.inPreferredConfig = Bitmap.Config.RGB_565; // 默认是Bitmap.Config.ARGB_8888
             opts.inSampleSize = 4;
-			/* 下面两个字段需要组合使用 ，说是为了节约内存 */
+            /* 下面两个字段需要组合使用 ，说是为了节约内存 */
             opts.inPurgeable = true;
             opts.inInputShareable = true;
             Bitmap bm = BitmapFactory.decodeStream(is, null, opts);
@@ -175,7 +262,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
             return;
         }
 
-        String[] pojo = { MediaStore.Images.Media.DATA };
+        String[] pojo = {MediaStore.Images.Media.DATA};
         Cursor cursor = managedQuery(photoUri, pojo, null, null, null);
         String picPath = null;
         if (cursor != null) {
@@ -186,7 +273,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
 
         }
 
-        if(!TextUtils.isEmpty(picPath)) {
+        if (!TextUtils.isEmpty(picPath)) {
             con.append(getDrawableStr(picPath));
         }
     }
@@ -201,17 +288,18 @@ public class PostActivity extends Activity implements View.OnClickListener {
      * @param etContent
      * @param content
      */
-    String conend="无内容";
+    String conend = "无内容";
+
     private void updateContent(String content) {
         //递归出口
-        if(TextUtils.isEmpty(content)) {
-            return ;
+        if (TextUtils.isEmpty(content)) {
+            return;
         }
         Log.i("内容", " == " + content);
 
         int startIndex = 0, endIndex = 0;
         int imgStartIndex = content.indexOf(IMG_START);
-        if(imgStartIndex < 0) {//没有<img>标签，说明没有图片了
+        if (imgStartIndex < 0) {//没有<img>标签，说明没有图片了
             endIndex = content.length();
         } else {
             endIndex = imgStartIndex;
@@ -225,25 +313,25 @@ public class PostActivity extends Activity implements View.OnClickListener {
         Log.i("将变量str表示的字符串删除", " == " + content);
 
         //设置 img
-        if(TextUtils.isEmpty(content)) {
+        if (TextUtils.isEmpty(content)) {
             return;
         }
 
         int imgEndIndex = content.indexOf(IMG_END);
         String str2 = content.substring(IMG_START.length(), imgEndIndex);
-        Log.i("path_",str2);
-        String img=encode(str2);
+        Log.i("path_", str2);
+        String img = encode(str2);
 //        Log.e("-", "String2 == " + str);
 //        etContent.append(getDrawableStr(str));
 
 
-        String str3 = content.substring(imgEndIndex+IMG_END.length(), content.length());//将变量str表示的字符串删除
-        content=str3;
+        String str3 = content.substring(imgEndIndex + IMG_END.length(), content.length());//将变量str表示的字符串删除
+        content = str3;
         Log.i("str3", " == " + str3);
-         conend=str1+img
-                 +str3;
-        Log.i("字符串",conend);
-        Log.e("content",content);
+        conend = str1 + img
+                + str3;
+        Log.i("字符串", conend);
+        Log.e("content", content);
         updateContent(content);
 
     }

@@ -1,14 +1,13 @@
 package com.shizhanzhe.szzschool.activity;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -18,9 +17,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.shizhanzhe.szzschool.Bean.MyCTBean;
-import com.shizhanzhe.szzschool.Bean.MyKTBean;
-import com.shizhanzhe.szzschool.Bean.ProBean2;
 import com.shizhanzhe.szzschool.Bean.TGDetailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.fragment.TGJoinFragment;
@@ -59,12 +55,16 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
     String txid;
     String kfm;
     int type;
-
+    String uid;
+    String token;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+         uid = preferences.getString("uid", "");
+         token = preferences.getString("token", "");
         Intent intent = getIntent();
         tuanid = intent.getStringExtra("tuanid");
         MyApplication.tuanid = tuanid;
@@ -106,6 +106,7 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
 
         } else if (type == 2) {
             tg.setText("立即参团");
+
             TGJoinFragment tgJoinFragment = TGJoinFragment.newInstance(title, img, time, tgprice, intro);
             transaction.add(R.id.ll, tgJoinFragment);
             transaction.commit();
@@ -127,7 +128,7 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
                 break;
             case R.id.tg:
                 if (type == 1) {
-                    OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "http://shizhanzhe.com/index.php?m=pcdata.kaituan&pc=1&tid=" + tuanid + "&uid=" + MyApplication.myid + "&token=" + MyApplication.token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                    OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "https://shizhanzhe.com/index.php?m=pcdata.kaituan&pc=1&tid=" + tuanid + "&uid=" + uid + "&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
                         public void onsendJson(String json) {
 
@@ -160,5 +161,27 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        OkHttpDownloadJsonUtil.downloadJson(this, Path.TGDETAIL(tuanid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                Gson gson = new Gson();
+                List<TGDetailBean> bean = gson.fromJson(json, new TypeToken<List<TGDetailBean>>() {
+                }.getType());
+                title = bean.get(0).getTitle();
+                time = bean.get(0).getKaikedata();
+                img = bean.get(0).getThumb();
+                ktprice = bean.get(0).getPrice();
+                tgprice = bean.get(0).getPtmoney();
+                txid = bean.get(0).getTx().getId();
+                yjprice = bean.get(0).getNowprice();
+                gobuy.setText("￥" + yjprice);
+                kfm = bean.get(0).getKfm();
+                intro = bean.get(0).getTx().getIntroduce();
+                initView();
+            }
+        });
+    }
 }

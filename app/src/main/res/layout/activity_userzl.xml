@@ -22,12 +22,14 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/back_arrow" />
     </RelativeLayout>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -35,29 +37,28 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/setheader"-->
-        <!--android:layout_width="70.0dip"-->
-        <!--android:layout_height="70.0dip"-->
-        <!--android:layout_margin="20.0dip">-->
+        <RelativeLayout
+            android:id="@+id/setheader"
+            android:layout_width="70.0dip"
+            android:layout_height="70.0dip"
+            android:layout_margin="20.0dip">
 
-        <!--<de.hdodenhof.circleimageview.CircleImageView-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/setcv"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:src="@drawable/userhead"-->
-        <!--app:civ_border_color="#FF000000"-->
-        <!--android:layout_centerHorizontal="true" />-->
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/setcv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/userhead"
+                app:civ_border_color="#FF000000" />
 
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:contentDescription="@string/app_name"-->
-        <!--android:src="@drawable/ic_tx_camera" />-->
-        <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_tx_camera" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -80,8 +81,8 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="昵称"
                     android:gravity="center"
+                    android:text="昵称"
                     android:textColor="@color/one_level"
                     android:textSize="14.0sp" />
 
@@ -94,8 +95,7 @@
                     android:gravity="center"
                     android:text="昵称"
                     android:textColor="@color/blue2"
-                    android:textSize="14sp"
-                    android:cursorVisible="false"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <View
@@ -119,8 +119,8 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="性别"
                     android:gravity="center"
+                    android:text="性别"
                     android:textColor="@color/one_level"
                     android:textSize="14.0sp" />
 
@@ -129,35 +129,35 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:drawablePadding="7.5dip"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/nan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:button="@null"
                         android:text="男"
-                        android:textColor="@drawable/radiobtn_selector"
-                        android:button="@null"/>
+                        android:textColor="@drawable/radiobtn_selector" />
 
                     <RadioButton
                         android:id="@+id/nv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="女"
-                        android:textColor="@drawable/radiobtn_selector"
+                        android:layout_marginLeft="15dp"
                         android:button="@null"
-                        android:layout_marginLeft="15dp"/>
+                        android:text="女"
+                        android:textColor="@drawable/radiobtn_selector" />
 
                     <RadioButton
                         android:id="@+id/other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="保密"
-                        android:checked="true"
-                        android:textColor="@drawable/radiobtn_selector"
                         android:layout_marginLeft="15dp"
-                        android:button="@null"/>
+                        android:button="@null"
+                        android:checked="true"
+                        android:text="保密"
+                        android:textColor="@drawable/radiobtn_selector" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -182,8 +182,8 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="年龄"
                     android:gravity="center"
+                    android:text="年龄"
                     android:textColor="@color/one_level"
                     android:textSize="14.0sp" />
 
@@ -195,17 +195,18 @@
                     android:drawablePadding="7.5dip"
                     android:gravity="center"
                     android:text="99"
-                    android:cursorVisible="false"
                     android:textColor="@color/blue2"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
             android:layout_marginLeft="15.0dip"
             android:layout_marginRight="15.0dip"
             android:background="@color/line" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -220,8 +221,8 @@
             <TextView
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="邮箱"
                 android:gravity="center"
+                android:text="邮箱"
                 android:textColor="@color/one_level"
                 android:textSize="14.0sp" />
 
@@ -229,14 +230,14 @@
                 android:id="@+id/tv_email"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="123456@szz.com"
-                android:cursorVisible="false"
                 android:background="@null"
                 android:drawablePadding="7.5dip"
                 android:gravity="center"
+                android:text="123456@szz.com"
                 android:textColor="@color/blue2"
                 android:textSize="14sp" />
         </LinearLayout>
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
@@ -258,8 +259,8 @@
             <TextView
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="所在地"
                 android:gravity="center"
+                android:text="所在地"
                 android:textColor="@color/one_level"
                 android:textSize="14.0sp" />
 
@@ -267,19 +268,21 @@
                 android:id="@+id/tv_location"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:hint="点击选择"
                 android:background="@null"
                 android:drawablePadding="7.5dip"
                 android:gravity="center"
+                android:hint="点击选择"
                 android:textColor="@color/blue2"
                 android:textSize="14sp" />
         </LinearLayout>
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
             android:layout_marginLeft="15.0dip"
             android:layout_marginRight="15.0dip"
             android:background="@color/line" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -294,8 +297,8 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="详细地址"
                 android:gravity="center"
+                android:text="详细地址"
                 android:textColor="@color/one_level"
                 android:textSize="14.0sp" />
 
@@ -304,17 +307,18 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:drawablePadding="7.5dip"
-                android:cursorVisible="false"
                 android:gravity="center"
                 android:textColor="@color/blue2"
                 android:textSize="14sp" />
         </LinearLayout>
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.5dip"
             android:layout_marginLeft="15.0dip"
             android:layout_marginRight="15.0dip"
             android:background="@color/line" />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -329,21 +333,20 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="个人签名"
                 android:textColor="@color/one_level"
-                android:gravity="center"
                 android:textSize="14.0sp" />
 
             <EditText
                 android:id="@+id/tv_qm"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:cursorVisible="false"
                 android:background="@drawable/bg_edittext"
                 android:drawablePadding="7.5dip"
                 android:gravity="top"
-                android:padding="5dp"
                 android:hint="最多100字"
+                android:padding="5dp"
                 android:textColor="@color/blue2"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -360,5 +363,5 @@
             android:textColor="@color/app_color"
             android:textSize="15.0sp" />
     </LinearLayout>
-
+</ScrollView>
 </LinearLayout>

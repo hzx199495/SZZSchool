@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
 
 
@@ -78,7 +79,7 @@ public class PolyvTalkEdittextActivity extends Activity {
             public void onClick(View v) {
                 String sendMsg = et_talk.getText().toString().substring(length);
                 if (sendMsg.trim().length()==0) {
-                    Toast.makeText(PolyvTalkEdittextActivity.this,"发送信息不能为空!",Toast.LENGTH_SHORT).show();
+                    new SVProgressHUD(PolyvTalkEdittextActivity.this).showInfoWithStatus("发送信息不能为空!");
                     return;
                 }
                 Intent intent = new Intent(PolyvTalkEdittextActivity.this, PolyvTalkFragment.class);

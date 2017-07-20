@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.shizhanzhe.szzschool">
     <!-- Required 极光推送-->
     <permission
@@ -67,7 +68,7 @@
     <application
         android:name=".activity.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_other"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -109,6 +110,7 @@
             android:theme="@style/at_talk_et"/>
         <activity android:name=".activity.ProjectDetailActivity"/>
         <activity android:name=".activity.ExamActivity"/>
+        <activity android:name=".activity.XMActivity"/>
         <activity android:name=".video.PolyvTalkSendActivity">
         <intent-filter>
             <action android:name="TalkEdittextActivity" />
@@ -247,7 +249,18 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="54e1b94317ced360c1deb4c2" /> <!--  </>值来自开发者平台取得的AppKey-->
-        <service android:name=".update.DownLoadService"/>
+
+        <!--7.0安装设置-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.shizhanzhe.szzschool"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/cui_file_paths"
+                tools:replace="android:resource"/>
+        </provider>
     </application>
 
 </manifest>

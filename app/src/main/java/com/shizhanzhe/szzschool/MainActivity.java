@@ -1,6 +1,8 @@
 package com.shizhanzhe.szzschool;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +24,8 @@ import com.shizhanzhe.szzschool.fragment.FragmentCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentForum;
 import com.shizhanzhe.szzschool.fragment.FragmentKCCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
+import com.shizhanzhe.szzschool.update.UpdateManager;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -37,16 +41,14 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     RadioGroup rg;
     @ViewInject(R.id.search_tv)
     TextView tv;
-
-    @ViewInject(R.id.main)
-    RadioButton main;
+    @ViewInject(R.id.imgmain)
+    ImageView iv;
     private FragmentCenter fragmentCenter;
     private FragmentForum fragmentForum;
     private FragmentUser fragmentUser;
     private FragmentKCCenter fragmentKCCenter;
     private FragmentManager manager;
     private Fragment nowFragment;
-    String username;
     String img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,23 +58,9 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         // 初始化ShareSDK
         ShareSDK.initSDK(this);
 //        new UpdateManager(this).checkUpdate(true);
+
+
         manager = getSupportFragmentManager();
-
-
-        Intent intent = getIntent();
-        String data = intent.getStringExtra("data");
-        Gson gson = new Gson();
-        LoginBean loginData = gson.fromJson(data, LoginBean.class);
-        username = loginData.getUsername();
-        img = loginData.getHeadimg();
-        String uid = loginData.getId();
-        String token = loginData.getToken();
-        String money=loginData.getMoney();
-        MyApplication.vip = loginData.getVip();
-        MyApplication.ktagent = loginData.getKaiagent();
-        MyApplication.myid=uid;
-        MyApplication.token=token;
-        MyApplication.money=money;
         FragmentTransaction ft=manager.beginTransaction();
         if(nowFragment==null){
             nowFragment=new FragmentCenter();
@@ -88,7 +76,15 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 startActivity(intent);
             }
         });
-
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fragmentCenter==null){
+                    fragmentCenter=new FragmentCenter();
+                }
+                switchContent(nowFragment,fragmentCenter);
+            }
+        });
         MyApplication.getInstance().addActivity(this);
     }
 
@@ -110,7 +106,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 break;
             case R.id.course:
                 if(fragmentUser==null){
-                    fragmentUser=new FragmentUser().newInstance(username,img);
+                    fragmentUser=new FragmentUser();
                 }
                 switchContent(nowFragment,fragmentUser);
                 break;

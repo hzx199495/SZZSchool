@@ -38,12 +38,25 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:text="本团状态："/>
-        <TextView
+        <Button
             android:id="@+id/tgmoney"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="补齐团费"
-            android:textColor="@color/blue2"
-            android:visibility="gone"/>
+            android:focusable="false"
+            android:background="@drawable/btnstyle2"
+            android:textColor="@color/white"
+            android:visibility="gone"
+           />
+        <Button
+            android:id="@+id/study"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="立即学习"
+            android:focusable="false"
+            android:background="@drawable/btnstyle2"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            />
     </LinearLayout>
 </LinearLayout>

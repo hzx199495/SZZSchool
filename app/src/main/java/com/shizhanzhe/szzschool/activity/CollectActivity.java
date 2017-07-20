@@ -44,24 +44,28 @@ public class CollectActivity extends Activity {
             }
         });
 
-            OkHttpDownloadJsonUtil.downloadJson(CollectActivity.this, Path.COLLECTLIST(MyApplication.myid, MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            OkHttpDownloadJsonUtil.downloadJson(CollectActivity.this, new Path(this).COLLECTLIST(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                 @Override
                 public void onsendJson(String json) {
                     Gson gson = new Gson();
                     final List<CollectListBean> list = gson.fromJson(json, new TypeToken<List<CollectListBean>>() {
                     }.getType());
-                    CollectAdapter adapter = new CollectAdapter(getApplicationContext(), list);
-                    lv.setAdapter(adapter);
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent();
-                            intent.setClass(CollectActivity.this, DetailActivity.class);
-                            String proid =list.get(position).getSysinfo().get(0).getId() ;
-                            intent.putExtra("id", proid);
-                            startActivity(intent);
-                        }
-                    });
+                    if (list!=null&&list.size()>0) {
+                        CollectAdapter adapter = new CollectAdapter(getApplicationContext(), list);
+                        lv.setAdapter(adapter);
+                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent();
+                                intent.setClass(CollectActivity.this, DetailActivity.class);
+                                String proid = list.get(position).getSysinfo().get(0).getId();
+                                intent.putExtra("id", proid);
+                                startActivity(intent);
+                            }
+                        });
+                    }else {
+                        lv.setVisibility(View.GONE);
+                    }
                 }
             });
 

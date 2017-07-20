@@ -4,10 +4,12 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/bk_tv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="板块名"
+        android:textSize="15sp"
+        android:background="@drawable/polyv_border_s"
         android:textColor="@color/blue2"
-        android:gravity="center"/>
+        android:layout_gravity="center"/>
 
 </LinearLayout>

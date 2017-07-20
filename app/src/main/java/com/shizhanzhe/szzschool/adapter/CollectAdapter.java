@@ -76,7 +76,7 @@ public class CollectAdapter extends BaseAdapter {
                     list.remove(position);
                     notifyDataSetChanged();
 
-                    OkHttpDownloadJsonUtil.downloadJson(context, Path.DELCOLLECT(MyApplication.myid, bean.getId(), MyApplication.token), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                    OkHttpDownloadJsonUtil.downloadJson(context, new Path(context).DELCOLLECT( bean.getId()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
                         public void onsendJson(String json) {
                         }

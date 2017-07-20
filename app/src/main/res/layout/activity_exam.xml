@@ -50,7 +50,7 @@
                     android:id="@+id/question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(单选题)1.淘客微信群的群成员构成主要是6个类型：群主、机器人、导购员、产品托儿、启动粉丝和裂变粉丝一起构成，对么？"
+                    android:text=""
                     android:textSize="16sp"
                     android:textColor="#000"/>
 
@@ -79,40 +79,40 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="A. 选A"/>
+                        android:text="A. "/>
                     <CheckBox
                         android:id="@+id/check_b"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="B. 选B"/>
+                        android:text="B. "/>
                     <CheckBox
                         android:id="@+id/check_c"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="C. 选C"
+                        android:text="C. "
                         android:visibility="gone"/>
                     <CheckBox
                         android:id="@+id/check_d"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="D. 选D"
+                        android:text="D. "
                         android:visibility="gone"/>
                     <CheckBox
                         android:id="@+id/check_e"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="E. 选E"
+                        android:text="E. "
                         android:visibility="gone"/>
                     <CheckBox
                         android:id="@+id/check_f"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="F. 选F"
+                        android:text="F. "
                         android:visibility="gone"/>
                 </LinearLayout>
 

@@ -2,7 +2,6 @@ package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +12,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.ProBean;
-import com.shizhanzhe.szzschool.Bean.ProBean2;
+import com.shizhanzhe.szzschool.Bean.TGBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.TGDetailActivity;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
-import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-
-import org.xutils.DbManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.shizhanzhe.szzschool.R.id.detail_iv;
 import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
@@ -40,12 +33,18 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
  */
 
 public class TGAdapter extends BaseAdapter {
-    private List<ProBean.TgBean> list;
+    private List<TGBean> list;
+    private List<ProBean.TgBean> list2;
     private LayoutInflater inflater;
     private Context context;
-
-    public TGAdapter(List<ProBean.TgBean> list, Context context) {
-        this.list = list;
+    private String ktagent;
+    public TGAdapter(List<TGBean> list,List<ProBean.TgBean> list2, Context context,String ktagent) {
+        if (list!=null){
+            this.list = list;
+        }else if(list2!=null){
+            this.list2 = list2;
+        }
+        this.ktagent=ktagent;
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
@@ -54,12 +53,22 @@ public class TGAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        if (list!=null){
+            return list.size();
+        }else if(list2!=null){
+            return list2.size();
+        }
+        return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        if (list!=null){
+            return list.get(position);
+        }else if(list2!=null){
+            return list2.get(position);
+        }
+        return null;
     }
 
     @Override
@@ -86,52 +95,53 @@ public class TGAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        final ProBean.TgBean bean = list.get(position);
-        ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
-        holder.title.setText(bean.getTitle());
-        holder.yj.setText("原价：" + bean.getNowprice() + "元");
-        String[] strs = bean.getPtmoney().split("\\|");
-        String tgprice="";
-        for (int i = 0; i < strs.length; i++) {
-            String[] strs2 = strs[i].split("-");
-            tgprice +=strs2[1] + "元/";
-        }
-        holder.tgj.setText("团：" + tgprice);
-        if (bean.getKaikedata().contains("1")) {
-            if (MyApplication.ktagent.equals("1")){
-                holder.kt.setOnClickListener(new View.OnClickListener() {
+        if (list!=null){
+            final TGBean bean = list.get(position);
+            ImageLoader imageloader = ImageLoader.getInstance();
+            imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
+            holder.title.setText(bean.getTitle());
+            holder.yj.setText("原价：" + bean.getNowprice() + "元");
+            String[] strs = bean.getPtmoney().split("\\|");
+            String tgprice="";
+            for (int i = 0; i < strs.length; i++) {
+                String[] strs2 = strs[i].split("-");
+                tgprice +=strs2[1] + "元/";
+            }
+            holder.tgj.setText("团：" + tgprice);
+            if (bean.getKaikedata().contains("1")) {
+                if (ktagent.equals("1")){
+                    holder.kt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setClass(context, TGDetailActivity.class);
+                            intent.putExtra("tuanid", bean.getId());
+                            intent.putExtra("type", 1);
+                            context.startActivity(intent);
+                        }
+                    });
+                }else{
+                    Toast.makeText(context,"帐号无开团权限",Toast.LENGTH_SHORT).show();
+                }
+
+                holder.ct.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
                         intent.setClass(context, TGDetailActivity.class);
                         intent.putExtra("tuanid", bean.getId());
-                        intent.putExtra("type", 1);
+                        intent.putExtra("type", 2);
                         context.startActivity(intent);
+
+
                     }
                 });
-            }else{
-                Toast.makeText(context,"帐号无开团权限",Toast.LENGTH_SHORT).show();
-            }
-
-            holder.ct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(context, TGDetailActivity.class);
-                    intent.putExtra("tuanid", bean.getId());
-                    intent.putExtra("type", 2);
-                    context.startActivity(intent);
-
-
-                }
-            });
-        } else {
-            holder.start.setVisibility(View.GONE);
-            holder.end.setVisibility(View.VISIBLE);
-            holder.gobuy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            } else {
+                holder.start.setVisibility(View.GONE);
+                holder.end.setVisibility(View.VISIBLE);
+                holder.gobuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         Intent intent = new Intent();
                         intent.setClass(context, DetailActivity.class);
                         String proid = bean.getTxid();
@@ -140,8 +150,67 @@ public class TGAdapter extends BaseAdapter {
 
                     }
 
-            });
+                });
+            }
+        }else if(list2!=null){
+            final ProBean.TgBean bean = list2.get(position);
+            ImageLoader imageloader = ImageLoader.getInstance();
+            imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
+            holder.title.setText(bean.getTitle());
+            holder.yj.setText("原价：" + bean.getNowprice() + "元");
+            String[] strs = bean.getPtmoney().split("\\|");
+            String tgprice="";
+            for (int i = 0; i < strs.length; i++) {
+                String[] strs2 = strs[i].split("-");
+                tgprice +=strs2[1] + "元/";
+            }
+            holder.tgj.setText("团：" + tgprice);
+            if (bean.getKaikedata().contains("1")) {
+                if (ktagent.equals("1")){
+                    holder.kt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setClass(context, TGDetailActivity.class);
+                            intent.putExtra("tuanid", bean.getId());
+                            intent.putExtra("type", 1);
+                            context.startActivity(intent);
+                        }
+                    });
+                }else{
+                    Toast.makeText(context,"帐号无开团权限",Toast.LENGTH_SHORT).show();
+                }
+
+                holder.ct.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(context, TGDetailActivity.class);
+                        intent.putExtra("tuanid", bean.getId());
+                        intent.putExtra("type", 2);
+                        context.startActivity(intent);
+
+
+                    }
+                });
+            } else {
+                holder.start.setVisibility(View.GONE);
+                holder.end.setVisibility(View.VISIBLE);
+                holder.gobuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(context, DetailActivity.class);
+                        String proid = bean.getTxid();
+                        intent.putExtra("id", proid);
+                        context.startActivity(intent);
+
+                    }
+
+                });
+            }
         }
+
         return convertView;
     }
 

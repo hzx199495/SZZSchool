@@ -43,6 +43,8 @@ public class PolyvPlayerTopFragment extends Fragment implements View.OnClickList
         return view;
     }
 
+
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -71,6 +73,7 @@ public class PolyvPlayerTopFragment extends Fragment implements View.OnClickList
         super.onActivityCreated(savedInstanceState);
         findIdAndNew();
         initView();
+
     }
 
 

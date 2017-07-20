@@ -1,9 +1,26 @@
 package com.shizhanzhe.szzschool.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+
 /**
  * Created by hasee on 2016/11/16.
  */
 public  class Path {
+   private  String userzh;
+   private  String uid;
+   private  String token;
+   private  String username;
+
+    public Path(Context context){
+        SharedPreferences preferences = context.getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        SharedPreferences preferences2 = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        username = preferences.getString("username","");
+        userzh = preferences2.getString("uname","");
+        uid = preferences.getString("uid","");;
+        token = preferences.getString("token","");
+    }
     //登陆
     public static String UZER(String username,String pswd){
         String path="https://shizhanzhe.com/index.php?m=pcdata.user_data&pc=1&username="+username+"&password="+pswd;
@@ -15,18 +32,24 @@ public  class Path {
         return path;
     }
     //修改密码
-    public static String CHANGE(String uid,String pswd,String token){
+    public   String CHANGE(String pswd){
         String path="https://shizhanzhe.com/index.php?m=pcdata.xmm1&pc=1&password="+pswd+"&uid="+uid+"&token="+token;
         return path;
     }
+
+    //修改密码
+    public   String FORGET(String zh,String pswd){
+        String path="https://shizhanzhe.com/index.php?m=pcdata.xmm&pc=1&username="+zh+"&password="+pswd;
+        return path;
+    }
     //首页
-    public static String CENTER(String uid,String token){
+    public  String CENTER(){
         String path="https://shizhanzhe.com/index.php?m=pcdata.vip_course_data&pc=1&uid="+uid+"&token="+token;
         return path;
     }
 
     //我的课程
-    public static String MYCLASS(String uid,String token){
+    public  String MYCLASS(){
         String path="https://shizhanzhe.com/index.php?m=pcdata.app_get_course&pc=1&uid="+uid+"&token="+token;
         return path;
     }
@@ -35,39 +58,43 @@ public  class Path {
         String path="https://shizhanzhe.com"+img;
         return path;
     }
-
     //课程详情
-    public static String SECOND(String sid,String uid,String token) {
+    public  String PROLIST() {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.course_data&pc=1&uid="+uid+"&token="+token;
+        return path;
+    }
+    //课程详情
+    public  String SECOND(String sid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.tx_two_pin&pc=1&sid="+sid+"&uid="+uid+"&token="+token;
         return path;
     }
     //评论
-    public static String COMMENT(String spid,String uid,String token) {
+    public  String COMMENT(String spid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.question&pc=1&spid=" + spid + "&uid=" + uid + "&token=" + token;
         return path;
     }
     //消费记录
-    public static String XF(String uid,String token) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.xiaofee&pc=1&uid="+uid+"&token="+token;
+    public  String XF() {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.xiaofee&pc=1&uid="+uid +"&token="+token;
         return path;
     }
     //消费记录
-    public static String DelXF(String uid,String id,String token) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.del_xiaofee&pc=1&uid="+uid+"&id="+id+"&token="+token;
+    public  String DelXF(String id) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.del_xiaofee&pc=1&uid="+id+"&id="+uid+"&token="+token;
         return path;
     }
     //收藏
-    public static String COLLECT(String uid,String id,String token) {
+    public  String COLLECT(String id) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.collect_sys&pc=1&uid="+uid+"&systemid="+id+"&token="+token;
         return path;
     }
     //取消收藏
-    public static String DELCOLLECT(String uid,String id,String token) {
+    public  String DELCOLLECT(String id) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.del_collect&pc=1&uid="+uid+"&id="+id+"&token="+token;
         return path;
     }
     //收藏列表
-    public static String COLLECTLIST(String uid,String token) {
+    public  String COLLECTLIST() {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.get_collect1&pc=1&uid="+uid+"&token="+token;
         return path;
     }
@@ -93,43 +120,43 @@ public  class Path {
     }
 
     //帖子回复
-    public static String FORUMCOMMENTREPLY(String uid,String pid,String fid,String token) {
+    public  String FORUMCOMMENTREPLY(String pid,String fid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.huifu_pl&pc=1&uid="+uid+"&rpid=0&pid="+pid+"&fid="+fid+"&token="+token;
         return path;
     }
     //帖子内部评论回复
-    public static String FORUMCOMMENTUSERREPLY(String uid,String rpid,String pid,String fid,String token) {
+    public  String FORUMCOMMENTUSERREPLY(String rpid,String pid,String fid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.huifu_pl&pc=1&uid="+uid+"&rpid="+rpid+"&pid="+pid+"&fid="+fid+"&token="+token;
         return path;
     }
-    //团购
-    public static String TG() {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.showtuangou&pc=1";
+    //团购列表
+    public static String TG(int page) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.showtuangou&pc=1&page="+page;
         return path;
     }
-    //团购
+    //团购详情
     public static String TGDETAIL(String tuanid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.get_tgdetail&pc=1&id="+tuanid;
         return path;
     }
     //我的开团
-    public static String MYKT(String id,String token) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid="+id+"&token="+token;
+    public  String MYKT() {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid="+uid+"&token="+token;
         return path;
     }
     //我的参团
-    public static String MYCT(String id,String token) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.mycantuan&pc=1&uid="+id+"&token="+token;
+    public  String MYCT() {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.mycantuan&pc=1&uid="+uid+"&token="+token;
         return path;
     }
     //提问
-    public static String SENDQUESTION(String classid,String sid ,String pid,String videoid,String content,String username,String zh,String uid,String token) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.t_question&pc=1&classid="+classid+"&sid="+sid+"&pid="+pid+"&id="+videoid+"&content="+content+"&username="+zh+"&realname="+username+"&uid="+uid+"&token="+token;
+    public  String SENDQUESTION(String classid,String sid ,String pid,String videoid,String content) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.t_question&pc=1&classid="+classid+"&sid="+sid+"&pid="+pid+"&id="+videoid+"&content="+content+"&username="+userzh+"&realname="+username+"&uid="+uid+"&token="+token;
         return path;
     }
     //回答
-    public static String ANSWERQUESTION(String videoid,String requid,String content,String qid,String quid,String token) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.r_question&pc=1&spid="+videoid+"&requid="+requid+"&content="+content+"&qid="+qid+"&quid="+quid+"&token="+token;
+    public  String ANSWERQUESTION(String videoid,String requid,String content,String qid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.r_question&pc=1&spid="+videoid+"&requid="+requid+"&content="+content+"&qid="+qid+"&quid="+uid+"&token="+token;
         return path;
     }
 
@@ -140,13 +167,13 @@ public  class Path {
     }
 
     //个人资料
-    public static String PERSONALDATA(String uid,String token) {
+    public  String PERSONALDATA() {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.get_user_data&pc=1&uid="+uid+"&token="+token;
         return path;
     }
 
     //个人资料修改
-    public static String PERSONALUPDATE(String uid,String token) {
+    public  String PERSONALUPDATE() {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.xmember&pc=1&uid="+uid+"&token="+token;
         return path;
     }
@@ -156,33 +183,33 @@ public  class Path {
         return path;
     }
     //考核满分
-    public static String EXAMSUCCESS(String videoID,String uid,String sid,String token) {
+    public  String EXAMSUCCESS(String videoID,String sid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.manfen&pc=1&coid="+videoID+"&uid="+uid+"&sid="+sid+"&token="+token;
         return path;
     }
 
     //打赏提现
-    public static String DSTIXIAN(String money,String zh,String uid) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_zan_txsubmit&txfee="+money+"&aliaccout="+zh+"&uid="+uid;
+    public  String DSTIXIAN(String money) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_zan_txsubmit&txfee="+money+"&aliaccout="+userzh+"&uid="+token;
         return path;
     }
     //打赏转移
-    public static String DSZHUANYI(String money,String uid) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_zan_zzsubmit&zzfee="+money+"&uid="+uid;
+    public  String DSZHUANYI(String money) {
+        String path = "http://shizhanzhe.com/index.php?m=pcdata.app_zan_zzsubmit&zzfee="+money+"&uid="+uid;
         return path;
     }
     //团购获利提现
-    public static String TGTIXIAN(String money,String zh,String uid) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_txsubmit&txfee="+money+"&aliaccout="+zh+"&uid="+uid;
+    public  String TGTIXIAN(String money) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_txsubmit&txfee="+money+"&aliaccout="+userzh+"&uid="+token;
         return path;
     }
     //团购获利转移
-    public static String TGZHUANYI(String money,String uid) {
+    public  String TGZHUANYI(String money) {
         String path = "http://shizhanzhe.com/index.php?m=pcdata.app_zzsubmit&zzfee="+money+"&uid="+uid;
         return path;
     }
     //VIP接口
-    public static String VIPBUY(String money,String time,String uid) {
+    public  String VIPBUY(String money,String time) {
         String path = "http://shizhanzhe.com/index.php?m=vipay.app_vip&uid="+uid+"&last_time="+time+"&money="+money;
         return path;
     }
@@ -191,4 +218,10 @@ public  class Path {
         String path = "http://shizhanzhe.com/index.php?m=vipay.app_vip&vip=1";
         return path;
     }
+    //补齐团费
+    public  String TGMONEY(String tid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.buqi&pc=1&uid="+uid+"&ctid="+tid+"&token="+token;
+        return path;
+    }
+
 }

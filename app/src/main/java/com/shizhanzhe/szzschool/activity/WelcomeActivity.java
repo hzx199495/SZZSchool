@@ -10,10 +10,12 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.Window;
 
+import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.Bean.UpdateBean;
 import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.db.DatabaseOpenHelper;
+
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.utils.SharedUtils;
@@ -26,7 +28,6 @@ import org.xutils.ex.DbException;
  * 欢迎页
  */
 public class WelcomeActivity extends Activity {
-    DbManager manager = DatabaseOpenHelper.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -40,19 +41,7 @@ public class WelcomeActivity extends Activity {
             public boolean handleMessage(Message arg0) {
                 // TODO Auto-generated method stub\
                 //是第一次启动
-                if(SharedUtils.isFirstStart(getBaseContext()))
-                {
-                    try {
-                        manager.save(new UpdateBean(1.0));
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                    }
-                    startActivity(new Intent(getApplicationContext(), WelcomeGuideActivity.class));
-                    //修改成不是第一次启动
-                    SharedUtils.putIsFirstStart(getBaseContext(), false);
-                }
-                else
-                {
+
                     SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
                     final String uname = preferences.getString("uname", "");
                     String upawd = preferences.getString("upawd", "");
@@ -60,18 +49,29 @@ public class WelcomeActivity extends Activity {
                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     } else {
                         String path = Path.UZER(uname, upawd);
-                        MyApplication.path = path;
                         OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                             @Override
                             public void onsendJson(String json) {
-                                MyApplication.zh = uname;
+                                SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor2 = preferences.edit();
+                                Gson gson = new Gson();
+                                LoginBean bean = gson.fromJson(json, LoginBean.class);
+                                editor2.putString("username", bean.getUsername());
+                                editor2.putString("uid", bean.getId());
+                                editor2.putString("token", bean.getToken());
+                                editor2.putString("vip", bean.getVip());
+                                editor2.putString("ktagent", bean.getKaiagent());
+                                editor2.putString("teacher", bean.getIs_teacher());
+                                editor2.putString("jy", bean.getJyan());
+                                editor2.putString("img", bean.getHeadimg());
+                                editor2.commit();
                                 Intent intent = new Intent();
                                 intent.setClass(getApplicationContext(), MainActivity.class);
                                 intent.putExtra("data", json);
                                 startActivity(intent);
                             }
                         });
-                    }
+
 
                 }
                 return false;

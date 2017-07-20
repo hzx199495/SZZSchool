@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.RegisterBean;
 import com.shizhanzhe.szzschool.R;
@@ -24,6 +25,8 @@ import org.xutils.x;
 
 import java.util.Date;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -39,7 +42,7 @@ public class RegisterActivity extends Activity {
     EditText qrpsw;
     private final Integer NUM=6;
     private CountDownTimer time;
-    String code;
+    String code="";
     String username;
     String password;
     @Override
@@ -66,13 +69,14 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //随机生成 num 位验证码
+                code="";
                 Random r = new Random(new Date().getTime());
                 for(int i=0;i<NUM;i++){
                     code = code+r.nextInt(10);
                 }
                  username = mobileNum.getText().toString();
 
-                if (username != null&&username.length()==11) {
+                if (isMobileNO(username)) {
                     AlidayuMessage.setRecNum(username);
                     AlidayuMessage.setSmsParam(code);
                     new Thread(new Runnable() {
@@ -86,9 +90,9 @@ public class RegisterActivity extends Activity {
                         }
                     }).start();
                     time.start();
-                    Toast.makeText(getApplicationContext(),"已发送验证码，请注意接收",Toast.LENGTH_SHORT).show();
+                    new SVProgressHUD(RegisterActivity.this).showSuccessWithStatus("已发送验证码，请注意接收");
                 }else{
-                 Toast.makeText(getApplicationContext(),"手机号长度有误",Toast.LENGTH_SHORT).show();
+                    new SVProgressHUD(RegisterActivity.this).showErrorWithStatus("请输入正确手机号");
                 }
 
             }
@@ -102,27 +106,29 @@ public class RegisterActivity extends Activity {
                     OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), Path.REGISTER(username, password), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
                         public void onsendJson(String json) {
-                            Log.i("====",username+"__"+password);
                             Gson gson = new Gson();
                             RegisterBean bean = gson.fromJson(json, RegisterBean.class);
                             if (bean.getStatus()==1){
-                                Toast.makeText(RegisterActivity.this, bean.getInfo(), Toast.LENGTH_SHORT).show();
+                                new SVProgressHUD(RegisterActivity.this).showSuccessWithStatus(bean.getInfo());
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
-                            }else if(bean.getStatus()==2){
-                                Toast.makeText(RegisterActivity.this,bean.getInfo(),Toast.LENGTH_SHORT).show();
-                            }else if (bean.getStatus()==3){
-                                Toast.makeText(RegisterActivity.this,bean.getInfo(),Toast.LENGTH_SHORT).show();
+                            }else {
+                                new SVProgressHUD(RegisterActivity.this).showInfoWithStatus(bean.getInfo());
                             }
                         }
                     });
 
                 }else{
-                        Toast.makeText(getApplicationContext(),"验证码不匹配,请重新获取",Toast.LENGTH_SHORT).show();
+                    new SVProgressHUD(RegisterActivity.this).showErrorWithStatus("验证码不匹配");
                 }
 
             }
         });
+    }
+    public static boolean isMobileNO(String mobiles) {
+        Pattern p = Pattern.compile("^(13[0-9]|14[57]|15[0-35-9]|17[6-8]|18[0-9])[0-9]{8}$");
+        Matcher m = p.matcher(mobiles);
+        return m.matches();
     }
 }

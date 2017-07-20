@@ -51,7 +51,7 @@
             android:id="@+id/mymoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="100.00"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="70sp"
             android:layout_centerVertical="true"
@@ -115,7 +115,7 @@
                 android:id="@+id/dsmoney"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="XXX.00"/>
+                android:text=""/>
             <TextView
                 android:id="@+id/dstx"
                 android:layout_width="40dp"
@@ -156,7 +156,7 @@
                 android:id="@+id/tgmoney"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="XXX.00"/>
+                android:text=""/>
             <TextView
                 android:id="@+id/tgtx"
                 android:layout_width="40dp"

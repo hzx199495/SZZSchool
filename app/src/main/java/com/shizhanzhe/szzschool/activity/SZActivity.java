@@ -1,7 +1,9 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.DataCleanManager;
 
@@ -39,6 +42,8 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
     TextView exit;
     @ViewInject(R.id.ll_clean_cache)
     LinearLayout cleanCache;
+    @ViewInject(R.id.xgmm)
+    LinearLayout xgmm;
     @ViewInject(R.id.back)
     ImageView back;
 
@@ -57,6 +62,7 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
         cleanCache.setOnClickListener(this);
         exit.setOnClickListener(this);
         back.setOnClickListener(this);
+        xgmm.setOnClickListener(this);
         MyApplication.getInstance().addActivity(this);
     }
 
@@ -84,7 +90,7 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
                     public void run() {
                         try {
                             cache.setText(DataCleanManager.getTotalCacheSize(getApplicationContext()));
-                            Toast.makeText(getApplicationContext(),"缓存已清空",Toast.LENGTH_SHORT).show();
+                            new SVProgressHUD(SZActivity.this).showSuccessWithStatus("缓存已清空");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -93,13 +99,35 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
 
                 break;
             case R.id.user_exit:
-                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("uname");
-                editor.remove("upawd");
-                editor.commit();
-                startActivity(new Intent(SZActivity.this,LoginActivity.class));
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(SZActivity.this);
+                builder.setTitle("提示");
+                builder.setMessage("确认退出当前账号？");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("uname");
+                        editor.remove("upawd");
+                        editor.commit();
+                        startActivity(new Intent(SZActivity.this,LoginActivity.class));
+                        MyApplication.getInstance().exit();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+
+                });
+                builder.create().show();
+
+                break;
+            case R.id.xgmm:
+                startActivity(new Intent(SZActivity.this,XMActivity.class));
                 break;
             case R.id.back:
                 finish();

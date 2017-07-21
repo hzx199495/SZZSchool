@@ -57,7 +57,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         x.view().inject(this);
         // 初始化ShareSDK
         ShareSDK.initSDK(this);
-//        new UpdateManager(this).checkUpdate(true);
+        new UpdateManager(this).checkUpdate(true);
 
 
         manager = getSupportFragmentManager();

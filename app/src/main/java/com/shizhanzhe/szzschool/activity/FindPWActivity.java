@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by hasee on 2016/11/10.
+ * 忘记密码
  */
 @ContentView(R.layout.dialog_find_pass)
 public class FindPWActivity extends Activity implements View.OnClickListener {

@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Created by hasee on 2016/11/29.
+ *
  */
 @ContentView(R.layout.activity_mydetail)
 public class MyDetailActivity extends Activity {

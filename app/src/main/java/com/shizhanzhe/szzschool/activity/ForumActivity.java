@@ -28,6 +28,7 @@ import java.util.List;
 
 /**
  * Created by hasee on 2016/12/28.
+ * 论坛
  */
 @ContentView(R.layout.activity_forum)
 public class ForumActivity extends Activity implements View.OnClickListener {

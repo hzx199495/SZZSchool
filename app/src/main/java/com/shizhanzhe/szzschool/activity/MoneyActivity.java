@@ -22,6 +22,7 @@ import org.xutils.x;
 
 /**
  * Created by hasee on 2016/11/28.
+ * 充值
  */
 @ContentView(R.layout.dialog_cz)
 public class MoneyActivity extends Activity {

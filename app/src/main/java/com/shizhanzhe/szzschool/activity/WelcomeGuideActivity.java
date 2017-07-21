@@ -22,6 +22,10 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * 引导页
+ */
 @ContentView(R.layout.activity_welcome_guide)
 public class WelcomeGuideActivity extends Activity {
 	@ViewInject(R.id.welcome_guide_viewpager)

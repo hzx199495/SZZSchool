@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * Created by zz9527 on 2017/3/14.
+ * 开团列表
  */
 @ContentView(R.layout.activity_ktlist)
 public class KTListActivity extends Activity {

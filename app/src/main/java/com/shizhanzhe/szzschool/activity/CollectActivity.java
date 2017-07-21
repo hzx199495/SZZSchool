@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Created by hasee on 2016/11/28.
+ * 我的收藏
  */
 @ContentView(R.layout.activity_sc)
 public class CollectActivity extends Activity {

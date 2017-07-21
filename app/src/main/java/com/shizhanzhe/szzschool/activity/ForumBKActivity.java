@@ -40,6 +40,7 @@ import java.util.List;
 
 /**
  * Created by hasee on 2016/12/29.
+ * 版块
  */
 @ContentView(R.layout.activity_bk)
 public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {

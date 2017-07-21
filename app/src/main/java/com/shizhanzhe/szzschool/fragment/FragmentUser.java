@@ -143,15 +143,16 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-    public void getMyProject(){
+
+    public void getMyProject() {
         SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
         String img = preferences.getString("img", "");
         String username = preferences.getString("username", "");
         bitmapbg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.user_bg);
         topbg.setImageBitmap(blurBitmap(bitmapbg));
-        if (img.contains("http")){
+        if (img.contains("http")) {
             ImageLoader.getInstance().displayImage(img, mImageHeader);
-        }else {
+        } else {
             ImageLoader.getInstance().displayImage(Path.IMG(img), mImageHeader);
         }
 
@@ -160,22 +161,28 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-                final List<MyProBean> list=gson.fromJson(json, new TypeToken<List<MyProBean>>(){}.getType());
+                final List<MyProBean> list = gson.fromJson(json, new TypeToken<List<MyProBean>>() {
+                }.getType());
                 MyProAdapter myProAdapter = new MyProAdapter(list, getContext());
-                nokc.setVisibility(View.GONE);
-                lv_kc.setVisibility(View.VISIBLE);
-                lv_kc.setAdapter(myProAdapter);
-                lv_kc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent();
-                        intent.setClass(getActivity(), DetailActivity.class);
-                        String proid =list.get(position).getSysinfo().get(0).getId();
-                        intent.putExtra("id", proid);
-                        startActivity(intent);
-                    }
-                });
-                scroll.smoothScrollTo(0,20);
+                if (list.size() > 0) {
+                    nokc.setVisibility(View.GONE);
+                    lv_kc.setVisibility(View.VISIBLE);
+                    lv_kc.setAdapter(myProAdapter);
+                    lv_kc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent();
+                            intent.setClass(getActivity(), DetailActivity.class);
+                            String proid = list.get(position).getSysinfo().get(0).getId();
+                            intent.putExtra("id", proid);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    nokc.setVisibility(View.VISIBLE);
+                    lv_kc.setVisibility(View.GONE);
+                }
+                scroll.smoothScrollTo(0, 20);
                 mSVProgressHUD.dismiss();
             }
         });
@@ -192,12 +199,12 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         super.onResume();
         SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
         String img = preferences.getString("img", "");
-        if (img.contains("http")){
+        if (img.contains("http")) {
             ImageLoader.getInstance().displayImage(img, mImageHeader);
-        }else {
+        } else {
             ImageLoader.getInstance().displayImage(Path.IMG(img), mImageHeader);
         }
-        scroll.smoothScrollTo(0,20);
+        scroll.smoothScrollTo(0, 20);
     }
 }
 //    //下载网络图片

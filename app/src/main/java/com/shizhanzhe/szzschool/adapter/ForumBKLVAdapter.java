@@ -71,7 +71,11 @@ public class ForumBKLVAdapter extends BaseAdapter {
         x.image().bind(holder.iv,bean.getLogo());
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
-        holder.vip.setVisibility(View.GONE);
+        if (!bean.getFid().equals("58")){
+            holder.vip.setVisibility(View.GONE);
+        }else{
+            holder.vip.setVisibility(View.VISIBLE);
+        }
         holder.time.setText(bean.getDateline());
         holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
         holder.look.setText("查看:"+bean.getLooknum());

@@ -8,7 +8,7 @@
         android:id="@+id/fl_gv_iv"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"/>
     <TextView
         android:id="@+id/fl_gv_tv"

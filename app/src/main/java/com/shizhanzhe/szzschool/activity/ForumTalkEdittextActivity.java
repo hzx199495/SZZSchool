@@ -22,6 +22,7 @@ import com.shizhanzhe.szzschool.video.PolyvTalkFragment;
 
 /**
  * Created by zz9527 on 2017/6/15.
+ * 评论
  */
 
 public class ForumTalkEdittextActivity extends Activity {

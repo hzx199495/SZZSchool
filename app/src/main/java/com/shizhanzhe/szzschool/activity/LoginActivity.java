@@ -35,6 +35,7 @@ import okhttp3.internal.framed.Variant;
 
 /**
  * Created by hasee on 2016/10/31.
+ * 登陆
  */
 @ContentView(R.layout.activity_login)
 public class LoginActivity extends Activity implements View.OnClickListener {

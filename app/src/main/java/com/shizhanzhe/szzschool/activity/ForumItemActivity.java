@@ -54,6 +54,7 @@ import okhttp3.Response;
 
 /**
  * Created by hasee on 2017/1/3.
+ * 帖子详情
  */
 @ContentView(R.layout.activity_forumitem)
 public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {

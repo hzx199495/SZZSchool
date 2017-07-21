@@ -27,6 +27,9 @@ import org.xutils.x;
 
 import java.util.List;
 
+/**
+ * 搜索
+ */
 @ContentView(R.layout.activity_search)
 public class SearchActivity extends Activity {
 @ViewInject(R.id.search_et_input)

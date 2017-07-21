@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by hasee on 2016/6/22.
+ * 注册
  */
 @ContentView(R.layout.activity_register)
 public class RegisterActivity extends Activity {

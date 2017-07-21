@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.update.UpdateManager;
 import com.shizhanzhe.szzschool.utils.DataCleanManager;
 
 import org.xutils.view.annotation.ContentView;
@@ -31,6 +34,7 @@ import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by hasee on 2016/11/28.
+ * 系统设置
  */
 @ContentView(R.layout.activity_sz)
 public class SZActivity extends Activity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
@@ -46,13 +50,19 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
     LinearLayout xgmm;
     @ViewInject(R.id.back)
     ImageView back;
-
+    @ViewInject(R.id.ll_verson)
+    LinearLayout ll_verson;
+    @ViewInject(R.id.tv_verson)
+    TextView verson;
+    @ViewInject(R.id.ll_about)
+    LinearLayout ll_about;
     boolean flag=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        verson.setText(getVersionName(this));
         msg.setOnCheckedChangeListener(this);
         try {
             cache.setText(DataCleanManager.getTotalCacheSize(getApplicationContext()));
@@ -63,6 +73,8 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
         exit.setOnClickListener(this);
         back.setOnClickListener(this);
         xgmm.setOnClickListener(this);
+        ll_verson.setOnClickListener(this);
+        ll_about.setOnClickListener(this);
         MyApplication.getInstance().addActivity(this);
     }
 
@@ -129,9 +141,29 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
             case R.id.xgmm:
                 startActivity(new Intent(SZActivity.this,XMActivity.class));
                 break;
+            case R.id.ll_verson:
+                new UpdateManager(this).checkUpdate(true);
+                break;
+            case R.id.ll_about:
+                startActivity(new Intent(SZActivity.this,AboutActivity.class));
+                break;
             case R.id.back:
                 finish();
                 break;
+        }
+    }
+    /**
+     * @return 当前应用的版本号
+     */
+    public String getVersionName(Context context) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 }

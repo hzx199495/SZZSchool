@@ -23,6 +23,7 @@ import java.util.List;
 
 /**
  * Created by zz9527 on 2017/6/27.
+ * 课程视频
  */
 @ContentView(R.layout.activity_videolist)
 public class ProjectDetailActivity extends FragmentActivity {

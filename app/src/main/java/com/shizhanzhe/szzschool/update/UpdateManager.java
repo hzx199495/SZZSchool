@@ -1,8 +1,11 @@
 package com.shizhanzhe.szzschool.update;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,6 +15,9 @@ import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.shizhanzhe.szzschool.BuildConfig;
+import com.shizhanzhe.szzschool.activity.LoginActivity;
+import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 
 import java.io.File;
@@ -29,7 +35,7 @@ public class UpdateManager {
     public UpdateManager(Context context) {
         this.mContext = context;
     }
-    ProgressDialog dialog;
+    ProgressDialog downdialog;
     File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
             "SZZUpdate" + File.separator + "szz.apk");
     /**
@@ -62,15 +68,35 @@ public class UpdateManager {
      * @param
      */
     private void showNoticeDialog() {
-        dialog = new ProgressDialog(mContext);
-        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.setTitle("版本更新");
-        dialog.setMessage("更新中,请稍候...");
-        dialog.setMax(100);
-        dialog.setCancelable(false);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.show();
-        downlod();
+        downdialog = new ProgressDialog(mContext);
+        downdialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        downdialog.setTitle("版本更新");
+        downdialog.setMessage("更新中,请稍候...");
+        downdialog.setMax(100);
+        downdialog.setCancelable(false);// 设置是否可以通过点击Back键取消
+        downdialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("新版本发布！");
+        builder.setMessage("是否开始更新？");
+        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                downdialog.show();
+                downlod();
+            }
+        });
+        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+
+        });
+        builder.create().show();
+
     }
     public void downlod() {
 
@@ -79,14 +105,14 @@ public class UpdateManager {
             @Override
             public void onStart() {
                 super.onStart();
-                dialog.show();
+                downdialog.show();
             }
 
             //下载进度
             @Override
             public void onProgress(int progress, long networkSpeed) {
                 super.onProgress(progress, networkSpeed);
-                dialog.setProgress(progress);
+                downdialog.setProgress(progress);
             }
 
             //下载失败

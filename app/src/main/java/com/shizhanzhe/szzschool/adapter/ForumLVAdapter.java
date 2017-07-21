@@ -67,8 +67,10 @@ public class ForumLVAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         ForumBean.SzanBean bean = list.get(position);
-        if (!bean.getFid().equals("58")){
+        if (!bean.getFid().contains("58")){
             holder.vip.setVisibility(View.GONE);
+        }else{
+            holder.vip.setVisibility(View.VISIBLE);
         }
         x.image().bind(holder.iv,bean.getLogo());
         holder.user.setText(bean.getRealname());

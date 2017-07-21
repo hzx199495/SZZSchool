@@ -32,6 +32,7 @@ import java.util.List;
 
 /**
  * Created by zz9527 on 2017/3/10.
+ * 团购详情
  */
 @ContentView(R.layout.activity_tg)
 public class TGDetailActivity extends FragmentActivity implements View.OnClickListener {

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 /**
  * Created by zz9527 on 2017/6/13.
+ * 我的团购
  */
 @ContentView(R.layout.fragment_fl)
 public class MyTGActivity extends FragmentActivity{

@@ -61,6 +61,7 @@ import okhttp3.Response;
 
 /**
  * Created by hasee on 2017/1/4.
+ * 发帖
  */
 @ContentView(R.layout.activity_post)
 public class PostActivity extends Activity implements View.OnClickListener {

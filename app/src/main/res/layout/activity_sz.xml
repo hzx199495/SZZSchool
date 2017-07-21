@@ -148,7 +148,7 @@
                 android:background="@color/line" />
 
             <LinearLayout
-                android:id="@+id/ll_down_load"
+                android:id="@+id/ll_about"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_white_selected"

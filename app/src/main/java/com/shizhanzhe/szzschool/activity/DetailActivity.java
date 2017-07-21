@@ -42,6 +42,7 @@ import okhttp3.Response;
 
 /**
  * Created by hasee on 2016/11/22.
+ * 课程详情
  */
 @ContentView(R.layout.activity_detail)
 public class DetailActivity extends FragmentActivity implements View.OnClickListener {

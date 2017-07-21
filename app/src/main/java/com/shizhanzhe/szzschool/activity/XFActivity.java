@@ -32,6 +32,7 @@ import java.util.List;
 
 /**
  * Created by hasee on 2016/12/19.
+ * 消费
  */
 @ContentView(R.layout.activity_xf)
 public class XFActivity extends Activity {

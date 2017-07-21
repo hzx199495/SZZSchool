@@ -39,6 +39,7 @@ import okhttp3.internal.framed.Variant;
 
 /**
  * Created by hasee on 2016/11/4.
+ * 账户中心
  */
 @ContentView(R.layout.activity_userzh)
 public class UserZHActivity extends Activity implements View.OnClickListener {

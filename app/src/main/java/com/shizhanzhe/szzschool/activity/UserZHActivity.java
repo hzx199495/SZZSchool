@@ -26,7 +26,6 @@ import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.Bean.PersonalDataBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.pay.Pay;
-import com.shizhanzhe.szzschool.utils.MyDialog;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 

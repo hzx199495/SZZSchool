@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:numColumns="1"
-                    android:padding="5dp"
+                    android:padding="2dp"
                     android:scrollbars="none"
                     android:verticalSpacing="10dp" />
 

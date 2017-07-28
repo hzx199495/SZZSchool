@@ -80,7 +80,7 @@ public class ListItem2Adapter extends BaseAdapter {
                 ImageLoader imageloader2 = ImageLoader.getInstance();
                 imageloader2.displayImage(Path.IMG(bean.get(1).getThumb()), holder.iv2, displayoptions);
             }else {
-                holder.ll.setVisibility(View.GONE);
+                holder.ll.setVisibility(View.INVISIBLE);
             }
         }
         holder.iv.setOnClickListener(new View.OnClickListener() {

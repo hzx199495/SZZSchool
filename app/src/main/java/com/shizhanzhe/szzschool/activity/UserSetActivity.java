@@ -86,7 +86,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.setcv)
     CircleImageView setcv;
     PersonalDataBean bean;
-    String sex;
+    String sex="";
     private Dialog dialog;
 
     private static final int IMAGE_REQUEST_CODE = 0;
@@ -101,6 +101,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         editor = preferences.edit();
         String img = preferences.getString("img", "");
@@ -215,34 +216,43 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 this.finish();
                 break;
             case R.id.user_save:
-                OkHttpClient client = new OkHttpClient();
-                RequestBody body = new FormBody.Builder()
-                        .add("sex", sex)
-                        .add("realname", name.getText().toString())
-                        .add("age", age.getText().toString())
-                        .add("address", location2.getText().toString())
-                        .add("email", email.getText().toString())
-                        .add("introduce", intro.getText().toString())
-                        .add("location_p", province)
-                        .add("location_c", city)
-                        .add("location_a", district)
-                        .build();
-                Request request = new Request.Builder()
-                        .url(new Path(this).PERSONALUPDATE())
-                        .post(body)
-                        .build();
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
+                try {
+                    Toast.makeText(this,"正在上传数据...",Toast.LENGTH_LONG);
+                    if ("".equals(sex)){
+                        sex=bean.getSex();
                     }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (response.body().string().contains("修改成功")) {
-                            Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+                    OkHttpClient client = new OkHttpClient();
+                    RequestBody body = new FormBody.Builder()
+                            .add("sex", sex)
+                            .add("realname", name.getText().toString())
+                            .add("age", age.getText().toString())
+                            .add("address", location2.getText().toString())
+                            .add("email", email.getText().toString())
+                            .add("introduce", intro.getText().toString())
+                            .add("location_p", province)
+                            .add("location_c", city)
+                            .add("location_a", district)
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(new Path(this).PERSONALUPDATE())
+                            .post(body)
+                            .build();
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            mHandler.sendEmptyMessage(2);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.body().string().contains("修改成功")) {
+                                mHandler.sendEmptyMessage(1);
+                            }
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
             case R.id.setcv:
                 WindowManager windowManager = getWindowManager();
@@ -342,6 +352,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     }
     void PostImg(Bitmap bm){
         try {
+            Toast.makeText(this,"正在上传图片...",Toast.LENGTH_LONG);
             OkHttpClient client = new OkHttpClient();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
@@ -359,10 +370,12 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e("____resultonFailure",e.toString());
+                    mHandler.sendEmptyMessage(2);
                 }
 
                 @Override
                 public void onResponse(Call call, okhttp3.Response response) throws IOException {
+
                     String s = response.body().string();
                     Log.e("____resultonResponse",s);
                     Gson gson = new Gson();

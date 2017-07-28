@@ -223,5 +223,25 @@ public  class Path {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.buqi&pc=1&uid="+uid+"&ctid="+tid+"&token="+token;
         return path;
     }
+    //笔记列表
+    public  String NOTELIST(String videoid,int page) {
+        String path = "https://www.shizhanzhe.com/?m=pcdata.cha_mannote&pc=1&coid="+videoid+"&uid="+uid+"&token="+token+"&page="+page;
+        return path;
+    }
+    //笔记列表item删除
+    public  String NOTELISTDEL(String id) {
+        String path = "https://www.shizhanzhe.com/?m=pcdata.del_mannote&pc=1&nid="+id+"&uid="+uid+"&token="+token;
+        return path;
+    }
+    //笔记列表item修改
+    public  String NOTELISTEDIT(String id,String content) {
+        String path = "https://www.shizhanzhe.com/?m=pcdata.edit_mannote&pc=1&content="+content+"&nid="+id+"&uid="+uid+"&token="+token;
+        return path;
+    }
+    //笔记列表增加
+    public  String NOTELISTEADD(String sid,String pid,String nid,String content) {
+        String path = "https://www.shizhanzhe.com/?m=pcdata.ask_mannote&pc=1&content="+content+"&sid="+sid+"&pid="+pid+"&coid="+nid+"&uid="+uid+"&token="+token;
+        return path;
+    }
 
 }

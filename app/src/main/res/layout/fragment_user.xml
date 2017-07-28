@@ -102,7 +102,7 @@
                                 android:layout_marginTop="8.5dip"
                                 android:gravity="center"
                                 android:text="用户名"
-                                android:textColor="@color/black"
+                                android:textColor="@color/white"
                                 android:textSize="15.0sp" />
                         </LinearLayout>
 
@@ -141,6 +141,18 @@
                         android:text="账户中心"
                         android:textColor="@color/one_level"
                         android:textSize="13.0sp" />
+                    <TextView
+                        android:id="@+id/user_note"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:drawableTop="@drawable/note"
+                        android:gravity="center"
+                        android:text="我的笔记"
+                        android:textColor="@color/one_level"
+                        android:textSize="13.0sp" />
 
                     <TextView
                         android:id="@+id/user_sc"
@@ -148,9 +160,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:padding="10dp"
                         android:drawableTop="@drawable/sc"
                         android:gravity="center"
+                        android:padding="10dp"
                         android:text="我的收藏"
                         android:textColor="@color/one_level"
                         android:textSize="13.0sp" />

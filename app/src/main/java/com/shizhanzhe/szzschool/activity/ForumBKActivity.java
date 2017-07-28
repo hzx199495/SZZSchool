@@ -76,7 +76,9 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (qx.contains("1")) {
+                SharedPreferences preferences =getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                String vip = preferences.getString("vip", "");
+                if (vip.contains("1")){
                     String title = list.get(position).getSubject();
                     String name = list.get(position).getRealname();
                     String time = list.get(position).getDateline();
@@ -91,7 +93,7 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
 
                         }
                     });
-                    flag=true;
+
                     Intent intent = new Intent(ForumBKActivity.this, ForumItemActivity.class);
                     intent.putExtra("pid", pid);
                     intent.putExtra("title", title);
@@ -102,9 +104,38 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
                     intent.putExtra("fid", fid);
                     intent.putExtra("authorid", authorid);
                     startActivity(intent);
-                } else {
-                    new SVProgressHUD(ForumBKActivity.this).showInfoWithStatus("未购买该体系,无法查看");
+                }else{
+                    if (qx.contains("1")) {
+                        String title = list.get(position).getSubject();
+                        String name = list.get(position).getRealname();
+                        String time = list.get(position).getDateline();
+                        String pid = list.get(position).getPid();
+                        String logo = list.get(position).getLogo();
+                        String rep = list.get(position).getAlltip();
+                        String authorid = list.get(position).getAuthorid();
+
+                        OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                            @Override
+                            public void onsendJson(String json) {
+
+                            }
+                        });
+                        flag=true;
+                        Intent intent = new Intent(ForumBKActivity.this, ForumItemActivity.class);
+                        intent.putExtra("pid", pid);
+                        intent.putExtra("title", title);
+                        intent.putExtra("name", name);
+                        intent.putExtra("img", logo);
+                        intent.putExtra("time", time);
+                        intent.putExtra("rep", rep);
+                        intent.putExtra("fid", fid);
+                        intent.putExtra("authorid", authorid);
+                        startActivity(intent);
+                    } else {
+                        new SVProgressHUD(ForumBKActivity.this).showInfoWithStatus("未购买该体系,无法查看");
+                    }
                 }
+
             }
         });
         puttext.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +146,7 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
                 if (jy.contains("0")){
                     new SVProgressHUD(ForumBKActivity.this).showErrorWithStatus("已被禁言，无法发帖");
                 }else{
+                    flag=true;
                     Intent i = new Intent();
                     i.setClass(ForumBKActivity.this, PostActivity.class);
                     i.putExtra("fid", fid);
@@ -195,7 +227,6 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
                 swipeLayout.setRefreshing(false);
             }
         }, 2000);
-
     }
 
     @Override
@@ -223,6 +254,7 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
             }
         }, 2000);
     }
+
 boolean flag=false;
     @Override
     protected void onResume() {

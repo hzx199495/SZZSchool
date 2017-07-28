@@ -1,11 +1,9 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -14,25 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.shizhanzhe.szzschool.Bean.CommentBean;
 import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
 
 import com.shizhanzhe.szzschool.activity.ForumTalkEdittextActivity;
-import com.shizhanzhe.szzschool.utils.NoScrollListView;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.LinearListView;
-import com.shizhanzhe.szzschool.video.PolyvSubTalkListViewAdapter;
-import com.shizhanzhe.szzschool.video.PolyvTalkEdittextActivity;
-import com.shizhanzhe.szzschool.video.PolyvTalkListViewAdapter;
 
 
 import java.text.SimpleDateFormat;
@@ -40,7 +30,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import static com.shizhanzhe.szzschool.adapter.CommentAdapter.getSpaceTime;
 
 /**
  * Created by hasee on 2017/1/3.

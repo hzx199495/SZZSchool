@@ -78,7 +78,7 @@ public class UpdateManager {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("新版本发布！");
         builder.setMessage("是否开始更新？");
-        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -87,7 +87,7 @@ public class UpdateManager {
                 downlod();
             }
         });
-        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("稍后更新", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

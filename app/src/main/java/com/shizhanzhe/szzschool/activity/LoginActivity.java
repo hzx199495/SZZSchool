@@ -128,7 +128,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (json.length() <= 5) {
                     new SVProgressHUD(LoginActivity.this).showErrorWithStatus("帐号或密码错误！");
                 } else {
-                    new SVProgressHUD(LoginActivity.this).showSuccessWithStatus("登陆成功");
                     editor.putString("uname", username);
                     editor.putString("upawd", b);
                     editor.commit();
@@ -153,7 +152,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 }
             }
         });
-        mSVProgressHUD.dismiss();
+
     }
 
 }

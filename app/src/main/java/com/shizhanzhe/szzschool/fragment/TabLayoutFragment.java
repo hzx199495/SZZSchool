@@ -264,6 +264,7 @@ public class TabLayoutFragment extends Fragment {
         ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
         txId = tx.getId();
         isbuy = tx.getIsbuy();
+        MyApplication.txId=txId;
         MyApplication.videotitle=tx.getStitle();
         MyApplication.videoclassid=tx.getCouClass();
         initView();

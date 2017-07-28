@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Display;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.mob.commons.SHARESDK;
 import com.shizhanzhe.szzschool.Bean.BuyBean;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
@@ -29,8 +33,17 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,6 +52,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static android.R.attr.path;
 
 /**
  * Created by hasee on 2016/11/22.
@@ -59,7 +74,6 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     String id;
     Dialog dialog;
     String img;
-    String title;
     String proprice;
 
     @Override
@@ -67,7 +81,8 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-
+// 初始化ShareSDK
+        ShareSDK.initSDK(this);
         back.setOnClickListener(this);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
@@ -95,13 +110,13 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                 TextView pro = (TextView) dialog.getWindow().findViewById(R.id.buy_pro);
                 final TextView price = (TextView) dialog.getWindow().findViewById(R.id.buy_pr);
                 Button btn = (Button) dialog.getWindow().findViewById(R.id.buy_yes);
-                pro.setText(title);
+                pro.setText(name);
                 price.setText("￥" + proprice);
                 btn.setOnClickListener(this);
                 break;
             case R.id.buy_yes:
                 SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                 String uid = preferences.getString("uid", "");
+                String uid = preferences.getString("uid", "");
                 OkHttpClient client = new OkHttpClient();
                 RequestBody body = new FormBody.Builder()
                         .add("uid", uid).add("systemid", id)
@@ -165,8 +180,6 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                 showShare();
                 break;
         }
-
-
     }
 
     String name;
@@ -180,13 +193,16 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                 Gson gson = new Gson();
                 ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
                 String isbuy = tx.getIsbuy();
+                img = tx.getThumb();
                 name = tx.getStitle();
+                proprice=tx.getNowprice();
                 if (vip.equals("1")) {
                     buy.setVisibility(View.GONE);
                     study.setVisibility(View.VISIBLE);
                 } else {
                     if (isbuy.equals("0")) {
-
+                        buy.setVisibility(View.VISIBLE);
+                        study.setVisibility(View.GONE);
                     } else if (isbuy.equals("1")) {
                         buy.setVisibility(View.GONE);
                         study.setVisibility(View.VISIBLE);
@@ -199,29 +215,28 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
             }
         });
     }
+
     private void showShare() {
         OnekeyShare oks = new OnekeyShare();
 //关闭sso授权
         oks.disableSSOWhenAuthorize();
 // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
-        oks.setTitle(title);
+        oks.setTitle(name);
 // titleUrl是标题的网络链接，QQ和QQ空间等使用
         oks.setTitleUrl("https://shizhanzhe.com");
 // text是分享文本，所有平台都需要这个字段
         oks.setText(name);
 // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath(Path.IMG(img));//确保SDcard下面存在此张图片
+        oks.setImageUrl(Path.IMG(img));
 // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
+        oks.setUrl("https://shizhanzhe.com");
 // comment是我对这条分享的评论，仅在人人网和QQ空间使用
         oks.setComment("评论文本");
 // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
+        oks.setSite("实战者学院");
 // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("https://shizhanzhe.com");
-
 // 启动分享GUI
         oks.show(this);
     }
-
 }

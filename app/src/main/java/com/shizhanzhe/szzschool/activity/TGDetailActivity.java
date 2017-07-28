@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -58,6 +59,8 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
     int type;
     String uid;
     String token;
+    int ct,kt;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +71,9 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
          token = preferences.getString("token", "");
         Intent intent = getIntent();
         tuanid = intent.getStringExtra("tuanid");
+        ct = intent.getIntExtra("ct",0);
+        kt = intent.getIntExtra("kt",0);
+
         MyApplication.tuanid = tuanid;
         type = intent.getIntExtra("type", 0);
         OkHttpDownloadJsonUtil.downloadJson(this, Path.TGDETAIL(tuanid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
@@ -99,15 +105,25 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
         FragmentManager manager = getSupportFragmentManager();
         final FragmentTransaction transaction = manager.beginTransaction();
         if (type == 1) {
-            tg.setText("立即开团");
+            if (kt==1){
+                tg.setText("已开团");
+                tg.setEnabled(false);
+            }else{
+                tg.setText("立即开团");
+            }
+
             TGOpenFragment tgOpenFragment = TGOpenFragment.newInstance(title, img, time, intro, ktprice, tgprice, kfm);
             transaction.add(R.id.ll, tgOpenFragment);
             transaction.commit();
 
 
         } else if (type == 2) {
-            tg.setText("立即参团");
-
+            if (ct==1){
+                tg.setText("已参团");
+                tg.setEnabled(false);
+            }else{
+                tg.setText("立即参团");
+            }
             TGJoinFragment tgJoinFragment = TGJoinFragment.newInstance(title, img, time, tgprice, intro);
             transaction.add(R.id.ll, tgJoinFragment);
             transaction.commit();

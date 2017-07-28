@@ -142,9 +142,7 @@ public class FragmentForum extends Fragment {
                     }else{
                         new SVProgressHUD(getContext()).showInfoWithStatus("未开通VIP 无法查看");
                     }
-
                 }
-
             }
         });
     }
@@ -178,5 +176,4 @@ public class FragmentForum extends Fragment {
             }
         });
     }
-
 }

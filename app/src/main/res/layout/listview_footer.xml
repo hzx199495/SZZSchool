@@ -7,23 +7,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="11dp" >
+        android:padding="11dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-        <ProgressBar
+        <!--<ProgressBar-->
+            <!--android:id="@+id/pull_to_refresh_load_progress"-->
+            <!--style="@android:style/Widget.ProgressBar.Small.Inverse"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:indeterminate="true" />-->
+        <ImageView
             android:id="@+id/pull_to_refresh_load_progress"
-            style="@android:style/Widget.ProgressBar.Small.Inverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:indeterminate="true" />
-
+            android:src="@drawable/logo_other"/>
         <TextView
             android:id="@+id/pull_to_refresh_loadmore_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/pull_to_refresh_load_progress"
-            android:gravity="center"
+            android:layout_centerVertical="true"
             android:text="加载更多" />
     </RelativeLayout>
 

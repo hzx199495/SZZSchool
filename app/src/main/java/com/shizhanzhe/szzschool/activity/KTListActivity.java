@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -86,6 +87,7 @@ public class KTListActivity extends Activity {
                         OkHttpDownloadJsonUtil.downloadJson(KTListActivity.this, "https://shizhanzhe.com/index.php?m=pcdata.cantuan&pc=1&ktid=" + list.get(position).getId() + "&uid=" + uid + "&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                             @Override
                             public void onsendJson(String json) {
+                                Log.e("_______j",json);
                                 if (json.contains("0")) {
                                     new SVProgressHUD(KTListActivity.this).showInfoWithStatus("无此开团");
                                 } else if (json.contains("1")) {

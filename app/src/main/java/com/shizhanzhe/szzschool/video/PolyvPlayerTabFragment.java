@@ -22,7 +22,7 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
     //viewpagerFragment
     private PolyvPlayerViewPagerFragment viewPagerFragment;
     // tab文本的TextView，用于改变颜色
-    private TextView tv_cur, tv_sum, tv_talk;
+    private TextView tv_cur, tv_sum, tv_talk,tv_question;
     // tab的导航线
     private View v_line;
     private int screenWidth;
@@ -42,6 +42,7 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
         tv_cur = (TextView) view.findViewById(R.id.tv_cur);
         tv_sum = (TextView) view.findViewById(R.id.tv_sum);
         tv_talk = (TextView) view.findViewById(R.id.tv_talk);
+        tv_question = (TextView) view.findViewById(R.id.tv_question);
         v_line = view.findViewById(R.id.v_line);
         viewPagerFragment = (PolyvPlayerViewPagerFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fl_viewpager);
     }
@@ -52,6 +53,7 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
         tv_cur.setOnClickListener(this);
         tv_sum.setOnClickListener(this);
         tv_talk.setOnClickListener(this);
+        tv_question.setOnClickListener(this);
     }
 
     private void initLineSetting() {
@@ -123,6 +125,9 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
                 break;
             case R.id.tv_cur:
                 viewPagerFragment.setCurrentItem(0);
+                break;
+            case R.id.tv_question:
+                
                 break;
         }
     }

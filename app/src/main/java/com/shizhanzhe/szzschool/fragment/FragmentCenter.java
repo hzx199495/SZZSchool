@@ -102,11 +102,13 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
 
             @Override
             public void onsendJson(String json) {
+                Log.e("________",json);
                 Gson gson = new Gson();
                 rm = gson.fromJson(json, ProBean.class).getTx();
+                tg = gson.fromJson(json, ProBean.class).getTg();
+                Log.e("________size",rm.get(0).getStitle()+"");
                 gvAdapter = new GVAdapter(rm, getContext());
                 gv_rm.setAdapter(gvAdapter);
-                tg = gson.fromJson(json, ProBean.class).getTg();
                 SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
                 String ktagent = preferences.getString("ktagent", "");
                 tgAdapter = new TGAdapter(null,tg,getContext(),ktagent);

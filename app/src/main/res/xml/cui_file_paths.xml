@@ -7,7 +7,7 @@
         <external-path
             name="external_storage_root"
             path="." />
-        <!-- yan  notice:  do not  edit     -->
+
         <root-path path="" name="camera_photos" />
     </paths>
 </resources>

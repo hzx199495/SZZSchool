@@ -8,9 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.BKBean;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import org.xutils.x;
 
@@ -18,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
  * Created by hasee on 2017/1/3.
@@ -68,7 +72,11 @@ public class ForumBKLVAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         BKBean bean = list.get(position);
-        x.image().bind(holder.iv,bean.getLogo());
+        if (!"".equals(bean.getLogo())&&bean.getLogo().contains("http")) {
+            ImageLoader.getInstance().displayImage(bean.getLogo(), holder.iv,displayoptions);
+        } else {
+            ImageLoader.getInstance().displayImage(Path.IMG(bean.getLogo()), holder.iv, displayoptions);
+        }
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
         if (!bean.getFid().equals("58")){

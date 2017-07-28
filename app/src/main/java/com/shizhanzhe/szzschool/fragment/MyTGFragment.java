@@ -92,6 +92,7 @@ public class MyTGFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
                                 Intent intent = new Intent();
                                 intent.setClass(getContext(), TGDetailActivity.class);
+                                intent.putExtra("kt", 1);
                                 intent.putExtra("tuanid", kclist.get(position).getTuanid());
                                 intent.putExtra("type", 1);
                                 getContext().startActivity(intent);
@@ -119,6 +120,7 @@ public class MyTGFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent();
                                 intent.setClass(getContext(), TGDetailActivity.class);
+                                intent.putExtra("ct", 1);
                                 intent.putExtra("tuanid", ctlist.get(position).getTuanid());
                                 intent.putExtra("type", 2);
                                 getContext().startActivity(intent);

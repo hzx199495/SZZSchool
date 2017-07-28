@@ -18,7 +18,6 @@ import com.shizhanzhe.szzschool.R;
 
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.utils.SharedUtils;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;

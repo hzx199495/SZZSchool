@@ -3,6 +3,8 @@ package com.shizhanzhe.szzschool.utils;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class OkHttpDownloadJsonUtil {
         void onsendJson(String json);
     }
 
-    public static void downloadJson(Context context, final String path, final onOkHttpDownloadListener listener) {
+    public static void downloadJson(final Context context, final String path, final onOkHttpDownloadListener listener) {
         final Handler handler = new Handler();
 //        final ProgressDialog dialog = new ProgressDialog(context);
 //        dialog.setTitle("加载中请稍后");
@@ -53,13 +55,20 @@ public class OkHttpDownloadJsonUtil {
                             @Override
                             public void run() {
                                 listener.onsendJson(s);
-//                                dialog.cancel();
-//                                dialog.dismiss();
                             }
                         });
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (final Exception e) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (e.toString().contains("java.net.UnknownHostException")){
+                                Toast.makeText(context,"网络异常，请检查网络后再试",Toast.LENGTH_LONG).show();;
+                            }else{
+                                Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();;
+                            }
+                        }
+                    });
                 }
             }
         }).start();

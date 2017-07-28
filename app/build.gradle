@@ -10,12 +10,14 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        resConfigs "zh"
         //64K 引用限制
         multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -25,6 +27,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'org.xutils:xutils:3.3.36'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
@@ -32,9 +35,6 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     // 轮播图
     compile 'com.youth.banner:banner:1.4.2'
-    //PolyvSDK
-//64K 引用限制
-    compile 'com.android.support:multidex:1.0.1'
     //支付宝
     compile files('libs/alipaySingle-20170510.jar')
     //shareSDK

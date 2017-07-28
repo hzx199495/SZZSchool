@@ -93,7 +93,6 @@
                     android:background="@null"
                     android:drawablePadding="7.5dip"
                     android:gravity="center"
-                    android:text="昵称"
                     android:textColor="@color/blue2"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -194,7 +193,6 @@
                     android:background="@null"
                     android:drawablePadding="7.5dip"
                     android:gravity="center"
-                    android:text="99"
                     android:textColor="@color/blue2"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -233,7 +231,6 @@
                 android:background="@null"
                 android:drawablePadding="7.5dip"
                 android:gravity="center"
-                android:text="123456@szz.com"
                 android:textColor="@color/blue2"
                 android:textSize="14sp" />
         </LinearLayout>

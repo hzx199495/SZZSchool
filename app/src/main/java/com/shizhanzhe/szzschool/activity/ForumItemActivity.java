@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.Spanned;
@@ -84,11 +86,13 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     String questionid;
     ForumCommentBean bean;
     int page=1;
+    SVProgressHUD mSVProgressHUD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        mSVProgressHUD = new SVProgressHUD(this);
         findIdAndNew();
         init();
         setListener();
@@ -134,25 +138,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
             ImageLoader.getInstance().displayImage(Path.IMG(img), avatar, options);
         }
         edtime.setText(time);
-        OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
 
-                if (!json.contains(".pdf")) {
-                    MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
-                    MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
-                    Spanned spanned = Html.fromHtml(json, imageGetter, tagHandler);
-                    content.setText(spanned);
-                    content.setMovementMethod(LinkMovementMethod.getInstance());
-                }else {
-                    String s = json.replace("href=\"", "href=\"https://www.shizhanzhe.com");
-                    Document doc = Jsoup.parse(s);
-                    String html = doc.html();
-                    content.setText(Html.fromHtml(html));
-                    content.setMovementMethod(LinkMovementMethod.getInstance());
-                }
-            }
-        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +150,6 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 bean = list.get(position-1);
                 Intent intent = new Intent(ForumItemActivity.this, ForumTalkEdittextActivity.class);
                 intent.putExtra("questionid", bean.getId());
@@ -216,6 +201,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     }
 
     private void initView() {
+        mSVProgressHUD.showWithStatus("加载中...");
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCOMMENT(pid,page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
@@ -224,11 +210,9 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
                 }.getType());
                 adapter = new ForumCommentAdapter(ForumItemActivity.this, list);
                 lv_talk.setAdapter(adapter);
-
+                getData();
             }
         });
-
-
     }
 
     private List<ForumCommentBean> list;
@@ -252,7 +236,15 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         }
 
     }
-
+    Handler myHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == 99) {
+                    page=1;
+                initView();
+            }
+            super.handleMessage(msg);
+        }
+    };
     private void addNewQuestion() {
         OkHttpClient client = new OkHttpClient();
         okhttp3.RequestBody body = new FormBody.Builder()
@@ -267,24 +259,19 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
             @Override
             public void onFailure(Call call, IOException e) {
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this,"发表评论失败！",Toast.LENGTH_LONG);
+                Toast.makeText(ForumItemActivity.this,"发表评论失败！",Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                myHandler.sendEmptyMessage(99);
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this,"发表成功！",Toast.LENGTH_LONG);
+                Toast.makeText(ForumItemActivity.this,"发表成功！",Toast.LENGTH_LONG).show();
                 Looper.loop();
+
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        page=1;
-        initView();
     }
 
     private void addNewAnswer() {
@@ -301,14 +288,15 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
             @Override
             public void onFailure(Call call, IOException e) {
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this,"回复失败！",Toast.LENGTH_LONG);
+                Toast.makeText(ForumItemActivity.this,"回复失败！",Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                myHandler.sendEmptyMessage(99);
                 Looper.prepare();
-                Toast.makeText(ForumItemActivity.this,"回复成功！",Toast.LENGTH_LONG);
+                Toast.makeText(ForumItemActivity.this,"回复成功！",Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         });
@@ -328,7 +316,28 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         }, 2000);
 
     }
+    void getData(){
+        OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
 
+                if (!json.contains(".pdf")) {
+                    MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
+                    MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
+                    Spanned spanned = Html.fromHtml(json, imageGetter, tagHandler);
+                    content.setText(spanned);
+                    content.setMovementMethod(LinkMovementMethod.getInstance());
+                }else {
+                    String s = json.replace("href=\"", "href=\"https://www.shizhanzhe.com");
+                    Document doc = Jsoup.parse(s);
+                    String html = doc.html();
+                    content.setText(Html.fromHtml(html));
+                    content.setMovementMethod(LinkMovementMethod.getInstance());
+                }
+                mSVProgressHUD.dismiss();
+            }
+        });
+    }
     @Override
     public void onLoad() {
         swipeLayout.postDelayed(new Runnable() {

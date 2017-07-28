@@ -42,7 +42,18 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="讨论区"
+            android:text="笔记"
+            android:textColor="@color/polyv_tab_text_color"
+            android:textSize="@dimen/center_text_size" >
+        </TextView>
+        <TextView
+            android:id="@+id/tv_question"
+            style="@style/lo_click_commom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="提问"
             android:textColor="@color/polyv_tab_text_color"
             android:textSize="@dimen/center_text_size" >
         </TextView>
@@ -52,7 +63,8 @@
         android:id="@+id/v_line"
         android:layout_width="@dimen/center_tab_view_width"
         android:layout_height="@dimen/center_view_width"
-        android:background="@color/center_view_color_blue" >
+        android:background="@color/center_view_color_blue"
+        android:visibility="gone">
     </View>
 
     <View

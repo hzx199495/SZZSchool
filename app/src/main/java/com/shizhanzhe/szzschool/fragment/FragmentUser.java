@@ -32,6 +32,7 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.CollectActivity;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.MyNoteListActivity;
 import com.shizhanzhe.szzschool.activity.MyTGActivity;
 import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.activity.UserSetActivity;
@@ -66,6 +67,8 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     TextView user_name;
     @ViewInject(R.id.user_zh)
     TextView user_zh;
+    @ViewInject(R.id.user_note)
+    TextView user_note;
     @ViewInject(R.id.user_sc)
     TextView user_sc;
     @ViewInject(R.id.user_sz)
@@ -100,6 +103,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         user_sc.setOnClickListener(this);
         user_sz.setOnClickListener(this);
         user_tg.setOnClickListener(this);
+        user_note.setOnClickListener(this);
         cv.setOnClickListener(this);
 
     }
@@ -141,6 +145,8 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
             case R.id.cv:
                 startActivity(new Intent(getActivity(), UserSetActivity.class));
                 break;
+            case R.id.user_note:
+                startActivity(new Intent(getActivity(), MyNoteListActivity.class));
         }
     }
 

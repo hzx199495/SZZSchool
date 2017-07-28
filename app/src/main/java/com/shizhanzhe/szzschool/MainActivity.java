@@ -53,10 +53,8 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-        // 初始化ShareSDK
-        ShareSDK.initSDK(this);
+
         new UpdateManager(this).checkUpdate(true);
 
 
@@ -79,10 +77,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fragmentCenter==null){
-                    fragmentCenter=new FragmentCenter();
-                }
-                switchContent(nowFragment,fragmentCenter);
+                ((RadioButton)rg.getChildAt(0)).setChecked(true);
             }
         });
         MyApplication.getInstance().addActivity(this);

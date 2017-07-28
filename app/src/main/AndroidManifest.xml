@@ -139,6 +139,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.AboutActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.NoteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyNoteListActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".video.PolyvTalkSendActivity">
         <intent-filter>
             <action android:name="TalkEdittextActivity" />

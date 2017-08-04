@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.video;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.easefun.polyvsdk.PolyvBitRate;
 import com.easefun.polyvsdk.PolyvSDKUtil;
 import com.easefun.polyvsdk.srt.PolyvSRTItemVO;
+import com.easefun.polyvsdk.video.IPolyvMediaPlayerControl;
 import com.easefun.polyvsdk.video.PolyvMediaInfoType;
 import com.easefun.polyvsdk.video.PolyvPlayErrorReason;
 import com.easefun.polyvsdk.video.PolyvVideoView;
@@ -53,11 +55,12 @@ import com.easefun.polyvsdk.vo.PolyvADMatterVO;
 import com.easefun.polyvsdk.vo.PolyvQuestionVO;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.utils.InternetReceiver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class PolyvPlayerActivity extends FragmentActivity {
+public class PolyvPlayerActivity extends FragmentActivity  {
     private static final String TAG = PolyvPlayerActivity.class.getSimpleName();
     private PolyvPlayerTopFragment topFragment;
     private PolyvPlayerTabFragment tabFragment;
@@ -134,7 +137,6 @@ public class PolyvPlayerActivity extends FragmentActivity {
         addFragment();
         findIdAndNew();
         initView();
-        connect();
         int playModeCode = getIntent().getIntExtra("playMode", PlayMode.portrait.getCode());
         PlayMode playMode = PlayMode.getPlayMode(playModeCode);
         if (playMode == null)
@@ -668,6 +670,10 @@ public class PolyvPlayerActivity extends FragmentActivity {
         auxiliaryView.hide();
         firstStartView.hide();
         mediaController.disable();
+        unregisterReceiver(receiver);
+        int currentPosition = videoView.getCurrentPosition()/1000;
+        int duration = videoView.getDuration()/1000;
+        Log.e("_______time",currentPosition+"_"+duration);
     }
 
 
@@ -752,16 +758,15 @@ public class PolyvPlayerActivity extends FragmentActivity {
             return null;
         }
     }
+    InternetReceiver receiver;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        receiver = new InternetReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(receiver, filter);//注册
+        receiver.onReceive(this, null);//接收
+    }
 
-    public void connect() {
-        ConnectivityManager mConnectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mMobileNetworkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);   //获取移动网络信息
-        NetworkInfo wifi =mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (mMobileNetworkInfo != null) {
-            Toast.makeText(this,"当前使用数据流量连接",Toast.LENGTH_LONG).show();
-        }else if (wifi != null){
-            Toast.makeText(this,"当前使用WIFI连接",Toast.LENGTH_LONG).show();
-        }
-
-}
 }

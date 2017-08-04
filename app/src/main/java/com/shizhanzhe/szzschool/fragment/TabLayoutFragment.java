@@ -1,6 +1,8 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,10 +19,13 @@ import android.widget.Toast;
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.LoginActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.adapter.Videoadapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -97,7 +102,7 @@ public class TabLayoutFragment extends Fragment {
                 lv.setAdapter(new Videoadapter(getContext(), videolist1, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist1.get(position).getGrade().contains("2") || videolist1.get(position).getGrade().contains("1")) {
                                 MyApplication.videotypeid=list.getA0().getId();
@@ -106,7 +111,29 @@ public class TabLayoutFragment extends Fragment {
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist1.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("实战者学院提示");
+                                builder.setMessage("不建议越级观看，确认继续");
+                                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.videotypeid=list.getA0().getId();
+                                        MyApplication.videotype = type;
+                                        MyApplication.videoitemid = videolist1.get(position).getId();
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist1.get(position).getMv_url());
+                                        getContext().startActivity(intent);
+                                    }
+                                });
+                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+
+                                });
+                                builder.create().show();
                             }
                         } else {
                             new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
@@ -132,7 +159,7 @@ public class TabLayoutFragment extends Fragment {
                 lv.setAdapter(new Videoadapter(getContext(), videolist2, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist2.get(position).getGrade().contains("2") || videolist2.get(position).getGrade().contains("1")) {
                                 MyApplication.videotypeid=list.getA1().getId();
@@ -141,7 +168,29 @@ public class TabLayoutFragment extends Fragment {
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist2.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("实战者学院提示");
+                                builder.setMessage("不建议越级观看，确认继续");
+                                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.videotypeid=list.getA1().getId();
+                                        MyApplication.videotype = type;
+                                        MyApplication.videoitemid = videolist2.get(position).getId();
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist2.get(position).getMv_url());
+                                        getContext().startActivity(intent);
+                                    }
+                                });
+                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+
+                                });
+                                builder.create().show();
                             }
                         } else {
                             new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
@@ -165,7 +214,7 @@ public class TabLayoutFragment extends Fragment {
                 lv.setAdapter(new Videoadapter(getContext(), videolist3, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist3.get(position).getGrade().contains("2") || videolist3.get(position).getGrade().contains("1")) {
                                 MyApplication.videotypeid=list.getA2().getId();
@@ -174,7 +223,29 @@ public class TabLayoutFragment extends Fragment {
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist3.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("实战者学院提示");
+                                builder.setMessage("不建议越级观看，确认继续");
+                                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.videotypeid=list.getA2().getId();
+                                        MyApplication.videotype = type;
+                                        MyApplication.videoitemid = videolist3.get(position).getId();
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist3.get(position).getMv_url());
+                                        getContext().startActivity(intent);
+                                    }
+                                });
+                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+
+                                });
+                                builder.create().show();
                             }
                         } else {
                             new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
@@ -198,7 +269,7 @@ public class TabLayoutFragment extends Fragment {
                 lv.setAdapter(new Videoadapter(getContext(), videolist4, txId));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist4.get(position).getGrade().contains("2") || videolist4.get(position).getGrade().contains("1")) {
                                 MyApplication.videotypeid=list.getA3().getId();
@@ -207,7 +278,29 @@ public class TabLayoutFragment extends Fragment {
                                 Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist4.get(position).getMv_url());
                                 getContext().startActivity(intent);
                             } else {
-                                new SVProgressHUD(getActivity()).showErrorWithStatus("无法越级学习！", SVProgressHUD.SVProgressHUDMaskType.None);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("实战者学院提示");
+                                builder.setMessage("不建议越级观看，确认继续");
+                                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.videotypeid=list.getA3().getId();
+                                        MyApplication.videotype = type;
+                                        MyApplication.videoitemid = videolist4.get(position).getId();
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, videolist4.get(position).getMv_url());
+                                        getContext().startActivity(intent);
+                                    }
+                                });
+                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+
+                                });
+                                builder.create().show();
                             }
                         } else {
                             new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
@@ -277,8 +370,10 @@ public class TabLayoutFragment extends Fragment {
         OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).SECOND(MyApplication.txId), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                MyApplication.videojson = json;
-                getData();
+                if (!json.equals(MyApplication.videojson)){
+                    MyApplication.videojson = json;
+                    getData();
+                }
             }
         });
     }

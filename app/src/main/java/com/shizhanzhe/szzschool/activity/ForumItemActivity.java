@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,6 +46,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import okhttp3.Call;
@@ -320,7 +323,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-
+                Log.e("________",json);
                 if (!json.contains(".pdf")) {
                     MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
                     MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
@@ -328,10 +331,15 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
                     content.setText(spanned);
                     content.setMovementMethod(LinkMovementMethod.getInstance());
                 }else {
-                    String s = json.replace("href=\"", "href=\"https://www.shizhanzhe.com");
+                    String a = json.replace("href=\"", "href=\"https://www.shizhanzhe.com");
+                    String s = a.replace("src=\"", "src=\"https://www.shizhanzhe.com");
+
                     Document doc = Jsoup.parse(s);
                     String html = doc.html();
-                    content.setText(Html.fromHtml(html));
+                    MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
+                    MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
+                    Spanned spanned = Html.fromHtml(html, imageGetter, tagHandler);
+                    content.setText(spanned);
                     content.setMovementMethod(LinkMovementMethod.getInstance());
                 }
                 mSVProgressHUD.dismiss();

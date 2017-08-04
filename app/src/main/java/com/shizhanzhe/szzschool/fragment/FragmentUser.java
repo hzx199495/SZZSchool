@@ -123,7 +123,6 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         bitmap.recycle();
         rs.destroy();
         return outBitmap;
-
     }
 
 

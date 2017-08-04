@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.BKBean;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
@@ -72,10 +74,14 @@ public class ForumBKLVAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         BKBean bean = list.get(position);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
+                .displayer(new RoundedBitmapDisplayer(30))
+                .build();
         if (!"".equals(bean.getLogo())&&bean.getLogo().contains("http")) {
-            ImageLoader.getInstance().displayImage(bean.getLogo(), holder.iv,displayoptions);
+            ImageLoader.getInstance().displayImage(bean.getLogo(), holder.iv,options);
         } else {
-            ImageLoader.getInstance().displayImage(Path.IMG(bean.getLogo()), holder.iv, displayoptions);
+            ImageLoader.getInstance().displayImage(Path.IMG(bean.getLogo()), holder.iv, options);
         }
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
@@ -86,8 +92,8 @@ public class ForumBKLVAdapter extends BaseAdapter {
         }
         holder.time.setText(bean.getDateline());
         holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
-        holder.look.setText("查看:"+bean.getLooknum());
-        holder.rep.setText("回复:"+bean.getAlltip());
+        holder.look.setText(bean.getLooknum());
+        holder.rep.setText(bean.getAlltip());
         return convertView;
     }
 

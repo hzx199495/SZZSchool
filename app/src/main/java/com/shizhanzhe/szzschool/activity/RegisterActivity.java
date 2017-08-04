@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -41,6 +42,8 @@ public class RegisterActivity extends Activity {
     EditText dayu;
     @ViewInject(R.id.edit_qrpsw)
     EditText qrpsw;
+    @ViewInject(R.id.zhlogin)
+    TextView login;
     private final Integer NUM=6;
     private CountDownTimer time;
     String code="";
@@ -124,6 +127,12 @@ public class RegisterActivity extends Activity {
                     new SVProgressHUD(RegisterActivity.this).showErrorWithStatus("验证码不匹配");
                 }
 
+            }
+        });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

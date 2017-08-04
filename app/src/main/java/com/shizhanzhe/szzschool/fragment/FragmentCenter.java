@@ -116,6 +116,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                 ArrayList<String> images = new ArrayList<>();
                 images.add(Path.IMG(rm.get(0).getThumb()));
                 images.add(Path.IMG(rm.get(1).getThumb()));
+                images.add(Path.IMG(rm.get(2).getThumb()));
                 banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
                 banner.setOnBannerClickListener(new OnBannerClickListener() {
                     @Override

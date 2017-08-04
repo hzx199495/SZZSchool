@@ -40,7 +40,7 @@ public class MyImageGetter implements ImageGetter {
 		if(source.contains("http")){
 			 path=source;
 		}else {
-			path="http://www.shizhanzhe.com" + source;
+			path="https://www.shizhanzhe.com" + source;
 		}
 		String imageName = Common.md5(path);
 		String sdcardPath = Environment.getExternalStorageDirectory().toString(); // 获取SDCARD的路径
@@ -50,12 +50,11 @@ public class MyImageGetter implements ImageGetter {
 
 		// 最终图片保持的地址
 		String savePath = sdcardPath + "/" + context.getPackageName() + "/" + imageName + "." + ext;
-
 		File file = new File(savePath);
 		if (file.exists()) {
 			// 如果文件已经存在，直接返回
 			Drawable drawable = Drawable.createFromPath(savePath);
-			drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+			drawable.setBounds(20, 20, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
 			return drawable;
 		}
 

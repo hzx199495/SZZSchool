@@ -35,7 +35,7 @@ import java.util.List;
  * Created by zz9527 on 2017/7/27.
  */
 @ContentView(R.layout.activity_mynote)
-public class MyNoteListActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {
+public class MyNoteListActivity extends Activity {
     @ViewInject(R.id.mynote)
     ListView lv;
     @ViewInject(R.id.back)
@@ -44,15 +44,13 @@ public class MyNoteListActivity extends Activity implements SwipeRefreshLayout.O
     List<NoteBean> list;
     NoteAdapter adapter;
     RefreshLayout swipeLayout;
-    private SVProgressHUD svProgressHUD;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        svProgressHUD = new SVProgressHUD(this);
-        init();
-        setListener();
+//        init();
+//        setListener();
         getData();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,73 +125,75 @@ public class MyNoteListActivity extends Activity implements SwipeRefreshLayout.O
         });
     }
     void getData(){
-        svProgressHUD.showWithStatus("正在加载");
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).NOTELIST("", page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
                 list = gson.fromJson(json, new TypeToken<List<NoteBean>>() {
                 }.getType());
-                adapter = new NoteAdapter(MyNoteListActivity.this, list,1);
-                lv.setAdapter(adapter);
-                svProgressHUD.dismiss();
+                if (list!=null&&list.size()>0) {
+                    adapter = new NoteAdapter(MyNoteListActivity.this, list,1);
+                    lv.setAdapter(adapter);
+                }else {
+                    lv.setVisibility(View.GONE);
+                }
             }
         });
     }
-    /**
-     * 初始化布局
-     */
-    @SuppressLint({"InlinedApi", "InflateParams"})
-    private void init() {
-        swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setColorSchemeResources(R.color.commom_sline_color_gray, R.color.blue2, R.color.red, R.color.green);
-    }
-
-    /**
-     * 设置监听
-     */
-    private void setListener() {
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
-    }
-
-    @Override
-    public void onRefresh() {
-        swipeLayout.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                page = 1;
-                getData();
-                swipeLayout.setRefreshing(false);
-            }
-        }, 2000);
-    }
-
-    @Override
-    public void onLoad() {
-        swipeLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeLayout.setLoading(false);
-                page++;
-
-                OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), new Path(MyNoteListActivity.this).NOTELIST("", page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                    @Override
-                    public void onsendJson(String json) {
-                        Gson gson = new GsonBuilder()
-                                .setDateFormat("yyyy-MM-dd")
-                                .create();
-                        List<NoteBean> lists = gson.fromJson(json, new TypeToken<List<NoteBean>>() {
-                        }.getType());
-                        for (NoteBean b :
-                                lists) {
-                            list.add(b);
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }, 2000);
-    }
+//    /**
+//     * 初始化布局
+//     */
+//    @SuppressLint({"InlinedApi", "InflateParams"})
+//    private void init() {
+//        swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
+//        swipeLayout.setColorSchemeResources(R.color.commom_sline_color_gray, R.color.blue2, R.color.red, R.color.green);
+//    }
+//
+//    /**
+//     * 设置监听
+//     */
+//    private void setListener() {
+//        swipeLayout.setOnRefreshListener(this);
+//        swipeLayout.setOnLoadListener(this);
+//    }
+//
+//    @Override
+//    public void onRefresh() {
+//        swipeLayout.postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                page = 1;
+//                getData();
+//                swipeLayout.setRefreshing(false);
+//            }
+//        }, 2000);
+//    }
+//
+//    @Override
+//    public void onLoad() {
+//        swipeLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                swipeLayout.setLoading(false);
+//                page++;
+//
+//                OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), new Path(MyNoteListActivity.this).NOTELIST("", page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//                    @Override
+//                    public void onsendJson(String json) {
+//                        Gson gson = new GsonBuilder()
+//                                .setDateFormat("yyyy-MM-dd")
+//                                .create();
+//                        List<NoteBean> lists = gson.fromJson(json, new TypeToken<List<NoteBean>>() {
+//                        }.getType());
+//                        for (NoteBean b :
+//                                lists) {
+//                            list.add(b);
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                });
+//            }
+//        }, 2000);
+//    }
 }

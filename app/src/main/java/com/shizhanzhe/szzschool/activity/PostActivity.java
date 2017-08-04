@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +72,8 @@ public class PostActivity extends Activity implements View.OnClickListener {
     EditText con;
     @ViewInject(R.id.postimg)
     TextView postimg;
+    @ViewInject(R.id.back)
+    ImageView back;
     @ViewInject(R.id.post)
     TextView post;
     private static int RESULT_LOAD_IMAGE = 1;
@@ -89,7 +92,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
         postimg.setOnClickListener(this);
         post.setOnClickListener(this);
         con.setMovementMethod(LinkMovementMethod.getInstance()); //点击图片响应
-
+        back.setOnClickListener(this);
     }
 
     @Override
@@ -132,6 +135,8 @@ public class PostActivity extends Activity implements View.OnClickListener {
                     }
                 });
                 break;
+            case R.id.back:
+                finish();
         }
     }
     String str="";

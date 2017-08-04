@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,16 +9,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.utils.XCRoundRectImageView;
 
 import org.w3c.dom.Text;
 import org.xutils.x;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
 
 /**
  * Created by hasee on 2016/12/30.
@@ -72,13 +79,17 @@ public class ForumLVAdapter extends BaseAdapter {
         }else{
             holder.vip.setVisibility(View.VISIBLE);
         }
-        x.image().bind(holder.iv,bean.getLogo());
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
+                .displayer(new RoundedBitmapDisplayer(30))
+                .build();
+        ImageLoader.getInstance().displayImage(bean.getLogo(),holder.iv,options);
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
         holder.time.setText(bean.getDateline());
         holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
-        holder.look.setText("查看:"+bean.getLooknum());
-        holder.rep.setText("回复:"+bean.getAlltip());
+        holder.look.setText(bean.getLooknum());
+        holder.rep.setText(bean.getAlltip());
         return convertView;
     }
 

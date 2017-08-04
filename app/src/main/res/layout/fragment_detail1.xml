@@ -63,6 +63,17 @@
             tools:text="￥498" />
 
         <TextView
+            android:id="@+id/detail_yjprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:textSize="15sp"
+            tools:text="原价：￥498"
+            android:layout_above="@+id/textView4"
+            android:layout_toRightOf="@+id/detail_price"
+            android:layout_toEndOf="@+id/detail_price" />
+
+        <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

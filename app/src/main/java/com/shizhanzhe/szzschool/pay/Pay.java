@@ -84,10 +84,11 @@ public class Pay {
 				if (TextUtils.equals(resultStatus, "9000")) {
 					// 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
 					listener.refreshPriorityUI();
-					new SVProgressHUD(activity).showSuccessWithStatus("支付成功");
+					Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
+
 				} else {
 					// 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-					new SVProgressHUD(activity).showErrorWithStatus("支付失败");
+					Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}
@@ -141,17 +142,19 @@ public class Pay {
 		});
 
 	}
-	public Pay(Activity activity, final String price, final String subject, String path){
+	public Pay(Activity activity, final String price, final String subject, String path,PayListener listener){
+		this.listener=listener;
 		this.price=price;
 		this.activity=activity;
 		this.context=activity.getApplicationContext();
 		OkHttpDownloadJsonUtil.downloadJson(context, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 			@Override
 			public void onsendJson(String json) {
+
 				Gson gson = new Gson();
 				PayBean bean = gson.fromJson(json, PayBean.class);
 				long order = bean.getOrder();
-				Log.i("打赏订单号","订单号"+order);
+				Log.i("打赏订单号","订单号"+json+"——"+order);
 				payV2(order,price,subject);
 			}
 		});

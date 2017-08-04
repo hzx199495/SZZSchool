@@ -106,21 +106,18 @@ public class NoteAdapter extends BaseAdapter {
                     holder.ll.setVisibility(View.VISIBLE);
                     holder.tv.setVisibility(View.GONE);
                     holder.editText.setText(noteBean.getContent());
-
                 }
-
-
             }
         });
         holder.post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.tv.setText(holder.editText.getText().toString());
                 OkHttpDownloadJsonUtil.downloadJson(context, new Path(context).NOTELISTEDIT(noteBean.getNid(),holder.editText.getText().toString()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
                     public void onsendJson(String json) {
                         if (json.contains("1")){
                             Toast.makeText(context,"修改成功",Toast.LENGTH_SHORT).show();
-                            holder.tv.setText(holder.editText.getText().toString());
                             holder.ll.setVisibility(View.GONE);
                             holder.tv.setVisibility(View.VISIBLE);
                         }

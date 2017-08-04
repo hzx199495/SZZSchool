@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,9 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     ImageView collect;
     @ViewInject(R.id.detail_study)
     TextView detail_study;
+    @ViewInject(R.id.detail_yjprice)
+    TextView detail_yjprice;
+
     SVProgressHUD mSVProgressHUD;
     public static FragmentDetail newInstance(String id) {
         Bundle args = new Bundle();
@@ -108,6 +112,11 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
                 ImageLoader imageloader = ImageLoader.getInstance();
                 imageloader.displayImage(Path.IMG(tx.getThumb()), detail_iv, MyApplication.displayoptions);
                 MyApplication.proimg = tx.getThumb();
+                if (tx.getStitle().contains("Photoshop")){
+                    detail_yjprice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+                    detail_yjprice.setVisibility(View.VISIBLE);
+                    detail_yjprice.setText("原价：￥699" );
+                }
                 detail_price.setText("￥" + tx.getNowprice());
                 detail_study.setText("学习人数：" + tx.getNum() + "人");
                 mSVProgressHUD.dismiss();

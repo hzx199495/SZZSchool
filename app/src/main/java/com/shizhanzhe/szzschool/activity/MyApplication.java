@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
 
 import org.xutils.image.ImageOptions;
@@ -75,6 +77,7 @@ public class MyApplication extends MultiDexApplication {
         ImageLoader.getInstance().init(configuration);
 
         initPolyvCilent();
+
     }
 
     //加密秘钥和加密向量，在后台->设置->API接口中获取，用于解密SDK加密串
@@ -88,7 +91,7 @@ public class MyApplication extends MultiDexApplication {
         client.setConfig("juWXL+94L7eUgx+SszWhtlu+0lOHCHgLMhfBlcFmKwWyadH2pxiY3cgzRSVoIA+ltZ8xakNFiEXidWfcJBgT7gjeTz4vDtTMou3G0xOQYaIPy3f1Z1vvwrMgRJYMb0uU+8psOdOmov0UwLyULdGKCQ==", aeskey, iv, getApplicationContext());
         //初始化SDK设置
         client.initSetting(getApplicationContext());
-        //启动Bugly
+
         client.initCrashReport(getApplicationContext());
     }
 
@@ -117,6 +120,7 @@ public class MyApplication extends MultiDexApplication {
         }
         System.exit(0);
     }
+
 }
 
 

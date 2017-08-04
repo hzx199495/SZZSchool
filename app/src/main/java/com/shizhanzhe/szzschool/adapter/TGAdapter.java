@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.Bean.TGBean;
@@ -109,20 +110,22 @@ public class TGAdapter extends BaseAdapter {
             }
             holder.tgj.setText("团：" + tgprice);
             if (bean.getKaikedata().contains("1")) {
-                if (ktagent.equals("1")){
+
                     holder.kt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            if (ktagent.equals("1")){
                             Intent intent = new Intent();
                             intent.setClass(context, TGDetailActivity.class);
                             intent.putExtra("tuanid", bean.getId());
                             intent.putExtra("type", 1);
                             context.startActivity(intent);
+                            }else{
+                                new SVProgressHUD(context).showInfoWithStatus("无开团权限");
+                            }
                         }
                     });
-                }else{
-                    Toast.makeText(context,"帐号无开团权限",Toast.LENGTH_SHORT).show();
-                }
+
 
                 holder.ct.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -166,20 +169,22 @@ public class TGAdapter extends BaseAdapter {
             }
             holder.tgj.setText("团：" + tgprice);
             if (bean.getKaikedata().contains("1")) {
-                if (ktagent.equals("1")){
+
                     holder.kt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            if (ktagent.equals("1")){
                             Intent intent = new Intent();
                             intent.setClass(context, TGDetailActivity.class);
                             intent.putExtra("tuanid", bean.getId());
                             intent.putExtra("type", 1);
                             context.startActivity(intent);
+                            }else{
+                                new SVProgressHUD(context).showInfoWithStatus("无开团权限");
+                            }
                         }
                     });
-                }else{
-                    Toast.makeText(context,"帐号无开团权限",Toast.LENGTH_SHORT).show();
-                }
+
 
                 holder.ct.setOnClickListener(new View.OnClickListener() {
                     @Override

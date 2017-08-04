@@ -143,7 +143,6 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 	 * @return
 	 */
 	private boolean canLoad() {
-		Log.e("______抬起",isBottom()+"_"+isLoading+"_"+isPullUp());
 		return isBottom() && !isLoading && isPullUp();
 	}
 
@@ -153,8 +152,12 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 	private boolean isBottom() {
 
 		if (mListView != null && mListView.getAdapter() != null) {
-			return mListView.getLastVisiblePosition() == (mListView
-					.getAdapter().getCount() - 1);
+			if (mListView.getLastVisiblePosition()<4){
+				return false;
+			}else {
+				return mListView.getLastVisiblePosition() == (mListView
+						.getAdapter().getCount() - 1);
+			}
 		}
 		return false;
 	}

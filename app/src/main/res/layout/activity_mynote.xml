@@ -27,14 +27,19 @@
             android:src="@drawable/back_arrow" />
 
     </RelativeLayout>
-    <com.shizhanzhe.szzschool.utils.RefreshLayout
-        android:id="@+id/swipe_container"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="match_parent" >
+    <!--<com.shizhanzhe.szzschool.utils.RefreshLayout-->
+        <!--android:id="@+id/swipe_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_height="match_parent" >-->
         <ListView
             android:id="@+id/mynote"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </com.shizhanzhe.szzschool.utils.RefreshLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="暂无笔记"
+        android:gravity="center"/>
+    <!--</com.shizhanzhe.szzschool.utils.RefreshLayout>-->
 </LinearLayout>

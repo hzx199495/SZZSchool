@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#33000000"
     >
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
@@ -24,26 +25,32 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
     </RelativeLayout>
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="60dp">
+    >
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="100dp"
         android:scaleType="centerInside"
-        android:src="@drawable/login" />
+        android:src="@drawable/bg"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imageView" />
 
     <TextView
         android:id="@+id/tv_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="版本号：1.0"
         android:textColor="@color/blue2"
         android:textSize="16sp"
-        android:gravity="center"/>
-</LinearLayout>
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
 
 </LinearLayout>

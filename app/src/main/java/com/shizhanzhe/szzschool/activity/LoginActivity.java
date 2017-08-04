@@ -49,6 +49,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     SVProgressHUD mSVProgressHUD;
     SVProgressHUD mSVProgressHUD1;
     SVProgressHUD mSVProgressHUD2;
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +58,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.tv_quick_sign_up).setOnClickListener(this);
         findViewById(R.id.RetrievePassword).setOnClickListener(this);
-        mSVProgressHUD = new SVProgressHUD(this);
-        mSVProgressHUD1 = new SVProgressHUD(this);
-        mSVProgressHUD2 = new SVProgressHUD(this);
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        dialog.setMessage("正在登录...Loading");
+
         SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
@@ -73,7 +77,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         username = mEditUid.getText().toString();
         String password = mEditPsw.getText().toString();
         if (username != null && password.length() >= 6) {
-            mSVProgressHUD.showWithStatus("正在登陆...");
+            dialog.show();
             StringBuffer sb = new StringBuffer(password);
             String s = sb.reverse().toString();
             s = s.replace("", "-"); //每个字符加个-
@@ -126,6 +130,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onsendJson(String json) {
 
                 if (json.length() <= 5) {
+                    dialog.dismiss();
                     new SVProgressHUD(LoginActivity.this).showErrorWithStatus("帐号或密码错误！");
                 } else {
                     editor.putString("uname", username);

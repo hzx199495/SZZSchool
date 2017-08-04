@@ -88,7 +88,7 @@
                 android:button="@null"
                 android:drawableTop="@drawable/home_forum_selected"
                 android:gravity="center"
-                android:text="社区论坛"
+                android:text="互动交流"
                 android:textColor="@drawable/btn_selector"
                 android:textSize="14.0sp"
                 android:checked="false" />

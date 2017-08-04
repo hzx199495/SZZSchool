@@ -64,7 +64,7 @@ public class KTListActivity extends Activity {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-                if (json.equals("0")) {
+                if (json.contains("0")) {
                     new SVProgressHUD(KTListActivity.this).showInfoWithStatus("暂无开团");
                 } else{
                     list = gson.fromJson(json, new TypeToken<List<KTListBean>>() {

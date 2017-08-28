@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp"
+    android:background="#fff">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"
+            android:gravity="left|center_vertical"
+            android:text="标题"
+            />
+        <TextView
+            android:id="@+id/jd"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="进度：0%"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/red"/>
+        <!--<TextView-->
+            <!--android:id="@+id/study"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="0.5"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="学习"-->
+            <!--android:textColor="@color/blue2"-->
+            <!--android:gravity="center"/>-->
+    </LinearLayout>
+
+</LinearLayout>

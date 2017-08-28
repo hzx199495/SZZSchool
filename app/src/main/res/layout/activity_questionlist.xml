@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_login_topbar"
+        style="@style/TopbarStyle">
+
+        <TextView
+            android:id="@+id/toptitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="实战者问答"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back_arrow" />
+
+    </RelativeLayout>
+
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/recommend"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bar"
+            android:button="@null"
+            android:gravity="center"
+            android:text="推荐排序"
+            android:checked="true"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:id="@+id/time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bar"
+            android:button="@null"
+            android:gravity="center"
+            android:text="时间排序"
+            android:textSize="15sp" />
+    </RadioGroup>
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.shizhanzhe.szzschool.utils.RefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/questionlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
+    </com.shizhanzhe.szzschool.utils.RefreshLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/makequestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:clickable="true"
+        app:fabSize="normal"
+        android:src="@drawable/makequestion"
+        app:backgroundTint="@color/blue2"
+        />
+    </RelativeLayout>
+        <TextView
+            android:id="@+id/nodata"
+            android:text="暂无提问"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+    </FrameLayout>
+
+
+</LinearLayout>

@@ -64,9 +64,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/text_author"
             android:layout_marginRight="16dp"
-            android:background="#e5e5e5"
-            android:text="Python"
-            android:visibility="gone" />
+            android:text="楼主"
+            />
 
         <TextView
             android:id="@+id/text_title"
@@ -116,14 +115,13 @@
             <!--android:lineSpacingExtra="1.25dp" />-->
     </RelativeLayout>
 
-    <Button
+    <ImageView
         android:id="@+id/ds"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:background="@drawable/shape"
-        android:text="打赏楼主"
-        android:textColor="@color/white" />
+        android:scaleType="fitXY"
+        android:src="@drawable/ds" />
 
 </LinearLayout>

@@ -115,10 +115,15 @@ public class PolyvCurriculumFragment extends Fragment {
                 videolist.add(video);
             }
         }
-        lv_cur.setAdapter(new Videoadapter(getContext(),videolist,"0"));
+        final Videoadapter videoadapter = new Videoadapter(getContext(), videolist, "0");
+        lv_cur.setAdapter(videoadapter);
+        videoadapter.setSelectItem(MyApplication.position);
+        videoadapter.notifyDataSetInvalidated();
         lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                videoadapter.setSelectItem(position);
+                videoadapter.notifyDataSetInvalidated();
                 if (videolist.get(position).getGrade().contains("2") || videolist.get(position).getGrade().contains("1")) {
                     MyApplication.videoitemid=videolist.get(position).getId();
                     videoId = videolist.get(position).getMv_url();

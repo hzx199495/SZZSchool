@@ -1,6 +1,8 @@
 package com.shizhanzhe.szzschool.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,21 +80,41 @@ public class NoteAdapter extends BaseAdapter {
             holder.title.setText(noteBean.getTitle());
         }
 
-        holder.time.setText(getDateTimeFromMillisecond(noteBean.getAddtime()));
+        holder.time.setText(noteBean.getAddtime().substring(0,10));
         holder.tv.setText(noteBean.getContent());
         holder.del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OkHttpDownloadJsonUtil.downloadJson(context, new Path(context).NOTELISTDEL(noteBean.getNid()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("删除");
+                builder.setMessage("确认删除此笔记？");
+                builder.setPositiveButton("立即删除", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onsendJson(String json) {
-                        if (json.contains("1")){
-                            Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT).show();
-                            list.remove(position);
-                            notifyDataSetChanged();
-                        }
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        OkHttpDownloadJsonUtil.downloadJson(context, new Path(context).NOTELISTDEL(noteBean.getNid()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                            @Override
+                            public void onsendJson(String json) {
+                                if (json.contains("1")){
+                                    Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT).show();
+                                    list.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            }
+                        });
                     }
                 });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+
+                });
+                builder.create().show();
+
             }
         });
         holder.edit.setOnClickListener(new View.OnClickListener() {

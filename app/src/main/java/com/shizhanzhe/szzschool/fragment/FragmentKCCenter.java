@@ -2,6 +2,8 @@ package com.shizhanzhe.szzschool.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -63,7 +65,17 @@ public class FragmentKCCenter extends Fragment {
         tabLayout.setupWithViewPager(vp);
         tabLayout.getTabAt(0).setText("团购报名");
         tabLayout.getTabAt(1).setText("课程体系");
-        mSVProgressHUD.dismiss();
+
+        new Handler(new Handler.Callback() {
+
+            @Override
+            public boolean handleMessage (Message arg0){
+                // TODO Auto-generated method stub\
+                mSVProgressHUD.dismiss();
+                return false;
+            }
+        }).sendEmptyMessageDelayed(0, 1500);
     }
+
 }
 

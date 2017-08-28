@@ -22,7 +22,7 @@ public class NoteBean {
     private String sid;
     private String pid;
     private String content;
-    private Long addtime;
+    private String addtime;
     /**
      * addtime : 1501148810
      * title : 网络推广变现1-总纲规划
@@ -78,11 +78,11 @@ public class NoteBean {
         this.content = content;
     }
 
-    public Long getAddtime() {
+    public String getAddtime() {
         return addtime;
     }
 
-    public void setAddtime(Long addtime) {
+    public void setAddtime(String addtime) {
         this.addtime = addtime;
     }
 

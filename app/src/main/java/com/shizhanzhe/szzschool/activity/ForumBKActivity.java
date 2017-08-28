@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
@@ -48,10 +49,13 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
     TextView title;
     @ViewInject(R.id.bk_lv)
     ListView lv;
-    @ViewInject(R.id.puttext)
-    TextView puttext;
+//    @ViewInject(R.id.puttext)
+//    TextView puttext;
     @ViewInject(R.id.back)
     ImageView back;
+    @ViewInject(R.id.fab_add)
+    FloatingActionButton fab_add;
+
     List<BKBean> list;
     String qx = "";
     int page = 1;
@@ -109,7 +113,7 @@ public class ForumBKActivity extends Activity implements SwipeRefreshLayout.OnRe
 
             }
         });
-        puttext.setOnClickListener(new View.OnClickListener() {
+        fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);

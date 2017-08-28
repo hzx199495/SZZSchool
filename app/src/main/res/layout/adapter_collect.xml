@@ -1,47 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="2dp">
 
+    <!--<ImageView-->
+        <!--android:id="@+id/collect_img"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:src="@mipmap/ic_launcher"-->
+        <!--android:scaleType="centerCrop"-->
+         <!--/>-->
+<!--<RelativeLayout-->
+    <!--android:padding="5dp"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_height="match_parent">-->
+    <!--<TextView-->
+        <!--android:textSize="16sp"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:gravity="center"-->
+        <!--android:id="@+id/collect_title"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--tools:text="课程标题"-->
+         <!--/>-->
+    <!---->
+    <!--<TextView-->
+        <!--android:id="@+id/delcollect"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="取消收藏"-->
+        <!--android:textSize="16sp"-->
+        <!--android:maxEms="10"-->
+        <!--android:gravity="right"-->
+        <!--android:textColor="@color/blue2"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+<!--</RelativeLayout>-->
     <ImageView
         android:id="@+id/collect_img"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"
-        android:scaleType="centerCrop"
-         />
-<RelativeLayout
-    android:padding="5dp"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="match_parent">
-    <TextView
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:id="@+id/collect_title"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        tools:text="课程标题"
-         />
-
-
-
-
-    <TextView
-        android:id="@+id/delcollect"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="取消收藏"
-        android:textSize="16sp"
-        android:maxEms="10"
-        android:gravity="right"
-        android:textColor="@color/blue2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/collect_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="20dp"
+            android:text="Android"
+            android:textSize="14sp"
+            android:textColor="#8a000000"
+            android:singleLine="true"
+            />
+        <TextView
+            android:id="@+id/delcollect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消收藏"
+            android:textColor="@color/blue2"/>
+    </LinearLayout>
+
 </LinearLayout>

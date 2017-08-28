@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.shizhanzhe.szzschool.R;
@@ -31,10 +32,10 @@ public class RewardActivity extends Activity implements View.OnClickListener {
     Button btn3;
     @ViewInject(R.id.edit)
     EditText edit;
-    @ViewInject(R.id.cancel)
-    Button cancel;
+    @ViewInject(R.id.back)
+    ImageView back;
     @ViewInject(R.id.yes)
-    Button yes;
+    ImageView yes;
     private String tid;
     private String tuid;
 
@@ -48,8 +49,8 @@ public class RewardActivity extends Activity implements View.OnClickListener {
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
-        cancel.setOnClickListener(this);
         yes.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
 
     @Override
@@ -64,13 +65,13 @@ public class RewardActivity extends Activity implements View.OnClickListener {
             case R.id.btn3:
                 edit.setText("88.88");
                 break;
-            case R.id.cancel:
+            case R.id.back:
                 finish();
                 break;
             case R.id.yes:
                 String str = edit.getText().toString();
                 if(!"".equals(str)&&Double.parseDouble(str)>=1){
-                    new Pay(RewardActivity.this, str,"打赏"+str,"https://shizhanzhe.com/index.php?m=courSystem.zanbuy&tid="+tid+"&money="+str+"&fromuid="+tuid, new Pay.PayListener(){
+                    new Pay(RewardActivity.this, str,"打赏"+str+"元","https://shizhanzhe.com/index.php?m=courSystem.zanbuy&tid="+tid+"&money="+str+"&fromuid="+tuid, new Pay.PayListener(){
                         @Override
                         public void refreshPriorityUI() {
 

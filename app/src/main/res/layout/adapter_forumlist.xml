@@ -3,113 +3,117 @@
     android:id="@+id/card_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="@color/white"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/userimg"
-        android:layout_width="80dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        android:padding="5dp"
-        android:scaleType="centerInside"
-        android:src="@mipmap/ic_launcher" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
 
         <TextView
             android:id="@+id/bktitle"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="25dp"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/jh"
             android:layout_toRightOf="@+id/jh"
             android:singleLine="true"
             android:text="标题"
             android:textColor="#de000000"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/vip"
             android:layout_width="wrap_content"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:background="@drawable/tvbg"
             android:gravity="center"
             android:text="VIP"
-            android:layout_marginRight="2dp"
             android:textColor="@color/red"
             android:textSize="10sp" />
 
         <TextView
             android:id="@+id/jh"
             android:layout_width="wrap_content"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="2dp"
+            android:layout_toEndOf="@+id/vip"
+            android:layout_toRightOf="@+id/vip"
             android:background="@drawable/tvbg"
             android:gravity="center"
             android:text="精华"
             android:textColor="@color/red"
-            android:layout_marginRight="2dp"
-            android:textSize="10sp"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/vip"
-            android:layout_toEndOf="@+id/vip" />
+            android:textSize="10sp" />
+    </RelativeLayout>
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/two"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/bktitle">
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/user"
-                android:layout_alignBottom="@+id/user"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="11dp"
-                android:text="2010年1月1日"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/where"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:text="V2ex"
-                android:textColor="#3bbd79"
-                android:textSize="12sp" />
+            android:layout_alignParentStart="true">
+            <ImageView
+                android:id="@+id/userimg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:src="@drawable/ic_launcher"
+                android:scaleType="centerInside"
+                />
+            <!--<TextView-->
+                <!--android:id="@+id/time"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="11dp"-->
+                <!--android:text="2010年1月1日"-->
+                <!--android:textSize="12sp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginRight="11dp" />-->
 
             <TextView
                 android:id="@+id/user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/where"
+                android:text="V2ex"
+                android:textColor="#3bbd79"
+                android:textSize="13sp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/userimg"
+                android:layout_toEndOf="@+id/userimg" />
+
+            <TextView
+                android:id="@+id/where"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@+id/where"
                 android:text="author"
                 android:textColor="@color/blue2"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:layout_marginStart="16dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/user"
+                android:layout_toEndOf="@+id/user" />
         </RelativeLayout>
-
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
@@ -123,6 +127,7 @@
                 android:layout_toLeftOf="@+id/rep"
                 android:layout_toStartOf="@+id/rep"
                 android:drawableLeft="@drawable/iconey"
+                android:drawablePadding="2dp"
                 android:text="查看"
                 android:gravity="center"
                 android:textSize="12sp" />
@@ -131,18 +136,17 @@
                 android:id="@+id/rep"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginEnd="11dp"
                 android:layout_marginRight="11dp"
                 android:gravity="center"
+                android:drawablePadding="2dp"
                 android:drawableLeft="@drawable/iconlt"
                 android:text="回复"
                 android:textSize="12sp" />
 
 
         </RelativeLayout>
+
     </RelativeLayout>
 
 

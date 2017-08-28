@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.BKBean;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
@@ -65,7 +67,7 @@ public class ForumBKLVAdapter extends BaseAdapter {
             holder.jh = (TextView) convertView.findViewById(R.id.jh);
             holder.user = (TextView) convertView.findViewById(R.id.user);
 //            holder.vip2 = (TextView) convertView.findViewById(R.id.vip2);
-            holder.time = (TextView) convertView.findViewById(R.id.time);
+//            holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.where = (TextView) convertView.findViewById(R.id.where);
             holder.look = (TextView) convertView.findViewById(R.id.look);
             holder.rep = (TextView) convertView.findViewById(R.id.rep);
@@ -77,6 +79,11 @@ public class ForumBKLVAdapter extends BaseAdapter {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
                 .displayer(new RoundedBitmapDisplayer(30))
+                .showImageOnLoading(R.drawable.img_load)
+                .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
+                .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
+                .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+                .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
                 .build();
         if (!"".equals(bean.getLogo())&&bean.getLogo().contains("http")) {
             ImageLoader.getInstance().displayImage(bean.getLogo(), holder.iv,options);
@@ -90,7 +97,7 @@ public class ForumBKLVAdapter extends BaseAdapter {
         }else{
             holder.vip.setVisibility(View.VISIBLE);
         }
-        holder.time.setText(bean.getDateline());
+//        holder.time.setText(bean.getDateline());
         holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
         holder.look.setText(bean.getLooknum());
         holder.rep.setText(bean.getAlltip());

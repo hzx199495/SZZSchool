@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.ForumCommentBean;
 import com.shizhanzhe.szzschool.R;
 
@@ -46,12 +47,12 @@ public class ForumCommentAdapter extends BaseAdapter {
         this.context = context;
         this.lists = lists;
         this.inflater = LayoutInflater.from(context);
-        this.options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.polyv_avatar_def) // resource
+        this.options = new DisplayImageOptions.Builder() // resource
+                .showImageOnLoading(R.drawable.img_load)
+                .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
                 // or
                 // drawable
-                .showImageForEmptyUri(R.drawable.polyv_avatar_def) // resource or
                 // drawable
-                .showImageOnFail(R.drawable.polyv_avatar_def) // resource or drawable
                 .bitmapConfig(Bitmap.Config.RGB_565).cacheInMemory(true).cacheOnDisk(true)
                 .build();
     }
@@ -77,7 +78,8 @@ public class ForumCommentAdapter extends BaseAdapter {
             viewHolder = new ForumCommentAdapter.ViewHolder();
             viewHolder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
             viewHolder.tv_msg=(TextView) convertView.findViewById(R.id.tv_msg);
-            viewHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+            viewHolder.text_num = (TextView) convertView.findViewById(R.id.text_num);
+            viewHolder.tv_time= (TextView) convertView.findViewById(R.id.tv_time);
             viewHolder.sublv_talk = (LinearListView) convertView.findViewById(R.id.sublv_talk);
             convertView.setTag(viewHolder);
         } else {
@@ -85,6 +87,13 @@ public class ForumCommentAdapter extends BaseAdapter {
         }
         final int pPosition = position;
         final ForumCommentBean bean = lists.get(pPosition);
+        if (pPosition==0){
+            viewHolder.text_num.setText("沙发");
+        }else if (pPosition==1){
+            viewHolder.text_num.setText("板凳");
+        }else {
+            viewHolder.text_num.setText(position+2+"楼");
+        }
         List<ForumCommentBean.ManReplyBean> reply = bean.getMan_reply();
         if (reply.size() > 0) {
             viewHolder.adapter = new ForumCommentSubTalkListViewAdapter(context, reply);
@@ -126,6 +135,7 @@ public class ForumCommentAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView iv_avatar;
+        TextView text_num;
         TextView tv_msg;
         TextView tv_time;
         LinearListView sublv_talk;

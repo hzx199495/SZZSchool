@@ -1,26 +1,26 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Application;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.multidex.MultiDexApplication;
-import android.util.Log;
 
-
-import com.easefun.polyvsdk.PolyvDevMountInfo;
 import com.easefun.polyvsdk.PolyvSDKClient;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,17 +34,19 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends MultiDexApplication {
     public static String proimg = "";
     public static String videotitle = "";
+    public static int schedule=0;
     public static String videojson;
-    public static int videotype;
-    public static String videotypeid;
-    public static String  videoitemid;
-    public static String videoclassid;
+    public static int videotype; //分类tab position
+    public static String videotypeid;//分类ID
+    public static String  videoitemid;//视频ID
     public static String tuanid;
     public static String txId;
+    public static String videosuggest="";
+    public static int position;
     public static ImageOptions options;
     public static DisplayImageOptions displayoptions;
 
-
+    private CrashHandler crashHandler = null;
 
     public MyApplication() {
 
@@ -62,9 +64,12 @@ public class MyApplication extends MultiDexApplication {
         builder.setDebug(false);
         OkHttpFinal.getInstance().init(builder.build());
 
-        displayoptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.bg_loading) // 设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.ic_launcher) // 设置图片加载/解码过程中错误时候显示的图片
+        crashHandler = new CrashHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+
+        CrashReport.initCrashReport(getApplicationContext(), "23d54cd6f4", true);
+
+        displayoptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.img_load) // 设置图片在下载期间显示的图片
                 .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
                 .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
                 .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
@@ -77,6 +82,7 @@ public class MyApplication extends MultiDexApplication {
         ImageLoader.getInstance().init(configuration);
 
         initPolyvCilent();
+
 
     }
 
@@ -105,7 +111,6 @@ public class MyApplication extends MultiDexApplication {
             instance = new MyApplication();
         }
         return instance;
-
     }
 
     //添加Activity到容器中
@@ -121,6 +126,22 @@ public class MyApplication extends MultiDexApplication {
         System.exit(0);
     }
 
+    class CrashHandler implements Thread.UncaughtExceptionHandler {
+
+        private Application app = null;
+
+        public CrashHandler(Application app) {
+            this.app = app;
+        }
+
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+            Intent intent = new Intent(app, WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            app.startActivity(intent);
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
+    }
 }
 
 

@@ -9,7 +9,7 @@
 
     <item name="android:layout_width">match_parent</item>
 
-    <item name="android:layout_height">@dimen/topbar_height</item>
+    <item name="android:layout_height">48dp</item>
 
     <item name="android:background">@drawable/drawable_topbar_bg</item>
 
@@ -276,5 +276,10 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <!--背景是否模糊显示-->
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <style name="WelcomeTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@drawable/welcome</item>
+        <item name="android:windowFullscreen">false</item>
     </style>
 </resources>

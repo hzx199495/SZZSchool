@@ -105,6 +105,7 @@ public class TabLayoutFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist1.get(position).getGrade().contains("2") || videolist1.get(position).getGrade().contains("1")) {
+                                MyApplication.position=position;
                                 MyApplication.videotypeid=list.getA0().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist1.get(position).getId();
@@ -118,6 +119,7 @@ public class TabLayoutFragment extends Fragment {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.position=position;
                                         MyApplication.videotypeid=list.getA0().getId();
                                         MyApplication.videotype = type;
                                         MyApplication.videoitemid = videolist1.get(position).getId();
@@ -162,6 +164,7 @@ public class TabLayoutFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist2.get(position).getGrade().contains("2") || videolist2.get(position).getGrade().contains("1")) {
+                                MyApplication.position=position;
                                 MyApplication.videotypeid=list.getA1().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist2.get(position).getId();
@@ -175,6 +178,7 @@ public class TabLayoutFragment extends Fragment {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.position=position;
                                         MyApplication.videotypeid=list.getA1().getId();
                                         MyApplication.videotype = type;
                                         MyApplication.videoitemid = videolist2.get(position).getId();
@@ -217,6 +221,7 @@ public class TabLayoutFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist3.get(position).getGrade().contains("2") || videolist3.get(position).getGrade().contains("1")) {
+                                MyApplication.position=position;
                                 MyApplication.videotypeid=list.getA2().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist3.get(position).getId();
@@ -230,6 +235,7 @@ public class TabLayoutFragment extends Fragment {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.position=position;
                                         MyApplication.videotypeid=list.getA2().getId();
                                         MyApplication.videotype = type;
                                         MyApplication.videoitemid = videolist3.get(position).getId();
@@ -272,6 +278,7 @@ public class TabLayoutFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
                             if (videolist4.get(position).getGrade().contains("2") || videolist4.get(position).getGrade().contains("1")) {
+                                MyApplication.position=position;
                                 MyApplication.videotypeid=list.getA3().getId();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = videolist4.get(position).getId();
@@ -285,6 +292,7 @@ public class TabLayoutFragment extends Fragment {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        MyApplication.position=position;
                                         MyApplication.videotypeid=list.getA3().getId();
                                         MyApplication.videotype = type;
                                         MyApplication.videoitemid = videolist4.get(position).getId();
@@ -326,6 +334,7 @@ public class TabLayoutFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (vip.equals("1") || isbuy.equals("1")) {
+                            MyApplication.position=position;
                             MyApplication.videotypeid=list.getA4().getId();
 
 //                            if (videolist5.get(position).getGrade().contains("2") || videolist5.get(position).getGrade().contains("1")) {
@@ -357,9 +366,9 @@ public class TabLayoutFragment extends Fragment {
         ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
         txId = tx.getId();
         isbuy = tx.getIsbuy();
+        MyApplication.videosuggest=tx.getSys_hours();
         MyApplication.txId=txId;
         MyApplication.videotitle=tx.getStitle();
-        MyApplication.videoclassid=tx.getCouClass();
         initView();
 
     }

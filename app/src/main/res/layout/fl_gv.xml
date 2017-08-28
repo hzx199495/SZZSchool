@@ -4,17 +4,38 @@
     android:layout_height="match_parent"
     android:padding="2dp"
     >
-    <ImageView
-        android:id="@+id/fl_gv_iv"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/fl_gv_iv"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/open"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/open"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+
+    </FrameLayout>
+
     <TextView
         android:id="@+id/fl_gv_tv"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="25dp"
         android:text="Android"
         android:textSize="14sp"
-        android:gravity="center"/>
+        android:singleLine="true"
+        />
 </LinearLayout>

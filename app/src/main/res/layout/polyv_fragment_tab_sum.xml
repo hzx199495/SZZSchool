@@ -14,7 +14,8 @@
         <RelativeLayout
             style="@style/lo_intr_commom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_title"
@@ -59,15 +60,17 @@
             style="@style/lo_intr_commom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/center_bottom_margin_top_s" >
+            android:layout_marginTop="@dimen/center_bottom_margin_top_s"
+            >
 
             <TextView
                 android:id="@+id/tv_brief"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="课程简介"
-                android:textColor="@color/center_bottom_text_color_gray"
-                android:textSize="@dimen/center_text_size" />
+                android:textColor="@color/red"
+                android:textSize="@dimen/center_text_size"
+                />
 
             <TextView
                 android:id="@+id/tv_sum"
@@ -80,7 +83,7 @@
                 android:minLines="2"
                 android:text=""
                 android:textColor="@color/center_bottom_text_color_gray"
-                android:textSize="@dimen/center_right_text_size_l" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_expand"
@@ -100,7 +103,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/center_bottom_margin_top_s"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

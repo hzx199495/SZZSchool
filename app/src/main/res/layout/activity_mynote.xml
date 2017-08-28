@@ -35,7 +35,8 @@
         <ListView
             android:id="@+id/mynote"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

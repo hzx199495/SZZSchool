@@ -43,17 +43,17 @@ import java.util.List;
  */
 @ContentView(R.layout.fragment_center)
 public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    @ViewInject(R.id.gridview_rm)
-    MyGridView gv_rm;
+    @ViewInject(R.id.gridview_wlyx)
+    MyGridView gv_wlyx;
+    @ViewInject(R.id.gridview_zyts)
+    MyGridView gv_zyts;
     @ViewInject(R.id.gridview_tg)
     MyGridView gv_tg;
     @ViewInject(R.id.banner)
     Banner banner;
     @ViewInject(R.id.center_swip)
     SwipeRefreshLayout swip;
-    GVAdapter gvAdapter;
-    TGAdapter tgAdapter;
-    List<ProBean.TxBean> rm;
+    List<ProBean.TxBean> list;
     List<ProBean.TgBean> tg;
     View rootview;
     SVProgressHUD mSVProgressHUD;
@@ -95,35 +95,48 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             }
         }, 3000);
     }
-
+    List<ProBean.TxBean> yx;
+    List<ProBean.TxBean> ts;
     public void getData() {
+
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getContext()).CENTER(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
             @Override
             public void onsendJson(String json) {
-                Log.e("________",json);
                 Gson gson = new Gson();
-                rm = gson.fromJson(json, ProBean.class).getTx();
+                list = gson.fromJson(json, ProBean.class).getTx();
                 tg = gson.fromJson(json, ProBean.class).getTg();
-                Log.e("________size",rm.get(0).getStitle()+"");
-                gvAdapter = new GVAdapter(rm, getContext());
-                gv_rm.setAdapter(gvAdapter);
+                yx = new ArrayList<>();
+                ts = new ArrayList<>();
+                for (ProBean.TxBean bean:list
+                     ) {
+                    if (bean.getCatid().equals("41")){
+                        yx.add(bean);
+                    }else if (bean.getCatid().equals("42")){
+                        ts.add(bean);
+                    }
+                }
+                GVAdapter yxAdapter = new GVAdapter(yx, getContext());
+                GVAdapter tsAdapter = new GVAdapter(ts, getContext());
+                gv_wlyx.setAdapter(yxAdapter);
+                gv_zyts.setAdapter(tsAdapter);
                 SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
                 String ktagent = preferences.getString("ktagent", "");
-                tgAdapter = new TGAdapter(null,tg,getContext(),ktagent);
+                TGAdapter tgAdapter = new TGAdapter(null,tg,getContext(),ktagent);
                 gv_tg.setAdapter(tgAdapter);
                 ArrayList<String> images = new ArrayList<>();
-                images.add(Path.IMG(rm.get(0).getThumb()));
-                images.add(Path.IMG(rm.get(1).getThumb()));
-                images.add(Path.IMG(rm.get(2).getThumb()));
+
+                images.add(Path.IMG(list.get(0).getThumb()));
+                images.add(Path.IMG(list.get(1).getThumb()));
+                images.add(Path.IMG(list.get(2).getThumb()));
                 banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
                 banner.setOnBannerClickListener(new OnBannerClickListener() {
                     @Override
                     public void OnBannerClick(int position) {
                             Intent intent = new Intent();
                             intent.setClass(getActivity(), DetailActivity.class);
-                            String proid = rm.get(position-1).getId();
+                            String proid = list.get(position-1).getId();
                             intent.putExtra("id", proid);
                             startActivity(intent);
                     }
@@ -132,16 +145,35 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             }
         });
 
-        gv_rm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gv_wlyx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), DetailActivity.class);
-                String proid = rm.get(position).getId();
-                intent.putExtra("id", proid);
-                startActivity(intent);
+                if (yx.get(position).getStatus().equals("0")){
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), DetailActivity.class);
+                    String proid = yx.get(position).getId();
+                    intent.putExtra("id", proid);
+                    startActivity(intent);
+                }else if (yx.get(position).getStatus().equals("1")){
+
+                }
+
             }
         });
+        gv_zyts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (ts.get(position).getStatus().equals("0")){
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), DetailActivity.class);
+                    String proid = ts.get(position).getId();
+                    intent.putExtra("id", proid);
+                    startActivity(intent);
+                }else if (ts.get(position).getStatus().equals("1")){
 
+                }
+
+            }
+        });
     }
 }

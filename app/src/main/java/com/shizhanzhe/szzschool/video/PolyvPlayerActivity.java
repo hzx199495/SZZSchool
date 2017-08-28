@@ -55,7 +55,10 @@ import com.easefun.polyvsdk.vo.PolyvADMatterVO;
 import com.easefun.polyvsdk.vo.PolyvQuestionVO;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.NoteActivity;
 import com.shizhanzhe.szzschool.utils.InternetReceiver;
+import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -215,7 +218,8 @@ public class PolyvPlayerActivity extends FragmentActivity  {
             public void onPrepared() {
                 mediaController.preparedView();
                 // 没开预加载在这里开始弹幕
-                // danmuFragment.start();
+                 danmuFragment.start();
+                videoView.seekTo(MyApplication.schedule*1000);
             }
         });
 
@@ -224,6 +228,7 @@ public class PolyvPlayerActivity extends FragmentActivity  {
             public void onPlay() {
                 // 开启预加载在这里开始弹幕
                 danmuFragment.start();
+                videoView.seekTo(MyApplication.schedule*1000);
             }
         });
 
@@ -253,7 +258,6 @@ public class PolyvPlayerActivity extends FragmentActivity  {
                 }
             }
         });
-
         videoView.setOnVideoPlayErrorListener(new IPolyvOnVideoPlayErrorListener2() {
             @Override
             public boolean onVideoPlayError(@PolyvPlayErrorReason.PlayErrorReason int playErrorReason) {
@@ -621,6 +625,7 @@ public class PolyvPlayerActivity extends FragmentActivity  {
 
             firstStartView.show(vid);
         }
+
     }
 
     @Override
@@ -659,6 +664,13 @@ public class PolyvPlayerActivity extends FragmentActivity  {
         //弹出去暂停
         isPlay = videoView.onActivityStop();
         danmuFragment.pause();
+        int currentPosition = videoView.getCurrentPosition()/1000;
+        int duration = videoView.getDuration()/1000;
+        OkHttpDownloadJsonUtil.downloadJson(PolyvPlayerActivity.this, new Path(PolyvPlayerActivity.this).VIDEOSCHEDULE(MyApplication.videoitemid, MyApplication.videotypeid, MyApplication.txId,currentPosition,duration), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+            }
+        });
     }
 
     @Override
@@ -671,9 +683,7 @@ public class PolyvPlayerActivity extends FragmentActivity  {
         firstStartView.hide();
         mediaController.disable();
         unregisterReceiver(receiver);
-        int currentPosition = videoView.getCurrentPosition()/1000;
-        int duration = videoView.getDuration()/1000;
-        Log.e("_______time",currentPosition+"_"+duration);
+
     }
 
 

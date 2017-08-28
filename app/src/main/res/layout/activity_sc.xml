@@ -23,8 +23,10 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
     </RelativeLayout>
-    <ListView
+    <GridView
+        android:padding="5dp"
         android:id="@+id/lv_collect"
+        android:numColumns="2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <TextView

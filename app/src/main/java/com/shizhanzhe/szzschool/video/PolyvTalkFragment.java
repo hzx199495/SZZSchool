@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -197,7 +198,7 @@ public class PolyvTalkFragment extends Fragment implements SwipeRefreshLayout.On
 //    }
     private ListView lv_bj;
     // 讨论的布局
-    private RelativeLayout rl_bj;
+    private FloatingActionButton rl_bj;
     // 空数据控件,重新加载控件
     private TextView tv_empty, tv_reload, nodata;
     List<NoteBean> list;
@@ -231,7 +232,7 @@ public class PolyvTalkFragment extends Fragment implements SwipeRefreshLayout.On
 
     private void findIdAndNew() {
         lv_bj = (ListView) view.findViewById(R.id.lv_bj);
-        rl_bj = (RelativeLayout) view.findViewById(R.id.rl_bj);
+        rl_bj = (FloatingActionButton) view.findViewById(R.id.rl_bj);
         pb_loading = (ProgressBar) view.findViewById(R.id.pb_loading);
         tv_empty = (TextView) view.findViewById(R.id.tv_empty);
         tv_reload = (TextView) view.findViewById(R.id.tv_reload);

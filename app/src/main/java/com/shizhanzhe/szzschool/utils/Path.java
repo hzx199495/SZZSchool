@@ -159,7 +159,23 @@ public  class Path {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.r_question&pc=1&spid="+videoid+"&requid="+requid+"&content="+content+"&qid="+qid+"&quid="+uid+"&token="+token;
         return path;
     }
-
+    //-------------问答中心
+    public  String QUESTION_CONTENT_PATH() {
+        String path = "http://shizhanzhe.com/index.php?" +
+                "m=pcdata.reply_tx&pc=1&uid="+uid+"&token="+token;
+        return path;
+    }
+    //-----问答页
+    public  String QUESTION_PAGE_PATH(){
+        String path = "https://www.shizhanzhe.com/?m=pcdata.reply_index&pc=1" +
+                "&order=1&coid=315&uid="+uid+"&token="+token+"&page=1" ;
+        return path;
+    }
+    //----问题总数
+    public static String QUESTION_NUMBER_PATH(){
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.reply_num&pc=1";
+        return path;
+    }
     //搜索
     public static String SEARCH(String str) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.soutie&pc=1&page=1&search="+str;
@@ -241,6 +257,32 @@ public  class Path {
     //笔记列表增加
     public  String NOTELISTEADD(String sid,String pid,String nid,String content) {
         String path = "https://www.shizhanzhe.com/?m=pcdata.ask_mannote&pc=1&content="+content+"&sid="+sid+"&pid="+pid+"&coid="+nid+"&uid="+uid+"&token="+token;
+        return path;
+    }
+    //问题详情
+    public  static String QUESTIONDETAIL(String qid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.reply_detail&qid="+qid;
+        return path;
+    }
+    //问题列表
+    public   String QUESTIONLIST(String type,String videoId,int page) {
+        if ("".equals(type)){
+            String path = "https://www.shizhanzhe.com/?m=pcdata.reply_index&pc=1&coid="+videoId+"&uid="+uid+"&token="+token+"&page="+page;
+            return path;
+        }else {
+            String path = "https://www.shizhanzhe.com/?m=pcdata.reply_index&pc=1&order="+type+"&coid="+videoId+"&uid="+uid+"&token="+token+"&page="+page;
+            return path;
+        }
+
+    }
+    //视频进度
+    public   String VIDEOSCHEDULE(String coid,String pid,String sid,int guantime,int totaltime) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.save_vtime&pc=1&coid="+coid+"&pid="+pid+"&sid="+sid+"&guantime="+guantime+"&vtime="+totaltime+"&uid="+uid+"&token="+token;
+        return path;
+    }
+    //体系进度
+    public   String STUDYDETAIL(String sid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.uudochas&uid="+uid+"&sid="+sid;
         return path;
     }
 

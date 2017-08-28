@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -16,6 +17,7 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.CollectAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -30,14 +32,16 @@ import java.util.List;
 @ContentView(R.layout.activity_sc)
 public class CollectActivity extends Activity {
     @ViewInject(R.id.lv_collect)
-    ListView lv;
+    GridView lv;
     @ViewInject(R.id.back)
     ImageView back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         x.view().inject(this);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +55,7 @@ public class CollectActivity extends Activity {
                     Gson gson = new Gson();
                     final List<CollectListBean> list = gson.fromJson(json, new TypeToken<List<CollectListBean>>() {
                     }.getType());
-                    if (list!=null&&list.size()>0) {
+                    if (list.size()>0) {
                         CollectAdapter adapter = new CollectAdapter(getApplicationContext(), list);
                         lv.setAdapter(adapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

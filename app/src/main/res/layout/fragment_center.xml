@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -26,17 +27,27 @@
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:focusableInTouchMode="true" />
+                    android:focusableInTouchMode="true"
+                    app:image_scale_type="fit_xy"/>
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15.0dip"
-                    android:text="热门课程"
-                    android:textColor="@color/max_level"
-                    android:textSize="@dimen/four" />
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/center_wlyx"
+                        android:layout_marginTop="15dp"
+                        android:text="网络营销实战"
+                        android:drawablePadding="2dp"
+                        android:textColor="@color/max_level"
+                        android:textSize="15sp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
 
                 <View
                     android:layout_width="fill_parent"
@@ -44,7 +55,8 @@
                     android:background="@color/line" />
 
                 <com.shizhanzhe.szzschool.utils.MyGridView
-                    android:id="@+id/gridview_rm"
+                    android:id="@+id/gridview_wlyx"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:horizontalSpacing="5dp"
@@ -55,17 +67,63 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="5dp" />
+                    android:layout_height="10dp"
+                    android:background="#e3e3e3"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/center_zyts"
+                        android:layout_marginTop="15dp"
+                        android:text="职业技能提升"
+                        android:drawablePadding="2dp"
+                        android:textColor="@color/max_level"
+                        android:textSize="15sp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dip"
+                    android:background="@color/line" />
+
+                <com.shizhanzhe.szzschool.utils.MyGridView
+                    android:id="@+id/gridview_zyts"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="5dp"
+                    android:numColumns="2"
+                    android:padding="5dp"
+                    android:scrollbars="none"
+                    android:verticalSpacing="10dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="#e3e3e3"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15.0dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/tgpro"
+                    android:layout_marginTop="15dp"
+                    android:drawablePadding="2dp"
                     android:text="团购课程"
                     android:textColor="@color/max_level"
-                    android:textSize="@dimen/four" />
+                    android:textSize="15sp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="fill_parent"
@@ -76,19 +134,14 @@
                     android:id="@+id/gridview_tg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:numColumns="1"
                     android:padding="2dp"
                     android:scrollbars="none"
                     android:verticalSpacing="10dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="已经到底了" />
-            </LinearLayout>
+           </LinearLayout>>
         </ScrollView>
-
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

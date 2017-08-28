@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.video;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.QuestionListActivity;
+import com.shizhanzhe.szzschool.activity.VideoQuestionAcitvity;
 
 
 public class PolyvPlayerTabFragment extends Fragment implements View.OnClickListener {
@@ -22,7 +26,7 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
     //viewpagerFragment
     private PolyvPlayerViewPagerFragment viewPagerFragment;
     // tab文本的TextView，用于改变颜色
-    private TextView tv_cur, tv_sum, tv_talk,tv_question;
+    private TextView tv_cur, tv_sum, tv_talk,tv_question,tv;
     // tab的导航线
     private View v_line;
     private int screenWidth;
@@ -39,6 +43,7 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
     }
 
     private void findIdAndNew() {
+        tv=(TextView) view.findViewById(R.id.tv);
         tv_cur = (TextView) view.findViewById(R.id.tv_cur);
         tv_sum = (TextView) view.findViewById(R.id.tv_sum);
         tv_talk = (TextView) view.findViewById(R.id.tv_talk);
@@ -49,6 +54,7 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
 
     private void initView() {
         initLineSetting();
+        tv.setText(MyApplication.videosuggest);
         tv_cur.setSelected(true);
         tv_cur.setOnClickListener(this);
         tv_sum.setOnClickListener(this);
@@ -127,7 +133,10 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
                 viewPagerFragment.setCurrentItem(0);
                 break;
             case R.id.tv_question:
-                
+                Intent intent = new Intent(getActivity(), QuestionListActivity.class);
+                intent.putExtra("videoId", MyApplication.videoitemid);
+                intent.putExtra("name", MyApplication.videotitle);
+                startActivity(intent);
                 break;
         }
     }

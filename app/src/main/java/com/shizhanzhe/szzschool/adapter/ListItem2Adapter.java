@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
@@ -33,7 +37,14 @@ public class ListItem2Adapter extends BaseAdapter {
         this.context=context;
         inflater = LayoutInflater.from(context);
     }
-
+    DisplayImageOptions options = new DisplayImageOptions.Builder()
+            // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
+            .displayer(new RoundedBitmapDisplayer(15))
+            .showImageOnLoading(R.drawable.img_load)
+            .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
+            .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+            .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
+            .build();
     @Override
     public int getCount() {
         if(list.size()%2>0) {
@@ -74,11 +85,11 @@ public class ListItem2Adapter extends BaseAdapter {
         if (bean.size() >0) {
             holder.tv.setText(bean.get(0).getStitle());
             ImageLoader imageloader = ImageLoader.getInstance();
-            imageloader.displayImage(Path.IMG(bean.get(0).getThumb()), holder.iv, displayoptions);
+            imageloader.displayImage(Path.IMG(bean.get(0).getThumb()), holder.iv, options);
             if (bean.size()>1) {
                 holder.tv2.setText(bean.get(1).getStitle());
                 ImageLoader imageloader2 = ImageLoader.getInstance();
-                imageloader2.displayImage(Path.IMG(bean.get(1).getThumb()), holder.iv2, displayoptions);
+                imageloader2.displayImage(Path.IMG(bean.get(1).getThumb()), holder.iv2, options);
             }else {
                 holder.ll.setVisibility(View.INVISIBLE);
             }

@@ -74,7 +74,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     TextView edtime;
     TextView content;
     TextView text_replies;
-    Button ds;
+    ImageView ds;
 
     RefreshLayout swipeLayout;
     private String fid;
@@ -123,12 +123,12 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         });
 
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.polyv_avatar_def) // resource
+        DisplayImageOptions options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.img_load) // resource
                 // or
                 // drawable
-                .showImageForEmptyUri(R.drawable.polyv_avatar_def) // resource or
+                .showImageForEmptyUri(R.drawable.img_load) // resource or
                 // drawable
-                .showImageOnFail(R.drawable.polyv_avatar_def) // resource or drawable
+                .showImageOnFail(R.drawable.img_load) // resource or drawable
                 .bitmapConfig(Bitmap.Config.RGB_565).cacheInMemory(true).cacheOnDisk(true)
                 .build();
         top.setText(title);
@@ -180,7 +180,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         edtime= (TextView) findViewById(R.id.text_timeline);
         content= (TextView) findViewById(R.id.item_content);
         text_replies= (TextView) findViewById(R.id.text_replies);
-        ds= (Button) findViewById(R.id.ds);
+        ds= (ImageView) findViewById(R.id.ds);
     }
     private void findIdAndNew() {
         lv_talk = (ListView) findViewById(R.id.lv_talk);

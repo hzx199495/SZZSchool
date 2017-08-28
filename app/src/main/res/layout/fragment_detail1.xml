@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/detail_iv"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:scaleType="fitXY" />
 
     <RelativeLayout
@@ -66,12 +66,12 @@
             android:id="@+id/detail_yjprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/textView4"
+            android:layout_toEndOf="@+id/detail_price"
+            android:layout_toRightOf="@+id/detail_price"
             android:paddingLeft="10dp"
             android:textSize="15sp"
-            tools:text="原价：￥498"
-            android:layout_above="@+id/textView4"
-            android:layout_toRightOf="@+id/detail_price"
-            android:layout_toEndOf="@+id/detail_price" />
+            tools:text="原价：￥498" />
 
         <TextView
             android:id="@+id/textView4"
@@ -110,14 +110,14 @@
 
         <ImageView
             android:id="@+id/collect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_courseplay_star2"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_below="@+id/detail_title"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/detail_study"
-            android:layout_marginEnd="79dp"
-            android:layout_marginRight="79dp"
-            android:src="@drawable/ic_courseplay_star2" />
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 </LinearLayout>

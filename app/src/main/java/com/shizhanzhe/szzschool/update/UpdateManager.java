@@ -96,8 +96,8 @@ public class UpdateManager {
 
         });
         builder.create().show();
-
     }
+
     public void downlod() {
 
         HttpRequest.download("https://shizhanzhe.com/andriod/szz.apk",file, new FileDownloadCallback() {

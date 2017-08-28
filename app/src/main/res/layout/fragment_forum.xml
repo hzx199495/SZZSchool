@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,35 +33,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
+                    android:layout_alignParentTop="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/imageView3"
+                    android:layout_toRightOf="@+id/imageView3"
                     android:gravity="center"
                     android:text="板块推荐"
-                    android:textSize="15sp"
                     android:textColor="@color/black"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/imageView3"
-                    android:layout_toEndOf="@+id/imageView3" />
+                    android:textSize="15sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="17dp"
-                    android:layout_marginRight="17dp"
-                    android:src="@drawable/iconright" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:background="#FF3E96" />
 
             <com.shizhanzhe.szzschool.utils.MyGridView
                 android:id="@+id/gv_bk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numColumns="2"
-                android:background="#eeeeee"/>
+                android:background="@color/white"
+                android:numColumns="2" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="#eeeeee" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,45 +72,41 @@
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/iconrt"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:src="@drawable/iconrt" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
+                    android:layout_alignParentTop="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/imageView2"
+                    android:layout_toRightOf="@+id/imageView2"
                     android:gravity="center"
                     android:text="社区热帖"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/imageView2"
-                    android:layout_toEndOf="@+id/imageView2" />
+                    android:textSize="15sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="17dp"
-                    android:layout_marginRight="17dp"
-                    android:src="@drawable/iconright" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:background="#FFD700" />
             <com.shizhanzhe.szzschool.utils.MyListView
                 android:id="@+id/gv_forum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dividerHeight="3dp"
                 android:divider="#eeeeee"
-                 />
+                android:dividerHeight="3dp" />
 
         </LinearLayout>
     </ScrollView>

@@ -36,8 +36,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -56,117 +56,160 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /><!-- 属于android6.0运行时权限-->
     <!-- android.permission.READ_PHONE_STATE是PolyvSDKClient.initCrashReport使用到的权限，如果没有调用此方法，可以去掉该权限 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/><!-- 属于android6.0运行时权限-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /><!-- 属于android6.0运行时权限-->
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".activity.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/logo_other"
+        android:icon="@drawable/logo1"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.WelcomeActivity">
+        <activity android:name=".activity.WelcomeActivity"
+            android:theme="@style/WelcomeTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.RegisterActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SearchActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.FindPWActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.DetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.UserSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.MoneyActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SZActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CollectActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.MessageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.UserZHActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.MyDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.XFActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.WelcomeGuideActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ForumActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ForumBKActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ForumItemActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.PostActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.TGDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.TXZYActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.KTListActivity"
-            android:theme="@style/dialogstyle"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.RewardActivity"
-            android:theme="@style/dialogstyle"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.MyTGActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ForumTalkEdittextActivity"
-            android:theme="@style/at_talk_et"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ProjectDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ExamActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.XMActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AboutActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.NoteActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.MyNoteListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".video.PolyvTalkSendActivity">
-        <intent-filter>
-            <action android:name="TalkEdittextActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FindPWActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SZActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CollectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserZHActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.XFActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WelcomeGuideActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ForumActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ForumBKActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ForumItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TGDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TXZYActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.KTListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialogstyle" />
+        <activity
+            android:name=".activity.RewardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialogstyle" />
+        <activity
+            android:name=".activity.MyTGActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ForumTalkEdittextActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/at_talk_et" />
+        <activity
+            android:name=".activity.ProjectDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ExamActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.XMActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyProActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScheduleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScheduleDeatilActivity"
+            android:screenOrientation="portrait" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+        <activity
+            android:name=".activity.MyNoteListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".video.PolyvTalkSendActivity">
+            <intent-filter>
+                <action android:name="TalkEdittextActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        <activity android:name=".video.PolyvTalkEdittextActivity"
+        <activity
+            android:name=".video.PolyvTalkEdittextActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/at_talk_et"
             android:windowSoftInputMode="stateVisible|adjustResize">
-        <intent-filter>
-            <action android:name="TalkEdittextActivity" />
+            <intent-filter>
+                <action android:name="TalkEdittextActivity" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".video.PolyvPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="PlayerActivity" />
@@ -176,21 +219,16 @@
         </activity>
 
         <activity
-            android:name="com.alipay.sdk.auth.AuthActivity"
-            android:configChanges="orientation|keyboardHidden|navigation"
-            android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
-        <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <!-- QQ和QQ空间分享 QQ登录的回调必须要配置的 -->
             <intent-filter>
                 <data android:scheme="tencent100371282" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -204,10 +242,10 @@
         <!--微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- service -->
 
@@ -216,7 +254,7 @@
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle"/>
+            android:theme="@style/MyDialogStyle" />
 
         <!-- Required SDK核心功能-->
         <activity
@@ -235,7 +273,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -291,8 +329,31 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/cui_file_paths"
-                tools:replace="android:resource"/>
+                tools:replace="android:resource" />
         </provider>
+        <activity
+            android:name=".activity.QuestionBaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.QuestionListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VideoQuestionAcitvity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SendQuestionActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/at_talk_et"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+
+        <intent-filter>
+            <action android:name="TalkEdittextActivity" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -1,8 +1,6 @@
 package com.shizhanzhe.szzschool.fragment;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
@@ -21,8 +18,6 @@ import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.ForumBKActivity;
 import com.shizhanzhe.szzschool.activity.ForumItemActivity;
-import com.shizhanzhe.szzschool.activity.KTListActivity;
-import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.ForumBKAdapter;
 import com.shizhanzhe.szzschool.adapter.ForumLVAdapter;
 import com.shizhanzhe.szzschool.utils.MyGridView;
@@ -77,7 +72,6 @@ public class FragmentForum extends Fragment {
                     intent.putExtra("fid",fid);
                     intent.putExtra("name",name);
                     startActivity(intent);
-
             }
         });
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

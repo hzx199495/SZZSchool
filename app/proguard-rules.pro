@@ -195,3 +195,6 @@
 -keep class org.apache.http.**{*;}	 # 保持哪些类不被混淆
 -keep class org.apache.commons.**{*;}	 # 保持哪些类不被混淆
 -keep public class com.tencent.bugly.**{*;}	 # 保持哪些类不被混淆
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

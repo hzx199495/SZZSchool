@@ -11,8 +11,9 @@
 
         <ListView
             android:id="@+id/lv_cur"
-            style="@style/lv_commom"
-            android:dividerHeight="@dimen/common_margin_tb" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="1dp" />
 
         <!--<include layout="@layout/polyv_center_loadlayout" />-->
     </RelativeLayout>

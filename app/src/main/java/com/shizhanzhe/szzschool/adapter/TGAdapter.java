@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.shizhanzhe.szzschool.Bean.Image;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.Bean.TGBean;
 import com.shizhanzhe.szzschool.R;
@@ -50,7 +55,14 @@ public class TGAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-
+    DisplayImageOptions options = new DisplayImageOptions.Builder()
+            // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
+            .displayer(new RoundedBitmapDisplayer(15))
+            .showImageOnLoading(R.drawable.img_load)
+            .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
+            .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+            .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
+            .build();
 
     @Override
     public int getCount() {
@@ -87,11 +99,11 @@ public class TGAdapter extends BaseAdapter {
             holder.title = (TextView) convertView.findViewById(R.id.tg_title);
             holder.yj = (TextView) convertView.findViewById(R.id.tg_yj);
             holder.tgj = (TextView) convertView.findViewById(R.id.tg_tgj);
-            holder.ct = (Button) convertView.findViewById(R.id.tg_ct);
-            holder.kt = (Button) convertView.findViewById(R.id.tg_kt);
+            holder.ct = (ImageView) convertView.findViewById(R.id.tg_ct);
+            holder.kt = (ImageView) convertView.findViewById(R.id.tg_kt);
             holder.start = (LinearLayout) convertView.findViewById(R.id.start);
             holder.end = (LinearLayout) convertView.findViewById(R.id.end);
-            holder.gobuy = (Button) convertView.findViewById(R.id.gobuy);
+            holder.gobuy = (ImageView) convertView.findViewById(R.id.gobuy);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -99,7 +111,7 @@ public class TGAdapter extends BaseAdapter {
         if (list!=null){
             final TGBean bean = list.get(position);
             ImageLoader imageloader = ImageLoader.getInstance();
-            imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
+            imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, options);
             holder.title.setText(bean.getTitle());
             holder.yj.setText("原价：" + bean.getNowprice() + "元");
             String[] strs = bean.getPtmoney().split("\\|");
@@ -158,7 +170,7 @@ public class TGAdapter extends BaseAdapter {
         }else if(list2!=null){
             final ProBean.TgBean bean = list2.get(position);
             ImageLoader imageloader = ImageLoader.getInstance();
-            imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
+            imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, options);
             holder.title.setText(bean.getTitle());
             holder.yj.setText("原价：" + bean.getNowprice() + "元");
             String[] strs = bean.getPtmoney().split("\\|");
@@ -226,9 +238,9 @@ public class TGAdapter extends BaseAdapter {
         TextView title;
         TextView yj;
         TextView tgj;
-        Button ct;
-        Button kt;
-        Button gobuy;
+        ImageView ct;
+        ImageView kt;
+        ImageView gobuy;
     }
 
     /**

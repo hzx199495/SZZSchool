@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -126,6 +127,7 @@ public class MyNoteListActivity extends Activity {
     }
     void getData(){
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).NOTELIST("", page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();

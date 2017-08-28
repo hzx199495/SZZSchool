@@ -4,7 +4,13 @@
     android:layout_height="wrap_content"
     android:background="@color/top_layout_color_white"
     android:orientation="vertical" >
-
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B4EEB4"
+        android:padding="10dp"
+      />
     <LinearLayout
         android:id="@+id/id_switch_tab_ll"
         android:layout_width="match_parent"

@@ -3,7 +3,6 @@ apply plugin: 'bugly'
 bugly {
     appId = '23d54cd6f4' // 注册时分配的App ID
     appKey = '0800e5cd-18e7-417e-8271-bc4a859d8f14' // 注册时分配的App Key
-    debug=true
 }
 apply plugin: 'com.android.application'
 
@@ -16,8 +15,8 @@ android {
         applicationId "com.shizhanzhe.szzschool"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 9
+        versionName "1.1.7"
         resConfigs "zh"
         //64K 引用限制
         multiDexEnabled true
@@ -26,6 +25,7 @@ android {
             abiFilters 'armeabi' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -63,8 +63,7 @@ dependencies {
     //极光推送
     compile files('libs/jpush-android_v3.0.0.jar')
     compile files('libs/jcore-android_v1.0.0.jar')
-    //升级
-    compile 'cn.finalteam:okhttpfinal:2.0.7'
+
     //省市区三级联动
     compile 'liji.library.dev:citypickerview:1.1.0'
     compile files('libs/universal-image-loader-1.9.5.jar')
@@ -74,6 +73,6 @@ dependencies {
     compile 'com.bigkoo:svprogresshud:1.0.6'
     compile 'org.zackratos:ultimatebar:1.0.3'
 
-    compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
-    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 }

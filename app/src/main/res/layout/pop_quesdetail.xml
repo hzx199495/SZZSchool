@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+    <RelativeLayout
+        android:id="@+id/layout_login_topbar"
+        style="@style/TopbarStyle">
+
+        <TextView
+            android:id="@+id/toptitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="问题详情"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/intro_back" />
+
+    </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/detail_load"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/questionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="问题标题"
+                    android:textColor="#3f5b77"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cfcfcf"/>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_launcher"
+                        android:scaleType="centerInside"
+                        android:id="@+id/iv" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="提问者"
+                        android:textColor="@color/blue2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toRightOf="@+id/iv"
+                        android:textSize="15sp"
+                        android:layout_toEndOf="@+id/iv"
+                        android:id="@+id/questioner" />
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2017-08-04 12-00"
+                        android:layout_marginLeft="5dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toRightOf="@+id/questioner"
+                        android:layout_toEndOf="@+id/questioner" />
+                    <ImageView
+                        android:id="@+id/dz"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/dz_no"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <com.shizhanzhe.szzschool.utils.MyListView
+                android:id="@+id/videoquestion"
+                android:background="@drawable/polyv_border_s"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/noreply"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/red"
+                android:text="尚未解答，不过老师马上就来，稍等哦！"
+                android:visibility="gone"
+                android:background="@drawable/polyv_border_s"/>
+        </LinearLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:id="@+id/rl_bot"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_layout_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/polyv_blue_click_to_gray"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/polyv_ic_disc" />
+
+            <TextView
+                android:id="@+id/et_talk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/bottom_tv_margin_left"
+                android:text="回复"
+                android:textColor="@color/top_layout_color_white"
+                android:textSize="@dimen/bottom_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

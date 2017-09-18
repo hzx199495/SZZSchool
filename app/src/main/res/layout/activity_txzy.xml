@@ -73,6 +73,7 @@
                 android:text="123456789"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -90,11 +91,32 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:gravity="center"
-                android:textColor="@color/blue2"
                 android:hint="请输入金额"
                 android:cursorVisible="false"/>
         </LinearLayout>
-
+        <LinearLayout
+            android:id="@+id/vipll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="金额:"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/vip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:textColor="@color/blue2"
+                />
+        </LinearLayout>
         <Button
             android:id="@+id/btn"
             android:layout_marginTop="15dp"

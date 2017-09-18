@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_question"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B4EEB4"
+        android:padding="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/frame_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="课程名"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/video_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/video_title"
+            android:layout_marginTop="10dp"
+            android:text="共？课时" />
+
+        <TextView
+            android:id="@+id/video_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:drawablePadding="3dp"
+            android:drawableRight="@drawable/video_jt"
+            android:text="课程简介"
+            android:textColor="#999"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/makequestion"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/video_total"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/makequ" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#999" />
+
+
+    <LinearLayout
+        android:id="@+id/frame_end"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="#fff">
+
+        <FrameLayout
+            android:id="@+id/fl_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/fl_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</LinearLayout>

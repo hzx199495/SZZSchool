@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,12 @@ public class TXZYActivity extends Activity {
     Button btn;
     @ViewInject(R.id.back)
     ImageView back;
+    @ViewInject(R.id.ll)
+    LinearLayout ll;
+    @ViewInject(R.id.vipll)
+    LinearLayout vipll;
+    @ViewInject(R.id.vip)
+    TextView vip;
     AlertDialog.Builder dialog;
     String date;
     int type;
@@ -80,6 +87,9 @@ public class TXZYActivity extends Activity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (type == 5) {
+                    getData(new Path(TXZYActivity.this).VIPBUY(money.getText().toString().trim(),date));
+                }
                 if (!"".equals(money.getText().toString().trim())) {
                     if (type == 1) {
                     getData(new Path(TXZYActivity.this).DSTIXIAN(money.getText().toString().trim()));
@@ -89,8 +99,6 @@ public class TXZYActivity extends Activity {
                         getData(new Path(TXZYActivity.this).TGTIXIAN(money.getText().toString().trim()));
                     } else if (type == 4) {
                         getData(new Path(TXZYActivity.this).TGZHUANYI(money.getText().toString().trim()));
-                    } else if (type == 5) {
-                        getData(new Path(TXZYActivity.this).VIPBUY(money.getText().toString().trim(),date));
                     }
 
                 } else {
@@ -133,7 +141,9 @@ public class TXZYActivity extends Activity {
             public void onsendJson(String json) {
                 Gson gson = new Gson();
                 VIP bean = gson.fromJson(json, VIP.class);
-                money.setText(bean.getVip());
+                ll.setVisibility(View.GONE);
+                vipll.setVisibility(View.VISIBLE);
+                vip.setText(bean.getVip());
                 date=getDateStr(bean.getToday(),365);
             }
         });

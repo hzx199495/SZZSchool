@@ -27,6 +27,8 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:hint="网络推广/PHP开发/PhotoShop..."
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:textColor="@color/three_level"

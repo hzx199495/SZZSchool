@@ -65,7 +65,7 @@ public  class Path {
     }
     //课程详情
     public  String SECOND(String sid) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.tx_two_pin&pc=1&sid="+sid+"&uid="+uid+"&token="+token;
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.tx_two_pin1&pc=1&sid="+sid+"&uid="+uid+"&token="+token;
         return path;
     }
     //评论
@@ -104,9 +104,15 @@ public  class Path {
         return path;
     }
     //论坛版块
-    public static String FORUMBK(String fid,int page) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.get_ltpost&pc=1&fid="+fid+"&page="+page;
-        return path;
+    public static String FORUMBK(String fid,int page,int type) {
+        if (type==1){
+            String path = "https://shizhanzhe.com/index.php?m=pcdata.get_ltpost&pc=1&fid="+fid+"&page="+page;
+            return path;
+        }else if (type==2){
+            String path = "https://shizhanzhe.com/index.php?m=pcdata.get_ltpost&pc=1&fid="+fid+"&page="+page+"&typeclass=3";
+            return path;
+        }
+            return "";
     }
     //帖子内容
     public static String FORUMCONTENT(String pid) {
@@ -283,6 +289,16 @@ public  class Path {
     //体系进度
     public   String STUDYDETAIL(String sid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.uudochas&uid="+uid+"&sid="+sid;
+        return path;
+    }
+    //我的帖子
+    public  String MYFORUM(String fid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.get_ltpost_me&pc=1&fid="+fid+"&page=1&uid="+uid;
+        return path;
+    }
+    //我的帖子
+    public  String MYExam(int page) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.chaexam&uid="+uid+"&page="+page;
         return path;
     }
 

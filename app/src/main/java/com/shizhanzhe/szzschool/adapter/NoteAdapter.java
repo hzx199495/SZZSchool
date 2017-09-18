@@ -159,29 +159,29 @@ public class NoteAdapter extends BaseAdapter {
         TextView title;
         LinearLayout ll;
     }
-//    public static String getSpaceTime(Long millisecond) {
-//        long currentMillisecond = System.currentTimeMillis();
-//        //间隔秒
-//        Long spaceSecond = (currentMillisecond - millisecond*1000) / 1000;
-//        //一分钟之内
-//        if (spaceSecond >= 0 && spaceSecond < 60) {
-//            return "刚刚";
-//        }
-//        //一小时之内
-//        else if (spaceSecond / 60 > 0 && spaceSecond / 60 < 60) {
-//            return spaceSecond / 60 + "分钟之前";
-//        }
-//        //一天之内
-//        else if (spaceSecond / (60 * 60) > 0 && spaceSecond / (60 * 60) < 24) {
-//            return spaceSecond / (60 * 60) + "小时之前";
-//        }
-//        //3天之内
-//        else if (spaceSecond/(60*60*24)>0&&spaceSecond/(60*60*24)<3){
-//            return spaceSecond/(60*60*24)+"天之前";
-//        }else {
-//            return getDateTimeFromMillisecond(millisecond);
-//        }
-//    }
+    public static String getSpaceTime(Long millisecond) {
+        long currentMillisecond = System.currentTimeMillis();
+        //间隔秒
+        Long spaceSecond = (currentMillisecond - millisecond*1000) / 1000;
+        //一分钟之内
+        if (spaceSecond >= 0 && spaceSecond < 60) {
+            return "刚刚";
+        }
+        //一小时之内
+        else if (spaceSecond / 60 > 0 && spaceSecond / 60 < 60) {
+            return spaceSecond / 60 + "分钟之前";
+        }
+        //一天之内
+        else if (spaceSecond / (60 * 60) > 0 && spaceSecond / (60 * 60) < 24) {
+            return spaceSecond / (60 * 60) + "小时之前";
+        }
+        //3天之内
+        else if (spaceSecond/(60*60*24)>0&&spaceSecond/(60*60*24)<3){
+            return spaceSecond/(60*60*24)+"天之前";
+        }else {
+            return getDateTimeFromMillisecond(millisecond);
+        }
+    }
     /**
      * 将毫秒转化成固定格式的时间
      * 时间格式: yyyy-MM-dd HH:mm:ss

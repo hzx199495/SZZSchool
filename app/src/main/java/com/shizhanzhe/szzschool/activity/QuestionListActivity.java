@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -36,6 +37,7 @@ import java.util.List;
 
 /**
  * Created by zz9527 on 2017/8/4.
+ * 问答列表
  */
 @ContentView(R.layout.activity_questionlist)
 public class QuestionListActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {
@@ -50,7 +52,7 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
     @ViewInject(R.id.back)
     ImageView back;
     @ViewInject(R.id.nodata)
-    TextView nodata;
+    ImageView nodata;
     @ViewInject(R.id.recommend)
     RadioButton re;
     @ViewInject(R.id.time)
@@ -89,6 +91,7 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(QuestionListActivity.this, SendQuestionActivity.class);
+                intent.putExtra("type","2");
                 startActivityForResult(intent, 1);
             }
         });

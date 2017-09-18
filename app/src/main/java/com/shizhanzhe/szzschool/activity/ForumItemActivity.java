@@ -2,7 +2,9 @@ package com.shizhanzhe.szzschool.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -135,10 +137,20 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         itemtitle.setText(title);
         tvname.setText(name);
         text_replies.setText(replies + "个回复");
+        try {
         if (!"".equals(img)&&img.contains("http")) {
             ImageLoader.getInstance().displayImage(img, avatar, options);
         } else {
             ImageLoader.getInstance().displayImage(Path.IMG(img), avatar, options);
+        }
+        }catch (Exception e){
+            SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+            String myimg = preferences.getString("img", "");
+            if (myimg.contains("http")) {
+                ImageLoader.getInstance().displayImage(myimg, avatar, options);
+            } else {
+                ImageLoader.getInstance().displayImage(Path.IMG(myimg),avatar, options);
+            }
         }
         edtime.setText(time);
 
@@ -323,7 +335,6 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.e("________",json);
                 if (!json.contains(".pdf")) {
                     MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
                     MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());

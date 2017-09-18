@@ -13,6 +13,7 @@ import com.shizhanzhe.szzschool.fragment.QuestionListFragment;
 
 /**
  * Created by Administrator on 2017/8/1.
+ * 问答分类
  */
 
 public class QuestionBaseActivity extends FragmentActivity {

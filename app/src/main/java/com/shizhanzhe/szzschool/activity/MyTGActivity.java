@@ -1,6 +1,5 @@
 package com.shizhanzhe.szzschool.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,10 +11,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.PagerAdapter;
-import com.shizhanzhe.szzschool.fragment.KCFragment;
 import com.shizhanzhe.szzschool.fragment.MyTGFragment;
 
 import org.xutils.view.annotation.ContentView;

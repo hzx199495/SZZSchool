@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.Bean.SearchBean;
@@ -68,22 +69,24 @@ public class SearchAdapter extends BaseAdapter {
             convertView=inflater.inflate(R.layout.item_bean_list,null);
             holder=new ViewHolder();
             holder.tv= (TextView) convertView.findViewById(R.id.item_search_title);
+            holder.iv= (ImageView) convertView.findViewById(R.id.item_search_iv);
             convertView.setTag(holder);
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
         if (Txlist!=null){
-            holder.tv.setTextColor(Color.RED);
             holder.tv.setText(Txlist.get(position).getStitle());
+            holder.iv.setImageResource(R.drawable.ic_home_more_hover);
         }
         if (Tzlist!=null){
-            holder.tv.setTextColor(Color.BLUE);
             holder.tv.setText(Tzlist.get(position).getSubject());
+            holder.iv.setImageResource(R.drawable.ic_home_forum_hover);
         }
         return convertView;
     }
     class  ViewHolder{
         TextView tv;
+        ImageView iv;
     }
 }
 

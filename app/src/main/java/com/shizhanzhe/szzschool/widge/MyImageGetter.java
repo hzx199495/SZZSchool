@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.Html.ImageGetter;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.shizhanzhe.szzschool.R;
@@ -43,13 +44,13 @@ public class MyImageGetter implements ImageGetter {
 			path="https://www.shizhanzhe.com" + source;
 		}
 		String imageName = Common.md5(path);
-		String sdcardPath = Environment.getExternalStorageDirectory().toString(); // 获取SDCARD的路径
 		//获取图片后缀名
 		String[] ss = source.split("\\.");
 		String ext = ss[ss.length - 1];
 
 		// 最终图片保持的地址
-		String savePath = sdcardPath + "/" + context.getPackageName() + "/" + imageName + "." + ext;
+		String savePath = Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ "/test/" + imageName + "." + ext;
 		File file = new File(savePath);
 		if (file.exists()) {
 			// 如果文件已经存在，直接返回

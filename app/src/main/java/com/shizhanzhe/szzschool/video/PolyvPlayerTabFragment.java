@@ -43,18 +43,18 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
     }
 
     private void findIdAndNew() {
-        tv=(TextView) view.findViewById(R.id.tv);
+
         tv_cur = (TextView) view.findViewById(R.id.tv_cur);
         tv_sum = (TextView) view.findViewById(R.id.tv_sum);
         tv_talk = (TextView) view.findViewById(R.id.tv_talk);
         tv_question = (TextView) view.findViewById(R.id.tv_question);
         v_line = view.findViewById(R.id.v_line);
-        viewPagerFragment = (PolyvPlayerViewPagerFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fl_viewpager);
+        PolyvPlayerEndFragment polyvPlayerEndFragment = (PolyvPlayerEndFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fl_end);
+        viewPagerFragment = (PolyvPlayerViewPagerFragment) polyvPlayerEndFragment.getChildFragmentManager().findFragmentById(R.id.fl_viewpager);
     }
 
     private void initView() {
         initLineSetting();
-        tv.setText(MyApplication.videosuggest);
         tv_cur.setSelected(true);
         tv_cur.setOnClickListener(this);
         tv_sum.setOnClickListener(this);
@@ -99,12 +99,12 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
                 tv_cur.setTextColor(getResources().getColor(R.color.polyv_tab_text_color));
                 lp.leftMargin = (int) (arg0 * (length)) + 1 * eLength;
                 break;
+//            case 1:
+//                tv_sum.setSelected(true);
+//                tv_sum.setTextColor(getResources().getColor(R.color.polyv_tab_text_color));
+//                lp.leftMargin = (int) (arg0 * (length)) + 3 * eLength;
+//                break;
             case 1:
-                tv_sum.setSelected(true);
-                tv_sum.setTextColor(getResources().getColor(R.color.polyv_tab_text_color));
-                lp.leftMargin = (int) (arg0 * (length)) + 3 * eLength;
-                break;
-            case 2:
                 tv_talk.setSelected(true);
                 tv_talk.setTextColor(getResources().getColor(R.color.polyv_tab_text_color));
                 lp.leftMargin = (int) (arg0 * (length)) + 5 * eLength;

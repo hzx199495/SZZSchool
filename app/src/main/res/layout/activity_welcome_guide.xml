@@ -1,11 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="引导页"/>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/welcome_guide_viewpager"
         android:layout_width="match_parent"
@@ -13,14 +8,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-    <TextView
+    <ImageView
         android:id="@+id/welcome_guide_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="43dp"
-        android:text="立即进入"
+        android:src="@drawable/wbtn"
         android:visibility="gone" />
 
 </RelativeLayout>

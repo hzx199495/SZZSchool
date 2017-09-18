@@ -17,6 +17,8 @@ import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 
+import java.util.List;
+
 public class PolyvSummaryFragment extends Fragment {
     // 标题,价格,学习人数,简介,其他,展开
     private TextView tv_title, tv_money, tv_learn, tv_sum, tv_other, tv_expand;
@@ -36,23 +38,11 @@ public class PolyvSummaryFragment extends Fragment {
 
     private void initView() {
         Gson gson = new Gson();
-        final ProDeatailBean.CiBean cibean= gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
-        if (MyApplication.videotype==1){
-            title=cibean.getA0().getCtitle();
-            intro=cibean.getA0().getIntroduce();
-        }else if (MyApplication.videotype==2){
-            title=cibean.getA1().getCtitle();
-            intro=cibean.getA1().getIntroduce();
-        }else if (MyApplication.videotype==3){
-            title=cibean.getA2().getCtitle();
-            intro=cibean.getA2().getIntroduce();
-        }else if (MyApplication.videotype==4){
-            title=cibean.getA3().getCtitle();
-            intro=cibean.getA3().getIntroduce();
-        }else if (MyApplication.videotype==5){
-            title=cibean.getA4().getCtitle();
-            intro=cibean.getA4().getIntroduce();
-        }
+        final List<ProDeatailBean.CiBean> cibean= gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
+        int position=MyApplication.videotype;
+
+            title=cibean.get(position-1).getCtitle();
+            intro=cibean.get(position-1).getIntroduce();
 
         tv_title.setText(title);
         tv_sum.setText(gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx().getIntroduce());

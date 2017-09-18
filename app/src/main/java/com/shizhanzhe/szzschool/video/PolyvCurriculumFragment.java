@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.easefun.polyvsdk.PolyvBitRate;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
@@ -25,6 +26,7 @@ import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.Videoadapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PolyvCurriculumFragment extends Fragment {
     // viewpager切换的时候，fragment执行销毁View方法，但fragment对象没有被销毁
@@ -52,81 +54,20 @@ public class PolyvCurriculumFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findIdAndNew();
         Gson gson = new Gson();
-        final ProDeatailBean.CiBean cibean= gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
-        final ArrayList<VideoBean> videolist = new ArrayList<>();
-        if (MyApplication.videotype==1){
-            for (ProDeatailBean.CiBean.A0Bean.ChoiceKcBean bean: cibean.getA0().getChoice_kc()
-                    ) {
-                VideoBean video = new VideoBean();
-                video.setGrade(bean.getGrade());
-                video.setId(bean.getId());
-                video.setKc_hours(bean.getKc_hours());
-                video.setMv_url(bean.getMv_url());
-                video.setName(bean.getName());
-                video.setSort(bean.getSort());
-                videolist.add(video);
-            }
-        }else if (MyApplication.videotype==2){
-            for (ProDeatailBean.CiBean.A1Bean.ChoiceKcBeanX bean: cibean.getA1().getChoice_kc()
-                    ) {
-                VideoBean video = new VideoBean();
-                video.setGrade(bean.getGrade());
-                video.setId(bean.getId());
-                video.setKc_hours(bean.getKc_hours());
-                video.setMv_url(bean.getMv_url());
-                video.setName(bean.getName());
-                video.setSort(bean.getSort());
-                videolist.add(video);
-            }
-        }else if (MyApplication.videotype==3){
-            for (ProDeatailBean.CiBean.A2Bean.ChoiceKcBeanXX bean: cibean.getA2().getChoice_kc()
-                    ) {
-                VideoBean video = new VideoBean();
-                video.setGrade(bean.getGrade());
-                video.setId(bean.getId());
-                video.setKc_hours(bean.getKc_hours());
-                video.setMv_url(bean.getMv_url());
-                video.setName(bean.getName());
-                video.setSort(bean.getSort());
-                videolist.add(video);
-            }
-        }else if (MyApplication.videotype==4){
-            for (ProDeatailBean.CiBean.A3Bean.ChoiceKcBeanXXX bean: cibean.getA3().getChoice_kc()
-                    ) {
-                VideoBean video = new VideoBean();
-                video.setGrade(bean.getGrade());
-                video.setId(bean.getId());
-                video.setKc_hours(bean.getKc_hours());
-                video.setMv_url(bean.getMv_url());
-                video.setName(bean.getName());
-                video.setSort(bean.getSort());
-                videolist.add(video);
-            }
-        }else if (MyApplication.videotype==5){
-            for (ProDeatailBean.CiBean.A4Bean.ChoiceKcBeanXXXX bean: cibean.getA4().getChoice_kc()
-                    ) {
-                VideoBean video = new VideoBean();
-                video.setGrade(bean.getGrade());
-                video.setId(bean.getId());
-                video.setKc_hours(bean.getKc_hours());
-                video.setMv_url(bean.getMv_url());
-                video.setName(bean.getName());
-                video.setSort(bean.getSort());
-                videolist.add(video);
-            }
-        }
-        final Videoadapter videoadapter = new Videoadapter(getContext(), videolist, "0");
+        final List<ProDeatailBean.CiBean> cibean = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
+        final ProDeatailBean.CiBean bean = cibean.get(MyApplication.videotype - 1);
+        final Videoadapter videoadapter = new Videoadapter(getContext(), bean.getChoice_kc(), "0", 0);
         lv_cur.setAdapter(videoadapter);
         videoadapter.setSelectItem(MyApplication.position);
         videoadapter.notifyDataSetInvalidated();
         lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                videoadapter.setSelectItem(position);
-                videoadapter.notifyDataSetInvalidated();
-                if (videolist.get(position).getGrade().contains("2") || videolist.get(position).getGrade().contains("1")) {
-                    MyApplication.videoitemid=videolist.get(position).getId();
-                    videoId = videolist.get(position).getMv_url();
+                if (bean.getChoice_kc().size() > 11 && position <= 11) {
+                    videoadapter.setSelectItem(position);
+                    videoadapter.notifyDataSetInvalidated();
+                    MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                    videoId = bean.getChoice_kc().get(position).getMv_url();
                     polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
                     polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
                         @Override
@@ -134,9 +75,22 @@ public class PolyvCurriculumFragment extends Fragment {
                             requestPermissionWriteSettings();
                         }
                     });
-                }else {
-                    Toast.makeText(getActivity(), "无法越级学习！", Toast.LENGTH_SHORT).show();
+                } else if (bean.getChoice_kc().size() < 11 && position <= 6) {
+                    videoadapter.setSelectItem(position);
+                    videoadapter.notifyDataSetInvalidated();
+                    MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                    videoId = bean.getChoice_kc().get(position).getMv_url();
+                    polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
+                    polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
+                        @Override
+                        public void callback() {
+                            requestPermissionWriteSettings();
+                        }
+                    });
+                } else {
+                    new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
                 }
+
 
             }
         });
@@ -155,14 +109,12 @@ public class PolyvCurriculumFragment extends Fragment {
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-            polyvPermission = new PolyvPermission();
+        polyvPermission = new PolyvPermission();
 
-        }
-
+    }
 
 
     /**

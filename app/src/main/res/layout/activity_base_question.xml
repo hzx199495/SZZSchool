@@ -12,6 +12,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="实战者问答"
+            android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textSize="17sp" />

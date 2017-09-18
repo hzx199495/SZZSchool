@@ -52,6 +52,7 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
     TextView detail_yjprice;
 
     SVProgressHUD mSVProgressHUD;
+
     public static FragmentDetail newInstance(String id) {
         Bundle args = new Bundle();
         args.putString("id", id);
@@ -69,9 +70,6 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
         return x.view().inject(this, inflater, null);
     }
 
-    String title;
-    String intro;
-    String img;
     String id;
     boolean flag;
 
@@ -82,49 +80,58 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
         mSVProgressHUD.show();
         Bundle bundle = getArguments();
         id = bundle.getString("id");
-        MyApplication.txId=id;
+        MyApplication.txId = id;
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getContext()).COLLECTLIST(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-                List<CollectListBean> list = gson.fromJson(json, new TypeToken<List<CollectListBean>>() {
-                }.getType());
-                if (list.size()>0) {
-                    for (CollectListBean bean : list
-                            ) {
-                        if (bean.getSysinfo().get(0).getId().contains(id)) {
-                            flag = true;
-                            collect.setImageResource(R.drawable.ic_courseplay_star1);
+                try {
+                    List<CollectListBean> list = gson.fromJson(json, new TypeToken<List<CollectListBean>>() {
+                    }.getType());
+                    if (list.size() > 0) {
+                        for (CollectListBean bean : list
+                                ) {
+                            if (bean.getSysinfo().get(0).getId().contains(id)) {
+                                flag = true;
+                                collect.setImageResource(R.drawable.ic_courseplay_star2);
+                            }
                         }
                     }
+                } catch (Exception e) {
                 }
+
+
             }
         });
         OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).SECOND(id), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 MyApplication.videojson = json;
-                Gson gson = new Gson();
-                ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
-                detail_title.setText(tx.getStitle());
-                detail_intro.setText(tx.getIntroduce());
-                ImageLoader imageloader = ImageLoader.getInstance();
-                imageloader.displayImage(Path.IMG(tx.getThumb()), detail_iv, MyApplication.displayoptions);
-                MyApplication.proimg = tx.getThumb();
-                if (tx.getStitle().contains("Photoshop")){
-                    detail_yjprice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
-                    detail_yjprice.setVisibility(View.VISIBLE);
-                    detail_yjprice.setText("原价：￥699" );
+                try {
+
+                    Gson gson = new Gson();
+                    ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
+                    detail_title.setText(tx.getStitle());
+                    detail_intro.setText(tx.getIntroduce());
+                    ImageLoader imageloader = ImageLoader.getInstance();
+                    imageloader.displayImage(Path.IMG(tx.getThumb()), detail_iv, MyApplication.displayoptions);
+                    MyApplication.proimg = tx.getThumb();
+                    if (tx.getStitle().contains("Photoshop")) {
+                        detail_yjprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
+                        detail_yjprice.setVisibility(View.VISIBLE);
+                        detail_yjprice.setText("原价：￥699");
+                    }
+                    detail_price.setText("￥" + tx.getNowprice());
+                    detail_study.setText("学习人数：" + tx.getNum() + "人");
+                    mSVProgressHUD.dismiss();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "数据异常", Toast.LENGTH_SHORT).show();
                 }
-                detail_price.setText("￥" + tx.getNowprice());
-                detail_study.setText("学习人数：" + tx.getNum() + "人");
-                mSVProgressHUD.dismiss();
+
             }
         });
-
         collect.setOnClickListener(this);
-
     }
 
     @Override
@@ -134,11 +141,11 @@ public class FragmentDetail extends Fragment implements View.OnClickListener {
             case R.id.collect:
                 if (flag) {
                     flag = false;
-                    collect.setImageResource(R.drawable.ic_courseplay_star2);
+                    collect.setImageResource(R.drawable.ic_courseplay_star1);
                     Toast.makeText(getActivity(), "取消收藏", Toast.LENGTH_SHORT).show();
                 } else {
                     flag = true;
-                    collect.setImageResource(R.drawable.ic_courseplay_star1);
+                    collect.setImageResource(R.drawable.ic_courseplay_star2);
                     Toast.makeText(getActivity(), "已收藏", Toast.LENGTH_SHORT).show();
 
                 }

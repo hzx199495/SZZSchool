@@ -17,7 +17,6 @@ import com.shizhanzhe.szzschool.Bean.MyCTBean;
 import com.shizhanzhe.szzschool.Bean.TGMoney;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
-import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 

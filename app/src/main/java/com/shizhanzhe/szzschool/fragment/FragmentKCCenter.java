@@ -1,6 +1,5 @@
 package com.shizhanzhe.szzschool.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import android.widget.RelativeLayout;
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.PagerAdapter;
-import com.shizhanzhe.szzschool.utils.RefreshLayout;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;

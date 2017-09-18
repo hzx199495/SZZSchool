@@ -1,9 +1,9 @@
 package com.shizhanzhe.szzschool.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,18 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.Bean.ScheduleBean;
-import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.ScheduleDeatilAdapter;
-import com.shizhanzhe.szzschool.adapter.Videoadapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
@@ -39,6 +35,8 @@ public class ScheduleTabFragment extends Fragment {
     public static String TABLAYOUT_FRAGMENT = "tab_fragment";
     private int type;
     ListView lv;
+    private SVProgressHUD svProgressHUD;
+    private View nodata;
 
     public static ScheduleTabFragment newInstance(int type, String id) {
         ScheduleTabFragment fragment = new ScheduleTabFragment();
@@ -52,7 +50,6 @@ public class ScheduleTabFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             type = (int) getArguments().getSerializable(TABLAYOUT_FRAGMENT);
         }
@@ -63,7 +60,6 @@ public class ScheduleTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tablayout, container, false);
-
         return view;
     }
 
@@ -71,120 +67,119 @@ public class ScheduleTabFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lv = (ListView) view.findViewById(R.id.lv);
+        nodata = view.findViewById(R.id.nodata);
+        lv.setEmptyView(nodata);
         getdata(getArguments().getString("id"));
-        MyApplication.videotitle = "网络推广变现·掘金";
-
     }
 
     private void initView(final List<ScheduleBean.InfoBean.KcDataBean> list) {
 
         switch (type) {
             case 1:
-
-                lv.setAdapter(new ScheduleDeatilAdapter(getContext(), list.get(0).getVdata()));
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                        if (list.get(0).getVdata().get(position).getVdetail().getGuantime()!=null){
-                            MyApplication.schedule=Integer.parseInt(list.get(0).getVdata().get(position).getVdetail().getGuantime());
-                        }else {
-                            MyApplication.schedule=0;
+                try {
+                    if (protype == 1) {
+                        setData(list, 0);
+                    } else if (protype == 2) {
+                        final List<ScheduleBean.InfoBean.KcDataBean.VdataBean> fourlist = new ArrayList<>();
+                        try {
+                            for (int i = 0; i < 4; i++) {
+                                for (ScheduleBean.InfoBean.KcDataBean.VdataBean b : list.get(i).getVdata()) {
+                                    fourlist.add(b);
+                                }
+                            }
+                        } catch (Exception e) {
                         }
-                        MyApplication.position = position;
-                        MyApplication.videotypeid = list.get(0).getCid();
-                        MyApplication.videotype = type;
-                        MyApplication.videoitemid = list.get(0).getVdata().get(position).getVid();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.getA0().getChoice_kc().get(position).getMv_url());
-                        getContext().startActivity(intent);
+                        lv.setAdapter(new ScheduleDeatilAdapter(getContext(), fourlist));
+                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                if (list.get(0).getVdata().get(position).getVdetail().getGuantime() != null) {
+                                    MyApplication.schedule = Integer.parseInt(fourlist.get(position).getVdetail().getGuantime());
+                                } else {
+                                    MyApplication.schedule = 0;
+                                }
+                                MyApplication.position = position;
+                                MyApplication.videotypeid = list.get(position).getCid();
+                                MyApplication.videotype = type;
+                                MyApplication.videoitemid = fourlist.get(position).getVid();
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(position).getChoice_kc().get(position).getMv_url());
+                                getContext().startActivity(intent);
+                            }
+                        });
                     }
-                });
+                } catch (Exception e) {
+                }
                 break;
             case 2:
+                if (protype == 1) {
+                    setData(list, 1);
+                } else {
+                    setData(list, 4);
+                }
 
-
-                lv.setAdapter(new ScheduleDeatilAdapter(getContext(), list.get(1).getVdata()));
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                        MyApplication.position = position;
-                        MyApplication.videotypeid = list.get(1).getCid();
-                        MyApplication.videotype = type;
-                        MyApplication.videoitemid = list.get(1).getVdata().get(position).getVid();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.getA1().getChoice_kc().get(position).getMv_url());
-                        getContext().startActivity(intent);
-
-                    }
-                });
                 break;
             case 3:
-                lv.setAdapter(new ScheduleDeatilAdapter(getContext(), list.get(2).getVdata()));
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                        MyApplication.position = position;
-                        MyApplication.videotypeid = list.get(2).getCid();
-                        MyApplication.videotype = type;
-                        MyApplication.videoitemid = list.get(2).getVdata().get(position).getVid();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.getA2().getChoice_kc().get(position).getMv_url());
-                        getContext().startActivity(intent);
-
-                    }
-                });
+                setData(list, 2);
                 break;
             case 4:
 
-                lv.setAdapter(new ScheduleDeatilAdapter(getContext(), list.get(3).getVdata()));
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                        MyApplication.position = position;
-                        MyApplication.videotypeid = list.get(3).getCid();
-                        MyApplication.videotype = type;
-                        MyApplication.videoitemid = list.get(3).getVdata().get(position).getVid();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.getA3().getChoice_kc().get(position).getMv_url());
-                        getContext().startActivity(intent);
-
-                    }
-                });
+                setData(list, 3);
                 break;
             case 5:
-
-                lv.setAdapter(new ScheduleDeatilAdapter(getContext(), list.get(4).getVdata()));
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                        MyApplication.position = position;
-                        MyApplication.videotypeid = list.get(4).getCid();
-                        MyApplication.videotype = type;
-                        MyApplication.videoitemid = list.get(4).getVdata().get(position).getVid();
-                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.getA4().getChoice_kc().get(position).getMv_url());
-                        getContext().startActivity(intent);
-                    }
-                });
+                setData(list, 4);
                 break;
         }
     }
+
+    void setData(final List<ScheduleBean.InfoBean.KcDataBean> list, final int tabposition) {
+        try {
+            final List<ScheduleBean.InfoBean.KcDataBean.VdataBean> vdata = list.get(tabposition).getVdata();
+            lv.setAdapter(new ScheduleDeatilAdapter(getContext(), vdata));
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    if (vdata.get(position).getVdetail().getGuantime() != null) {
+                        MyApplication.schedule = Integer.parseInt(vdata.get(position).getVdetail().getGuantime());
+                    } else {
+                        MyApplication.schedule = 0;
+                    }
+                    MyApplication.position = position;
+                    MyApplication.videotypeid = list.get(tabposition).getCid();
+                    MyApplication.videotype = type;
+                    MyApplication.videoitemid = vdata.get(position).getVid();
+                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(tabposition).getChoice_kc().get(position).getMv_url());
+                    getContext().startActivity(intent);
+                }
+            });
+        } catch (Exception e) {
+            return;
+        }
+    }
+
     List<ScheduleBean.InfoBean.KcDataBean> list;
-    ProDeatailBean.CiBean prodetaillist;
+    List<ProDeatailBean.CiBean> prodetaillist;
+    int protype;
+
     void getdata(String id) {
         Gson gson = new Gson();
         prodetaillist = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
         ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
-        MyApplication.txId=tx.getId();
-        MyApplication.videotitle=tx.getStitle();
-        OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getActivity()).STUDYDETAIL(id), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-
+        MyApplication.txId = tx.getId();
+        MyApplication.videotitle = tx.getStitle();
+        if (tx.getCatid().contains("41")) {
+            protype = 1;
+        } else {
+            protype = 2;
+        }
+        OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).STUDYDETAIL(id), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 Gson gson = new Gson();
-                String json2=json.replace("\"vdetail\":[]","\"vdetail\":{}");
+                String json2 = json.replace("\"vdetail\":[]", "\"vdetail\":{}");
                 list = gson.fromJson(json2, ScheduleBean.class).getInfo().getKc_data();
                 initView(list);
             }
         });
+
     }
 }

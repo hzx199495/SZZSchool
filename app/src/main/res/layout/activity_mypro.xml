@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
         style="@style/TopbarStyle" >
@@ -23,16 +26,32 @@
             android:scaleType="centerInside"
             android:id="@+id/back" />
     </RelativeLayout>
-    <GridView
-        android:id="@+id/mypro_gv"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@color/colorPrimary"
+        app:tabIndicatorColor="@color/colorAccent"
+        >
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
-        android:padding="5dp"/>
-    <TextView
-        android:id="@+id/nokc"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="暂无课程"/>
+        android:background="@android:color/white" />
+    <!--<GridView-->
+        <!--android:id="@+id/mypro_gv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:horizontalSpacing="5dp"-->
+        <!--android:verticalSpacing="5dp"-->
+        <!--android:numColumns="2"-->
+        <!--android:padding="5dp"/>-->
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/nodata"/>-->
 </LinearLayout>

@@ -18,9 +18,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mob.commons.SHARESDK;
 import com.shizhanzhe.szzschool.Bean.BuyBean;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
@@ -41,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
@@ -53,6 +56,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static android.R.attr.externalService;
 import static android.R.attr.path;
 
 /**
@@ -81,7 +85,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-// 初始化ShareSDK
+        // 初始化ShareSDK
         ShareSDK.initSDK(this);
         back.setOnClickListener(this);
         Intent intent = getIntent();
@@ -106,62 +110,77 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.buy:
-                dialog.show();
-                TextView pro = (TextView) dialog.getWindow().findViewById(R.id.buy_pro);
-                final TextView price = (TextView) dialog.getWindow().findViewById(R.id.buy_pr);
-                Button btn = (Button) dialog.getWindow().findViewById(R.id.buy_yes);
-                pro.setText(name);
-                price.setText("￥" + proprice);
-                btn.setOnClickListener(this);
+                if (MyApplication.isLogin) {
+                    dialog.show();
+                    TextView pro = (TextView) dialog.getWindow().findViewById(R.id.buy_pro);
+                    final TextView price = (TextView) dialog.getWindow().findViewById(R.id.buy_pr);
+                    Button btn = (Button) dialog.getWindow().findViewById(R.id.buy_yes);
+                    pro.setText(name);
+                    price.setText("￥" + proprice);
+                    btn.setOnClickListener(this);
+                }else{
+                    Toast.makeText(DetailActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(DetailActivity.this,LoginActivity.class));
+                }
                 break;
             case R.id.buy_yes:
                 SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor= preferences.edit();
                 String uid = preferences.getString("uid", "");
-                OkHttpClient client = new OkHttpClient();
-                RequestBody body = new FormBody.Builder()
-                        .add("uid", uid).add("systemid", id)
-                        .add("type", "1").add("pid", "0").add("coid", "0").add("catid", "0")
-                        .build();
-                Request request = new Request.Builder()
-                        .url("https://shizhanzhe.com/index.php?m=courSystem.buy&pc=1")
-                        .post(body)
-                        .build();
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        Log.e("fail", e.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new SVProgressHUD(DetailActivity.this).showErrorWithStatus("购买失败");
-                                dialog.dismiss();
-                            }
-
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        final String buy = response.body().string();
-                        if (response.isSuccessful()) {
+                final String money = preferences.getString("money", "");
+                if (Double.parseDouble(money)<Double.parseDouble(proprice)){
+                    dialog.dismiss();
+                    new SVProgressHUD(DetailActivity.this).showInfoWithStatus("账户余额不足，无法购买");
+                }else {
+                    Toast.makeText(this, "正在发送购买请求...", Toast.LENGTH_SHORT).show();
+                    OkHttpClient client = new OkHttpClient();
+                    RequestBody body = new FormBody.Builder()
+                            .add("uid", uid).add("systemid", id)
+                            .add("type", "1").add("pid", "0").add("coid", "0").add("catid", "0")
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("https://shizhanzhe.com/index.php?m=courSystem.buy&pc=1")
+                            .post(body)
+                            .build();
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Log.e("fail", e.toString());
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Gson gson = new Gson();
-                                    BuyBean bean = gson.fromJson(buy, BuyBean.class);
-                                    if (bean.getStatus() == 1) {
-                                        new SVProgressHUD(DetailActivity.this).showSuccessWithStatus("购买成功");
-                                        getData();
-                                    } else if (bean.getStatus() == 3) {
-                                        new SVProgressHUD(DetailActivity.this).showInfoWithStatus("余额不足,请充值");
-                                    }
+                                    new SVProgressHUD(DetailActivity.this).showErrorWithStatus("购买失败");
                                     dialog.dismiss();
                                 }
 
                             });
                         }
-                    }
-                });
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final String buy = response.body().string();
+                            if (response.isSuccessful()) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Gson gson = new Gson();
+                                        BuyBean bean = gson.fromJson(buy, BuyBean.class);
+                                        if (bean.getStatus() == 1) {
+                                            editor.putString("money", Double.parseDouble(money)-Double.parseDouble(proprice)+"");
+                                            editor.commit();
+                                            new SVProgressHUD(DetailActivity.this).showSuccessWithStatus("购买成功");
+                                            getData();
+                                        } else if (bean.getStatus() == 3) {
+                                            new SVProgressHUD(DetailActivity.this).showInfoWithStatus("账户余额不足，无法购买");
+                                        }
+                                        dialog.dismiss();
+                                    }
+
+                                });
+                            }
+                        }
+                    });
+                }
                 break;
             case R.id.videobtn:
                 Intent intent = new Intent(DetailActivity.this, ProjectDetailActivity.class);
@@ -190,28 +209,42 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).SECOND(id), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Gson gson = new Gson();
+                try {
+                    Gson gson = new Gson();
                 ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
                 String isbuy = tx.getIsbuy();
                 img = tx.getThumb();
                 name = tx.getStitle();
                 proprice=tx.getNowprice();
-                if (vip.equals("1")) {
-                    buy.setVisibility(View.GONE);
-                    study.setVisibility(View.VISIBLE);
-                } else {
-                    if (isbuy.equals("0")) {
-                        buy.setVisibility(View.VISIBLE);
-                        study.setVisibility(View.GONE);
-                    } else if (isbuy.equals("1")) {
+                if (MyApplication.isLogin){
+                    if (vip.equals("1")) {
                         buy.setVisibility(View.GONE);
                         study.setVisibility(View.VISIBLE);
+                    } else {
+                        if (isbuy.equals("0")) {
+                            videobtn.setVisibility(View.VISIBLE);
+                            buy.setVisibility(View.VISIBLE);
+                            study.setVisibility(View.GONE);
+                        } else if (isbuy.equals("1")) {
+                            buy.setVisibility(View.GONE);
+                            study.setVisibility(View.VISIBLE);
+                        }
                     }
+                }else {
+                    videobtn.setVisibility(View.VISIBLE);
+                    buy.setVisibility(View.VISIBLE);
+                    study.setVisibility(View.GONE);
                 }
+
+
 
                 FragmentDetail fragmentDetail = new FragmentDetail().newInstance(id);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.ll, fragmentDetail).commit();
+
+                }catch (Exception e) {
+                    Toast.makeText(DetailActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -11,12 +11,14 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -60,8 +62,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
+ * 
  * Created by hasee on 2016/11/25.
  * 个人资料
+ *
  */
 @ContentView(R.layout.activity_userzl)
 public class UserSetActivity extends Activity implements View.OnClickListener {
@@ -176,7 +180,6 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.tv_location:
-                if (!"".equals(bean.getLocation_a()) && !"".equals(bean.getLocation_p()) && !"".equals(bean.getLocation_c())) {
                     CityPicker cityPicker = new CityPicker.Builder(UserSetActivity.this)
                             .titleTextColor("#000000")
                             .backgroundPop(0xa0000000)
@@ -210,7 +213,6 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                             Toast.makeText(getApplicationContext(), "已取消", Toast.LENGTH_LONG).show();
                         }
                     });
-                }
                 break;
             case R.id.back:
                 this.finish();
@@ -265,6 +267,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_photo:
                 dialog.dismiss();
+                type=2;
                 Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 galleryIntent.setType("image/*");
@@ -273,11 +276,27 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
             case R.id.tv_camera:
                 dialog.dismiss();
                 if (isSdcardExisting()) {
-                    Intent cameraIntent = new Intent(
-                            "android.media.action.IMAGE_CAPTURE");
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
-                    cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        type=1;
+                        Intent cameraIntent = new Intent(
+                                "android.media.action.IMAGE_CAPTURE");
+                        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + "/test/" + IMAGE_FILE_NAME);
+                        file.getParentFile().mkdirs();
+                        //改变Uri
+                        uri = FileProvider.getUriForFile(this, "com.shizhanzhe.szzschool.fileProvider", file);
+                        //添加权限
+                        cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                    } else {
+                        Intent cameraIntent = new Intent(
+                                "android.media.action.IMAGE_CAPTURE");
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
+                        cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                    }
+
                 } else {
                     Toast.makeText(v.getContext(), "请插入sd卡", Toast.LENGTH_LONG)
                             .show();
@@ -285,6 +304,8 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
+    Uri uri;
+    File file;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
@@ -296,7 +317,12 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                     break;
                 case CAMERA_REQUEST_CODE:
                     if (isSdcardExisting()) {
-                        resizeImage(getImageUri());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            resizeImage(uri);
+                        }else {
+                            resizeImage(getImageUri());
+                        }
+
                     } else {
                         Toast.makeText(getApplicationContext(), "未找到存储卡，无法存储照片！",
                                 Toast.LENGTH_LONG).show();
@@ -325,6 +351,9 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
 
     public void resizeImage(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 1);
@@ -334,15 +363,34 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, RESIZE_REQUEST_CODE);
     }
-
+    int type=0;
     private void showResizeImage(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            Drawable drawable = new BitmapDrawable(photo);
-            setcv.setImageDrawable(drawable);
-            PostImg(photo);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (type==1){
+                Bitmap photo = BitmapFactory.decodeFile(file.getAbsolutePath());
+                Drawable drawable = new BitmapDrawable(photo);
+                setcv.setImageDrawable(drawable);
+                PostImg(photo);
+            }else if (type==2){
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data");
+                    Drawable drawable = new BitmapDrawable(photo);
+                    setcv.setImageDrawable(drawable);
+                    PostImg(photo);
+                }
+            }
+
+        }else {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap photo = extras.getParcelable("data");
+                Drawable drawable = new BitmapDrawable(photo);
+                setcv.setImageDrawable(drawable);
+                PostImg(photo);
+            }
         }
+
     }
 
     private Uri getImageUri() {
@@ -352,7 +400,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     }
     void PostImg(Bitmap bm){
         try {
-            Toast.makeText(this,"正在上传图片...",Toast.LENGTH_LONG);
+            Toast.makeText(this,"正在上传图片...",Toast.LENGTH_SHORT).show();
             OkHttpClient client = new OkHttpClient();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
@@ -369,7 +417,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
             client.newCall(bi).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("____resultonFailure",e.toString());
+//                    Log.e("____resultonFailure",e.toString());
                     mHandler.sendEmptyMessage(2);
                 }
 
@@ -377,7 +425,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 public void onResponse(Call call, okhttp3.Response response) throws IOException {
 
                     String s = response.body().string();
-                    Log.e("____resultonResponse",s);
+//                    Log.e("____resultonResponse",s);
                     Gson gson = new Gson();
                     Image image = gson.fromJson(s, Image.class);
                     if (image.getUrl()==null){
@@ -386,7 +434,6 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                         String url = image.getUrl();
                         editor.putString("img",url);
                         editor.commit();
-                        Log.e("url",url);
                         mHandler.sendEmptyMessage(1);
                     }
 

@@ -37,7 +37,8 @@ public class PolyvPlayerViewPagerFragment extends Fragment {
 
     private void findIdAndNew() {
         vp_player = (ViewPager) view.findViewById(R.id.vp_player);
-        tabFragment = (PolyvPlayerTabFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fl_tab);
+        PolyvPlayerEndFragment polyvPlayerEndFragment = (PolyvPlayerEndFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.fl_end);
+        tabFragment = (PolyvPlayerTabFragment) polyvPlayerEndFragment.getChildFragmentManager().findFragmentById(R.id.fl_tab);
         lists = new ArrayList<Fragment>();
     }
 
@@ -46,7 +47,7 @@ public class PolyvPlayerViewPagerFragment extends Fragment {
         sumFragment = new PolyvSummaryFragment();
         talkFragment = new PolyvTalkFragment();
         lists.add(curFragment);
-        lists.add(sumFragment);
+//        lists.add(sumFragment);
         lists.add(talkFragment);
         for (int i = 0; i < lists.size(); i++)
             lists.get(i).setArguments(getActivity().getIntent().getExtras());

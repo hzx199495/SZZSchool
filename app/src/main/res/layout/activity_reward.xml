@@ -53,6 +53,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/select_btn"
+            android:textColor="@color/black"
             android:text="6.66"
             android:textSize="15sp" />
 
@@ -63,6 +64,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/select_btn"
+            android:textColor="@color/black"
             android:text="8.88"
             android:textSize="15sp" />
 
@@ -73,6 +75,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/select_btn"
+            android:textColor="@color/black"
             android:text="88.88"
             android:textSize="15sp" />
     </LinearLayout>

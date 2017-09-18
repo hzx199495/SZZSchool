@@ -19,7 +19,6 @@ import com.shizhanzhe.szzschool.fragment.FragmentForum;
 import com.shizhanzhe.szzschool.fragment.FragmentKCCenter;
 import com.shizhanzhe.szzschool.fragment.FragmentQuestion;
 import com.shizhanzhe.szzschool.fragment.FragmentUser;
-import com.shizhanzhe.szzschool.update.UpdateManager;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.view.annotation.ContentView;
@@ -79,9 +78,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         UltimateBar ultimateBar = new UltimateBar(this);
         ultimateBar.setColorBar(ContextCompat.getColor(this, R.color.top));
 
-
-
-        new UpdateManager(this).checkUpdate(true);
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override

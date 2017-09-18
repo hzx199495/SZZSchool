@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.update.UpdateManager;
 import com.shizhanzhe.szzschool.utils.DataCleanManager;
+import com.tencent.bugly.beta.Beta;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -37,7 +37,9 @@ import cn.jpush.android.api.JPushInterface;
  * 系统设置
  */
 @ContentView(R.layout.activity_sz)
-public class SZActivity extends Activity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public class SZActivity extends Activity implements View.OnClickListener {
+    @ViewInject(R.id.cb_play_vido_tip)
+    CheckBox receiver;
     @ViewInject(R.id.cb_msg)
     CheckBox msg;
     @ViewInject(R.id.tv_cache)
@@ -56,14 +58,62 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
     TextView verson;
     @ViewInject(R.id.ll_about)
     LinearLayout ll_about;
-    boolean flag=true;
+    int  msgflag = 1;
+    int  reflag=1;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
         verson.setText(getVersionName(this));
-        msg.setOnCheckedChangeListener(this);
+        SharedPreferences preferences = getSharedPreferences("userset", Context.MODE_PRIVATE);
+        int msgisopen = preferences.getInt("msg", 0);
+        int receiverisopen = preferences.getInt("receiver",0);
+        editor = preferences.edit();
+        if (msgisopen==1){
+            msgflag=1;
+            msg.setChecked(true);
+        }else if (msgisopen==2){
+            msgflag=2;
+            msg.setChecked(false);
+        }
+        if (receiverisopen==1){
+            reflag=1;
+            receiver.setChecked(true);
+        }else if (receiverisopen==2){
+            reflag=2;
+            receiver.setChecked(false);
+        }
+        msg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (msgflag==1) {
+                        msgflag = 2;
+                        msg.setChecked(false);
+                        JPushInterface.stopPush(getApplicationContext());
+                    }else{
+                        msgflag = 2;
+                        msg.setChecked(true);
+                        JPushInterface.resumePush(getApplicationContext());
+                    }
+            }
+        });
+        receiver.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (reflag==1) {
+                    reflag = 2;
+                    receiver.setChecked(false);
+                    editor.putInt("isreceiver",2);
+                }else{
+                    reflag = 2;
+                    receiver.setChecked(true);
+                    editor.putInt("isreceiver",1);
+                }
+                editor.commit();
+            }
+        });
         try {
             cache.setText(DataCleanManager.getTotalCacheSize(getApplicationContext()));
         } catch (Exception e) {
@@ -78,23 +128,12 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
         MyApplication.getInstance().addActivity(this);
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked){
-            msg.setChecked(!flag);
-            if(!flag){
-                JPushInterface.stopPush(getApplicationContext());
-            }else{
-                JPushInterface.resumePush(getApplicationContext());
-        }
 
-        }
-    }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_clean_cache:
                 DataCleanManager.clearAllCache(getApplicationContext());
                 runOnUiThread(new Runnable() {
@@ -111,6 +150,10 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
 
                 break;
             case R.id.user_exit:
+                SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences sharedPreferences2 = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor2 = sharedPreferences2.edit();
                 AlertDialog.Builder builder = new AlertDialog.Builder(SZActivity.this);
                 builder.setTitle("提示");
                 builder.setMessage("确认退出当前账号？");
@@ -118,12 +161,13 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("uname");
-                        editor.remove("upawd");
+
+                        editor.clear();
+                        editor2.clear();
                         editor.commit();
-                        startActivity(new Intent(SZActivity.this,LoginActivity.class));
+                        editor2.commit();
+                        MyApplication.isLogin = false;
+                        startActivity(new Intent(SZActivity.this, LoginActivity.class));
                         MyApplication.getInstance().exit();
                     }
                 });
@@ -139,19 +183,20 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
 
                 break;
             case R.id.xgmm:
-                startActivity(new Intent(SZActivity.this,XMActivity.class));
+                startActivity(new Intent(SZActivity.this, XMActivity.class));
                 break;
             case R.id.ll_verson:
-                new UpdateManager(this).checkUpdate(true);
+                Beta.checkUpgrade();
                 break;
             case R.id.ll_about:
-                startActivity(new Intent(SZActivity.this,AboutActivity.class));
+                startActivity(new Intent(SZActivity.this, AboutActivity.class));
                 break;
             case R.id.back:
                 finish();
                 break;
         }
     }
+
     /**
      * @return 当前应用的版本号
      */
@@ -165,5 +210,21 @@ public class SZActivity extends Activity implements CompoundButton.OnCheckedChan
             e.printStackTrace();
             return "";
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (msgflag==1) {
+            editor.putInt("msg",msgflag);
+        }else{
+            editor.putInt("msg",msgflag);
+        }
+        if (reflag==1) {
+            editor.putInt("receiver",reflag);
+        }else{
+            editor.putInt("receiver",reflag);
+        }
+        editor.commit();
     }
 }

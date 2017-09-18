@@ -119,7 +119,6 @@ public class Pay {
         this.context = activity.getApplicationContext();
         SharedPreferences preferences = context.getSharedPreferences("userjson", Context.MODE_PRIVATE);
         String uid = preferences.getString("uid", "");
-
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
                 .add("uid", uid).add("price", price)
@@ -166,7 +165,6 @@ public class Pay {
                 payV2(order, price, subject);
             }
         });
-
     }
 
     /**

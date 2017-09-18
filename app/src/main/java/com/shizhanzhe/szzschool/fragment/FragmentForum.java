@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
@@ -18,6 +19,8 @@ import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.ForumBKActivity;
 import com.shizhanzhe.szzschool.activity.ForumItemActivity;
+import com.shizhanzhe.szzschool.activity.LoginActivity;
+import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.ForumBKAdapter;
 import com.shizhanzhe.szzschool.adapter.ForumLVAdapter;
 import com.shizhanzhe.szzschool.utils.MyGridView;
@@ -65,6 +68,7 @@ public class FragmentForum extends Fragment {
         bk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                     String fid = ltmodel.get(position).getFid();
                     String name = ltmodel.get(position).getName();
                     Intent intent = new Intent();
@@ -77,84 +81,93 @@ public class FragmentForum extends Fragment {
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                String vip = preferences.getString("vip", "");
-                if (vip.equals("1")){
-                    String title = szan.get(position).getSubject();
-                    String name = szan.get(position).getRealname();
-                    String time = szan.get(position).getDateline();
-                    String pid = szan.get(position).getPid();
-                    String fid = szan.get(position).getFid();
-                    String logo = szan.get(position).getLogo();
-                    String rep = szan.get(position).getAlltip();
-                    OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                        @Override
-                        public void onsendJson(String json) {
+                if (MyApplication.isLogin) {
+                    SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                    String vip = preferences.getString("vip", "");
+                    if (vip.equals("1")) {
+                        String title = szan.get(position).getSubject();
+                        String name = szan.get(position).getRealname();
+                        String time = szan.get(position).getDateline();
+                        String pid = szan.get(position).getPid();
+                        String fid = szan.get(position).getFid();
+                        String logo = szan.get(position).getLogo();
+                        String rep = szan.get(position).getAlltip();
+                        OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                            @Override
+                            public void onsendJson(String json) {
 
+                            }
+                        });
+                        Intent intent = new Intent(getActivity(), ForumItemActivity.class);
+                        intent.putExtra("pid", pid);
+                        intent.putExtra("title", title);
+                        intent.putExtra("name", name);
+                        intent.putExtra("img", logo);
+                        intent.putExtra("time", time);
+                        intent.putExtra("rep", rep);
+                        intent.putExtra("fid", fid);
+                        startActivity(intent);
+                    } else {
+                        if (!szan.get(position).getFid().contains("58")) {
+                            bought(szan.get(position).getFid(), uid);
+                            if (qx.contains("1")) {
+                                String title = szan.get(position).getSubject();
+                                String name = szan.get(position).getRealname();
+                                String time = szan.get(position).getDateline();
+                                String pid = szan.get(position).getPid();
+                                String logo = szan.get(position).getLogo();
+                                String rep = szan.get(position).getAlltip();
+                                String authorid = szan.get(position).getAuthorid();
+
+                                OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                                    @Override
+                                    public void onsendJson(String json) {
+
+                                    }
+                                });
+                                Intent intent = new Intent(getContext(), ForumItemActivity.class);
+                                intent.putExtra("pid", pid);
+                                intent.putExtra("title", title);
+                                intent.putExtra("name", name);
+                                intent.putExtra("img", logo);
+                                intent.putExtra("time", time);
+                                intent.putExtra("rep", rep);
+                                intent.putExtra("fid", szan.get(position).getFid());
+                                intent.putExtra("authorid", authorid);
+                                startActivity(intent);
+                            } else {
+                                new SVProgressHUD(getContext()).showInfoWithStatus("未购买该体系,无法查看");
+                            }
+                        } else {
+                            new SVProgressHUD(getContext()).showInfoWithStatus("未开通VIP 无法查看");
                         }
-                    });
-                    Intent intent = new Intent(getActivity(), ForumItemActivity.class);
-                    intent.putExtra("pid",pid);
-                    intent.putExtra("title",title);
-                    intent.putExtra("name",name);
-                    intent.putExtra("img",logo);
-                    intent.putExtra("time",time);
-                    intent.putExtra("rep",rep);
-                    intent.putExtra("fid",fid);
-                    startActivity(intent);
-                }else  {
-                    if (!szan.get(position).getFid().contains("58")){
-                        bought(szan.get(position).getFid(),uid);
-                        if (qx.contains("1")) {
-                            String title = szan.get(position).getSubject();
-                            String name = szan.get(position).getRealname();
-                            String time = szan.get(position).getDateline();
-                            String pid = szan.get(position).getPid();
-                            String logo = szan.get(position).getLogo();
-                            String rep = szan.get(position).getAlltip();
-                            String authorid = szan.get(position).getAuthorid();
-
-                            OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                                @Override
-                                public void onsendJson(String json) {
-
-                                }
-                            });
-                            Intent intent = new Intent(getContext(), ForumItemActivity.class);
-                            intent.putExtra("pid", pid);
-                            intent.putExtra("title", title);
-                            intent.putExtra("name", name);
-                            intent.putExtra("img", logo);
-                            intent.putExtra("time", time);
-                            intent.putExtra("rep", rep);
-                            intent.putExtra("fid", szan.get(position).getFid());
-                            intent.putExtra("authorid", authorid);
-                            startActivity(intent);
-                        }else{
-                            new SVProgressHUD(getContext()).showInfoWithStatus("未购买该体系,无法查看");
-                        }
-                    }else{
-                        new SVProgressHUD(getContext()).showInfoWithStatus("未开通VIP 无法查看");
                     }
+                }else {
+                    Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+                    getContext().startActivity(new Intent(getContext(), LoginActivity.class));
                 }
             }
         });
+        gv.setFocusable(false);
     }
 
     private void getdata() {
         OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.FORUMHOME(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Gson gson = new GsonBuilder()
-                        .setDateFormat("yyyy-MM-dd")
-                        .create();
-                ltmodel = gson.fromJson(json, ForumBean.class).getLtmodel();
-                szan = gson.fromJson(json, ForumBean.class).getSzan();
-                ForumBKAdapter bkadapter = new ForumBKAdapter(getContext(), ltmodel);
-                ForumLVAdapter lvadapter = new ForumLVAdapter(getContext(), szan);
-                bk.setAdapter(bkadapter);
-                gv.setAdapter(lvadapter);
-                mSVProgressHUD.dismiss();
+                try {
+                    Gson gson = new GsonBuilder()
+                            .setDateFormat("yyyy-MM-dd")
+                            .create();
+                    ltmodel = gson.fromJson(json, ForumBean.class).getLtmodel();
+                    szan = gson.fromJson(json, ForumBean.class).getSzan();
+                    ForumBKAdapter bkadapter = new ForumBKAdapter(getContext(), ltmodel);
+                    ForumLVAdapter lvadapter = new ForumLVAdapter(getContext(), szan);
+                    bk.setAdapter(bkadapter);
+                    gv.setAdapter(lvadapter);
+                    mSVProgressHUD.dismiss();
+                }catch (Exception e){}
+
             }
         });
     }

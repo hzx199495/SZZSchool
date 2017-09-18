@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -15,6 +19,9 @@ import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.MyProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.MyProAdapter;
+import com.shizhanzhe.szzschool.adapter.TabAdapter;
+import com.shizhanzhe.szzschool.fragment.ProFragment;
+import com.shizhanzhe.szzschool.fragment.TabLayoutFragment;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 
@@ -22,20 +29,23 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zz9527 on 2017/8/16.
+ * 我的课程
  */
 @ContentView(R.layout.activity_mypro)
-public class MyProActivity extends Activity {
-    @ViewInject(R.id.mypro_gv)
-    GridView gv;
-    @ViewInject(R.id.nokc)
-    TextView nokc;
+public class MyProActivity extends FragmentActivity {
+
     @ViewInject(R.id.back)
     ImageView back;
-
+    @ViewInject(R.id.tab)
+    TabLayout tab;
+    @ViewInject(R.id.viewpager)
+    ViewPager viewpager;
+    public static  String[] tabTitle={"课程","收藏","笔记"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,32 +56,41 @@ public class MyProActivity extends Activity {
                 finish();
             }
         });
-        OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).MYCLASS(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
-                Gson gson = new Gson();
-                final List<MyProBean> list = gson.fromJson(json, new TypeToken<List<MyProBean>>() {
-                }.getType());
-                MyProAdapter myProAdapter = new MyProAdapter(list, MyProActivity.this);
-                if (list.size() > 0) {
-                    nokc.setVisibility(View.GONE);
-                    gv.setVisibility(View.VISIBLE);
-                    gv.setAdapter(myProAdapter);
-                    gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent();
-                            intent.setClass(MyProActivity.this, DetailActivity.class);
-                            String proid = list.get(position).getSysinfo().get(0).getId();
-                            intent.putExtra("id", proid);
-                            startActivity(intent);
-                        }
-                    });
-                } else {
-                    nokc.setVisibility(View.VISIBLE);
-                    gv.setVisibility(View.GONE);
-                }
-            }
-        });
+        List<Fragment> fragments = new ArrayList<>();
+        for (int i = 0; i < tabTitle.length; i++) {
+            fragments.add(ProFragment.newInstance(i + 1));
+        }
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments,tabTitle);
+        //给ViewPager设置适配器
+        viewpager.setAdapter(adapter);
+        //将TabLayout和ViewPager关联起来。
+        tab.setupWithViewPager(viewpager);
+        //设置可以滑动
+        tab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tab.setTabMode(TabLayout.MODE_FIXED);
+//        OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).MYCLASS(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//            @Override
+//            public void onsendJson(String json) {
+//                Gson gson = new Gson();
+//                final List<MyProBean> list = gson.fromJson(json, new TypeToken<List<MyProBean>>() {
+//                }.getType());
+//                MyProAdapter myProAdapter = new MyProAdapter(list, MyProActivity.this);
+//                if (list.size() > 0) {
+//                    gv.setAdapter(myProAdapter);
+//                    gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            Intent intent = new Intent();
+//                            intent.setClass(MyProActivity.this, DetailActivity.class);
+//                            String proid = list.get(position).getSysinfo().get(0).getId();
+//                            intent.putExtra("id", proid);
+//                            startActivity(intent);
+//                        }
+//                    });
+//                } else {
+//                    gv.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 }

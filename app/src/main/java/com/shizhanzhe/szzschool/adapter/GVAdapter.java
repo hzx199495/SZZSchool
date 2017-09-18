@@ -11,15 +11,12 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.Path;
 
 import java.util.List;
-
-import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
  * Created by hasee on 2016/11/17.

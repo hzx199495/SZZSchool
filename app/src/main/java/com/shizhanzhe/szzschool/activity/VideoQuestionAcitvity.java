@@ -34,6 +34,7 @@ import java.util.List;
 
 /**
  * Created by zz9527 on 2017/8/4.
+ * 视频问答
  */
 @ContentView(R.layout.fragment_videoquestion)
 public class VideoQuestionAcitvity extends Activity {
@@ -58,6 +59,8 @@ public class VideoQuestionAcitvity extends Activity {
     TextView noreply;
     @ViewInject(R.id.rl_bot)
     RelativeLayout rl_bot;
+    @ViewInject(R.id.dz)
+    ImageView dz;
     private String teacher;
     private String uid;
     private String vip;
@@ -68,7 +71,7 @@ public class VideoQuestionAcitvity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        svProgressHUD = new SVProgressHUD(this);
+
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         teacher = preferences.getString("teacher", "");
         vip = preferences.getString("vip", "");
@@ -78,6 +81,19 @@ public class VideoQuestionAcitvity extends Activity {
         toptitle.setText(name);
         pro.setText("相关课程："+name);
         getData(qid);
+        dz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OkHttpDownloadJsonUtil.downloadJson(VideoQuestionAcitvity.this, "https://shizhanzhe.com/index.php?m=pcdata.dozan&qid=" + qid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                    @Override
+                    public void onsendJson(String json) {
+                        if (json.contains("1")){
+                            dz.setImageResource(R.drawable.dz_yes);
+                        }
+                    }
+                });
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,52 +117,18 @@ public class VideoQuestionAcitvity extends Activity {
                             Gson gson = new Gson();
                             ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
                             MyApplication.proimg = tx.getThumb();
-                            ProDeatailBean.CiBean bean = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
-                            if (bean.getA0().getId().equals(list.get(0).getPid())) {
-                                MyApplication.videotype = 1;
-                                for (ProDeatailBean.CiBean.A0Bean.ChoiceKcBean b :
-                                        bean.getA0().getChoice_kc()) {
-                                    if (b.getId().equals(list.get(0).getCoid())) {
-                                        Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, b.getMv_url());
-                                        startActivity(intent);
+                            List<ProDeatailBean.CiBean> bean = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
+                            for (ProDeatailBean.CiBean b:bean){
+                                if (b.getId().equals(list.get(0).getPid())){
+                                    MyApplication.videotype=1;
+                                    for (ProDeatailBean.CiBean.ChoiceKcBean c :
+                                            b.getChoice_kc()) {
+                                        if (c.getId().equals(list.get(0).getCoid())){
+                                            Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, c.getMv_url());
+                                            startActivity(intent);
+                                        }
                                     }
-                                }
 
-                            } else if (bean.getA1().getId().equals(list.get(0).getPid())) {
-                                MyApplication.videotype = 2;
-                                for (ProDeatailBean.CiBean.A1Bean.ChoiceKcBeanX b :
-                                        bean.getA1().getChoice_kc()) {
-                                    if (b.getId().equals(list.get(0).getCoid())) {
-                                        Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, b.getMv_url());
-                                        startActivity(intent);
-                                    }
-                                }
-                            } else if (bean.getA2().getId().equals(list.get(0).getPid())) {
-                                MyApplication.videotype = 3;
-                                for (ProDeatailBean.CiBean.A2Bean.ChoiceKcBeanXX b :
-                                        bean.getA2().getChoice_kc()) {
-                                    if (b.getId().equals(list.get(0).getCoid())) {
-                                        Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, b.getMv_url());
-                                        startActivity(intent);
-                                    }
-                                }
-                            } else if (bean.getA0().getId().equals(list.get(0).getPid())) {
-                                MyApplication.videotype = 4;
-                                for (ProDeatailBean.CiBean.A3Bean.ChoiceKcBeanXXX b :
-                                        bean.getA3().getChoice_kc()) {
-                                    if (b.getId().equals(list.get(0).getCoid())) {
-                                        Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, b.getMv_url());
-                                        startActivity(intent);
-                                    }
-                                }
-                            } else {
-                                MyApplication.videotype = 5;
-                                for (ProDeatailBean.CiBean.A4Bean.ChoiceKcBeanXXXX b :
-                                        bean.getA4().getChoice_kc()) {
-                                    if (b.getId().equals(list.get(0).getCoid())) {
-                                        Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, b.getMv_url());
-                                        startActivity(intent);
-                                    }
                                 }
                             }
                         }
@@ -159,6 +141,7 @@ public class VideoQuestionAcitvity extends Activity {
             public void onClick(View v) {
                 if (uid.contains(bean.getQinfo().get(0).getUid()) || teacher.contains("1")) {
                     Intent intent = new Intent(VideoQuestionAcitvity.this, SendQuestionActivity.class);
+                    intent.putExtra("type","2");
                     startActivityForResult(intent,1);
                 }else {
                     new SVProgressHUD(VideoQuestionAcitvity.this).showInfoWithStatus("无权限回复!");
@@ -171,6 +154,7 @@ public class VideoQuestionAcitvity extends Activity {
 
     QuestionBean bean;
     void getData(String qid) {
+        svProgressHUD = new SVProgressHUD(this);
         svProgressHUD.showWithStatus("加载中...");
         OkHttpDownloadJsonUtil.downloadJson(this, Path.QUESTIONDETAIL(qid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override

@@ -1,7 +1,9 @@
 package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +36,20 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 public class ForumBKLVAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
     List<BKBean> list;
-
+    Context context;
     public ForumBKLVAdapter(Context context, List<BKBean> list) {
         this.list = list;
+        this.context=context;
         inflater = LayoutInflater.from(context);
     }
-
+    DisplayImageOptions options = new DisplayImageOptions.Builder()
+            // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
+            .displayer(new RoundedBitmapDisplayer(20))
+            .showImageOnLoading(R.drawable.img_load)
+            .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
+            .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+            .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
+            .build();
     @Override
     public int getCount() {
         return list.size();
@@ -66,8 +76,7 @@ public class ForumBKLVAdapter extends BaseAdapter {
             holder.vip = (TextView) convertView.findViewById(R.id.vip);
             holder.jh = (TextView) convertView.findViewById(R.id.jh);
             holder.user = (TextView) convertView.findViewById(R.id.user);
-//            holder.vip2 = (TextView) convertView.findViewById(R.id.vip2);
-//            holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.where = (TextView) convertView.findViewById(R.id.where);
             holder.look = (TextView) convertView.findViewById(R.id.look);
             holder.rep = (TextView) convertView.findViewById(R.id.rep);
@@ -76,19 +85,20 @@ public class ForumBKLVAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
         BKBean bean = list.get(position);
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
-                .displayer(new RoundedBitmapDisplayer(30))
-                .showImageOnLoading(R.drawable.img_load)
-                .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
-                .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
-                .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
-                .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
-                .build();
+        try {
         if (!"".equals(bean.getLogo())&&bean.getLogo().contains("http")) {
             ImageLoader.getInstance().displayImage(bean.getLogo(), holder.iv,options);
         } else {
             ImageLoader.getInstance().displayImage(Path.IMG(bean.getLogo()), holder.iv, options);
+        }
+        }catch (Exception e){
+            SharedPreferences preferences = context.getSharedPreferences("userjson", Context.MODE_PRIVATE);
+            String img = preferences.getString("img", "");
+            if (img.contains("http")) {
+                ImageLoader.getInstance().displayImage(img, holder.iv, options);
+            } else {
+                ImageLoader.getInstance().displayImage(Path.IMG(img), holder.iv, options);
+            }
         }
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
@@ -97,7 +107,7 @@ public class ForumBKLVAdapter extends BaseAdapter {
         }else{
             holder.vip.setVisibility(View.VISIBLE);
         }
-//        holder.time.setText(bean.getDateline());
+        holder.time.setText(bean.getDateline());
         holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
         holder.look.setText(bean.getLooknum());
         holder.rep.setText(bean.getAlltip());

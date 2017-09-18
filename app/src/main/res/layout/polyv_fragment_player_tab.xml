@@ -4,13 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/top_layout_color_white"
     android:orientation="vertical" >
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#B4EEB4"
-        android:padding="10dp"
-      />
+
     <LinearLayout
         android:id="@+id/id_switch_tab_ll"
         android:layout_width="match_parent"
@@ -38,7 +32,8 @@
             android:gravity="center"
             android:text="课程介绍"
             android:textColor="@color/polyv_tab_text_color"
-            android:textSize="@dimen/center_text_size" >
+            android:textSize="@dimen/center_text_size"
+            android:visibility="gone">
         </TextView>
 
         <TextView
@@ -61,7 +56,8 @@
             android:gravity="center"
             android:text="提问"
             android:textColor="@color/polyv_tab_text_color"
-            android:textSize="@dimen/center_text_size" >
+            android:textSize="@dimen/center_text_size"
+            android:visibility="gone">
         </TextView>
     </LinearLayout>
 

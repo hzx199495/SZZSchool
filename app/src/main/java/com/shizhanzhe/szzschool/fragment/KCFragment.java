@@ -86,16 +86,7 @@ public class KCFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                     Gson gson = new Gson();
                     final List<ProBean.TxBean> tx = gson.fromJson(json, ProBean.class).getTx();
                     lv.setAdapter(new ListItem2Adapter(tx, getContext()));
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent();
-                            intent.setClass(getActivity(), DetailActivity.class);
-                            String proid = tx.get(position).getId();
-                            intent.putExtra("id", proid);
-                            startActivity(intent);
-                        }
-                    });
+
                 }
             });
         }else if (type==0){

@@ -33,7 +33,7 @@ import com.shizhanzhe.szzschool.Bean.NoteBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.ForumItemActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.activity.NoteActivity;
+import com.shizhanzhe.szzschool.activity.VideoNoteActivity;
 import com.shizhanzhe.szzschool.adapter.NoteAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -225,7 +225,7 @@ public class PolyvTalkFragment extends Fragment implements SwipeRefreshLayout.On
         rl_bj.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), NoteActivity.class));
+                startActivity(new Intent(getActivity(), VideoNoteActivity.class));
             }
         });
     }
@@ -251,12 +251,11 @@ public class PolyvTalkFragment extends Fragment implements SwipeRefreshLayout.On
                 }.getType());
                 if (list.size()>0){
                     nodata.setVisibility(View.GONE);
+                    adapter = new NoteAdapter(getActivity(), list,0);
+                    lv_bj.setAdapter(adapter);
                 }else {
                     nodata.setVisibility(View.VISIBLE);
                 }
-                adapter = new NoteAdapter(getActivity(), list,0);
-                lv_bj.setAdapter(adapter);
-
             }
         });
     }

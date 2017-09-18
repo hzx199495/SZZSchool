@@ -28,7 +28,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="22sp"
             tools:text="课程名" />
 
         <TextView
@@ -81,6 +81,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/detail_price"
             android:layout_marginTop="20dp"
+            android:textSize="16sp"
             android:text="课程简介" />
 
         <TextView
@@ -112,7 +113,7 @@
             android:id="@+id/collect"
             android:layout_width="60dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_courseplay_star2"
+            android:src="@drawable/ic_courseplay_star1"
             android:layout_marginRight="12dp"
             android:layout_marginEnd="12dp"
             android:layout_below="@+id/detail_title"

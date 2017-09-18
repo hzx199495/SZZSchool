@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.TabAdapter;
 import com.shizhanzhe.szzschool.fragment.ScheduleTabFragment;
@@ -25,6 +27,7 @@ import java.util.List;
 
 /**
  * Created by zz9527 on 2017/8/17.
+ * 进度详情
  */
 @ContentView(R.layout.activity_videolist)
 public class ScheduleDeatilActivity extends FragmentActivity {
@@ -36,24 +39,31 @@ public class ScheduleDeatilActivity extends FragmentActivity {
     ImageView back;
     @ViewInject(R.id.viewpager)
     ViewPager viewpager;
-    public static final String[] tabTitle = new String[]{"理论", "实战", "拓展", "融合", "精彩直播"};
-
+    public static  String[] tabTitle=null;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-
+        Gson gson = new Gson();
+        ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
+        tabTitle=null;
+        if (tx.getCatid().equals("41")){
+            tabTitle = new String[]{"理论", "实战", "拓展", "融合", "精彩直播"};
+        }else{
+            tabTitle=new String[]{"理论", "精彩直播"};
+        }
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < tabTitle.length; i++) {
             fragments.add(ScheduleTabFragment.newInstance(i + 1,getIntent().getStringExtra("id")));
         }
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments);
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments,tabTitle);
         //给ViewPager设置适配器
         viewpager.setAdapter(adapter);
         //将TabLayout和ViewPager关联起来。
         tab.setupWithViewPager(viewpager);
         //设置可以滑动
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tab.setTabMode(TabLayout.MODE_FIXED);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

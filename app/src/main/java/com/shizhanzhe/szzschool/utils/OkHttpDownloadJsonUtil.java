@@ -62,10 +62,8 @@ public class OkHttpDownloadJsonUtil {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (e.toString().contains("java.net.UnknownHostException")){
+                            if (e.toString().contains("Exception")){
                                 Toast.makeText(context,"网络异常，请检查网络后再试",Toast.LENGTH_LONG).show();;
-                            }else{
-                                Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();;
                             }
                         }
                     });

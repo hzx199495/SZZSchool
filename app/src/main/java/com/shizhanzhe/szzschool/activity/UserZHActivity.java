@@ -144,6 +144,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     void getUserData() {
         mSVProgressHUD.showWithStatus("加载中...");
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = preferences.edit();
         final String mvip = preferences.getString("vip", "");
 
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).PERSONALDATA(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
@@ -153,6 +154,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
                 PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
                 frozen_money = bean.getFrozen_money();
                 money.setText(bean.getFrozen_money());
+                editor.putString("money", bean.getFrozen_money());
                 dsmoney.setText(bean.getUser_money());
                 tgmoney.setText(bean.getTgfee());
                 if (mvip.contains("1")) {

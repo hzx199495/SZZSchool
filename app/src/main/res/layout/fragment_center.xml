@@ -26,9 +26,9 @@
                 <com.youth.banner.Banner
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="170dp"
                     android:focusableInTouchMode="true"
-                    app:image_scale_type="fit_xy"/>
+                    />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/center_wlyx"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="20dp"
                         android:text="网络营销实战"
                         android:drawablePadding="2dp"
                         android:textColor="@color/max_level"
@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/center_zyts"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="20dp"
                         android:text="职业技能提升"
                         android:drawablePadding="2dp"
                         android:textColor="@color/max_level"
@@ -140,7 +140,14 @@
                     android:scrollbars="none"
                     android:verticalSpacing="10dp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="我是有底线的"
+                    android:gravity="center"
+                    android:layout_margin="5dp"/>
            </LinearLayout>>
+
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 

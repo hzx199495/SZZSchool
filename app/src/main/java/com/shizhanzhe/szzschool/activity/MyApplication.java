@@ -15,7 +15,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.image.ImageOptions;
@@ -24,8 +27,7 @@ import org.xutils.x;
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.finalteam.okhttpfinal.OkHttpFinal;
-import cn.finalteam.okhttpfinal.OkHttpFinalConfiguration;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -34,6 +36,8 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends MultiDexApplication {
     public static String proimg = "";
     public static String videotitle = "";
+    public static String videototal = "";
+
     public static int schedule=0;
     public static String videojson;
     public static int videotype; //分类tab position
@@ -43,8 +47,9 @@ public class MyApplication extends MultiDexApplication {
     public static String txId;
     public static String videosuggest="";
     public static int position;
-    public static ImageOptions options;
     public static DisplayImageOptions displayoptions;
+
+    public static boolean isLogin=false;
 
     private CrashHandler crashHandler = null;
 
@@ -60,14 +65,13 @@ public class MyApplication extends MultiDexApplication {
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
 
-        OkHttpFinalConfiguration.Builder builder = new OkHttpFinalConfiguration.Builder();
-        builder.setDebug(false);
-        OkHttpFinal.getInstance().init(builder.build());
+
 
         crashHandler = new CrashHandler(this);
         Thread.setDefaultUncaughtExceptionHandler(crashHandler);
-
-        CrashReport.initCrashReport(getApplicationContext(), "23d54cd6f4", true);
+        Beta.canShowUpgradeActs.add(MainActivity.class);
+        Beta.canShowUpgradeActs.add(SZActivity.class);
+        Bugly.init(getApplicationContext(), "23d54cd6f4", false);
 
         displayoptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.img_load) // 设置图片在下载期间显示的图片
                 .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//

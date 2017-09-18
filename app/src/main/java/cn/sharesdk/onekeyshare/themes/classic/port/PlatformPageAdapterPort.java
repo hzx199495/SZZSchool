@@ -23,7 +23,7 @@ public class PlatformPageAdapterPort extends PlatformPageAdapter {
 	private static final int DESIGN_LOGO_HEIGHT = 76;
 	private static final int DESIGN_PADDING_TOP = 20;
 	private static final int PAGE_SIZE_P = 12;
-	private static final int LINE_SIZE_P = 4;
+	private static final int LINE_SIZE_P = 3;
 
 	public PlatformPageAdapterPort(PlatformPage page, ArrayList<Object> cells) {
 		super(page, cells);

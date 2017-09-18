@@ -3,6 +3,7 @@ package com.shizhanzhe.szzschool.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.shizhanzhe.szzschool.activity.ProjectDetailActivity;
 
@@ -15,11 +16,12 @@ import java.util.List;
 public class TabAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;
+    private String [] tabTitle;
 
-
-    public TabAdapter(FragmentManager fm, List<Fragment> fragments) {
+    public TabAdapter(FragmentManager fm, List<Fragment> fragments,String [] tabTitle) {
         super(fm);
         this.fragments = fragments;
+        this.tabTitle=tabTitle;
     }
 
 
@@ -36,7 +38,7 @@ public class TabAdapter extends FragmentPagerAdapter {
     //设置tablayout标题
     @Override
     public CharSequence getPageTitle(int position) {
-        return ProjectDetailActivity.tabTitle[position];
+        return tabTitle[position];
 
     }
 }

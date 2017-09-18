@@ -3,21 +3,23 @@ package com.shizhanzhe.szzschool.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.CollectActivity;
-import com.shizhanzhe.szzschool.activity.MyNoteListActivity;
+import com.shizhanzhe.szzschool.activity.LoginActivity;
+import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.MyExamActivity;
+import com.shizhanzhe.szzschool.activity.MyForumActivity;
 import com.shizhanzhe.szzschool.activity.MyProActivity;
 import com.shizhanzhe.szzschool.activity.MyTGActivity;
 import com.shizhanzhe.szzschool.activity.SZActivity;
@@ -51,20 +53,23 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     RelativeLayout user_pro;
     @ViewInject(R.id.user_zh)
     RelativeLayout user_zh;
-    @ViewInject(R.id.user_note)
-    RelativeLayout user_note;
-    @ViewInject(R.id.user_sc)
-    RelativeLayout user_sc;
+//    @ViewInject(R.id.user_note)
+//    RelativeLayout user_note;
+//    @ViewInject(R.id.user_sc)
+//    RelativeLayout user_sc;
     @ViewInject(R.id.user_sz)
     RelativeLayout user_sz;
     @ViewInject(R.id.user_tg)
     RelativeLayout user_tg;
     @ViewInject(R.id.user_jd)
     RelativeLayout user_jd;
+    @ViewInject(R.id.user_tz)
+    RelativeLayout user_tz;
+    @ViewInject(R.id.user_exam)
+    RelativeLayout user_exam;
 
-
-    @ViewInject(R.id.tv_type)
-    TextView tv_type;
+    @ViewInject(R.id.iv_type)
+    ImageView iv_type;
 
     View rootview;
 
@@ -81,13 +86,13 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         getMyProject();
         user_zh.setOnClickListener(this);
-        user_sc.setOnClickListener(this);
         user_sz.setOnClickListener(this);
         user_tg.setOnClickListener(this);
-        user_note.setOnClickListener(this);
         setzl.setOnClickListener(this);
         user_pro.setOnClickListener(this);
         user_jd.setOnClickListener(this);
+        user_tz.setOnClickListener(this);
+        user_exam.setOnClickListener(this);
     }
 
 //    //模糊效果
@@ -110,56 +115,64 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.user_tg:
-                startActivity(new Intent(getActivity(), MyTGActivity.class));
-                break;
-            case R.id.user_zh:
-                startActivity(new Intent(getActivity(), UserZHActivity.class));
-                break;
-            case R.id.user_sc:
-                startActivity(new Intent(getActivity(), CollectActivity.class));
-                break;
-            case R.id.user_sz:
-                startActivity(new Intent(getActivity(), SZActivity.class));
-                break;
-            case R.id.setzl:
-                startActivity(new Intent(getActivity(), UserSetActivity.class));
-                break;
-            case R.id.user_note:
-                startActivity(new Intent(getActivity(), MyNoteListActivity.class));
-                break;
-            case R.id.user_pro:
-                Intent intent = new Intent(getActivity(), MyProActivity.class);
-                intent.putExtra("con", mypro);
-                startActivity(intent);
-                break;
-            case R.id.user_jd:
-                startActivity(new Intent(getActivity(), ScheduleActivity.class));
-                break;
+        if (MyApplication.isLogin) {
+
+            switch (v.getId()) {
+                case R.id.user_tg:
+                    startActivity(new Intent(getActivity(), MyTGActivity.class));
+                    break;
+                case R.id.user_zh:
+                    startActivity(new Intent(getActivity(), UserZHActivity.class));
+                    break;
+                case R.id.user_tz:
+                    startActivity(new Intent(getActivity(), MyForumActivity.class));
+                    break;
+                case R.id.user_sz:
+                    startActivity(new Intent(getActivity(), SZActivity.class));
+                    break;
+                case R.id.setzl:
+                    startActivity(new Intent(getActivity(), UserSetActivity.class));
+                    break;
+                case R.id.user_exam:
+                    startActivity(new Intent(getActivity(), MyExamActivity.class));
+                    break;
+                case R.id.user_pro:
+                    startActivity(new Intent(getActivity(), MyProActivity.class));
+                    break;
+                case R.id.user_jd:
+                    startActivity(new Intent(getActivity(), ScheduleActivity.class));
+                    break;
+            }
+        } else {
+            Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), LoginActivity.class));
         }
+
     }
 
-    String mypro;
 
     public void getMyProject() {
-        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
-        String img = preferences.getString("img", "");
-        String username = preferences.getString("username", "");
-        String vip = preferences.getString("vip", "");
-        if (img.contains("http")) {
-            ImageLoader.getInstance().displayImage(img, mImageHeader, displayoptions);
-        } else {
-            ImageLoader.getInstance().displayImage(Path.IMG(img), mImageHeader, displayoptions);
-        }
+        if (MyApplication.isLogin) {
+            SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+            String img = preferences.getString("img", "");
+            String username = preferences.getString("username", "");
+            String vip = preferences.getString("vip", "");
+            if (img.contains("http")) {
+                ImageLoader.getInstance().displayImage(img, mImageHeader, displayoptions);
+            } else {
+                ImageLoader.getInstance().displayImage(Path.IMG(img), mImageHeader, displayoptions);
+            }
 
-        user_name.setText(username);
-        if (vip.equals("1")) {
-            tv_type.setText("VIP用户");
-            tv_type.setTextColor(Color.RED);
+            user_name.setText(username);
+            iv_type.setVisibility(View.VISIBLE);
+            if (vip.equals("1")) {
+                iv_type.setImageResource(R.drawable.vip);
+            } else {
+                iv_type.setImageResource(R.drawable.pt);
+            }
+
         } else {
-            tv_type.setText("普通用户");
-            tv_type.setTextColor(Color.WHITE);
+            iv_type.setVisibility(View.GONE);
         }
 
     }
@@ -177,13 +190,6 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         getMyProject();
-        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
-        String img = preferences.getString("img", "");
-        if (img.contains("http")) {
-            ImageLoader.getInstance().displayImage(img, mImageHeader, displayoptions);
-        } else {
-            ImageLoader.getInstance().displayImage(Path.IMG(img), mImageHeader, displayoptions);
-        }
     }
 }
 //    //下载网络图片

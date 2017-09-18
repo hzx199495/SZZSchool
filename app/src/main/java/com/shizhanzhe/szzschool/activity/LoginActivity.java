@@ -46,9 +46,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.txtMobileNum)
     EditText mEditPsw;
     private SharedPreferences.Editor editor;
-    SVProgressHUD mSVProgressHUD;
-    SVProgressHUD mSVProgressHUD1;
-    SVProgressHUD mSVProgressHUD2;
     ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,16 +139,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     LoginBean bean = gson.fromJson(json, LoginBean.class);
                     editor2.putString("username", bean.getUsername());
                     editor2.putString("uid", bean.getId());
+                    editor2.putString("mobile", bean.getMobile());
                     editor2.putString("token", bean.getToken());
                     editor2.putString("vip", bean.getVip());
+                    editor2.putString("money", bean.getMoney());
                     editor2.putString("ktagent", bean.getKaiagent());
                     editor2.putString("teacher", bean.getIs_teacher());
                     editor2.putString("jy", bean.getJyan());
                     editor2.putString("img", bean.getHeadimg());
                     editor2.commit();
+                    MyApplication.isLogin=true;
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("data", json);
                     startActivity(intent);
                     finish();
                 }

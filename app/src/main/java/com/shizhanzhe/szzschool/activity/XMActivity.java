@@ -1,8 +1,13 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,10 +42,17 @@ public class XMActivity extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String p1 = ed1.getText().toString();
+                final String p1 = ed1.getText().toString();
                 String p2 = ed2.getText().toString();
                 if (p1.length() != 0 && p2.length() != 0) {
                     if (p1.equals(p2)) {
@@ -50,7 +62,16 @@ public class XMActivity extends Activity{
                                 Gson gson = new Gson();
                                 RegisterBean bean = gson.fromJson(json, RegisterBean.class);
                                 if (bean.getStatus() == 1) {
+                                    MM(p1);
                                     new SVProgressHUD(XMActivity.this).showSuccessWithStatus(bean.getInfo());
+                                    new Handler(new Handler.Callback() {
+                                        @Override
+                                        public boolean handleMessage(Message msg) {
+                                            finish();
+                                            return false;
+                                        }
+                                    }).sendEmptyMessageDelayed(0,1500);
+
                                 } else if (bean.getStatus() == 2) {
                                     new SVProgressHUD(XMActivity.this).showInfoWithStatus(bean.getInfo());
                                 }
@@ -62,10 +83,30 @@ public class XMActivity extends Activity{
                 } else {
                     new SVProgressHUD(XMActivity.this).showErrorWithStatus("密码不能为空");
                 }
-
-
             }
 
         });
+    }
+    void MM(String password){
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        StringBuffer sb = new StringBuffer(password);
+        String s = sb.reverse().toString();
+        s = s.replace("", "-"); //每个字符加个-
+        String a[] = s.split("-");//截取字符串为数组
+        String t = a[3] + a[4];
+        String y = a[2] + a[5];
+        a[2] = "";
+        a[3] = "";
+        a[4] = "";
+        a[5] = "";
+        StringBuffer sb2 = new StringBuffer();
+        for (int i = 0; i < a.length; i++) {
+            sb2.append(a[i]);
+        }
+        String b2 = sb2.toString();
+        String b = b2 + t + y;
+        editor.putString("upawd", b);
+        editor.commit();
     }
 }

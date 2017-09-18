@@ -20,7 +20,7 @@ import org.xutils.x;
 
 /**
  * Created by zz9527 on 2017/7/4.
- *
+ *打赏
  */
 @ContentView(R.layout.activity_reward)
 public class RewardActivity extends Activity implements View.OnClickListener {

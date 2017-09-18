@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
@@ -45,7 +46,7 @@
             android:background="@drawable/selector_bar"
             android:button="@null"
             android:gravity="center"
-            android:text="推荐排序"
+            android:text="推荐"
             android:checked="true"
             android:textColor="#fff"
             android:textSize="15sp" />
@@ -58,7 +59,7 @@
             android:background="@drawable/selector_bar"
             android:button="@null"
             android:gravity="center"
-            android:text="时间排序"
+            android:text="最新"
             android:textSize="15sp" />
     </RadioGroup>
     <FrameLayout
@@ -93,10 +94,10 @@
         app:backgroundTint="@color/blue2"
         />
     </RelativeLayout>
-        <TextView
+        <ImageView
             android:id="@+id/nodata"
-            android:text="暂无提问"
-            android:gravity="center"
+            android:src="@drawable/nodata"
+            android:scaleType="centerInside"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"

@@ -87,7 +87,7 @@
     <dimen name="bottom_right_text_size">13.3sp</dimen>
     <dimen name="bottom_layout_height_l">55dp</dimen>
     <dimen name="bottom_layout_height_l_half">27.5dp</dimen>
-    <dimen name="bottom_layout_height">51.3dp</dimen>
+    <dimen name="bottom_layout_height">45.3dp</dimen>
     <!-- +2 -->
     <dimen name="bottom_text_size">18sp</dimen>
     <dimen name="bottom_tv_margin_left">5.3dp</dimen>

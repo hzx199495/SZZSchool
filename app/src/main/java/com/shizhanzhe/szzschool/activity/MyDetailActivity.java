@@ -47,7 +47,6 @@ public class MyDetailActivity extends Activity {
         ArrayList<String> pid = new ArrayList<String>();
         proname = getIntent().getStringArrayListExtra("name");
         url = getIntent().getStringArrayListExtra("url");
-        Log.i("________",url.get(0));
         pid = getIntent().getStringArrayListExtra("pid");
         String img=getIntent().getStringExtra("img");
         String title = getIntent().getStringExtra("title");

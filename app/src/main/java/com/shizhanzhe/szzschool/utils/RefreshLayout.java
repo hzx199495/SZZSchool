@@ -125,7 +125,6 @@ public class RefreshLayout extends SwipeRefreshLayout implements
 
 		case MotionEvent.ACTION_UP:
 			// 抬起
-			Log.e("______抬起",canLoad()+"");
 			if (canLoad()) {
 				loadData();
 			}

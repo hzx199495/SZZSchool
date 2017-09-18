@@ -40,7 +40,7 @@
                 android:layout_marginRight="@dimen/talk_et_margin_right"
                 android:layout_toLeftOf="@id/tv_send"
                 android:background="@drawable/polyv_et_corners"
-                android:hint="请输入问题"
+                android:hint="请输入"
                 android:padding="@dimen/talk_common_margin"
                 android:textColor="@color/top_text_color_black"
                 android:textCursorDrawable="@drawable/polyv_et_cursor_color"

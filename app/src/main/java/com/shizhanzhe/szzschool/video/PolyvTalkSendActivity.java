@@ -6,37 +6,29 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.ForumTalkEdittextActivity;
 
 
 public class PolyvTalkSendActivity extends Activity {
-	// 返回按钮
-	private ImageView iv_finish;
 	// 发送按钮
 	private TextView tv_send;
 	// 话题，内容
 	private EditText et_msg;
-
 	private void findIdAndNew() {
-		iv_finish = (ImageView) findViewById(R.id.iv_finish);
+		et_msg = (EditText) findViewById(R.id.et_talk);
 		tv_send = (TextView) findViewById(R.id.tv_send);
-		et_msg = (EditText) findViewById(R.id.et_msg);
 	}
 
 	private void initView() {
-		iv_finish.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 		et_msg.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -63,21 +55,33 @@ public class PolyvTalkSendActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				if (et_msg.getText().toString().trim().length()==0) {
+					Toast.makeText(PolyvTalkSendActivity.this,"发送信息不能为空!",Toast.LENGTH_SHORT).show();
+					return;
+				}
 				Intent intent = new Intent();
-				Log.i("_______sendMsg",et_msg.getText().toString());
-
 				intent.putExtra("sendMsg", et_msg.getText().toString());
 				setResult(12, intent);
 				finish();
 			}
 		});
 	}
-
+	@Override
+	public void finish() {
+		super.finish();
+		overridePendingTransition(0,0);
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.polyv_activity_talk_send);
+		setContentView(R.layout.polyv_activity_talk_edittext);
 		findIdAndNew();
 		initView();
+	}
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_UP)
+			finish();
+		return true;
 	}
 }

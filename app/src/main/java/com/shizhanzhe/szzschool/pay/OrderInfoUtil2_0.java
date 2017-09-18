@@ -73,7 +73,6 @@ public class OrderInfoUtil2_0 {
 		keyValues.put("app_id", app_id);
 
 		keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""+price+"\",\"subject\":\""+subject+"\",\"body\":\"具体描述信息\",\"out_trade_no\":\"" + order+  "\"}");
-		Log.i("======","拼接时"+order+"金额"+price);
 		keyValues.put("charset", "utf-8");
 
 		keyValues.put("method", "alipay.trade.app.pay");

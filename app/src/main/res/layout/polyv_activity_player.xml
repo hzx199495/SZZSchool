@@ -4,10 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/fl_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:id="@+id/view_layout"
@@ -97,7 +93,10 @@
             android:id="@+id/polyv_auxiliary_video_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/black"/>
+            android:background="@android:color/black"
+            android:layout_below="@+id/logo"
+            android:layout_toRightOf="@+id/logo"
+            android:layout_toEndOf="@+id/logo" />
 
         <!-- 广告片头在加载过程中显示的进度条 -->
         <ProgressBar
@@ -129,15 +128,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
+        <FrameLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/video_back" />
+        </FrameLayout>
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_tab"
+    <RelativeLayout
+        android:id="@+id/video_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <FrameLayout
-        android:id="@+id/fl_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <FrameLayout
+            android:id="@+id/fl_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
 </LinearLayout>

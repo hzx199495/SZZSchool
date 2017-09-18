@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.SearchBean;
@@ -62,12 +63,14 @@ public class SearchActivity extends Activity {
                     OkHttpDownloadJsonUtil.downloadJson(SearchActivity.this, Path.SEARCH(et.getText().toString().trim()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
                         public void onsendJson(String json) {
-                            Log.i("_______",json);
                             Gson gson = new Gson();
                             final List<SearchBean.TxBean> tx = gson.fromJson(json, SearchBean.class).getTx();
                             final List<SearchBean.TzBean> tz = gson.fromJson(json, SearchBean.class).getTz();
                             kc.setAdapter(new SearchAdapter(getApplicationContext(),tx,null));
                             lt.setAdapter(new SearchAdapter(getApplicationContext(),null,tz));
+                            if (tx.size()==0&&tz.size()==0){
+                                Toast.makeText(SearchActivity.this, "无搜索结果", Toast.LENGTH_SHORT).show();
+                            }
                             kc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,23 +92,28 @@ public class SearchActivity extends Activity {
                             lt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    String title = tz.get(position).getSubject();
-                                    String name = tz.get(position).getRealname();
-                                    String time = tz.get(position).getDateline();
-                                    String pid = tz.get(position).getPid();
-                                    String logo = tz.get(position).getLogo();
-                                    String rep = tz.get(position).getAlltip();
-                                    String fid = tz.get(position).getFid();
+                                    if (MyApplication.isLogin) {
+                                        String title = tz.get(position).getSubject();
+                                        String name = tz.get(position).getRealname();
+                                        String time = tz.get(position).getDateline();
+                                        String pid = tz.get(position).getPid();
+                                        String logo = tz.get(position).getLogo();
+                                        String rep = tz.get(position).getAlltip();
+                                        String fid = tz.get(position).getFid();
 
-                                    Intent intent = new Intent(SearchActivity.this, ForumItemActivity.class);
-                                    intent.putExtra("pid",pid);
-                                    intent.putExtra("title",title);
-                                    intent.putExtra("name",name);
-                                    intent.putExtra("img",logo);
-                                    intent.putExtra("time",time);
-                                    intent.putExtra("rep",rep);
-                                    intent.putExtra("fid",fid);
-                                    startActivity(intent);
+                                        Intent intent = new Intent(SearchActivity.this, ForumItemActivity.class);
+                                        intent.putExtra("pid", pid);
+                                        intent.putExtra("title", title);
+                                        intent.putExtra("name", name);
+                                        intent.putExtra("img", logo);
+                                        intent.putExtra("time", time);
+                                        intent.putExtra("rep", rep);
+                                        intent.putExtra("fid", fid);
+                                        startActivity(intent);
+                                    }else {
+                                        Toast.makeText(SearchActivity.this,"请先登录！", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(SearchActivity.this, LoginActivity.class));
+                                    }
                                 }
                             });
                         }

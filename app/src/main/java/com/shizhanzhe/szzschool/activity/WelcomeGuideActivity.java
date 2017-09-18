@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -31,7 +32,7 @@ public class WelcomeGuideActivity extends Activity {
 	@ViewInject(R.id.welcome_guide_viewpager)
 	ViewPager pager;
 	@ViewInject(R.id.welcome_guide_btn)
-	TextView btn;  //btn用TextView 实现的
+	ImageView btn;
 
 	private List<View> list;
 
@@ -43,12 +44,11 @@ public class WelcomeGuideActivity extends Activity {
 		btn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(WelcomeGuideActivity.this, LoginActivity.class));
+				startActivity(new Intent(WelcomeGuideActivity.this, MainActivity.class));
 				finish();
 			}
 		});
 		initViewPager();
-
 	}
 
 	//初始化viewpager
@@ -56,20 +56,17 @@ public class WelcomeGuideActivity extends Activity {
 	{
 
 		list=new ArrayList<View>();
-		TextView iv=new TextView(this);
-		iv.setText("1");
-		iv.setGravity(Gravity.CENTER);
-//		iv.setScaleType(ScaleType.FIT_XY);
+		ImageView iv=new ImageView(this);
+		iv.setImageResource(R.drawable.w1);
+		iv.setScaleType(ImageView.ScaleType.FIT_XY);
 		list.add(iv);
-		TextView iv1=new TextView(this);
-		iv1.setText("2");
-		iv1.setGravity(Gravity.CENTER);
-//		iv1.setScaleType(ScaleType.FIT_XY);
+		ImageView iv1=new ImageView(this);
+		iv1.setImageResource(R.drawable.w2);
+		iv1.setScaleType(ImageView.ScaleType.FIT_XY);
 		list.add(iv1);
-		TextView iv2=new TextView(this);
-		iv2.setText("3");
-		iv2.setGravity(Gravity.CENTER);
-//		iv2.setScaleType(ScaleType.FIT_XY);
+		ImageView iv2=new ImageView(this);
+		iv2.setImageResource(R.drawable.w3);
+		iv2.setScaleType(ImageView.ScaleType.FIT_XY);
 		list.add(iv2);
 		pager.setAdapter(new MyViewPagerAdapter());
 

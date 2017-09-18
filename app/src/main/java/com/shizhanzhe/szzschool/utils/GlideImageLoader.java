@@ -6,8 +6,6 @@ import android.widget.ImageView;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.youth.banner.loader.ImageLoader;
 
-import org.xutils.x;
-
 /**
  * Created by hasee on 2016/11/10.
  */
@@ -22,7 +20,7 @@ public class GlideImageLoader extends ImageLoader {
          Fresco：Facebook出的，天生骄傲！不是一般的强大。
          Glide：Google推荐的图片加载库，专注于流畅的滚动。
          */
-        x.image().bind(imageView, (String) path, MyApplication.options);
+        com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage((String) path,imageView,MyApplication.displayoptions);
 //        //Glide 加载图片简单用法,
 //        Glide.with(context).load(path).into(imageView);
 //

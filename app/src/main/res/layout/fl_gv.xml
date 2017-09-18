@@ -6,16 +6,17 @@
     >
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
-        <ImageView
-            android:id="@+id/fl_gv_iv"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"/>
+        android:layout_height="110dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/fl_gv_iv"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher"/>
             <ImageView
                 android:id="@+id/open"
                 android:layout_width="50dp"
@@ -35,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:text="Android"
+        android:gravity="center"
         android:textSize="14sp"
         android:singleLine="true"
         />

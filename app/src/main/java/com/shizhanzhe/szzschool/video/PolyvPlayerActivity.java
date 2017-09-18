@@ -3,6 +3,7 @@ package com.shizhanzhe.szzschool.video;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,7 +57,6 @@ import com.easefun.polyvsdk.vo.PolyvADMatterVO;
 import com.easefun.polyvsdk.vo.PolyvQuestionVO;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.activity.NoteActivity;
 import com.shizhanzhe.szzschool.utils.InternetReceiver;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -132,11 +133,18 @@ public class PolyvPlayerActivity extends FragmentActivity  {
 
     private int fastForwardPos = 0;
     private boolean isPlay = false;
+    private PolyvPlayerEndFragment polyvPlayerEndFragment;
+    private int isreceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.polyv_activity_player);
+        SharedPreferences preferences = getSharedPreferences("userset", Context.MODE_PRIVATE);
+        isreceiver = preferences.getInt("isreceiver",1);
+        if (isreceiver==1) {
+            getInternet();
+        }
         addFragment();
         findIdAndNew();
         initView();
@@ -163,15 +171,17 @@ public class PolyvPlayerActivity extends FragmentActivity  {
 
     private void addFragment() {
         danmuFragment = new PolyvPlayerDanmuFragment();
+        polyvPlayerEndFragment = new PolyvPlayerEndFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.fl_danmu, danmuFragment, "danmuFragment");
 
-        topFragment = new PolyvPlayerTopFragment().newInstance(MyApplication.videotitle);
-        tabFragment = new PolyvPlayerTabFragment();
-        viewPagerFragment = new PolyvPlayerViewPagerFragment();
-        ft.add(R.id.fl_top, topFragment, "topFragmnet");
-        ft.add(R.id.fl_tab, tabFragment, "tabFragment");
-        ft.add(R.id.fl_viewpager, viewPagerFragment, "viewPagerFragment");
+//        topFragment = new PolyvPlayerTopFragment().newInstance(MyApplication.videotitle);
+//        tabFragment = new PolyvPlayerTabFragment();
+//        viewPagerFragment = new PolyvPlayerViewPagerFragment();
+//        ft.add(R.id.fl_top, topFragment, "topFragmnet");
+//        ft.add(R.id.fl_tab, tabFragment, "tabFragment");
+//        ft.add(R.id.fl_viewpager, viewPagerFragment, "viewPagerFragment");
+        ft.add(R.id.fl_end, polyvPlayerEndFragment, "polyvPlayerEndFragment");
         ft.commit();
     }
 
@@ -202,6 +212,15 @@ public class PolyvPlayerActivity extends FragmentActivity  {
         videoView.setMediaController(mediaController);
         videoView.setAuxiliaryVideoView(auxiliaryVideoView);
         videoView.setPlayerBufferingIndicator(loadingProgress);
+
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void initView() {
@@ -632,7 +651,7 @@ public class PolyvPlayerActivity extends FragmentActivity  {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (viewPagerFragment != null) {
         }
-        viewPagerFragment.getTalkFragment().onActivityResult(requestCode, resultCode, data);
+//        viewPagerFragment.getTalkFragment().onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -652,15 +671,16 @@ public class PolyvPlayerActivity extends FragmentActivity  {
     @Override
     protected void onPause() {
         super.onPause();
-        mediaController.pause();
-        progressView.hide();
-        volumeView.hide();
-        lightView.hide();
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mediaController.pause();
+        progressView.hide();
+        volumeView.hide();
+        lightView.hide();
         //弹出去暂停
         isPlay = videoView.onActivityStop();
         danmuFragment.pause();
@@ -682,8 +702,6 @@ public class PolyvPlayerActivity extends FragmentActivity  {
         auxiliaryView.hide();
         firstStartView.hide();
         mediaController.disable();
-        unregisterReceiver(receiver);
-
     }
 
 
@@ -768,15 +786,22 @@ public class PolyvPlayerActivity extends FragmentActivity  {
             return null;
         }
     }
-    InternetReceiver receiver;
-    @Override
-    protected void onStart() {
-        super.onStart();
-        receiver = new InternetReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        this.registerReceiver(receiver, filter);//注册
-        receiver.onReceive(this, null);//接收
+    void getInternet(){
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        if(info!=null&&info.isConnected()){
+            switch (info.getType()) {
+                case ConnectivityManager.TYPE_MOBILE:
+                    Toast.makeText(this, "正在使用移动网络", Toast.LENGTH_SHORT).show();
+                    break;
+                case ConnectivityManager.TYPE_WIFI:
+                    Toast.makeText(this, "正在使用wifi",  Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            Toast.makeText(this, "无网络连接，请检查后再试", Toast.LENGTH_SHORT).show();
+        }
     }
-
 }

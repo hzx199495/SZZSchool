@@ -29,48 +29,41 @@
             android:scaleType="centerInside"
             android:src="@drawable/back_arrow" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/puttext"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:text="发帖"-->
-            <!--android:textColor="@color/blue2"-->
-            <!--android:textSize="16sp" />-->
     </RelativeLayout>
-    <FrameLayout
+
+    <RadioGroup
+        android:id="@+id/bkrg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="40dp"
+        android:orientation="horizontal">
 
+        <RadioButton
+            android:id="@+id/newlist"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:checked="true"
+            android:text="最新"
+            android:textColor="@color/blue2" />
 
-        <com.shizhanzhe.szzschool.utils.RefreshLayout
-            android:id="@+id/swipe_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <ListView
-                android:id="@+id/bk_lv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </com.shizhanzhe.szzschool.utils.RefreshLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="30dp"
-            android:clickable="true"
-            app:fabSize="normal"
-            android:src="@drawable/put"
-            app:backgroundTint="@color/blue2"
-            />
-        </RelativeLayout>
-    </FrameLayout>
-
+        <RadioButton
+            android:id="@+id/hotlist"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="最热" />
+    </RadioGroup>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#999"/>
+    <LinearLayout
+        android:id="@+id/ll_bk"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
 </LinearLayout>

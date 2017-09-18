@@ -5,10 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.QuestionCenterBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.utils.Path;
 
 import java.util.List;
 
@@ -45,15 +49,18 @@ public class QuestionCenterAdapter extends BaseAdapter {
             convertView=inflater.inflate(R.layout.adapter_questioncenter,null);
             holder=new ViewHolder();
             holder.tv= (TextView) convertView.findViewById(R.id.tv);
+            holder.iv= (ImageView) convertView.findViewById(R.id.iv);
             convertView.setTag(holder);
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
         QuestionCenterBean b = list.get(position);
+        ImageLoader.getInstance().displayImage(Path.IMG(b.getPicture()),holder.iv, MyApplication.displayoptions);
         holder.tv.setText(b.getStitle());
         return convertView;
     }
     class ViewHolder{
         TextView tv;
+        ImageView iv;
     }
 }

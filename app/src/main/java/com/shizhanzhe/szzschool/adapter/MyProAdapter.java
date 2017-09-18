@@ -2,8 +2,6 @@ package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.easefun.polyvsdk.sub.auxilliary.cache.image.ImageLoader;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.MyProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.Path;
 
 import java.util.List;
-import java.util.UnknownFormatConversionException;
-import java.util.zip.Inflater;
-
-import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 /**
  * Created by zz9527 on 2017/6/13.

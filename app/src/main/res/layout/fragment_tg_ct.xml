@@ -16,7 +16,7 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:scaleType="fitXY"
                  />
 
@@ -29,20 +29,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/red"
-                        android:text="实战者"
-                        android:textColor="@color/white" />
+                    >
 
                     <TextView
                         android:id="@+id/title"
@@ -50,6 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="课程名"
+                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
 

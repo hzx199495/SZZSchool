@@ -10,12 +10,12 @@
     <ImageView
         android:id="@+id/txtPull"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="@dimen/wh135"
         android:src="@drawable/textlogo" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="@dimen/fl_text"
         android:src="@drawable/text" />
 
     <!--<EditText-->
@@ -81,7 +81,7 @@
         android:paddingTop="15.0dip"
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
-        android:textSize="13.0sp" />
+        android:textSize="@dimen/end_text" />
 
     <View
         android:layout_width="fill_parent"
@@ -105,7 +105,7 @@
         android:paddingTop="15.0dip"
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
-        android:textSize="13.0sp" />
+        android:textSize="@dimen/end_text" />
 
     <View
         android:layout_width="fill_parent"
@@ -115,19 +115,19 @@
     <Button
         android:id="@+id/btn_login"
         android:layout_width="fill_parent"
-        android:layout_height="42.0dip"
+        android:layout_height="@dimen/wh45"
         android:layout_below="@+id/txtMobileNum"
         android:layout_marginTop="30.0dip"
         android:background="@drawable/login_button_bg"
         android:text="@string/Login"
         android:textColor="@color/white"
-        android:textSize="15.0sp" />
+        android:textSize="@dimen/fl_text" />
 
 
     <RelativeLayout
         android:id="@+id/registerButtonParent"
         android:layout_width="fill_parent"
-        android:layout_height="40.0dip"
+        android:layout_height="@dimen/wh40"
         android:layout_marginTop="10.0dip">
 
 
@@ -143,7 +143,7 @@
             android:paddingRight="15.0dip"
             android:text="@string/forget_password"
             android:textColor="@color/dh"
-            android:textSize="14.0sp" />
+            android:textSize="@dimen/top_text" />
 
         <TextView
             android:id="@+id/tv_quick_sign_up"
@@ -157,7 +157,7 @@
             android:paddingLeft="15.0dip"
             android:text="没有帐号？立即注册"
             android:textColor="@color/blue2"
-            android:textSize="14.0sp" />
+            android:textSize="@dimen/top_text" />
 
     </RelativeLayout>
 

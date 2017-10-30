@@ -206,6 +206,14 @@ public class PolyvTalkFragment extends Fragment implements SwipeRefreshLayout.On
     RefreshLayout swipeLayout;
     int page = 1;
 
+    public static PolyvTalkFragment newInstance(String txId) {
+
+        Bundle args = new Bundle();
+        args.putString("txId",txId);
+        PolyvTalkFragment fragment = new PolyvTalkFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -225,7 +233,9 @@ public class PolyvTalkFragment extends Fragment implements SwipeRefreshLayout.On
         rl_bj.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), VideoNoteActivity.class));
+                Intent intent = new Intent(getActivity(), VideoNoteActivity.class);
+                intent.putExtra("txId",getArguments().getString("txId"));
+                startActivity(intent);
             }
         });
     }
@@ -245,17 +255,21 @@ public class PolyvTalkFragment extends Fragment implements SwipeRefreshLayout.On
 
             @Override
             public void onsendJson(String json) {
+                try {
+
+
                 pb_loading.setVisibility(View.GONE);
                 Gson gson = new Gson();
                 list = gson.fromJson(json, new TypeToken<List<NoteBean>>() {
                 }.getType());
                 if (list.size()>0){
                     nodata.setVisibility(View.GONE);
-                    adapter = new NoteAdapter(getActivity(), list,0);
+                    adapter = new NoteAdapter(getContext(), list,0);
                     lv_bj.setAdapter(adapter);
                 }else {
                     nodata.setVisibility(View.VISIBLE);
                 }
+                }catch (Exception e){}
             }
         });
     }

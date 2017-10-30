@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -63,22 +64,18 @@ public class TGJoinFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    ProgressDialog dialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dialog = new ProgressDialog(getContext());
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setMessage("正在加载...Loading");
+
         return x.view().inject(this, inflater, null);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dialog.show();
+
         Bundle bundle = getArguments();
         String titleText = bundle.getString("title");
         String img2=bundle.getString("img");
@@ -106,6 +103,6 @@ public class TGJoinFragment extends Fragment {
         num1.setText("满"+numlist.get(0)+"人参团即可优惠至"+pricelist.get(0)+"元");
         num2.setText("满"+numlist.get(1)+"人参团即可优惠至"+pricelist.get(1)+"元");
         num3.setText("满"+numlist.get(2)+"人参团即可优惠至"+pricelist.get(2)+"元");
-        dialog.dismiss();
+
     }
 }

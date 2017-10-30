@@ -34,10 +34,10 @@ import java.util.List;
 
 public class Videoadapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<ProDeatailBean.CiBean.ChoiceKcBean> list;
-    Context context;
-    String txId;
-    int type;
+    private List<ProDeatailBean.CiBean.ChoiceKcBean> list;
+    private Context context;
+    private String txId;
+    private int type;
     public Videoadapter(Context context, List<ProDeatailBean.CiBean.ChoiceKcBean> list, String txId,int type) {
         this.list = list;
         this.context = context;
@@ -132,7 +132,7 @@ public class Videoadapter extends BaseAdapter {
                     }
                 }
             }
-            if(position==0){
+            if(bean.getName().contains("实战者教育学院指南")){
                 holder.exam.setVisibility(View.GONE);
             }else {
                 holder.exam.setVisibility(View.VISIBLE);

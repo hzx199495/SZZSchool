@@ -9,7 +9,7 @@
         android:id="@+id/top"
         style="@style/TopbarStyle"
         android:orientation="horizontal"
-        android:background="#313131">
+        android:background="@color/top">
 
         <ImageView
             android:id="@+id/imgmain"
@@ -30,10 +30,12 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_centerVertical="true"
+            android:singleLine="true"
             android:gravity="center"
             android:background="@drawable/shape_rectangle"
             android:textColor="@color/three_level"
-            android:text="网络推广/PHP开发/PhotoShop..." />
+            android:text="网络推广/PHP开发/PhotoShop..."
+            android:textSize="@dimen/top_text"/>
     </LinearLayout>
     <FrameLayout
         android:orientation="vertical"
@@ -49,7 +51,7 @@
     android:layout_height="1dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/end_top"
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/first_layout"
@@ -64,18 +66,18 @@
                 <ImageView
                     android:id="@+id/first_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/end_icon"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/home_tab_coures_center_selected" />
+                    />
                 <TextView
                     android:id="@+id/first_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:text="首页"
                     android:textColor="#7597B3"
-                    android:textSize="13dp"/>
+                    android:textSize="@dimen/end_text"/>
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
@@ -92,19 +94,19 @@
                 <ImageView
                     android:id="@+id/second_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/end_icon"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/home_tab_more_selected" />
+                     />
 
                 <TextView
                     android:id="@+id/second_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:text="课程"
                     android:textColor="#7597B3"
-                    android:textSize="13dp"/>
+                    android:textSize="@dimen/end_text"/>
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
@@ -120,7 +122,7 @@
                 <ImageView
                     android:id="@+id/third_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/end_icon"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/about_question" />
                 <TextView
@@ -128,10 +130,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:text="问答"
                     android:textColor="#7597B3"
-                    android:textSize="13dp"/>
+                    android:textSize="@dimen/end_text"/>
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
@@ -147,18 +149,18 @@
                 <ImageView
                     android:id="@+id/fourth_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/end_icon"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/home_forum_selected" />
+                     />
                 <TextView
                     android:id="@+id/fourth_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:text="论坛"
                     android:textColor="#7597B3"
-                    android:textSize="13dp"/>
+                    android:textSize="@dimen/end_text"/>
             </LinearLayout>
         </RelativeLayout>
         <RelativeLayout
@@ -174,18 +176,18 @@
                 <ImageView
                     android:id="@+id/fifth_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/end_icon"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/home_tab_my_coures_selected" />
+                     />
                 <TextView
                     android:id="@+id/fifth_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:text="我的"
                     android:textColor="#7597B3"
-                    android:textSize="13dp"/>
+                    android:textSize="@dimen/end_text"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

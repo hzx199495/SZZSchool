@@ -34,7 +34,7 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 public class ListItem2Adapter extends BaseAdapter {
     private List<ProBean.TxBean> list;
     private LayoutInflater inflater;
-    Context context;
+    private Context context;
 
     public ListItem2Adapter(List<ProBean.TxBean> list, Context context) {
         this.list = list;
@@ -112,37 +112,32 @@ public class ListItem2Adapter extends BaseAdapter {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (MyApplication.isLogin) {
+
                     if (bean.get(0).getStatus().equals("0")) {
                         Intent intent = new Intent();
                         intent.setClass(context, DetailActivity.class);
                         String proid = bean.get(0).getId();
                         intent.putExtra("id", proid);
                         context.startActivity(intent);
+                    }else if (bean.get(0).getStatus().equals("1")) {
+                        Toast.makeText(context, "课程未开放", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
-                    context.startActivity(new Intent(context, LoginActivity.class));
-
-                }
             }
         });
         holder.iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (MyApplication.isLogin) {
+
                     if (bean.get(1).getStatus().equals("0")) {
                         Intent intent = new Intent();
                         intent.setClass(context, DetailActivity.class);
                         String proid = bean.get(1).getId();
                         intent.putExtra("id", proid);
                         context.startActivity(intent);
+                    }else if (bean.get(1).getStatus().equals("1")) {
+                        Toast.makeText(context, "课程未开放", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
-                    context.startActivity(new Intent(context, LoginActivity.class));
 
-                }
             }
         });
         return convertView;

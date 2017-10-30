@@ -1,6 +1,8 @@
 package com.shizhanzhe.szzschool.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,15 +14,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.ForumBKActivity;
 import com.shizhanzhe.szzschool.activity.ForumItemActivity;
 import com.shizhanzhe.szzschool.activity.LoginActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.UserZHActivity;
 import com.shizhanzhe.szzschool.adapter.ForumBKAdapter;
 import com.shizhanzhe.szzschool.adapter.ForumLVAdapter;
 import com.shizhanzhe.szzschool.utils.MyGridView;
@@ -32,6 +36,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -44,46 +49,90 @@ public class FragmentForum extends Fragment {
     MyGridView bk;
     @ViewInject(R.id.gv_forum)
     MyListView gv;
-    List<ForumBean.LtmodelBean> ltmodel;
-    List<ForumBean.SzanBean> szan;
+    private List<ForumBean.LtmodelBean> ltmodel;
+    private List<ForumBean.SzanBean> szan;
+@ViewInject(R.id.state_layout)
+    StateLayout state_layout;
 
-    SVProgressHUD mSVProgressHUD;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        mSVProgressHUD = new SVProgressHUD(getContext());
-        mSVProgressHUD.showWithStatus("加载中...");
         return x.view().inject(this, inflater, null);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSVProgressHUD.show();
-        SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        state_layout.showLoadingView();
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                getdata();
+            }
+
+            @Override
+            public void loginClick() {
+
+            }
+        });
+        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
         final String uid = preferences.getString("uid", "");
         final String token = preferences.getString("token", "");
+        final String vip = preferences.getString("vip", "");
         getdata();
         bk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    String fid = ltmodel.get(position).getFid();
-                    String name = ltmodel.get(position).getName();
+                String fid = ltmodel.get(position).getFid();
+                String name = ltmodel.get(position).getName();
+                String txId = ltmodel.get(position).getSystemid();
+                if (vip.equals("1")) {
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(),ForumBKActivity.class);
-                    intent.putExtra("fid",fid);
-                    intent.putExtra("name",name);
+                    intent.setClass(getActivity(), ForumBKActivity.class);
+                    intent.putExtra("fid", fid);
+                    intent.putExtra("name", name);
+                    intent.putExtra("txId", txId);
                     startActivity(intent);
+                } else {
+                    if (MyApplication.isLogin) {
+                        if (fid.equals("58")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
+                                    .setMessage("未开通VIP，前往账户中心开通")
+                                    .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startActivity(new Intent(getContext(), UserZHActivity.class));
+                                        }
+                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            builder.create().show();
+                        } else {
+                            Intent intent = new Intent();
+                            intent.setClass(getActivity(), ForumBKActivity.class);
+                            intent.putExtra("fid", fid);
+                            intent.putExtra("name", name);
+                            intent.putExtra("txId", txId);
+                            startActivity(intent);
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+                        getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+                    }
+                }
             }
+
         });
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (MyApplication.isLogin) {
-                    SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                    String vip = preferences.getString("vip", "");
+
+                    final String proid = txid.get(szan.get(position).getFid());
                     if (vip.equals("1")) {
                         String title = szan.get(position).getSubject();
                         String name = szan.get(position).getRealname();
@@ -136,13 +185,44 @@ public class FragmentForum extends Fragment {
                                 intent.putExtra("authorid", authorid);
                                 startActivity(intent);
                             } else {
-                                new SVProgressHUD(getContext()).showInfoWithStatus("未购买该体系,无法查看");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
+                                        .setMessage("未购买该体系,是否前往购买")
+                                        .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent intent = new Intent();
+                                                intent.setClass(getActivity(), DetailActivity.class);
+                                                intent.putExtra("id", proid);
+                                                startActivity(intent);
+                                            }
+                                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.create().show();
                             }
                         } else {
-                            new SVProgressHUD(getContext()).showInfoWithStatus("未开通VIP 无法查看");
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
+                                    .setMessage("未开通VIP，前往账户中心开通")
+                                    .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startActivity(new Intent(getContext(), UserZHActivity.class));
+                                        }
+                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            builder.create().show();
+
                         }
                     }
-                }else {
+                } else {
                     Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
                     getContext().startActivity(new Intent(getContext(), LoginActivity.class));
                 }
@@ -151,32 +231,56 @@ public class FragmentForum extends Fragment {
         gv.setFocusable(false);
     }
 
+    HashMap<String, String> txid;
+
     private void getdata() {
         OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.FORUMHOME(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 try {
+                    if (json.equals("0")){
+                        state_layout.showNoNetworkView();
+                        return;
+                    }else if (json.equals("1")){
+                        state_layout.showTimeoutView();
+                        return;
+                    }
                     Gson gson = new GsonBuilder()
                             .setDateFormat("yyyy-MM-dd")
                             .create();
                     ltmodel = gson.fromJson(json, ForumBean.class).getLtmodel();
                     szan = gson.fromJson(json, ForumBean.class).getSzan();
+                    txid = new HashMap<String, String>();
+                    for (ForumBean.LtmodelBean bean : ltmodel
+                            ) {
+                        txid.put(bean.getFid(), bean.getSystemid());
+                    }
                     ForumBKAdapter bkadapter = new ForumBKAdapter(getContext(), ltmodel);
                     ForumLVAdapter lvadapter = new ForumLVAdapter(getContext(), szan);
                     bk.setAdapter(bkadapter);
                     gv.setAdapter(lvadapter);
-                    mSVProgressHUD.dismiss();
-                }catch (Exception e){}
+                    state_layout.showContentView();
+                } catch (Exception e) {
+                    state_layout.showErrorView();
+                }
 
             }
         });
     }
-    String qx="";
+
+    String qx = "";
+
     //购买权限
-    void bought(String fid,String uid) {
+    void bought(String fid, String uid) {
         OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.quanxian&pc=1&fid=" + fid + "&uid=" + uid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
             @Override
             public void onsendJson(String json) {
+                try {
+
+                }catch (Exception e){
+                    Toast.makeText(getContext(), "获取权限失败", Toast.LENGTH_SHORT).show();
+                }
                 if (json.contains("1")) {
                     qx = "1";
                 }

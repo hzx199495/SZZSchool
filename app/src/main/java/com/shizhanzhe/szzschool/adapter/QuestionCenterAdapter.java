@@ -22,7 +22,7 @@ import java.util.List;
 
 public class QuestionCenterAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<QuestionCenterBean> list;
+    private List<QuestionCenterBean> list;
     public QuestionCenterAdapter(Context context, List<QuestionCenterBean> list){
         this.list=list;
         inflater = LayoutInflater.from(context);

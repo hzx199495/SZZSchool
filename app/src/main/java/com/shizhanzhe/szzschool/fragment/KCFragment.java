@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -49,19 +51,23 @@ import java.util.List;
 public class KCFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {
     @ViewInject(R.id.lv)
     ListView lv;
-    RefreshLayout swipeLayout;
-    int page=1;
-    int type;
-    List<TGBean>  tgList;
-    TGAdapter tgAdapter;
+    @ViewInject(R.id.state_layout)
+    StateLayout state_layout;
+    private RefreshLayout swipeLayout;
+    private int page = 1;
+    private int type;
+    private List<TGBean> tgList;
+    private TGAdapter tgAdapter;
+
     public static KCFragment newInstance(int type) {
 
         Bundle args = new Bundle();
-        args.putInt("type",type);
+        args.putInt("type", type);
         KCFragment fragment = new KCFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +77,19 @@ public class KCFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        state_layout.showLoadingView();
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                state_layout.showLoadingView();
+                getData(type);
+            }
+
+            @Override
+            public void loginClick() {
+
+            }
+        });
         init(view);
         setListener();
         Bundle bundle = getArguments();
@@ -78,28 +97,55 @@ public class KCFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
         getData(type);
 
     }
-    void getData(int type){
-        if (type==1) {
+
+    void getData(int type) {
+        if (type == 1) {
             OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getContext()).CENTER(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
                 @Override
                 public void onsendJson(String json) {
-                    Gson gson = new Gson();
-                    final List<ProBean.TxBean> tx = gson.fromJson(json, ProBean.class).getTx();
-                    lv.setAdapter(new ListItem2Adapter(tx, getContext()));
-
+                    try {
+                        if (json.equals("0")){
+                            state_layout.showNoNetworkView();
+                            return;
+                        }else if (json.equals("1")){
+                            state_layout.showTimeoutView();
+                            return;
+                        }
+                        Gson gson = new Gson();
+                        final List<ProBean.TxBean> tx = gson.fromJson(json, ProBean.class).getTx();
+                        lv.setAdapter(new ListItem2Adapter(tx, getContext()));
+                        state_layout.showContentView();
+                    } catch (Exception e) {
+                        state_layout.showErrorView();
+                    }
                 }
             });
-        }else if (type==0){
+        } else if (type == 0) {
             OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.TG(page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
 
                 @Override
                 public void onsendJson(String json) {
-                    Gson gson = new Gson();
-                    tgList = gson.fromJson(json, new TypeToken<List<TGBean>>(){}.getType());
-                    SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                    String ktagent = preferences.getString("ktagent", "");
-                    tgAdapter = new TGAdapter(tgList,null,getContext(),ktagent);
-                    lv.setAdapter(tgAdapter);
+                    try {
+                        if (json.equals("0")){
+                            state_layout.showNoNetworkView();
+                            return;
+                        }else if (json.equals("1")){
+                            state_layout.showTimeoutView();
+                            return;
+                        }
+                        Gson gson = new Gson();
+                        tgList = gson.fromJson(json, new TypeToken<List<TGBean>>() {
+                        }.getType());
+                        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                        String ktagent = preferences.getString("ktagent", "");
+                        tgAdapter = new TGAdapter(tgList, null, getContext(), ktagent);
+                        lv.setAdapter(tgAdapter);
+                        state_layout.showContentView();
+                    } catch (Exception e) {
+                        state_layout.showErrorView();
+                    }
                 }
             });
         }
@@ -110,7 +156,7 @@ public class KCFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
      */
     @SuppressLint({"InlinedApi", "InflateParams"})
     private void init(View view) {
-        swipeLayout = (RefreshLayout)view.findViewById(R.id.swipe_container);
+        swipeLayout = (RefreshLayout) view.findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.darkgray, R.color.blue2, R.color.red, R.color.green);
     }
 
@@ -125,27 +171,32 @@ public class KCFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
     @Override
     public void onLoad() {
         swipeLayout.postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 swipeLayout.setLoading(false);
-                if (tgList!=null){
+                if (tgList != null) {
+                    page++;
+                    OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.TG(page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                        @Override
+                        public void onsendJson(String json) {
+                            Log.e("______",json);
+                            Gson gson = new Gson();
+                            List<TGBean> lists = gson.fromJson(json, new TypeToken<List<TGBean>>() {
+                            }.getType());
+                            Log.e("______",lists.size()+"");
+                            if (lists.size() == 0) {
+                                Toast.makeText(getContext(), "已经到底了", Toast.LENGTH_SHORT).show();
+                            } else {
+                                for (TGBean b :
+                                        lists) {
+                                    tgList.add(b);
+                                }
+                                tgAdapter.notifyDataSetChanged();
+                            }
 
-                page++;
-                OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.TG(page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                    @Override
-                    public void onsendJson(String json) {
-                        Gson gson = new Gson();
-                        List<TGBean> lists = gson.fromJson(json, new TypeToken<List<TGBean>>(){}.getType());
-
-                        for (TGBean b :
-                                lists) {
-                            tgList.add(b);
                         }
-                        tgAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
+                    });
+                }
             }
         }, 2000);
 

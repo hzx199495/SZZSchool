@@ -65,7 +65,7 @@
             android:paddingTop="12.5dip"
             android:textColor="@color/one_level"
             android:textColorHint="@color/hint"
-            android:textSize="14.0sp" />
+            android:textSize="@dimen/top_text" />
 
         <View
             android:layout_width="fill_parent"
@@ -95,7 +95,7 @@
                 android:maxLength="6"
                 android:textColor="@color/one_level"
                 android:textColorHint="@color/hint"
-                android:textSize="14.0sp" />
+                android:textSize="@dimen/top_text" />
 
             <Button
                 android:id="@+id/get_yzm"
@@ -107,7 +107,7 @@
                 android:padding="7.0dip"
                 android:text="@string/get_ic"
                 android:textColor="@color/one_level"
-                android:textSize="12.0sp" />
+                android:textSize="@dimen/text" />
         </LinearLayout>
 
         <View
@@ -180,7 +180,7 @@
                 android:paddingTop="12.5dip"
                 android:textColor="@color/one_level"
                 android:textColorHint="@color/hint"
-                android:textSize="14.0sp" />
+                android:textSize="@dimen/top_text" />
 
             <View
                 android:layout_width="fill_parent"
@@ -202,7 +202,7 @@
                 android:paddingTop="12.5dip"
                 android:textColor="@color/one_level"
                 android:textColorHint="@color/hint"
-                android:textSize="14.0sp" />
+                android:textSize="@dimen/top_text" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -6,20 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -27,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -38,8 +33,7 @@ import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.utils.RefreshLayout;
 import com.shizhanzhe.szzschool.video.PolyvTalkSendActivity;
-import com.shizhanzhe.szzschool.widge.MyImageGetter;
-import com.shizhanzhe.szzschool.widge.MyTagHandler;
+import com.shizhanzhe.szzschool.widge.HtmlTextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,8 +42,6 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 import okhttp3.Call;
@@ -69,16 +61,17 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     TextView top;
     @ViewInject(R.id.back)
     ImageView back;
+    @ViewInject(R.id.state_layout)
+    StateLayout state_layout;
+    private TextView tvname;
+    private ImageView avatar;
+    private TextView itemtitle;
+    private TextView edtime;
+    private HtmlTextView content;
+    private TextView text_replies;
+    private ImageView ds;
 
-    TextView tvname;
-    ImageView avatar;
-    TextView itemtitle;
-    TextView edtime;
-    TextView content;
-    TextView text_replies;
-    ImageView ds;
-
-    RefreshLayout swipeLayout;
+    private RefreshLayout swipeLayout;
     private String fid;
     private String pid;
     // 讨论的listView
@@ -88,16 +81,14 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     // 话题，发送的信息
     private String topic, sendMsg;
     // 加载中控件
-    String questionid;
-    ForumCommentBean bean;
-    int page=1;
-    SVProgressHUD mSVProgressHUD;
+    private String questionid;
+    private ForumCommentBean bean;
+    private int page=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-        mSVProgressHUD = new SVProgressHUD(this);
         findIdAndNew();
         init();
         setListener();
@@ -138,11 +129,11 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         tvname.setText(name);
         text_replies.setText(replies + "个回复");
         try {
-        if (!"".equals(img)&&img.contains("http")) {
-            ImageLoader.getInstance().displayImage(img, avatar, options);
-        } else {
-            ImageLoader.getInstance().displayImage(Path.IMG(img), avatar, options);
-        }
+            if (!"".equals(img)&&img.contains("http")) {
+                ImageLoader.getInstance().displayImage(img, avatar, options);
+            } else {
+                ImageLoader.getInstance().displayImage(Path.IMG(img), avatar, options);
+            }
         }catch (Exception e){
             SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
             String myimg = preferences.getString("img", "");
@@ -183,14 +174,26 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
                 startActivityForResult(intent, 13);
             }
         });
+        state_layout.showLoadingView();
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                state_layout.showLoadingView();
+                initView();
+            }
 
+            @Override
+            public void loginClick() {
+
+            }
+        });
     }
     private void setHeader(){
         tvname= (TextView) findViewById(R.id.text_author);
         avatar= (ImageView) findViewById(R.id.avatar);
         itemtitle= (TextView) findViewById(R.id.text_title);
         edtime= (TextView) findViewById(R.id.text_timeline);
-        content= (TextView) findViewById(R.id.item_content);
+        content= (HtmlTextView) findViewById(R.id.item_content);
         text_replies= (TextView) findViewById(R.id.text_replies);
         ds= (ImageView) findViewById(R.id.ds);
     }
@@ -216,16 +219,27 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     }
 
     private void initView() {
-        mSVProgressHUD.showWithStatus("加载中...");
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCOMMENT(pid,page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
+                try {
+                    if (json.equals("0")){
+                        state_layout.showNoNetworkView();
+                        return;
+                    }else if (json.equals("1")){
+                        state_layout.showTimeoutView();
+                        return;
+                    }
                 Gson gson = new Gson();
                 list = gson.fromJson(json, new TypeToken<List<ForumCommentBean>>() {
                 }.getType());
                 adapter = new ForumCommentAdapter(ForumItemActivity.this, list);
                 lv_talk.setAdapter(adapter);
                 getData();
+                }catch (Exception e){
+                    state_layout.showErrorView();
+                }
+
             }
         });
     }
@@ -254,7 +268,7 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == 99) {
-                    page=1;
+                page=1;
                 initView();
             }
             super.handleMessage(msg);
@@ -335,25 +349,28 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMCONTENT(pid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
+                try {
+                    if (json.equals("0")){
+                        state_layout.showNoNetworkView();
+                        return;
+                    }else if (json.equals("1")){
+                        state_layout.showTimeoutView();
+                        return;
+                    }
                 if (!json.contains(".pdf")) {
-                    MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
-                    MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
-                    Spanned spanned = Html.fromHtml(json, imageGetter, tagHandler);
-                    content.setText(spanned);
-                    content.setMovementMethod(LinkMovementMethod.getInstance());
+                    content.setHtmlFromString(json,false);
                 }else {
                     String a = json.replace("href=\"", "href=\"https://www.shizhanzhe.com");
                     String s = a.replace("src=\"", "src=\"https://www.shizhanzhe.com");
-
                     Document doc = Jsoup.parse(s);
                     String html = doc.html();
-                    MyImageGetter imageGetter = new MyImageGetter(getApplicationContext(), content);
-                    MyTagHandler tagHandler = new MyTagHandler(getApplicationContext());
-                    Spanned spanned = Html.fromHtml(html, imageGetter, tagHandler);
-                    content.setText(spanned);
-                    content.setMovementMethod(LinkMovementMethod.getInstance());
+                    content.setHtmlFromString(html,false);
                 }
-                mSVProgressHUD.dismiss();
+                    state_layout.showContentView();
+                }catch (Exception e){
+                    state_layout.showErrorView();
+                }
+
             }
         });
     }
@@ -373,11 +390,15 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
                         Gson gson = new Gson();
                         List<ForumCommentBean> lists = gson.fromJson(json, new TypeToken<List<ForumCommentBean>>() {
                         }.getType());
-                        for (ForumCommentBean b :
-                                lists) {
-                            list.add(b);
+                        if (lists.size()==0){
+                            Toast.makeText(ForumItemActivity.this, "已经到底了", Toast.LENGTH_SHORT).show();
+                        }else {
+                            for (ForumCommentBean b :
+                                    lists) {
+                                list.add(b);
+                            }
+                            adapter.notifyDataSetChanged();
                         }
-                        adapter.notifyDataSetChanged();
                     }
                 });
 

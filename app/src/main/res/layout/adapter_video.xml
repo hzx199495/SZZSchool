@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_demo"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/wh150"
+        android:layout_height="@dimen/wh100"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:scaleType="fitXY"
@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/wh100"
         android:orientation="vertical"
         android:layout_marginLeft="5dp"
         android:layout_alignTop="@+id/iv_demo"
@@ -30,12 +30,12 @@
             <TextView
                 android:id="@+id/free"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="@dimen/wh20"
                 android:background="@drawable/tvbg"
                 android:gravity="center"
                 android:text="免费"
                 android:textColor="@color/red"
-                android:textSize="10sp"
+                android:textSize="@dimen/sp10"
                 android:visibility="gone"/>
             <TextView
                 android:id="@+id/tv_title"
@@ -46,7 +46,7 @@
                 android:lines="1"
                 android:text="这是一行测试文本这是一行测试文本这是一行测试文本这是一行测试文本这是一行测试文本这是一行测试文本"
                 android:textColor="@color/top_text_color_black"
-                android:textSize="14sp" />
+                android:textSize="@dimen/top_text" />
 
 
         </LinearLayout>
@@ -54,8 +54,8 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/wh30"
+            android:layout_marginTop="@dimen/wh10"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             >
@@ -71,7 +71,7 @@
                 android:layout_marginLeft="@dimen/center_right_tv_margin_left"
                 android:text="20:03"
                 android:textColor="@color/center_right_text_color_green"
-                android:textSize="12dp" />
+                android:textSize="@dimen/text" />
 
         </LinearLayout>
         <View
@@ -80,7 +80,7 @@
             android:background="@color/commom_sline_color_gray" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/wh40"
             >
             <!--<Button-->
                 <!--android:id="@+id/study"-->
@@ -96,7 +96,7 @@
 
             <ImageView
                 android:id="@+id/exam"
-                android:layout_width="80dp"
+                android:layout_width="@dimen/wh80"
                 android:layout_height="match_parent"
                 android:src="@drawable/starexam"
                 android:focusable="false" />

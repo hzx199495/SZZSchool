@@ -55,7 +55,7 @@ public class MyCTAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.adapter_myct, null);
             holder = new ViewHolder();
@@ -96,6 +96,8 @@ public class MyCTAdapter extends BaseAdapter {
                         String info = tgMoney.getInfo();
                         if (info.contains("成功")){
                             new SVProgressHUD(context).showSuccessWithStatus(info);
+                            holder.tgmoney.setVisibility(View.GONE);
+                            holder.study.setVisibility(View.VISIBLE);
                         }else {
                             new SVProgressHUD(context).showInfoWithStatus(info);
                         }

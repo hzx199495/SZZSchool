@@ -46,9 +46,9 @@ public class RegisterActivity extends Activity {
     TextView login;
     private final Integer NUM=6;
     private CountDownTimer time;
-    String code="";
-    String username;
-    String password;
+    private String code="";
+    private String username;
+    private  String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

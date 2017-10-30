@@ -76,11 +76,11 @@ public class SearchAdapter extends BaseAdapter {
         }
         if (Txlist!=null){
             holder.tv.setText(Txlist.get(position).getStitle());
-            holder.iv.setImageResource(R.drawable.ic_home_more_hover);
+            holder.iv.setImageResource(R.drawable.c2);
         }
         if (Tzlist!=null){
             holder.tv.setText(Tzlist.get(position).getSubject());
-            holder.iv.setImageResource(R.drawable.ic_home_forum_hover);
+            holder.iv.setImageResource(R.drawable.m2);
         }
         return convertView;
     }

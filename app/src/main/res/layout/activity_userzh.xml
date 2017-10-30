@@ -35,7 +35,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/wh200"
                 android:background="#4444f0"
                 android:orientation="vertical">
 
@@ -84,7 +84,7 @@
                     android:layout_weight="1.0"
                     android:text="充值"
                     android:textColor="@color/one_level"
-                    android:textSize="14.0sp" />
+                    android:textSize="@dimen/top_text" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -93,7 +93,7 @@
                     android:drawablePadding="7.5dip"
                     android:drawableRight="@drawable/ic_list_right_jt"
                     android:textColor="@color/four_level"
-                    android:textSize="13.0sp" />
+                    android:textSize="@dimen/end_text" />
             </LinearLayout>
 
             <View
@@ -118,17 +118,17 @@
                     android:layout_weight="1.0"
                     android:text="打赏"
                     android:textColor="@color/one_level"
-                    android:textSize="14.0sp" />
+                    android:textSize="@dimen/end_text" />
 
                 <TextView
                     android:id="@+id/dsmoney"
-                    android:layout_width="100dp"
+                    android:layout_width="@dimen/wh100"
                     android:layout_height="wrap_content"
                     android:text="" />
 
                 <TextView
                     android:id="@+id/dstx"
-                    android:layout_width="40dp"
+                    android:layout_width="@dimen/wh40"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="提现"
@@ -136,7 +136,7 @@
 
                 <TextView
                     android:id="@+id/dszy"
-                    android:layout_width="40dp"
+                    android:layout_width="@dimen/wh40"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="转移"
@@ -165,17 +165,17 @@
                     android:layout_weight="1.0"
                     android:text="开团获利"
                     android:textColor="@color/one_level"
-                    android:textSize="14.0sp" />
+                    android:textSize="@dimen/top_text" />
 
                 <TextView
                     android:id="@+id/tgmoney"
-                    android:layout_width="100dp"
+                    android:layout_width="@dimen/wh100"
                     android:layout_height="wrap_content"
                     android:text="" />
 
                 <TextView
                     android:id="@+id/tgtx"
-                    android:layout_width="40dp"
+                    android:layout_width="@dimen/wh40"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="提现"
@@ -183,7 +183,7 @@
 
                 <TextView
                     android:id="@+id/tgzy"
-                    android:layout_width="40dp"
+                    android:layout_width="@dimen/wh40"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="转移"
@@ -227,7 +227,7 @@
                     android:drawablePadding="7.5dip"
                     android:drawableRight="@drawable/ic_list_right_jt"
                     android:textColor="@color/four_level"
-                    android:textSize="13.0sp" />
+                    android:textSize="@dimen/end_text" />
             </LinearLayout>
 
             <View
@@ -254,7 +254,7 @@
                     android:layout_weight="1.0"
                     android:text="消费记录"
                     android:textColor="@color/one_level"
-                    android:textSize="14.0sp" />
+                    android:textSize="@dimen/top_text" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -262,7 +262,7 @@
                     android:drawablePadding="7.5dip"
                     android:drawableRight="@drawable/ic_list_right_jt"
                     android:textColor="@color/four_level"
-                    android:textSize="13.0sp" />
+                    android:textSize="@dimen/end_text" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

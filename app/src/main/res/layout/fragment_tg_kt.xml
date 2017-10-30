@@ -16,7 +16,7 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="@dimen/wh200"
                 android:scaleType="fitXY"/>
 
             <View
@@ -42,7 +42,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="课程名"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp"/>
                 </LinearLayout>
@@ -62,7 +62,7 @@
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2017-01-13 11:52:49"
+                        android:text=""
                         android:textColor="@color/red" />
                 </LinearLayout>
             </LinearLayout>
@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="￥299"
+                        android:text=""
                         android:textColor="@color/red" />
 
                     <TextView
@@ -104,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="满100人参团即可优惠至299元" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="￥199"
+                        android:text=""
                         android:textColor="@color/red" />
 
                     <TextView
@@ -125,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="满1000人参团即可优惠至299元" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="￥99"
+                        android:text=""
                         android:textColor="@color/red" />
 
                     <TextView
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="  满10000人参团即可优惠至299元" />
+                        android:text="  " />
                 </LinearLayout>
             </LinearLayout>
 
@@ -169,7 +169,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="未开团"
+                    android:text=""
                     android:textColor="@color/red"/>
                 <!--<TextView-->
                     <!--android:id="@+id/share"-->
@@ -206,7 +206,7 @@
                     android:id="@+id/percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="开团成功福利，可获得团总交易额的20.00%！"/>
+                    android:text="开团成功福利，可获得团总交易额的%！"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -251,7 +251,7 @@
                     android:id="@+id/end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="团购结束时间（2017-03-16 11:52:00）起五天内，去个人中心团购页补齐尾款，逾期视为自动退团，资金转入个人学院账户余额" />
+                    android:text="团购结束时间（）起五天内，去个人中心团购页补齐尾款，逾期视为自动退团，资金转入个人学院账户余额" />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

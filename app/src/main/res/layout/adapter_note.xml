@@ -17,11 +17,11 @@
             >
             <TextView
                 android:id="@+id/time"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:text="2017.7.27"
-                android:singleLine="true"/>
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="2017.7.27"
+            android:singleLine="true"/>
             <TextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
@@ -58,9 +58,9 @@
             <EditText
                 android:id="@+id/edittext"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/wh50"
                 android:background="@drawable/polyv_border_s"
-                android:textSize="12sp"
+                android:textSize="@dimen/text"
                 />
             <TextView
                 android:id="@+id/note_post"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/blue2"
                 android:padding="2dp"
-                android:textSize="16sp"
+                android:textSize="@dimen/max"
                 android:text="提交"
                 />
         </LinearLayout>

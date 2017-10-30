@@ -89,8 +89,8 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     ImageView back;
     @ViewInject(R.id.setcv)
     CircleImageView setcv;
-    PersonalDataBean bean;
-    String sex="";
+    private PersonalDataBean bean;
+    private String sex="";
     private Dialog dialog;
 
     private static final int IMAGE_REQUEST_CODE = 0;
@@ -171,9 +171,9 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    String province;
-    String city;
-    String district;
+    private String province;
+    private String city;
+    private String district;
 
     @Override
     public void onClick(View v) {
@@ -304,8 +304,8 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-    Uri uri;
-    File file;
+    private Uri uri;
+    private File file;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {

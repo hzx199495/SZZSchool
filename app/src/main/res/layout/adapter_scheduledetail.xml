@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_marginLeft="10dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:gravity="left|center_vertical"
             android:text="标题"
             />
@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="进度：0%"
-            android:gravity="left|center_vertical"
+            android:gravity="center"
             android:textColor="@color/red"/>
         <!--<TextView-->
             <!--android:id="@+id/study"-->

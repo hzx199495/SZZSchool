@@ -28,7 +28,7 @@ import java.util.TimeZone;
 
 public class ForumLVAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<ForumBean.SzanBean> list;
+    private List<ForumBean.SzanBean> list;
 
     public ForumLVAdapter(Context context, List<ForumBean.SzanBean> list) {
         this.list = list;
@@ -87,7 +87,6 @@ public class ForumLVAdapter extends BaseAdapter {
         imageLoader.displayImage(bean.getLogo(),holder.iv,options);
         holder.user.setText(bean.getRealname());
         holder.title.setText(bean.getSubject());
-        Log.e("______",bean.getDateline());
         holder.time.setText(bean.getDateline());
         holder.where.setText(bean.getLocation_p()+"-"+bean.getLocation_c());
         holder.look.setText(bean.getLooknum());

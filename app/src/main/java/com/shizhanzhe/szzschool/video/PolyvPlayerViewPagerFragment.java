@@ -27,6 +27,15 @@ public class PolyvPlayerViewPagerFragment extends Fragment {
     private Fragment curFragment, sumFragment, talkFragment;
     private PolyvPlayerTabFragment tabFragment;
 
+    public static PolyvPlayerViewPagerFragment newInstance(String vjson,String txId) {
+
+        Bundle args = new Bundle();
+        args.putString("json",vjson);
+        args.putString("txId",txId);
+        PolyvPlayerViewPagerFragment fragment = new PolyvPlayerViewPagerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,9 +52,9 @@ public class PolyvPlayerViewPagerFragment extends Fragment {
     }
 
     private void initView() {
-        curFragment = new PolyvCurriculumFragment();
-        sumFragment = new PolyvSummaryFragment();
-        talkFragment = new PolyvTalkFragment();
+        curFragment =  PolyvCurriculumFragment.newInstance(getArguments().getString("json"));
+//        sumFragment = new PolyvSummaryFragment();
+        talkFragment =  PolyvTalkFragment.newInstance(getArguments().getString("txId"));
         lists.add(curFragment);
 //        lists.add(sumFragment);
         lists.add(talkFragment);

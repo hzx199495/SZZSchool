@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
@@ -37,6 +38,8 @@ public class MyForumActivity extends Activity {
     ListView lv;
     @ViewInject(R.id.back)
     ImageView back;
+    @ViewInject(R.id.state_layout)
+    StateLayout state_layout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +50,22 @@ public class MyForumActivity extends Activity {
                 finish();
             }
         });
-        final SVProgressHUD svProgressHUD = new SVProgressHUD(this);
-        svProgressHUD.showWithStatus("正在加载...");
+        state_layout.showLoadingView();
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                state_layout.showLoadingView();
+                getData();
+            }
+
+            @Override
+            public void loginClick() {
+
+            }
+        });
+        getData();
+    }
+    void getData(){
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMHOME(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
@@ -62,19 +79,23 @@ public class MyForumActivity extends Activity {
                             ) {
                         arrayList.add(bean.getName());
                     }
-                    lv.setAdapter(new ScheduleAdapter(MyForumActivity.this, arrayList));
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(MyForumActivity.this, MyForumDetailActivity.class);
-                            intent.putExtra("title",list.get(position).getName());
-                            intent.putExtra("fid",list.get(position).getFid());
-                            startActivity(intent);
-                        }
-                    });
-                    svProgressHUD.dismiss();
+                    if (arrayList.size()==0){
+                        state_layout.showEmptyView();
+                    }else {
+                        lv.setAdapter(new ScheduleAdapter(MyForumActivity.this, arrayList));
+                        state_layout.showContentView();
+                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent(MyForumActivity.this, MyForumDetailActivity.class);
+                                intent.putExtra("title", list.get(position).getName());
+                                intent.putExtra("fid", list.get(position).getFid());
+                                startActivity(intent);
+                            }
+                        });
+                    }
                 }catch (Exception e){
-
+                    state_layout.showErrorView();
                 }
 
             }

@@ -12,11 +12,11 @@
         >
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp">
+            android:layout_height="@dimen/wh110">
             <ImageView
                 android:id="@+id/iv"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="@dimen/wh110"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher"/>
             <RelativeLayout
@@ -24,8 +24,8 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/open"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/wh50"
+                    android:layout_height="@dimen/wh50"
                     android:src="@drawable/open"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
@@ -38,10 +38,10 @@
         <TextView
             android:id="@+id/tv"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="@dimen/wh25"
             android:text="Android"
             android:gravity="center"
-            android:textSize="14sp"
+            android:textSize="@dimen/top_text"
             android:singleLine="true"
             />
     </LinearLayout>
@@ -56,11 +56,11 @@
         >
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp">
+            android:layout_height="@dimen/wh110">
             <ImageView
                 android:id="@+id/iv2"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="@dimen/wh110"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher"/>
             <RelativeLayout
@@ -68,8 +68,8 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/open2"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/wh50"
+                    android:layout_height="@dimen/wh50"
                     android:src="@drawable/open"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
@@ -82,10 +82,10 @@
         <TextView
             android:id="@+id/tv2"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="@dimen/wh25"
             android:text="Android"
             android:gravity="center"
-            android:textSize="14sp"
+            android:textSize="@dimen/top_text"
             android:singleLine="true"
             />
     </LinearLayout>

@@ -71,7 +71,7 @@ public class FragmentUser extends Fragment implements View.OnClickListener {
     @ViewInject(R.id.iv_type)
     ImageView iv_type;
 
-    View rootview;
+    private View rootview;
 
     @Nullable
     @Override

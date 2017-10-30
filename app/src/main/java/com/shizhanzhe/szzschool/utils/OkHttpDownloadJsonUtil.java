@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -26,50 +27,38 @@ public class OkHttpDownloadJsonUtil {
 
     public static void downloadJson(final Context context, final String path, final onOkHttpDownloadListener listener) {
         final Handler handler = new Handler();
-//        final ProgressDialog dialog = new ProgressDialog(context);
-//        dialog.setTitle("加载中请稍后");
-//        dialog.setInverseBackgroundForced(true);
-//        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        dialog.setMessage("正在加载...");
-//        dialog.setIcon(R.drawable.load01);
-//        dialog.show();
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(path).build();
         final Call call = client.newCall(request);
-        new Thread(new Runnable() {
+        call.enqueue(new Callback() {
             @Override
-            public void run() {
-                try {
-                    Response response = call.execute();
-                    if (response.isSuccessful()) {
-                        InputStream is = response.body().byteStream();
-                        ByteArrayOutputStream os = new ByteArrayOutputStream();
-                        byte[] b = new byte[1024];
-                        int len = 0;
-                        while ((len = is.read(b)) != -1) {
-                            os.write(b, 0, len);
+            public void onFailure(Call call, final IOException e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("____",e.toString());
+                        if (e.toString().contains("SocketTimeoutException")){
+                            listener.onsendJson("1");
+                        } else if (e.toString().contains("UnknownHostException")) {
+                            listener.onsendJson("0");
                         }
-                        os.flush();
-                        final String s = new String(os.toByteArray());
-                        handler.post(new Runnable() {
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                    final String str = response.body().string();
+                    handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                listener.onsendJson(s);
+                                listener.onsendJson(str);
                             }
                         });
-                    }
-                } catch (final Exception e) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (e.toString().contains("Exception")){
-                                Toast.makeText(context,"网络异常，请检查网络后再试",Toast.LENGTH_LONG).show();;
-                            }
-                        }
-                    });
-                }
             }
-        }).start();
+        });
+
+
     }
 }
 

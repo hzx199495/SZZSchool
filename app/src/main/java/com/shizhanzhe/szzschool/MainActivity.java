@@ -78,7 +78,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         UltimateBar ultimateBar = new UltimateBar(this);
         ultimateBar.setColorBar(ContextCompat.getColor(this, R.color.top));
 
-
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,19 +146,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switch (index) {
             case 0:
                 firstText.setTextColor(getResources().getColor(R.color.blue2));
-                firstImage.setImageResource(R.drawable.ic_home_home_hover);
-// 如果fg1为空，则创建一个并添加到界面上
+                firstImage.setImageResource(R.drawable.h2);
+                // 如果fg1为空，则创建一个并添加到界面上
                 if (fg1 == null) {
                     fg1 = new FragmentCenter();
                     fragmentTransaction.add(R.id.content, fg1);
                 } else {
-// 如果不为空，则直接将它显示出来
+                // 如果不为空，则直接将它显示出来
                     fragmentTransaction.show(fg1);
                 }
                 break;
             case 1:
                 secondText.setTextColor(getResources().getColor(R.color.blue2));
-                secondImage.setImageResource(R.drawable.ic_home_more_hover);
+                secondImage.setImageResource(R.drawable.c2);
 
                 if (fg2 == null) {
                     fg2 = new FragmentKCCenter();
@@ -170,7 +169,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case 2:
                 thirdText.setTextColor(getResources().getColor(R.color.blue2));
-                thirdImage.setImageResource(R.drawable.about_question);
+                thirdImage.setImageResource(R.drawable.q2);
                 if (fg3 == null) {
                     fg3 = new FragmentQuestion();
                     fragmentTransaction.add(R.id.content, fg3);
@@ -180,7 +179,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case 3:
                 fourthText.setTextColor(getResources().getColor(R.color.blue2));
-                fourthImage.setImageResource(R.drawable.ic_home_forum_hover);
+                fourthImage.setImageResource(R.drawable.m2);
                 if (fg4 == null) {
                     fg4 = new FragmentForum();
                     fragmentTransaction.add(R.id.content, fg4);
@@ -190,7 +189,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case 4:
                 fifthText.setTextColor(getResources().getColor(R.color.blue2));
-                fifthImage.setImageResource(R.drawable.ic_home_mycourse_hover);
+                fifthImage.setImageResource(R.drawable.e2);
                 if (fg5 == null) {
                     fg5 = new FragmentUser();
                     fragmentTransaction.add(R.id.content, fg5);
@@ -210,11 +209,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         thirdText.setTextColor(getResources().getColor(R.color.huise));
         fourthText.setTextColor(getResources().getColor(R.color.huise));
         fifthText.setTextColor(getResources().getColor(R.color.huise));
-        firstImage.setImageResource(R.drawable.ic_home_home);
-        secondImage.setImageResource(R.drawable.ic_home_more);
-        thirdImage.setImageResource(R.drawable.about_question2);
-        fourthImage.setImageResource(R.drawable.ic_home_forum);
-        fifthImage.setImageResource(R.drawable.ic_home_mycourse);
+        firstImage.setImageResource(R.drawable.h1);
+        secondImage.setImageResource(R.drawable.c1);
+        thirdImage.setImageResource(R.drawable.q1);
+        fourthImage.setImageResource(R.drawable.m1);
+        fifthImage.setImageResource(R.drawable.e1);
 
     }
     /**

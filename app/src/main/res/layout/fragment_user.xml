@@ -22,21 +22,22 @@
                 <RelativeLayout
 
                     android:layout_width="fill_parent"
-                    android:layout_height="135dp"
+                    android:layout_height="@dimen/wh135"
                     android:background="@drawable/userbg"
                     android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/setzl"
                         android:layout_width="match_parent"
-                        android:layout_height="65.0dip"
-                        android:layout_centerVertical="true"
+                        android:layout_height="@dimen/wh65"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true">
+
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/cv"
-                            android:layout_width="65.0dip"
-                            android:layout_height="65.0dip"
+                            android:layout_width="@dimen/wh65"
+                            android:layout_height="@dimen/wh65"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
@@ -46,7 +47,7 @@
                             android:src="@drawable/userhead" />
 
                         <LinearLayout
-                            android:layout_width="100dp"
+                            android:layout_width="@dimen/wh100"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
@@ -62,14 +63,13 @@
                                 android:gravity="center"
                                 android:text="未登录"
                                 android:textColor="@color/white"
-                                android:textSize="15.0sp" />
+                                android:textSize="@dimen/fl_text" />
 
                             <ImageView
-                                android:layout_marginTop="2dp"
                                 android:id="@+id/iv_type"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                 />
+                                android:layout_marginTop="2dp" />
                         </LinearLayout>
 
                         <ImageView
@@ -90,30 +90,30 @@
                 <RelativeLayout
                     android:id="@+id/user_pro"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:background="@color/white"
                     android:showDividers="middle">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/pro"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/wh10"
                         android:text="我的课程"
                         android:textColor="@color/one_level"
-                        android:textSize="14.0sp" />
+                        android:textSize="@dimen/top_text" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jt"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/jt" />
                 </RelativeLayout>
 
                 <View
@@ -125,262 +125,213 @@
                 <RelativeLayout
                     android:id="@+id/user_tg"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:background="@color/white"
                     android:showDividers="middle">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/tg"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/wh10"
                         android:text="我的团购"
                         android:textColor="@color/one_level"
-                        android:textSize="14.0sp" />
+                        android:textSize="@dimen/top_text" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jt"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/jt" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
                     android:background="@color/line"
                     android:padding="5dp" />
-                <!--<RelativeLayout-->
-                    <!--android:id="@+id/user_sc"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="45dp"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:showDividers="middle">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/sc"-->
-                        <!--android:gravity="center"-->
-                        <!--android:padding="10dp"-->
-                        <!--android:text="我的收藏"-->
-                        <!--android:textColor="@color/one_level"-->
-                        <!--android:textSize="14.0sp" />-->
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:src="@drawable/jt"-->
-                        <!--android:layout_marginRight="20dp"-->
-                        <!--android:layout_centerVertical="true"-->
-                        <!--android:layout_alignParentRight="true"-->
-                        <!--android:layout_alignParentEnd="true"-->
-                        <!--android:layout_marginEnd="20dp" />-->
-                <!--</RelativeLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="0.5dip"-->
-                    <!--android:background="@color/line"-->
-                    <!--android:padding="5dp" />-->
-                <!--<RelativeLayout-->
-                    <!--android:id="@+id/user_note"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="45dp"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:showDividers="middle">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:drawableLeft="@drawable/note"-->
-                        <!--android:gravity="center"-->
-                        <!--android:padding="10dp"-->
-                        <!--android:text="我的笔记"-->
-                        <!--android:textColor="@color/one_level"-->
-                        <!--android:textSize="14.0sp" />-->
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:src="@drawable/jt"-->
-                        <!--android:layout_marginRight="20dp"-->
-                        <!--android:layout_centerVertical="true"-->
-                        <!--android:layout_alignParentRight="true"-->
-                        <!--android:layout_alignParentEnd="true"-->
-                        <!--android:layout_marginEnd="20dp" />-->
-                <!--</RelativeLayout>-->
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
                     android:background="@color/line"
                     android:padding="5dp" />
+
                 <RelativeLayout
                     android:id="@+id/user_tz"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:background="@color/white"
                     android:showDividers="middle">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/note"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/tz"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/wh10"
                         android:text="我的帖子"
                         android:textColor="@color/one_level"
-                        android:textSize="14.0sp" />
+                        android:textSize="@dimen/top_text" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jt"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/jt" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="10px"
                     android:background="@color/line"
                     android:padding="5dp" />
+
                 <RelativeLayout
                     android:id="@+id/user_exam"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:background="@color/white"
                     android:showDividers="middle">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/note"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/kh"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/wh10"
                         android:text="我的考核"
                         android:textColor="@color/one_level"
-                        android:textSize="14.0sp" />
+                        android:textSize="@dimen/top_text" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jt"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/jt" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
                     android:background="@color/line"
                     android:padding="5dp" />
+
                 <RelativeLayout
                     android:id="@+id/user_jd"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:background="@color/white"
                     android:showDividers="middle">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/jd"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/wh10"
                         android:text="学习进度"
                         android:textColor="@color/one_level"
-                        android:textSize="14.0sp" />
+                        android:textSize="@dimen/top_text" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jt"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/jt" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="10px"
                     android:background="@color/line"
                     android:padding="5dp" />
+
                 <RelativeLayout
                     android:id="@+id/user_zh"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:background="@color/white"
                     android:showDividers="middle">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/zh"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/wh10"
                         android:text="账户中心"
                         android:textColor="@color/one_level"
-                        android:textSize="14.0sp" />
+                        android:textSize="@dimen/top_text" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jt"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/jt" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
                     android:background="@color/line"
                     android:padding="5dp" />
+
                 <RelativeLayout
                     android:id="@+id/user_sz"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:background="@color/white"
                     android:showDividers="middle">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/sz"
                         android:gravity="center"
-                        android:padding="10dp"
+                        android:padding="@dimen/wh10"
                         android:text="系统设置"
                         android:textColor="@color/one_level"
-                        android:textSize="14.0sp" />
+                        android:textSize="@dimen/top_text" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/jt"
-                        android:layout_marginRight="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/jt" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"

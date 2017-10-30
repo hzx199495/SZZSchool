@@ -34,23 +34,17 @@ public class FragmentKCCenter extends Fragment {
     TabLayout tabLayout;
     @ViewInject(R.id.tab_viewpager)
     ViewPager vp;
-    @ViewInject(R.id.layout_login_topbar)
-    RelativeLayout topbar;
-    SVProgressHUD mSVProgressHUD;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mSVProgressHUD = new SVProgressHUD(getContext());
-        mSVProgressHUD.showWithStatus("加载中...");
         return x.view().inject(this, inflater, null);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSVProgressHUD.show();
-        topbar.setVisibility(View.GONE);
         FragmentManager manager = getChildFragmentManager();
         ArrayList<Fragment> list = new ArrayList<>();
         KCFragment tg = new KCFragment().newInstance(0);
@@ -63,15 +57,7 @@ public class FragmentKCCenter extends Fragment {
         tabLayout.getTabAt(0).setText("团购报名");
         tabLayout.getTabAt(1).setText("课程体系");
 
-        new Handler(new Handler.Callback() {
 
-            @Override
-            public boolean handleMessage (Message arg0){
-                // TODO Auto-generated method stub\
-                mSVProgressHUD.dismiss();
-                return false;
-            }
-        }).sendEmptyMessageDelayed(0, 1500);
     }
 
 }

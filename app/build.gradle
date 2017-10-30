@@ -1,9 +1,10 @@
 apply plugin: 'bugly'
-
 bugly {
-    appId = '23d54cd6f4' // 注册时分配的App ID
-    appKey = '0800e5cd-18e7-417e-8271-bc4a859d8f14' // 注册时分配的App Key
+    appId = 'a8db43f7ad' // 注册时分配的App ID
+    appKey = '7b8efea8-b009-4e75-a359-99750bc43543' // 注册时分配的App Key
 }
+
+
 apply plugin: 'com.android.application'
 
 
@@ -15,8 +16,8 @@ android {
         applicationId "com.shizhanzhe.szzschool"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 9
-        versionName "1.1.7"
+        versionCode 14
+        versionName "1.2.2"
         resConfigs "zh"
         //64K 引用限制
         multiDexEnabled true
@@ -24,6 +25,7 @@ android {
             // 设置支持的SO库架构
             abiFilters 'armeabi' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
+
     }
 
     buildTypes {
@@ -50,20 +52,19 @@ dependencies {
     //支付宝
     compile files('libs/alipaySingle-20170510.jar')
     //shareSDK
-    compile files('libs/ShareSDK-QZone-2.7.10.jar')
-    compile files('libs/ShareSDK-Core-2.7.10.jar')
-    compile files('libs/MobCommons-2016.1107.1809.jar')
-    compile files('libs/ShareSDK-TencentWeibo-2.7.10.jar')
-    compile files('libs/ShareSDK-SinaWeibo-2.7.10.jar')
-    compile files('libs/ShareSDK-QQ-2.7.10.jar')
-    compile files('libs/MobTools-2016.1107.1809.jar')
-    compile files('libs/ShareSDK-Wechat-Moments-2.7.10.jar')
-    compile files('libs/ShareSDK-Wechat-Core-2.7.10.jar')
-    compile files('libs/ShareSDK-Wechat-2.7.10.jar')
-    //极光推送
-    compile files('libs/jpush-android_v3.0.0.jar')
-    compile files('libs/jcore-android_v1.0.0.jar')
-
+    compile files('libs/MobCommons-2017.0914.1125.jar')
+    compile files('libs/MobTools-2017.0914.1125.jar')
+    compile files('libs/ShareSDK-Core-3.1.0.jar')
+    compile files('libs/ShareSDK-QQ-3.1.0.jar')
+    compile files('libs/ShareSDK-SinaWeibo-3.1.0.jar')
+    compile files('libs/ShareSDK-TencentWeibo-3.1.0.jar')
+    compile files('libs/ShareSDK-Wechat-3.1.0.jar')
+    compile files('libs/ShareSDK-Wechat-Core-3.1.0.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-3.1.0.jar')
+    compile files('libs/ShareSDK-QZone-3.1.0.jar')
+    //推送
+    compile files('libs/jcore-android-1.1.6.jar')
+    compile files('libs/jpush-android-3.0.8.jar')
     //省市区三级联动
     compile 'liji.library.dev:citypickerview:1.1.0'
     compile files('libs/universal-image-loader-1.9.5.jar')
@@ -71,8 +72,13 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.3'
     //dialog
     compile 'com.bigkoo:svprogresshud:1.0.6'
+    //状态栏
     compile 'org.zackratos:ultimatebar:1.0.3'
+    //bugly
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
+    compile 'com.github.fingdo:stateLayout:1.0.4'
+    //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
-    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
-    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 }

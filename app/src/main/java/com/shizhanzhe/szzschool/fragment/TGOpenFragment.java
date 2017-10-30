@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -62,7 +63,8 @@ public class TGOpenFragment extends Fragment {
     @ViewInject(R.id.percent)
     TextView percent;
 
-    public static TGOpenFragment newInstance(String title, String img, String time, String intro, String ktprice, String tgprice, String kfm) {
+    private String tuanid;
+    public static TGOpenFragment newInstance(String title, String img, String time, String intro, String ktprice, String tgprice, String kfm,String tuanid) {
 
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -72,20 +74,15 @@ public class TGOpenFragment extends Fragment {
         args.putString("tgprice", tgprice);
         args.putString("intro", intro);
         args.putString("kfm", kfm);
-
+        args.putString("tuanid", tuanid);
         TGOpenFragment fragment = new TGOpenFragment();
         fragment.setArguments(args);
         return fragment;
     }
-    ProgressDialog dialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dialog = new ProgressDialog(getContext());
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setMessage("正在加载...Loading");
         return x.view().inject(this, inflater, null);
     }
 
@@ -94,7 +91,6 @@ public class TGOpenFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dialog.show();
         KT();
     }
     void initView(){
@@ -106,6 +102,7 @@ public class TGOpenFragment extends Fragment {
         String ktmoney = bundle.getString("ktprice");
         String tgprice = bundle.getString("tgprice");
         String kfm = bundle.getString("kfm");
+        tuanid = bundle.getString("tuanid");
         percent.setText("开团成功福利，可获得团总交易额的" + kfm + "%！");
         title.setText(titleText);
         ImageLoader imageloader = ImageLoader.getInstance();
@@ -127,22 +124,25 @@ public class TGOpenFragment extends Fragment {
         num1.setText("满" + numlist.get(0) + "人参团即可优惠至" + pricelist.get(0) + "元");
         num2.setText("满" + numlist.get(1) + "人参团即可优惠至" + pricelist.get(1) + "元");
         num3.setText("满" + numlist.get(2) + "人参团即可优惠至" + pricelist.get(2) + "元");
-        dialog.dismiss();
+
     }
     void KT() {
         SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
          String uid = preferences.getString("uid", "");
          String token = preferences.getString("token", "");
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), "https://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid=" + uid + "&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
             @Override
             public void onsendJson(String json) {
+                try {
+
                 Gson gson = new Gson();
                 List<MyKTBean> list = gson.fromJson(json, new TypeToken<List<MyKTBean>>() {
                 }.getType());
                 if (list.size() > 0) {
                     for (MyKTBean bean :
                             list) {
-                        if (bean.getTuanid().contains(MyApplication.tuanid)) {
+                        if (bean.getTuanid().contains(tuanid)) {
                             state.setText(bean.getUname()+"的学习团，已参团"+bean.getTynum()+"人");
                         }
 
@@ -151,6 +151,10 @@ public class TGOpenFragment extends Fragment {
                     state.setText("未开团");
                 }
                 initView();
+                }catch (Exception e){
+
+                }
+
             }
         });
     }

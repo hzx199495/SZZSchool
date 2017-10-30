@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="@dimen/wh20"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:scaleType="centerInside"
@@ -43,7 +43,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"/>
+        android:layout_height="@dimen/wh10"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
             android:id="@+id/subject"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/wh30"
             android:layout_margin="5dp"
             android:scrollbars="vertical"
             android:background="@color/white"
@@ -70,7 +70,7 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="30dp"/>
+        android:layout_height="@dimen/wh30"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -96,8 +96,8 @@
     <TextView
         android:id="@+id/postimg"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/wh30"
         android:text="插入图片"
-        android:paddingLeft="50dp"
+        android:paddingLeft="@dimen/wh50"
         android:textColor="@color/blue2"/>
 </LinearLayout>

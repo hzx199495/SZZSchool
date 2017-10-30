@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/question_icon"
         android:scaleType="centerInside"/>
     <TextView
         android:layout_width="match_parent"
@@ -15,6 +15,6 @@
         android:gravity="center"
         android:text="板块名"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="@dimen/top_text"
         />
 </LinearLayout>

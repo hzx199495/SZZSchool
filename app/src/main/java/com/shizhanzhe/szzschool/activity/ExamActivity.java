@@ -53,13 +53,13 @@ public class ExamActivity extends Activity {
     @ViewInject(R.id.back)
     ImageView back;
 
-    int position;
-    int totle;
-    List<Exam> list;
-    ArrayList<String> myAnswer;
-    ArrayList<String> answerList;
-    String id;
-    String sid;
+    private int position;
+    private int totle;
+    private  List<Exam> list;
+    private ArrayList<String> myAnswer;
+    private ArrayList<String> answerList;
+    private  String id;
+    private String sid;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -257,7 +257,6 @@ public class ExamActivity extends Activity {
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).EXAMSUCCESS(id,sid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.i("______",json);
                 if (json.contains("成功保存")){
                     finish();
                 }else{

@@ -35,8 +35,8 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 public class ForumBKLVAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<BKBean> list;
-    Context context;
+    private List<BKBean> list;
+    private Context context;
     public ForumBKLVAdapter(Context context, List<BKBean> list) {
         this.list = list;
         this.context=context;

@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -77,14 +80,15 @@ public class PostActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.post)
     TextView post;
     private static int RESULT_LOAD_IMAGE = 1;
-    String fid;
-    String uid;
-    String token;
+    private String fid;
+    private String uid;
+    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        verifyStoragePermissions(this);
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
          uid = preferences.getString("uid", "");
          token = preferences.getString("token", "");
@@ -101,7 +105,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
             case R.id.postimg:
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
                 break;
@@ -139,7 +143,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
                 finish();
         }
     }
-    String str="";
+    private String str="";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -156,7 +160,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
             }
         }
     };
-    Intent data;
+    private Intent data;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -172,7 +176,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
                         ;
                 MultipartBody build = builder.build();
 
-                okhttp3.Request bi = new okhttp3.Request.Builder()
+                Request bi = new Request.Builder()
                         .url("https://shizhanzhe.com/index.php?m=pcdata.uploadimg&pc=1&uid=" + uid + "&token=" + token+"&dir=image")
                         .post(build)
                         .build();
@@ -184,7 +188,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
                     }
 
                     @Override
-                    public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                    public void onResponse(Call call, Response response) throws IOException {
                         String s = response.body().string();
                         Log.e("____resultonResponse",s);
                         Gson gson = new Gson();
@@ -209,7 +213,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
         }
 
     }
-    String url;
+    private String url;
     private String encode(String path) {
         //decode to bitmap
         Bitmap bitmap = BitmapFactory.decodeFile(path);
@@ -340,6 +344,31 @@ public class PostActivity extends Activity implements View.OnClickListener {
         Log.e("content", content);
         updateContent(content);
 
+    }
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    /**
+     * Checks if the app has permission to write to device storage
+     * <p>
+     * If the app does not has permission then the user will be prompted to
+     * grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        }
     }
 }
 

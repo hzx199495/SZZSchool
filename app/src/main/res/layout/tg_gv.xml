@@ -14,40 +14,42 @@
         <ImageView
             android:id="@+id/tg_iv"
             android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_weight="2"
+            android:layout_height="@dimen/wh110"
+            android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="3dp">
 
             <TextView
                 android:id="@+id/tg_title"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/wh30"
                 android:text="团购名"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                android:gravity="center_vertical"/>
+                android:textSize="@dimen/top_text"
+                />
 
             <TextView
                 android:id="@+id/tg_yj"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="原价：1000元" />
+                android:layout_height="@dimen/wh25"
+                android:text="原价：1000元"
+                android:textSize="@dimen/top_text"/>
 
             <TextView
                 android:id="@+id/tg_tgj"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="团购价：299元/199元/99元"
-                android:textColor="@color/red" />
+                android:layout_height="@dimen/wh25"
+                android:text="团：299元/199元/99元"
+                android:textColor="@color/red"
+                android:textSize="@dimen/top_text"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -56,40 +58,39 @@
                 <LinearLayout
                     android:id="@+id/end"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:visibility="gone"
                     >
 
                     <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/tgend"
                         android:textColor="@color/white" />
 
                     <View
-                        android:layout_width="40dp"
+                        android:layout_width="@dimen/wh40"
                         android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/gobuy"
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/tgbuy"
-                        android:scaleType="fitCenter"
                         android:textColor="@color/white" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/start"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/wh40"
                     >
 
                     <ImageView
                         android:id="@+id/tg_kt"
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/mykt"
                         android:textColor="@color/white" />
 
@@ -99,12 +100,11 @@
 
                     <ImageView
                         android:id="@+id/tg_ct"
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/myct"
                         android:textColor="@color/white" />
                 </LinearLayout>
-
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>

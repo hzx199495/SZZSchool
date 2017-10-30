@@ -2,11 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical">
-    <ScrollView
+
+    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/state_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff">
+        sl:emptyImg="@drawable/nodata"
+        sl:emptyText=" "
+        sl:errorImg="@drawable/ic_state_error"
+        sl:errorText="数据异常"
+        sl:loadingText="@string/loading_tip"
+        sl:noNetworkImg="@drawable/ic_state_no_network"
+        sl:noNetworkText="@string/no_network_tip"
+        sl:timeOutImg="@drawable/ic_state_time_out"
+        sl:timeOutText="@string/time_out_tip">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+           >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,33 +35,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/quescenter" />
+                android:src="@drawable/quescenter"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
             <TextView
                 android:id="@+id/tv_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:padding="10dp" />
+                android:padding="5dp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#999"/>
+                android:background="#999" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="10dp">
+
                 <com.shizhanzhe.szzschool.utils.MyGridView
 
                     android:id="@+id/questioncenter_lv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="3"
                     android:horizontalSpacing="10dp"
-                    android:verticalSpacing="20dp"
-                     />
+                    android:numColumns="3"
+                    android:verticalSpacing="20dp" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </com.fingdo.statelayout.StateLayout>
 </LinearLayout>

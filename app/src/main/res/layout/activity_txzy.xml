@@ -36,17 +36,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="@dimen/wh50"
                 android:layout_height="wrap_content"
                 android:text="业务:"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:textSize="15sp"/>
+                android:textSize="@dimen/fl_text"/>
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="@dimen/fl_text"
                 android:gravity="center"
                 android:textColor="@color/blue2"
                 android:text="提现转移"/>
@@ -62,12 +62,12 @@
                 android:text="账户:"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:textSize="15sp"/>
+                android:textSize="@dimen/fl_text"/>
             <TextView
                 android:id="@+id/zh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="@dimen/fl_text"
                 android:textColor="@color/blue2"
                 android:gravity="center"
                 android:text="123456789"/>
@@ -79,17 +79,17 @@
             android:orientation="horizontal"
             android:layout_marginTop="15dp">
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="@dimen/wh50"
                 android:layout_height="wrap_content"
                 android:text="金额:"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:textSize="15sp"/>
+                android:textSize="@dimen/fl_text"/>
             <EditText
                 android:id="@+id/money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="@dimen/fl_text"
                 android:gravity="center"
                 android:hint="请输入金额"
                 android:cursorVisible="false"/>
@@ -102,17 +102,17 @@
             android:layout_marginTop="15dp"
             android:visibility="gone">
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="@dimen/wh50"
                 android:layout_height="wrap_content"
                 android:text="金额:"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:textSize="15sp"/>
+                android:textSize="@dimen/fl_text"/>
             <TextView
                 android:id="@+id/vip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="@dimen/fl_text"
                 android:gravity="center"
                 android:textColor="@color/blue2"
                 />
@@ -121,7 +121,7 @@
             android:id="@+id/btn"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/wh40"
             android:text="提交"
             android:textColor="@color/white"
             android:background="@drawable/login_button_bg"/>

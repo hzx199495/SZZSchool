@@ -20,9 +20,9 @@ import java.util.List;
  */
 
 public class QuestionListAdapter extends BaseAdapter {
-    Context mContext;
-    List<QuestionListBean> mList;
-String name;
+    private Context mContext;
+    private List<QuestionListBean> mList;
+    private String name;
     public QuestionListAdapter(Context context, List<QuestionListBean> list, String name) {
         mContext = context;
         mList = list;

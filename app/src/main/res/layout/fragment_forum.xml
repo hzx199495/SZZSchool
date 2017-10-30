@@ -3,7 +3,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
+    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/state_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        sl:emptyImg="@drawable/nodata"
+        sl:emptyText=" "
+        sl:errorImg="@drawable/ic_state_error"
+        sl:errorText="数据异常"
+        sl:loadingText="@string/loading_tip"
+        sl:noNetworkImg="@drawable/ic_state_no_network"
+        sl:noNetworkText="@string/no_network_tip"
+        sl:timeOutImg="@drawable/ic_state_time_out"
+        sl:timeOutText="@string/time_out_tip">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,46 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="#f9f9f9">-->
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/imageView3"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="16dp"-->
-                    <!--android:layout_alignParentLeft="true"-->
-                    <!--android:layout_alignParentStart="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="16dp"-->
-                    <!--android:layout_marginStart="16dp"-->
-                    <!--android:scaleType="centerInside"-->
-                    <!--android:src="@drawable/icontj" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="45dp"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:layout_marginStart="5dp"-->
-                    <!--android:layout_toEndOf="@+id/imageView3"-->
-                    <!--android:layout_toRightOf="@+id/imageView3"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="板块推荐"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="15sp" />-->
-
-            <!--</RelativeLayout>-->
-
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginLeft="13dp"-->
-                <!--android:layout_marginRight="13dp"-->
-                <!--android:background="#FF3E96" />-->
-
             <com.shizhanzhe.szzschool.utils.MyGridView
                 android:id="@+id/gv_bk"
                 android:layout_width="match_parent"
@@ -69,19 +41,8 @@
                 android:layout_height="wrap_content"
                 android:background="#f9f9f9">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/imageView2"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="16dp"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="17dp"-->
-                <!--android:layout_marginStart="17dp"-->
-                <!--android:scaleType="centerInside"-->
-                <!--android:src="@drawable/iconrt" />-->
                 <ImageView
-                    android:layout_width="20dp"
+                    android:layout_width="@dimen/wh20"
                     android:layout_height="wrap_content"
                     android:src="@drawable/star"
                     android:layout_centerVertical="true"
@@ -91,13 +52,13 @@
                 <TextView
                     android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="45dp"
+                    android:layout_height="@dimen/wh45"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:text="社区热帖"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/fl_text"
                     android:id="@+id/textView3" />
 
             </RelativeLayout>
@@ -116,4 +77,5 @@
 
         </LinearLayout>
     </ScrollView>
+    </com.fingdo.statelayout.StateLayout>
 </LinearLayout>

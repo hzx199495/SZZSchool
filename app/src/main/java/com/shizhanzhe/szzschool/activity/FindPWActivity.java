@@ -59,8 +59,8 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
     ImageView back2;
     private final Integer NUM = 6;
     private CountDownTimer time;
-    String code = "";
-    String username="";
+    private String code = "";
+    private String username="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

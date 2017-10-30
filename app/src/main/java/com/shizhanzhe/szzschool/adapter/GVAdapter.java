@@ -28,7 +28,7 @@ public class GVAdapter extends BaseAdapter {
         this.list = list;
         inflater = LayoutInflater.from(context);
     }
-    DisplayImageOptions options = new DisplayImageOptions.Builder()
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
             // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
             .displayer(new RoundedBitmapDisplayer(15))
             .showImageOnLoading(R.drawable.img_load)

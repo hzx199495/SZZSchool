@@ -37,8 +37,8 @@ import java.util.List;
 @ContentView(R.layout.activity_ktlist)
 public class KTListActivity extends Activity {
     @ViewInject(R.id.list)
-    ListView lv;
-    List<KTListBean> list;
+    private  ListView lv;
+    private  List<KTListBean> list;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +87,6 @@ public class KTListActivity extends Activity {
                         OkHttpDownloadJsonUtil.downloadJson(KTListActivity.this, "https://shizhanzhe.com/index.php?m=pcdata.cantuan&pc=1&ktid=" + list.get(position).getId() + "&uid=" + uid + "&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                             @Override
                             public void onsendJson(String json) {
-                                Log.e("_______j",json);
                                 if (json.contains("0")) {
                                     new SVProgressHUD(KTListActivity.this).showInfoWithStatus("无此开团");
                                 } else if (json.contains("1")) {

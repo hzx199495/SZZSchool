@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ScheduleDeatilAdapter extends BaseAdapter{
     private final LayoutInflater inflater;
-    List<ScheduleBean.InfoBean.KcDataBean.VdataBean> list;
+    private List<ScheduleBean.InfoBean.KcDataBean.VdataBean> list;
     public ScheduleDeatilAdapter(Context context, List<ScheduleBean.InfoBean.KcDataBean.VdataBean> list){
         this.list= list;
         inflater = LayoutInflater.from(context);
@@ -60,7 +60,6 @@ public class ScheduleDeatilAdapter extends BaseAdapter{
             double b = Double.parseDouble(bean.getVdetail().getGuantime()) / Double.parseDouble(bean.getVdetail().getVtime())*100;
             NumberFormat nf = NumberFormat.getNumberInstance();
             nf.setMaximumFractionDigits(2);
-            Log.e("______",nf.format(b));
             if (nf.format(b).contains("NaN")){
                 holder.jd.setText("进度：0%");
             }else {

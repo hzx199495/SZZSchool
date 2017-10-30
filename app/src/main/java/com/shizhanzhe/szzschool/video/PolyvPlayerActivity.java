@@ -55,6 +55,8 @@ import com.easefun.polyvsdk.video.listener.IPolyvOnVideoSRTListener;
 import com.easefun.polyvsdk.video.listener.IPolyvOnVideoStatusListener;
 import com.easefun.polyvsdk.vo.PolyvADMatterVO;
 import com.easefun.polyvsdk.vo.PolyvQuestionVO;
+import com.google.gson.Gson;
+import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.InternetReceiver;
@@ -135,6 +137,7 @@ public class PolyvPlayerActivity extends FragmentActivity  {
     private boolean isPlay = false;
     private PolyvPlayerEndFragment polyvPlayerEndFragment;
     private int isreceiver;
+    private String txId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,8 +173,12 @@ public class PolyvPlayerActivity extends FragmentActivity  {
     }
 
     private void addFragment() {
+        String json = getIntent().getStringExtra("json");
+        Gson gson = new Gson();
+        ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
+        txId = tx.getId();
         danmuFragment = new PolyvPlayerDanmuFragment();
-        polyvPlayerEndFragment = new PolyvPlayerEndFragment();
+        polyvPlayerEndFragment =  PolyvPlayerEndFragment.newInstance(json);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.fl_danmu, danmuFragment, "danmuFragment");
 
@@ -686,9 +693,10 @@ public class PolyvPlayerActivity extends FragmentActivity  {
         danmuFragment.pause();
         int currentPosition = videoView.getCurrentPosition()/1000;
         int duration = videoView.getDuration()/1000;
-        OkHttpDownloadJsonUtil.downloadJson(PolyvPlayerActivity.this, new Path(PolyvPlayerActivity.this).VIDEOSCHEDULE(MyApplication.videoitemid, MyApplication.videotypeid, MyApplication.txId,currentPosition,duration), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(PolyvPlayerActivity.this, new Path(PolyvPlayerActivity.this).VIDEOSCHEDULE(MyApplication.videoitemid, MyApplication.videotypeid, txId,currentPosition,duration), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
+                Log.i("____","进度上传成功");
             }
         });
     }
@@ -705,26 +713,27 @@ public class PolyvPlayerActivity extends FragmentActivity  {
     }
 
 
-    public static Intent newIntent(Context context, PlayMode playMode, String vid) {
-        return newIntent(context, playMode, vid, PolyvBitRate.ziDong.getNum());
+    public static Intent newIntent(Context context, PlayMode playMode, String vid,String json) {
+        return newIntent(context, playMode, vid, PolyvBitRate.ziDong.getNum(), json);
     }
 
-    public static Intent newIntent(Context context, PlayMode playMode, String vid, int bitrate) {
-        return newIntent(context, playMode, vid, bitrate, false);
+    public static Intent newIntent(Context context, PlayMode playMode, String vid, int bitrate,String json) {
+        return newIntent(context, playMode, vid, bitrate, false, json);
     }
 
-    public static Intent newIntent(Context context, PlayMode playMode, String vid, int bitrate, boolean startNow) {
-        return newIntent(context, playMode, vid, bitrate, startNow, false);
+    public static Intent newIntent(Context context, PlayMode playMode, String vid, int bitrate, boolean startNow,String json) {
+        return newIntent(context, playMode, vid, bitrate, startNow, false, json);
     }
 
     public static Intent newIntent(Context context, PlayMode playMode, String vid, int bitrate, boolean startNow,
-                                   boolean isMustFromLocal) {
+                                   boolean isMustFromLocal,String json) {
         Intent intent = new Intent(context, PolyvPlayerActivity.class);
         intent.putExtra("playMode", playMode.getCode());
         intent.putExtra("value", vid);
         intent.putExtra("bitrate", bitrate);
         intent.putExtra("startNow", startNow);
         intent.putExtra("isMustFromLocal", isMustFromLocal);
+        intent.putExtra("json", json);
         return intent;
     }
 
@@ -742,7 +751,7 @@ public class PolyvPlayerActivity extends FragmentActivity  {
 
     public static void intentTo(Context context, PlayMode playMode, String vid, int bitrate, boolean startNow,
                                 boolean isMustFromLocal) {
-        context.startActivity(newIntent(context, playMode, vid, bitrate, startNow, isMustFromLocal));
+        context.startActivity(newIntent(context, playMode, vid, bitrate, startNow, isMustFromLocal,""));
     }
 
     /**

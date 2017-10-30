@@ -38,7 +38,7 @@ public class VideoNoteActivity extends Activity {
             public void onClick(View v) {
 
                 if (!"".equals(et_talk.getText().toString())) {
-                    OkHttpDownloadJsonUtil.downloadJson(VideoNoteActivity.this, new Path(VideoNoteActivity.this).NOTELISTEADD(MyApplication.txId, MyApplication.videotypeid, MyApplication.videoitemid,et_talk.getText().toString()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                    OkHttpDownloadJsonUtil.downloadJson(VideoNoteActivity.this, new Path(VideoNoteActivity.this).NOTELISTEADD(getIntent().getStringExtra("txId"), MyApplication.videotypeid, MyApplication.videoitemid,et_talk.getText().toString()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
                         public void onsendJson(String json) {
                             if (json.contains("1")){

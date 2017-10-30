@@ -8,13 +8,13 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.BannerBean;
@@ -53,18 +53,13 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     Banner banner;
     @ViewInject(R.id.center_swip)
     SwipeRefreshLayout swip;
-    List<ProBean.TxBean> list;
-    List<ProBean.TgBean> tg;
-    View rootview;
-    SVProgressHUD mSVProgressHUD;
+    @ViewInject(R.id.state_layout)
+    StateLayout state_layout;
+    private List<ProBean.TxBean> list;
+    private List<ProBean.TgBean> tg;
+    private View rootview;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSVProgressHUD = new SVProgressHUD(getContext());
-        mSVProgressHUD.showWithStatus("加载中...");
 
-    }
 
     @Nullable
     @Override
@@ -76,12 +71,22 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSVProgressHUD.show();
-
+        state_layout.showLoadingView();
         getData();
         swip.setOnRefreshListener(this);
         swip.setColorSchemeResources(R.color.blue2, R.color.red, R.color.green_color, R.color.dimgray);
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                state_layout.showLoadingView();
+                getData();
+            }
 
+            @Override
+            public void loginClick() {
+
+            }
+        });
     }
 
     @Override
@@ -90,7 +95,6 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
 
             @Override
             public void run() {
-                mSVProgressHUD.showWithStatus("加载中...");
                 getData();
                 swip.setRefreshing(false);
             }
@@ -108,6 +112,13 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onsendJson(String json) {
                 try {
+                    if (json.equals("0")){
+                        state_layout.showNoNetworkView();
+                        return;
+                    }else if (json.equals("1")){
+                        state_layout.showTimeoutView();
+                        return;
+                    }
                     Gson gson = new Gson();
                     list = gson.fromJson(json, ProBean.class).getTx();
                     tg = gson.fromJson(json, ProBean.class).getTg();
@@ -131,9 +142,10 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                     TGAdapter tgAdapter = new TGAdapter(null, tg, getContext(), ktagent);
                     gv_tg.setAdapter(tgAdapter);
                     setBanner();
-                    mSVProgressHUD.dismiss();
+                    state_layout.showContentView();
+//                    mSVProgressHUD.dismiss();
                 } catch (Exception e) {
-
+                    state_layout.showErrorView();
                 }
 
 
@@ -143,62 +155,68 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
         gv_wlyx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (yx.get(position).getStatus().equals("0")) {
-                        Intent intent = new Intent();
-                        intent.setClass(getActivity(), DetailActivity.class);
-                        String proid = yx.get(position).getId();
-                        intent.putExtra("id", proid);
-                        startActivity(intent);
-                    } else if (yx.get(position).getStatus().equals("1")) {
-
-                    }
-
-
+                if (yx.get(position).getStatus().equals("0")) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), DetailActivity.class);
+                    String proid = yx.get(position).getId();
+                    intent.putExtra("id", proid);
+                    startActivity(intent);
+                } else if (yx.get(position).getStatus().equals("1")) {
+                    Toast.makeText(getContext(), "课程未开放", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         gv_zyts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    if (ts.get(position).getStatus().equals("0")) {
-                        Intent intent = new Intent();
-                        intent.setClass(getActivity(), DetailActivity.class);
-                        String proid = ts.get(position).getId();
-                        intent.putExtra("id", proid);
-                        startActivity(intent);
-                    } else if (ts.get(position).getStatus().equals("1")) {
-
-                    }
+                if (ts.get(position).getStatus().equals("0")) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), DetailActivity.class);
+                    String proid = ts.get(position).getId();
+                    intent.putExtra("id", proid);
+                    startActivity(intent);
+                } else if (ts.get(position).getStatus().equals("1")) {
+                    Toast.makeText(getContext(), "课程未开放", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
         });
 
     }
-    void setBanner(){
+
+    void setBanner() {
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), "https://shizhanzhe.com/index.php?m=pcdata.haibao1", new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
             @Override
             public void onsendJson(String json) {
-                Gson gson = new Gson();
-                final List<BannerBean> bean = gson.fromJson(json, new TypeToken<List<BannerBean>>() {
-                }.getType());
-                ArrayList<String> images = new ArrayList<>();
-                for (BannerBean b:bean
-                     ) {
-                    images.add(b.getImg());
-                }
-                banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
-                banner.setOnBannerClickListener(new OnBannerClickListener() {
-                    @Override
-                    public void OnBannerClick(int position) {
-                        Intent intent = new Intent();
-                        intent.setClass(getActivity(), DetailActivity.class);
-                        String proid = bean.get(position-1).getId()+"";
-                        intent.putExtra("id", proid);
-                        startActivity(intent);
-                    }
+                try {
 
-                });
+
+                    Gson gson = new Gson();
+                    final List<BannerBean> bean = gson.fromJson(json, new TypeToken<List<BannerBean>>() {
+                    }.getType());
+                    ArrayList<String> images = new ArrayList<>();
+                    for (BannerBean b : bean
+                            ) {
+                        images.add(b.getImg());
+                    }
+                    banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
+                    banner.setOnBannerClickListener(new OnBannerClickListener() {
+                        @Override
+                        public void OnBannerClick(int position) {
+                            Intent intent = new Intent();
+                            intent.setClass(getActivity(), DetailActivity.class);
+                            String proid = bean.get(position - 1).getId() + "";
+                            intent.putExtra("id", proid);
+                            startActivity(intent);
+                        }
+
+                    });
+                } catch (Exception e) {
+
+                }
             }
         });
     }

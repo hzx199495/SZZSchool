@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:baselineAligned="false"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -28,52 +29,74 @@
             android:src="@drawable/back_arrow" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ll"
+    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/state_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
-
+        android:layout_height="match_parent"
+        sl:emptyImg="@drawable/nodata"
+        sl:errorImg="@drawable/ic_state_error"
+        sl:errorText="数据异常"
+        sl:loadingText="@string/loading_tip"
+        sl:noNetworkImg="@drawable/ic_state_no_network"
+        sl:noNetworkText="@string/no_network_tip"
+        sl:timeOutImg="@drawable/ic_state_time_out"
+        sl:timeOutText="@string/time_out_tip">
 
         <LinearLayout
-            android:id="@+id/buy"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#FFA500"
-            >
-            <TextView
-                android:id="@+id/gobuy"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:gravity="center"
-                android:text="￥XXXX"
-                android:textColor="@color/white"/>
-            <TextView
+            android:orientation="vertical">
 
+
+            <LinearLayout
+                android:id="@+id/ll"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:gravity="center"
-                android:text="直接购买"
-                android:textColor="@color/white" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/wh45">
+
+
+                <LinearLayout
+                    android:id="@+id/buy"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#FFA500"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/gobuy"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wh20"
+                        android:gravity="center"
+                        android:text="￥XXXX"
+                        android:textColor="@color/white" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wh20"
+                        android:gravity="center"
+                        android:text="直接购买"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tg"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/red"
+                    android:gravity="center"
+                    android:text="立即参团"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
         </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/tg"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="@color/red"
-            android:gravity="center"
-            android:text="立即参团"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
+    </com.fingdo.statelayout.StateLayout>
 </LinearLayout>

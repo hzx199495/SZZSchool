@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MyExamAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<MyExamBean> list;
+    private List<MyExamBean> list;
     public MyExamAdapter(Context context, List<MyExamBean> list){
         this.list=list;
         inflater = LayoutInflater.from(context);

@@ -34,7 +34,7 @@
     <RadioGroup
         android:id="@+id/bkrg"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/wh40"
         android:orientation="horizontal">
 
         <RadioButton
@@ -61,9 +61,60 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#999"/>
-    <LinearLayout
-        android:id="@+id/ll_bk"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"/>
+        android:layout_height="match_parent">
+
+
+        <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/state_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            sl:emptyImg="@drawable/nodata"
+            sl:errorImg="@drawable/ic_state_error"
+            sl:errorText="数据异常"
+            sl:loadingText="@string/loading_tip"
+            sl:noNetworkImg="@drawable/ic_state_no_network"
+            sl:noNetworkText="@string/no_network_tip"
+            sl:timeOutImg="@drawable/ic_state_time_out"
+            sl:timeOutText="@string/time_out_tip">
+            <FrameLayout
+                android:id="@+id/frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.shizhanzhe.szzschool.utils.RefreshLayout
+                        android:id="@+id/swipe_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ListView
+                            android:id="@+id/bk_lv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </com.shizhanzhe.szzschool.utils.RefreshLayout>
+
+
+                </RelativeLayout>
+            </FrameLayout>
+        </com.fingdo.statelayout.StateLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:clickable="true"
+        android:src="@drawable/put"
+        app:backgroundTint="@color/blue2"
+        app:fabSize="normal" />
+    </RelativeLayout>
+
 </LinearLayout>

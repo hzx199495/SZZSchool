@@ -34,6 +34,14 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
     private int eLength;
     private LinearLayout.LayoutParams lp;
 
+    public static PolyvPlayerTabFragment newInstance(String title) {
+
+        Bundle args = new Bundle();
+        args.putString("title",title);
+        PolyvPlayerTabFragment fragment = new PolyvPlayerTabFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -135,7 +143,7 @@ public class PolyvPlayerTabFragment extends Fragment implements View.OnClickList
             case R.id.tv_question:
                 Intent intent = new Intent(getActivity(), QuestionListActivity.class);
                 intent.putExtra("videoId", MyApplication.videoitemid);
-                intent.putExtra("name", MyApplication.videotitle);
+                intent.putExtra("name", getArguments().getString("title"));
                 startActivity(intent);
                 break;
         }

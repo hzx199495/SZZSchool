@@ -41,6 +41,14 @@ public class PolyvCurriculumFragment extends Fragment {
     private String videoId = "";
     private static final int SETTING = 1;
 
+    public static PolyvCurriculumFragment newInstance(String vjson) {
+
+        Bundle args = new Bundle();
+        args.putString("json",vjson);
+        PolyvCurriculumFragment fragment = new PolyvCurriculumFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -53,13 +61,17 @@ public class PolyvCurriculumFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findIdAndNew();
+        try {
+
+
         Gson gson = new Gson();
-        final List<ProDeatailBean.CiBean> cibean = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
+        final List<ProDeatailBean.CiBean> cibean = gson.fromJson(getArguments().getString("json"), ProDeatailBean.class).getCi();
         final ProDeatailBean.CiBean bean = cibean.get(MyApplication.videotype - 1);
         final Videoadapter videoadapter = new Videoadapter(getContext(), bean.getChoice_kc(), "0", 0);
         lv_cur.setAdapter(videoadapter);
         videoadapter.setSelectItem(MyApplication.position);
         videoadapter.notifyDataSetInvalidated();
+
         lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -94,6 +106,9 @@ public class PolyvCurriculumFragment extends Fragment {
 
             }
         });
+        }catch (Exception e){
+            Toast.makeText(getContext(), "数据异常", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void findIdAndNew() {

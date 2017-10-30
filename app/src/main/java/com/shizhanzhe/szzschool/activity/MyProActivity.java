@@ -68,29 +68,6 @@ public class MyProActivity extends FragmentActivity {
         //设置可以滑动
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         tab.setTabMode(TabLayout.MODE_FIXED);
-//        OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).MYCLASS(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-//            @Override
-//            public void onsendJson(String json) {
-//                Gson gson = new Gson();
-//                final List<MyProBean> list = gson.fromJson(json, new TypeToken<List<MyProBean>>() {
-//                }.getType());
-//                MyProAdapter myProAdapter = new MyProAdapter(list, MyProActivity.this);
-//                if (list.size() > 0) {
-//                    gv.setAdapter(myProAdapter);
-//                    gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            Intent intent = new Intent();
-//                            intent.setClass(MyProActivity.this, DetailActivity.class);
-//                            String proid = list.get(position).getSysinfo().get(0).getId();
-//                            intent.putExtra("id", proid);
-//                            startActivity(intent);
-//                        }
-//                    });
-//                } else {
-//                    gv.setVisibility(View.GONE);
-//                }
-//            }
-//        });
+
     }
 }

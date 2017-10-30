@@ -32,8 +32,8 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 public class CollectAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<CollectListBean>  list;
-    Context context;
+    private List<CollectListBean>  list;
+    private Context context;
 
     public CollectAdapter(Context context, List<CollectListBean> list) {
         this.context=context;

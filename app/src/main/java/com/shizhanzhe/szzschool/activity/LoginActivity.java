@@ -46,7 +46,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.txtMobileNum)
     EditText mEditPsw;
     private SharedPreferences.Editor editor;
-    ProgressDialog dialog;
+    private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +67,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     /**
      * 登录按钮
      */
-    String username;
-    String b;
+    private String username;
+    private String b;
     private void login() {
 
         username = mEditUid.getText().toString();
@@ -125,7 +125,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-
                 if (json.length() <= 5) {
                     dialog.dismiss();
                     new SVProgressHUD(LoginActivity.this).showErrorWithStatus("帐号或密码错误！");

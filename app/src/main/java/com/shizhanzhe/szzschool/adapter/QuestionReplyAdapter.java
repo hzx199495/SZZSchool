@@ -18,7 +18,7 @@ import java.util.List;
 
 public class QuestionReplyAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<QuestionBean.ReplyBean> list;
+    private List<QuestionBean.ReplyBean> list;
     public QuestionReplyAdapter(Context context, List<QuestionBean.ReplyBean> list){
         this.list=list;
         inflater = LayoutInflater.from(context);

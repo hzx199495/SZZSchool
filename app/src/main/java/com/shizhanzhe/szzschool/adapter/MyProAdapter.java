@@ -23,11 +23,12 @@ import java.util.List;
 
 public class MyProAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<MyProBean> list;
+    private List<MyProBean> list;
     public MyProAdapter(List<MyProBean> list, Context context) {
         inflater = LayoutInflater.from(context);
         this.list=list;
     }
+
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
             .displayer(new RoundedBitmapDisplayer(15))

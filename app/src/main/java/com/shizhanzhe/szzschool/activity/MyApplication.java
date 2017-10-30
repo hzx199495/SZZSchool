@@ -1,15 +1,16 @@
 package com.shizhanzhe.szzschool.activity;
 
+import android.Manifest;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.support.multidex.MultiDexApplication;
+import android.support.v4.app.ActivityCompat;
 
 import com.easefun.polyvsdk.PolyvSDKClient;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -17,16 +18,15 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
+//import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.crashreport.CrashReport;
 
-import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -34,22 +34,16 @@ import cn.jpush.android.api.JPushInterface;
  * Created by hasee on 2016/10/31.
  */
 public class MyApplication extends MultiDexApplication {
-    public static String proimg = "";
-    public static String videotitle = "";
-    public static String videototal = "";
 
-    public static int schedule=0;
-    public static String videojson;
+
+    public static int schedule = 0;
     public static int videotype; //分类tab position
     public static String videotypeid;//分类ID
-    public static String  videoitemid;//视频ID
-    public static String tuanid;
-    public static String txId;
-    public static String videosuggest="";
+    public static String videoitemid;//视频ID
     public static int position;
     public static DisplayImageOptions displayoptions;
 
-    public static boolean isLogin=false;
+    public static boolean isLogin = false;
 
     private CrashHandler crashHandler = null;
 
@@ -61,17 +55,18 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
+//        LeakCanary.install(this);
+
+        crashHandler = new CrashHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+
+        Beta.canShowUpgradeActs.add(MainActivity.class);
+        Beta.canShowUpgradeActs.add(SZActivity.class);
+        Bugly.init(getApplicationContext(), "a8db43f7ad", false);
 
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
 
-
-
-        crashHandler = new CrashHandler(this);
-        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
-        Beta.canShowUpgradeActs.add(MainActivity.class);
-        Beta.canShowUpgradeActs.add(SZActivity.class);
-        Bugly.init(getApplicationContext(), "23d54cd6f4", false);
 
         displayoptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.img_load) // 设置图片在下载期间显示的图片
                 .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
@@ -94,6 +89,7 @@ public class MyApplication extends MultiDexApplication {
     //值修改请参考https://github.com/easefun/polyv-android-sdk-demo/wiki/10.%E5%85%B3%E4%BA%8E-SDK%E5%8A%A0%E5%AF%86%E4%B8%B2-%E4%B8%8E-%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93
     private String iv = "2u9gDPKdX6GyQJKU";
     private String aeskey = "VXtlHmwfS2oYm0CZ";
+
     public void initPolyvCilent() {
 
         PolyvSDKClient client = PolyvSDKClient.getInstance();
@@ -107,7 +103,7 @@ public class MyApplication extends MultiDexApplication {
 
 
     private static MyApplication instance;
-    private List<Activity> activityList = new LinkedList();
+    private List<Activity> activityList = new ArrayList<>();
 
     //单例模式中获取唯一的ExitApplication实例
     public static MyApplication getInstance() {
@@ -146,6 +142,8 @@ public class MyApplication extends MultiDexApplication {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
+
+
 }
 
 

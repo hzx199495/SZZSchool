@@ -54,15 +54,16 @@ public class TXZYActivity extends Activity {
     LinearLayout vipll;
     @ViewInject(R.id.vip)
     TextView vip;
-    AlertDialog.Builder dialog;
-    String date;
-    int type;
+    private AlertDialog.Builder dialog;
+    private String date;
+    private int type;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         dialog = new AlertDialog.Builder(this).setTitle("提示");
-         type = getIntent().getIntExtra("type", 0);
+        type = getIntent().getIntExtra("type", 0);
         if (type == 1) {
             title.setText("打赏提现");
         } else if (type == 2) {
@@ -71,7 +72,7 @@ public class TXZYActivity extends Activity {
             title.setText("团购获利提现");
         } else if (type == 4) {
             title.setText("团购获利转移");
-        }else if (type == 5) {
+        } else if (type == 5) {
             title.setText("购买VIP");
             getVIP();
         }
@@ -88,27 +89,29 @@ public class TXZYActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (type == 5) {
-                    getData(new Path(TXZYActivity.this).VIPBUY(money.getText().toString().trim(),date));
-                }
-                if (!"".equals(money.getText().toString().trim())) {
-                    if (type == 1) {
-                    getData(new Path(TXZYActivity.this).DSTIXIAN(money.getText().toString().trim()));
-                    } else if (type == 2) {
-                        getData(new Path(TXZYActivity.this).DSZHUANYI(money.getText().toString().trim()));
-                    } else if (type == 3) {
-                        getData(new Path(TXZYActivity.this).TGTIXIAN(money.getText().toString().trim()));
-                    } else if (type == 4) {
-                        getData(new Path(TXZYActivity.this).TGZHUANYI(money.getText().toString().trim()));
-                    }
+                    getData(new Path(TXZYActivity.this).VIPBUY(money.getText().toString().trim(), date));
+                }else {
+                    if (!"".equals(money.getText().toString().trim())) {
+                        if (type == 1) {
+                            getData(new Path(TXZYActivity.this).DSTIXIAN(money.getText().toString().trim()));
+                        } else if (type == 2) {
+                            getData(new Path(TXZYActivity.this).DSZHUANYI(money.getText().toString().trim()));
+                        } else if (type == 3) {
+                            getData(new Path(TXZYActivity.this).TGTIXIAN(money.getText().toString().trim()));
+                        } else if (type == 4) {
+                            getData(new Path(TXZYActivity.this).TGZHUANYI(money.getText().toString().trim()));
+                        }
 
-                } else {
-                    Toast.makeText(TXZYActivity.this, "金额不能为空", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(TXZYActivity.this, "金额不能为空", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
     }
-    void getData(String path){
-        SharedPreferences preferences =getSharedPreferences("userjson", Context.MODE_PRIVATE);
+
+    void getData(String path) {
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = preferences.edit();
         OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
@@ -116,26 +119,27 @@ public class TXZYActivity extends Activity {
                 Gson gson = new Gson();
                 TXZYBean bean = gson.fromJson(json, TXZYBean.class);
                 int status = bean.getStatus();
-                if (status==1){
+                if (status == 1) {
                     dialog.setMessage("提交成功");
-                    if (type==5){
-                        editor.putString("vip","1");
+                    if (type == 5) {
+                        editor.putString("vip", "1");
                         editor.commit();
                     }
-                }else if (status==2){
+                } else if (status == 2) {
                     dialog.setMessage(bean.getInfo());
                 }
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
                 dialog.create().show();
             }
         });
     }
-    void getVIP(){
+
+    void getVIP() {
         OkHttpDownloadJsonUtil.downloadJson(this, Path.GETVIP(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
@@ -144,11 +148,12 @@ public class TXZYActivity extends Activity {
                 ll.setVisibility(View.GONE);
                 vipll.setVisibility(View.VISIBLE);
                 vip.setText(bean.getVip());
-                date=getDateStr(bean.getToday(),365);
+                date = getDateStr(bean.getToday(), 365);
             }
         });
     }
-    public static String getDateStr(String day,int Num) {
+
+    public static String getDateStr(String day, int Num) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date nowDate = null;
         try {
@@ -157,10 +162,10 @@ public class TXZYActivity extends Activity {
             e.printStackTrace();
         }
         //如果需要向后计算日期 -改为+
-        Date newDate2 = new Date(nowDate.getTime() + (long)Num * 24 * 60 * 60 * 1000);
+        Date newDate2 = new Date(nowDate.getTime() + (long) Num * 24 * 60 * 60 * 1000);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateOk = simpleDateFormat.format(newDate2);
-        Log.i("________date",dateOk);
+
         return dateOk;
     }
 }

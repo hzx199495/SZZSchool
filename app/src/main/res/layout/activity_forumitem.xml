@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
@@ -34,51 +33,69 @@
             android:src="@drawable/back_arrow" />
     </RelativeLayout>
 
-
-
-    <com.shizhanzhe.szzschool.utils.RefreshLayout
-        android:id="@+id/swipe_container"
+    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/state_layout"
         android:layout_width="match_parent"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        >
+        sl:emptyImg="@drawable/nodata"
+        sl:errorImg="@drawable/ic_state_error"
+        sl:errorText="数据异常"
+        sl:loadingText="@string/loading_tip"
+        sl:noNetworkImg="@drawable/ic_state_no_network"
+        sl:noNetworkText="@string/no_network_tip"
+        sl:timeOutImg="@drawable/ic_state_time_out"
+        sl:timeOutText="@string/time_out_tip">
 
-        <ListView
-            android:id="@+id/lv_talk"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.shizhanzhe.szzschool.utils.RefreshLayout
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-    </com.shizhanzhe.szzschool.utils.RefreshLayout>
+            <ListView
+                android:id="@+id/lv_talk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.shizhanzhe.szzschool.utils.RefreshLayout>
 
 
-<RelativeLayout
-android:id="@+id/rl_bot"
-android:layout_width="match_parent"
-android:layout_height="@dimen/bottom_layout_height"
-android:layout_alignParentBottom="true"
-android:background="@drawable/polyv_blue_click_to_gray"
-android:clickable="true">
+        <RelativeLayout
+            android:id="@+id/rl_bot"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_layout_height"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/polyv_blue_click_to_gray"
+            android:clickable="true">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/polyv_ic_disc" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/polyv_ic_disc" />
 
-    <TextView
-        android:id="@+id/et_talk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/bottom_tv_margin_left"
-        android:text="评论"
-        android:textColor="@color/top_layout_color_white"
-        android:textSize="@dimen/bottom_text_size" />
+                <TextView
+                    android:id="@+id/et_talk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/bottom_tv_margin_left"
+                    android:text="评论"
+                    android:textColor="@color/top_layout_color_white"
+                    android:textSize="@dimen/bottom_text_size" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    </com.fingdo.statelayout.StateLayout>
 </LinearLayout>
-</RelativeLayout></LinearLayout>

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class ScheduleAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    ArrayList<String> list;
+    private ArrayList<String> list;
     public ScheduleAdapter(Context context, ArrayList<String> list){
         this.list= list;
         inflater = LayoutInflater.from(context);

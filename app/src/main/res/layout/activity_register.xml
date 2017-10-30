@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/txtPull"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/wh200"
         android:alpha="0.75"
         android:src="@drawable/login"
         android:scaleType="centerInside"
@@ -41,7 +41,7 @@
         android:paddingTop="15.0dip"
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
-        android:textSize="13.0sp" />
+        android:textSize="@dimen/end_text" />
 
     <View
         android:layout_width="fill_parent"
@@ -70,7 +70,7 @@
             android:paddingTop="15.0dip"
             android:textColor="@color/one_level"
             android:textColorHint="@color/hint"
-            android:textSize="13.0sp" />
+            android:textSize="@dimen/end_text" />
 
         <Button
             android:id="@+id/btnSendAuth"
@@ -83,7 +83,7 @@
             android:gravity="center"
             android:text="@string/get_ic"
             android:textColor="@color/one_level"
-            android:textSize="12.0sp" />
+            android:textSize="@dimen/text" />
     </LinearLayout>
 
     <View
@@ -107,7 +107,7 @@
         android:paddingTop="15.0dip"
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
-        android:textSize="13.0sp" />
+        android:textSize="@dimen/end_text" />
 
 
     <View
@@ -123,7 +123,7 @@
             android:onClick="register"
             android:text="立即注册"
             android:textColor="@color/white"
-            android:textSize="15.0sp"
+            android:textSize="@dimen/fl_text"
             android:layout_below="@+id/edit_qrpsw"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -137,7 +137,7 @@
             android:paddingLeft="15.0dip"
             android:text="已有帐号？立即登录"
             android:textColor="@color/dh"
-            android:textSize="14.0sp"
+            android:textSize="@dimen/top_text"
             android:layout_marginTop="25dp"
             android:id="@+id/zhlogin" />
 

@@ -59,11 +59,6 @@ public  class Path {
         return path;
     }
     //课程详情
-    public  String PROLIST() {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.course_data&pc=1&uid="+uid+"&token="+token;
-        return path;
-    }
-    //课程详情
     public  String SECOND(String sid) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.tx_two_pin1&pc=1&sid="+sid+"&uid="+uid+"&token="+token;
         return path;
@@ -145,6 +140,16 @@ public  class Path {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.get_tgdetail&pc=1&id="+tuanid;
         return path;
     }
+    //开团
+    public  String TGKT(String tuanid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.kaituan&pc=1&tid=" + tuanid + "&uid=" + uid + "&token=" + token;
+        return path;
+    }
+    //参团
+    public  String TGCT(String ktid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.cantuan&pc=1&ktid=" + ktid + "&uid=" + uid + "&token=" + token;
+        return path;
+    }
     //我的开团
     public  String MYKT() {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid="+uid+"&token="+token;
@@ -165,19 +170,19 @@ public  class Path {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.r_question&pc=1&spid="+videoid+"&requid="+requid+"&content="+content+"&qid="+qid+"&quid="+uid+"&token="+token;
         return path;
     }
-    //-------------问答中心
+    //问答中心
     public  String QUESTION_CONTENT_PATH() {
         String path = "http://shizhanzhe.com/index.php?" +
                 "m=pcdata.reply_tx&pc=1&uid="+uid+"&token="+token;
         return path;
     }
-    //-----问答页
+    //问答页
     public  String QUESTION_PAGE_PATH(){
         String path = "https://www.shizhanzhe.com/?m=pcdata.reply_index&pc=1" +
                 "&order=1&coid=315&uid="+uid+"&token="+token+"&page=1" ;
         return path;
     }
-    //----问题总数
+    //问题总数
     public static String QUESTION_NUMBER_PATH(){
         String path = "https://shizhanzhe.com/index.php?m=pcdata.reply_num&pc=1";
         return path;

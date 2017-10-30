@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +17,10 @@ import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
-
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
-import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.LoginActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
-import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.adapter.Videoadapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -42,13 +36,14 @@ import java.util.List;
 public class TabLayoutFragment extends Fragment {
     public static String TABLAYOUT_FRAGMENT = "tab_fragment";
     private int type;
+    private String  vjson;
     private ListView lv;
     private View nodata;
-
-    public static TabLayoutFragment newInstance(int type) {
+    public static TabLayoutFragment newInstance(int type,String json) {
         TabLayoutFragment fragment = new TabLayoutFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(TABLAYOUT_FRAGMENT, type);
+        bundle.putString("json",json);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -59,6 +54,7 @@ public class TabLayoutFragment extends Fragment {
 
         if (getArguments() != null) {
             type = (int) getArguments().getSerializable(TABLAYOUT_FRAGMENT);
+            vjson=getArguments().getString("json");
         }
 
     }
@@ -104,32 +100,35 @@ public class TabLayoutFragment extends Fragment {
                         }
 
                     }
-                    lv.setAdapter(new Videoadapter(getContext(), fourlist, txId,protype));
+                    lv.setAdapter(new Videoadapter(getContext(), fourlist, txId, protype));
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                             if (MyApplication.isLogin) {
                                 if (vip.equals("1") || isbuy.equals("1")) {
+
                                     MyApplication.position = position;
                                     MyApplication.videotypeid = fourlist.get(position).getId();
                                     MyApplication.videotype = type;
                                     MyApplication.videoitemid = fourlist.get(position).getId();
-                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url());
+                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url(),vjson);
                                     getContext().startActivity(intent);
+
+
                                 } else {
                                     if (fourlist.size() > 11 && position <= 11) {
                                         MyApplication.position = position;
                                         MyApplication.videotypeid = fourlist.get(position).getId();
                                         MyApplication.videotype = type;
                                         MyApplication.videoitemid = fourlist.get(position).getId();
-                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url());
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url(),vjson);
                                         getContext().startActivity(intent);
                                     } else if (fourlist.size() < 11 && position <= 6) {
                                         MyApplication.position = position;
                                         MyApplication.videotypeid = fourlist.get(position).getId();
                                         MyApplication.videotype = type;
                                         MyApplication.videoitemid = fourlist.get(position).getId();
-                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url());
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url(),vjson);
                                         getContext().startActivity(intent);
                                     } else {
                                         new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
@@ -168,7 +167,7 @@ public class TabLayoutFragment extends Fragment {
         try {
             final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(4).getChoice_kc();
             lv.setEmptyView(nodata);
-            lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId,protype));
+            lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype));
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -178,7 +177,7 @@ public class TabLayoutFragment extends Fragment {
                             MyApplication.videotypeid = choice_kc.get(position).getId();
                             MyApplication.videotype = type;
                             MyApplication.videoitemid = choice_kc.get(position).getId();
-                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url());
+                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url(),vjson);
                             getContext().startActivity(intent);
                         } else {
                             new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
@@ -198,7 +197,7 @@ public class TabLayoutFragment extends Fragment {
     void setData(int tabposition) {
         final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(tabposition).getChoice_kc();
         lv.setEmptyView(nodata);
-        lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId,protype));
+        lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype));
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -209,7 +208,7 @@ public class TabLayoutFragment extends Fragment {
                             MyApplication.videotypeid = choice_kc.get(position).getId();
                             MyApplication.videotype = type;
                             MyApplication.videoitemid = choice_kc.get(position).getId();
-                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url());
+                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url(),vjson);
                             getContext().startActivity(intent);
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -223,7 +222,7 @@ public class TabLayoutFragment extends Fragment {
                                     MyApplication.videotypeid = choice_kc.get(position).getId();
                                     MyApplication.videotype = type;
                                     MyApplication.videoitemid = choice_kc.get(position).getId();
-                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url());
+                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url(),vjson);
                                     getContext().startActivity(intent);
                                 }
                             });
@@ -257,8 +256,8 @@ public class TabLayoutFragment extends Fragment {
     void getData() {
         try {
             Gson gson = new Gson();
-            list = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getCi();
-            ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
+            list = gson.fromJson(vjson, ProDeatailBean.class).getCi();
+            ProDeatailBean.TxBean tx = gson.fromJson(vjson, ProDeatailBean.class).getTx();
             txId = tx.getId();
             isbuy = tx.getIsbuy();
             if (tx.getCatid().contains("41")) {
@@ -266,29 +265,33 @@ public class TabLayoutFragment extends Fragment {
             } else {
                 protype = 2;
             }
-            MyApplication.videosuggest = tx.getSys_hours();
-            MyApplication.txId = txId;
-            MyApplication.videotitle = tx.getStitle();
-            MyApplication.videototal = tx.getKeshi();
             initView();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
 
     }
+    boolean flag=false;
+    @Override
+    public void onPause() {
+        super.onPause();
+        flag=true;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).SECOND(MyApplication.txId), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-            @Override
-            public void onsendJson(String json) {
-                if (!json.equals(MyApplication.videojson)) {
-                    MyApplication.videojson = json;
-                    getData();
+        if (flag) {
+            OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).SECOND(txId), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                @Override
+                public void onsendJson(String json) {
+                    if (!json.equals(vjson)) {
+                        vjson = json;
+                        getData();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

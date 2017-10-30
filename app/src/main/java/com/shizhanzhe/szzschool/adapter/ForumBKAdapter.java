@@ -23,7 +23,7 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
 
 public class ForumBKAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<ForumBean.LtmodelBean> list;
+    private List<ForumBean.LtmodelBean> list;
     public ForumBKAdapter(Context context,List<ForumBean.LtmodelBean> list) {
         this.list=list;
         inflater = LayoutInflater.from(context);

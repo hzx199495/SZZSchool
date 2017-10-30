@@ -2,21 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5F5F5"
     >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/c2"
+        android:padding="5dp"
+        android:layout_marginTop="8dp"/>
     <TextView
         android:id="@+id/tv"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="标题"
         android:textSize="15sp"
         android:gravity="center_vertical"
-        android:drawableLeft="@drawable/ic_jdcenter"
-        android:drawablePadding="3dp"/>
+        />
     <ImageView
         android:layout_width="25dp"
         android:layout_height="40dp"

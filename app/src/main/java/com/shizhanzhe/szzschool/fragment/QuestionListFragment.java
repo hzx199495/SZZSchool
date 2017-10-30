@@ -35,9 +35,9 @@ import java.util.List;
  */
 public class QuestionListFragment extends Fragment {
 
-    TabLayout tab;
+    private TabLayout tab;
 
-    ListView lv;
+    private ListView lv;
     private JSONArray arr, videoArr;
     private List<Video> list;
     private ArrayAdapter<String> adapter;

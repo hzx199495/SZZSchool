@@ -66,7 +66,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     TextView tgtx;
     @ViewInject(R.id.tgzy)
     TextView tgzy;
-    SVProgressHUD mSVProgressHUD;
+    private SVProgressHUD mSVProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
         tgzy.setOnClickListener(this);
     }
 
+    private boolean flag = false;
 
     @Override
     public void onClick(View v) {
@@ -128,6 +129,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
             default:
                 break;
         }
+        flag = true;
     }
 
     @Override
@@ -139,7 +141,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    String frozen_money;
+    private String frozen_money;
 
     void getUserData() {
         mSVProgressHUD.showWithStatus("加载中...");
@@ -150,19 +152,24 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).PERSONALDATA(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Gson gson = new Gson();
-                PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
-                frozen_money = bean.getFrozen_money();
-                money.setText(bean.getFrozen_money());
-                editor.putString("money", bean.getFrozen_money());
-                dsmoney.setText(bean.getUser_money());
-                tgmoney.setText(bean.getTgfee());
-                if (mvip.contains("1")) {
-                    vip.setText("已开通");
-                } else {
-                    vip.setText("未开通");
+                try {
+
+
+                    Gson gson = new Gson();
+                    PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
+                    frozen_money = bean.getFrozen_money();
+                    money.setText(bean.getFrozen_money());
+                    editor.putString("money", bean.getFrozen_money());
+                    dsmoney.setText(bean.getUser_money());
+                    tgmoney.setText(bean.getTgfee());
+                    if (mvip.contains("1")) {
+                        vip.setText("已开通");
+                    } else {
+                        vip.setText("未开通");
+                    }
+                    mSVProgressHUD.dismiss();
+                } catch (Exception e) {
                 }
-                mSVProgressHUD.dismiss();
             }
         });
     }
@@ -170,7 +177,10 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        getUserData();
+        if (flag) {
+            flag = false;
+            getUserData();
+        }
     }
 }
 

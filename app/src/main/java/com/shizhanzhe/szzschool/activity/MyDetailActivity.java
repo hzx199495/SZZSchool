@@ -35,8 +35,8 @@ public class MyDetailActivity extends Activity {
     TextView tv;
     @ViewInject(R.id.back)
     ImageView back;
-    ArrayList<String> parent;
-    HashMap<String, List<String>> map;
+    private  ArrayList<String> parent;
+    private HashMap<String, List<String>> map;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

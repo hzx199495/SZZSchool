@@ -7,7 +7,7 @@
                     android:id="@+id/bk_tv"
                     android:background="@drawable/bkcycle"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/wh30"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="8dp"
@@ -18,7 +18,7 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/top_text"
                   />
 
 </LinearLayout>

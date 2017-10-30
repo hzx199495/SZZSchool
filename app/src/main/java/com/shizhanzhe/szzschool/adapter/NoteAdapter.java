@@ -33,9 +33,9 @@ import java.util.TimeZone;
 
 public class NoteAdapter extends BaseAdapter {
     private final LayoutInflater inflater;
-    List<NoteBean> list;
-    Context context;
-    int type;
+    private List<NoteBean> list;
+    private Context context;
+    private int type;
     public NoteAdapter(Context context, List<NoteBean> list,int type){
         this.type=type;
         this.context=context;

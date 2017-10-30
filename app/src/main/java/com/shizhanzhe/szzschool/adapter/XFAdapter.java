@@ -19,8 +19,8 @@ import java.util.List;
  */
 
 public class XFAdapter extends BaseAdapter {
-    LayoutInflater inflater;
-    List<XFBean> list;
+    private LayoutInflater inflater;
+    private List<XFBean> list;
     public XFAdapter(Context context, List<XFBean> list) {
         this.list=list;
         inflater = LayoutInflater.from(context);

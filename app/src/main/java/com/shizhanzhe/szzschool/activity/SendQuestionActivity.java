@@ -40,7 +40,7 @@ public class SendQuestionActivity extends Activity {
             public void onClick(View v) {
                 if (getIntent().getStringExtra("type").equals("1")){
                     if (!"".equals(et_talk.getText().toString())) {
-                        OkHttpDownloadJsonUtil.downloadJson(SendQuestionActivity.this, new Path(SendQuestionActivity.this).SENDQUESTION("", MyApplication.txId , MyApplication.videotypeid, MyApplication.videoitemid, et_talk.getText().toString()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                        OkHttpDownloadJsonUtil.downloadJson(SendQuestionActivity.this, new Path(SendQuestionActivity.this).SENDQUESTION("", getIntent().getStringExtra("txId") , MyApplication.videotypeid, MyApplication.videoitemid, et_talk.getText().toString()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                             @Override
                             public void onsendJson(String json) {
                                 if (json.contains("1")) {

@@ -7,8 +7,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -32,14 +34,12 @@ import java.util.List;
 public class MyExamActivity extends Activity implements RefreshLayout.OnLoadListener, SwipeRefreshLayout.OnRefreshListener {
     @ViewInject(R.id.lv)
     ListView lv;
-    @ViewInject(R.id.nodata)
-    ImageView nodata;
     @ViewInject(R.id.back)
     ImageView back;
     @ViewInject(R.id.swipe_container)
     RefreshLayout swipeLayout;
-    private SVProgressHUD svProgressHUD;
-
+    @ViewInject(R.id.state_layout)
+    StateLayout state_layout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +53,19 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
         swipeLayout.setColorSchemeResources(R.color.commom_sline_color_gray, R.color.blue2, R.color.red, R.color.green);
         setListener();
         getData();
+        state_layout.showLoadingView();
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                state_layout.showLoadingView();
+                getData();
+            }
+
+            @Override
+            public void loginClick() {
+
+            }
+        });
     }
     /**
      * 设置监听
@@ -62,16 +75,21 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
         swipeLayout.setOnLoadListener(this);
     }
 
-    MyExamAdapter adapter;
-    List<MyExamBean> list;
+    private MyExamAdapter adapter;
+    private List<MyExamBean> list;
     void getData() {
-        svProgressHUD = new SVProgressHUD(this);
-        svProgressHUD.showWithStatus("正在加载...");
         OkHttpDownloadJsonUtil.downloadJson(MyExamActivity.this, new Path(MyExamActivity.this).MYExam(page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
                 try {
+                    if (json.equals("0")){
+                        state_layout.showNoNetworkView();
+                        return;
+                    }else if (json.equals("1")){
+                        state_layout.showTimeoutView();
+                        return;
+                    }
                     Gson gson = new GsonBuilder()
                             .setDateFormat("yyyy-MM-dd")
                             .create();
@@ -79,14 +97,15 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
                     }.getType());
 
                     if (list.size() > 0) {
-                        nodata.setVisibility(View.GONE);
                         adapter = new MyExamAdapter(MyExamActivity.this, list);
                         lv.setAdapter(adapter);
+                        state_layout.showContentView();
                     } else {
-                        nodata.setVisibility(View.VISIBLE);
+                        state_layout.showEmptyView();
                     }
-                    svProgressHUD.dismiss();
-                }catch (Exception e){}
+                }catch (Exception e){
+                    state_layout.showErrorView();
+                }
 
             }
         });
@@ -120,11 +139,15 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
                                 .create();
                         List<MyExamBean> lists = gson.fromJson(json, new TypeToken<List<MyExamBean>>() {
                         }.getType());
-                        for (MyExamBean b :
-                                lists) {
-                            list.add(b);
+                        if (lists.size()==0){
+                            Toast.makeText(MyExamActivity.this, "已经到底了", Toast.LENGTH_SHORT).show();
+                        }else {
+                            for (MyExamBean b :
+                                    lists) {
+                                list.add(b);
+                            }
+                            adapter.notifyDataSetChanged();
                         }
-                        adapter.notifyDataSetChanged();
                     }
                 });
             }

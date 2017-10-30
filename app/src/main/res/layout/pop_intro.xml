@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:padding="5dp"
-            android:text="简介" />
+            android:text="简介"
+            android:textSize="@dimen/top_text"/>
 
 
 </LinearLayout>

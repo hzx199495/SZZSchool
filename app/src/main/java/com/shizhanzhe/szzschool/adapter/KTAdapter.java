@@ -18,11 +18,11 @@ import java.util.List;
  */
 
 public class KTAdapter extends BaseAdapter {
-    LayoutInflater inflater;
-    List<KTListBean> list;
-    String tgtitle;
-    String img;
-    Context context;
+    private LayoutInflater inflater;
+    private List<KTListBean> list;
+    private String tgtitle;
+    private String img;
+    private Context context;
 
     public KTAdapter(Context context, List<KTListBean> list, String tgtitle, String img) {
         this.list = list;

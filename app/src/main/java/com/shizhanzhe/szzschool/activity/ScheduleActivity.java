@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shizhanzhe.szzschool.Bean.ProBean;
@@ -42,12 +43,58 @@ public class ScheduleActivity extends Activity {
     ListView lv;
     @ViewInject(R.id.back)
     ImageView back;
+    @ViewInject(R.id.state_layout)
+    StateLayout state_layout;
+    private List<ProBean.TxBean> list;
+    private ArrayList<String> arrayList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        svProgressHUD = new SVProgressHUD(this);
+        state_layout.showLoadingView();
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                state_layout.showLoadingView();
+                getData();
+            }
+
+            @Override
+            public void loginClick() {
+
+            }
+        });
         getData();
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                svProgressHUD.showWithStatus("正在加载...");
+                SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                final String vip = preferences.getString("vip", "");
+                OkHttpDownloadJsonUtil.downloadJson(ScheduleActivity.this, new Path(ScheduleActivity.this).SECOND(list.get(position).getId()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                    @Override
+                    public void onsendJson(String json) {
+                        try {
+                            Gson gson = new Gson();
+                            ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
+                            String isbuy = tx.getIsbuy();
+                            if (vip.equals("1") || isbuy.equals("1")) {
+                                Intent intent = new Intent(ScheduleActivity.this, ScheduleDeatilActivity.class);
+                                intent.putExtra("name", arrayList.get(position));
+                                intent.putExtra("id", list.get(position).getId());
+                                intent.putExtra("json", json);
+                                startActivity(intent);
+                            } else {
+                                new SVProgressHUD(ScheduleActivity.this).showInfoWithStatus("未购买该体系");
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,52 +103,45 @@ public class ScheduleActivity extends Activity {
         });
     }
 
-    SVProgressHUD svProgressHUD;
+    private SVProgressHUD svProgressHUD;
+
     public void getData() {
-        svProgressHUD = new SVProgressHUD(this);
-        svProgressHUD.showWithStatus("正在加载...");
+
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).CENTER(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
                     public void onsendJson(String json) {
                         try {
+                            if (json.equals("0")) {
+                                state_layout.showNoNetworkView();
+                                return;
+                            } else if (json.equals("1")) {
+                                state_layout.showTimeoutView();
+                                return;
+                            }
                             Gson gson = new Gson();
-                            final List<ProBean.TxBean> list = gson.fromJson(json, ProBean.class).getTx();
-                            final ArrayList<String> arrayList = new ArrayList<>();
+                            list = gson.fromJson(json, ProBean.class).getTx();
+                            arrayList = new ArrayList<>();
                             for (ProBean.TxBean bean : list
                                     ) {
                                 arrayList.add(bean.getStitle());
                             }
-                            lv.setAdapter(new ScheduleAdapter(ScheduleActivity.this, arrayList));
-                            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                                    SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                                    final String vip = preferences.getString("vip", "");
-                                    OkHttpDownloadJsonUtil.downloadJson(ScheduleActivity.this, new Path(ScheduleActivity.this).SECOND(list.get(position).getId()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                                        @Override
-                                        public void onsendJson(String json) {
-                                            MyApplication.videojson = json;
-                                            Gson gson = new Gson();
-                                            ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
-                                            String isbuy = tx.getIsbuy();
-                                            if (vip.equals("1") || isbuy.equals("1")) {
-                                                Intent intent = new Intent(ScheduleActivity.this, ScheduleDeatilActivity.class);
-                                                intent.putExtra("name", arrayList.get(position));
-                                                intent.putExtra("id", list.get(position).getId());
-                                                startActivity(intent);
-                                            } else {
-                                                new SVProgressHUD(ScheduleActivity.this).showInfoWithStatus("未购买该体系");
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                            svProgressHUD.dismiss();
+                            if (arrayList.size() == 0) {
+                                state_layout.showEmptyView();
+                            } else {
+                                lv.setAdapter(new ScheduleAdapter(ScheduleActivity.this, arrayList));
+                                state_layout.showContentView();
+                            }
                         } catch (Exception e) {
+                            state_layout.showErrorView();
                         }
                     }
-
                 }
         );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        svProgressHUD.dismiss();
     }
 }

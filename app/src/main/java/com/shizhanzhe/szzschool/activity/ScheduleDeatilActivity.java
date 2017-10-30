@@ -44,8 +44,9 @@ public class ScheduleDeatilActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        String json = getIntent().getStringExtra("json");
         Gson gson = new Gson();
-        ProDeatailBean.TxBean tx = gson.fromJson(MyApplication.videojson, ProDeatailBean.class).getTx();
+        ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
         tabTitle=null;
         if (tx.getCatid().equals("41")){
             tabTitle = new String[]{"理论", "实战", "拓展", "融合", "精彩直播"};
@@ -54,7 +55,7 @@ public class ScheduleDeatilActivity extends FragmentActivity {
         }
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < tabTitle.length; i++) {
-            fragments.add(ScheduleTabFragment.newInstance(i + 1,getIntent().getStringExtra("id")));
+            fragments.add(ScheduleTabFragment.newInstance(i + 1,getIntent().getStringExtra("id"),json));
         }
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments,tabTitle);
         //给ViewPager设置适配器

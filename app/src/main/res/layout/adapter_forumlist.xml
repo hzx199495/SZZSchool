@@ -12,8 +12,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/userimg"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/wh60"
+            android:layout_height="@dimen/wh60"
             android:layout_gravity="center"
             android:padding="5dp"
             android:src="@drawable/ic_launcher"
@@ -29,7 +29,7 @@
         <TextView
             android:id="@+id/bktitle"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="@dimen/wh25"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/jh"
             android:layout_toRightOf="@+id/jh"
@@ -37,12 +37,12 @@
             android:enabled="true"
             android:text="标题"
             android:textColor="#de000000"
-            android:textSize="15sp" />
+            android:textSize="@dimen/fl_text" />
 
         <TextView
             android:id="@+id/vip"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="@dimen/wh20"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -50,12 +50,12 @@
             android:gravity="center"
             android:text="VIP"
             android:textColor="@color/red"
-            android:textSize="10sp" />
+            android:textSize="@dimen/sp10" />
 
         <TextView
             android:id="@+id/jh"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="@dimen/wh20"
             android:layout_alignParentTop="true"
             android:layout_marginRight="2dp"
             android:layout_toEndOf="@+id/vip"
@@ -64,7 +64,7 @@
             android:gravity="center"
             android:text="精华"
             android:textColor="@color/red"
-            android:textSize="10sp" />
+            android:textSize="@dimen/sp10" />
         <RelativeLayout
             android:id="@+id/two"
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="11dp"
-                android:textSize="12sp"
+                android:textSize="@dimen/text"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:text="V2ex"
                 android:textColor="#3bbd79"
-                android:textSize="13sp"
+                android:textSize="@dimen/end_text"
                 android:layout_centerVertical="true" />
 
             <TextView
@@ -100,7 +100,7 @@
                 android:layout_marginLeft="16dp"
                 android:text="author"
                 android:textColor="@color/blue2"
-                android:textSize="12sp"
+                android:textSize="@dimen/text"
                 android:layout_marginStart="16dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/user"
@@ -110,7 +110,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="@dimen/wh20"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/two">
@@ -118,7 +118,7 @@
             <TextView
                 android:id="@+id/look"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="@dimen/wh20"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="17dp"
                 android:layout_marginRight="17dp"
@@ -128,28 +128,19 @@
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:text="查看"
-                android:textSize="12sp" />
+                android:textSize="@dimen/text" />
 
             <TextView
                 android:id="@+id/rep"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="@dimen/wh20"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="11dp"
                 android:drawableLeft="@drawable/iconlt"
                 android:drawablePadding="2dp"
                 android:gravity="center"
                 android:text="回复"
-                android:textSize="12sp" />
-
-
+                android:textSize="@dimen/text" />
         </RelativeLayout>
     </RelativeLayout>
-
-
-
-
-
-
-
 </LinearLayout>

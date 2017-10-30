@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -27,10 +28,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.io.File;
-import java.math.BigDecimal;
-
-import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by hasee on 2016/11/28.
@@ -50,6 +47,9 @@ public class SZActivity extends Activity implements View.OnClickListener {
     LinearLayout cleanCache;
     @ViewInject(R.id.xgmm)
     LinearLayout xgmm;
+    @ViewInject(R.id.ll_content)
+    LinearLayout contentQQ;
+
     @ViewInject(R.id.back)
     ImageView back;
     @ViewInject(R.id.ll_verson)
@@ -58,9 +58,9 @@ public class SZActivity extends Activity implements View.OnClickListener {
     TextView verson;
     @ViewInject(R.id.ll_about)
     LinearLayout ll_about;
-    int  msgflag = 1;
-    int  reflag=1;
-    SharedPreferences.Editor editor;
+    private int  msgflag = 1;
+    private int  reflag=1;
+    private SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,11 +91,11 @@ public class SZActivity extends Activity implements View.OnClickListener {
                     if (msgflag==1) {
                         msgflag = 2;
                         msg.setChecked(false);
-                        JPushInterface.stopPush(getApplicationContext());
+//                        JPushInterface.stopPush(getApplicationContext());
                     }else{
                         msgflag = 2;
                         msg.setChecked(true);
-                        JPushInterface.resumePush(getApplicationContext());
+//                        JPushInterface.resumePush(getApplicationContext());
                     }
             }
         });
@@ -125,6 +125,7 @@ public class SZActivity extends Activity implements View.OnClickListener {
         xgmm.setOnClickListener(this);
         ll_verson.setOnClickListener(this);
         ll_about.setOnClickListener(this);
+        contentQQ.setOnClickListener(this);
         MyApplication.getInstance().addActivity(this);
     }
 
@@ -184,6 +185,15 @@ public class SZActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.xgmm:
                 startActivity(new Intent(SZActivity.this, XMActivity.class));
+                break;
+            case R.id.ll_content:
+                try {
+                    String url = "mqqwpa://im/chat?chat_type=wpa&uin=800199188";//uin是发送过去的qq号码
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "请检查是否安装QQ", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.ll_verson:
                 Beta.checkUpgrade();

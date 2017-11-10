@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.MainActivity;
@@ -55,22 +56,27 @@ public class WelcomeActivity extends Activity {
                 @Override
                 public void onsendJson(String json) {
                     try {
-                    SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor2 = preferences.edit();
-                    Gson gson = new Gson();
-                    LoginBean bean = gson.fromJson(json, LoginBean.class);
-                    editor2.putString("username", bean.getUsername());
-                    editor2.putString("uid", bean.getId());
-                    editor2.putString("mobile", bean.getMobile());
-                    editor2.putString("token", bean.getToken());
-                    editor2.putString("vip", bean.getVip());
-                    editor2.putString("money", bean.getMoney());
-                    editor2.putString("ktagent", bean.getKaiagent());
-                    editor2.putString("teacher", bean.getIs_teacher());
-                    editor2.putString("jy", bean.getJyan());
-                    editor2.putString("img", bean.getHeadimg());
-                    editor2.commit();
-                    mhandler.sendEmptyMessageDelayed(1, 1500);
+                        if (json.length() <= 5) {
+                            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        } else {
+                            SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor2 = preferences.edit();
+                            Gson gson = new Gson();
+                            LoginBean bean = gson.fromJson(json, LoginBean.class);
+                            editor2.putString("username", bean.getUsername());
+                            editor2.putString("uid", bean.getId());
+                            editor2.putString("mobile", bean.getMobile());
+                            editor2.putString("token", bean.getToken());
+                            editor2.putString("vip", bean.getVip());
+                            editor2.putString("money", bean.getMoney());
+                            editor2.putString("ktagent", bean.getKaiagent());
+                            editor2.putString("teacher", bean.getIs_teacher());
+                            editor2.putString("jy", bean.getJyan());
+                            editor2.putString("img", bean.getHeadimg());
+                            editor2.commit();
+                            mhandler.sendEmptyMessageDelayed(1, 1500);
+                        }
                     }catch (Exception e){
 
                         Toast.makeText(WelcomeActivity.this, "网络异常，请检查重试", Toast.LENGTH_SHORT).show();

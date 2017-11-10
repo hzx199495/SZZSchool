@@ -14,7 +14,6 @@
         android:id="@+id/tv"
         android:gravity="center"
         android:text="板块名"
-        android:textColor="@color/black"
         android:textSize="@dimen/top_text"
         />
 </LinearLayout>

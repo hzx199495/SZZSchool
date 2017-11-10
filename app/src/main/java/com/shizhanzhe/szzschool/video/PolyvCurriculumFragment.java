@@ -75,7 +75,36 @@ public class PolyvCurriculumFragment extends Fragment {
         lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (bean.getChoice_kc().size() > 11 && position <= 11) {
+                if (MyApplication.userType==0){
+                    if (bean.getChoice_kc().size() > 11 && position <= 11) {
+                        videoadapter.setSelectItem(position);
+                        videoadapter.notifyDataSetInvalidated();
+                        MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                        videoId = bean.getChoice_kc().get(position).getMv_url();
+                        polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
+                        polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
+                            @Override
+                            public void callback() {
+                                requestPermissionWriteSettings();
+                            }
+                        });
+                    } else if (bean.getChoice_kc().size() < 11 && position <= 6) {
+                        videoadapter.setSelectItem(position);
+                        videoadapter.notifyDataSetInvalidated();
+                        MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                        videoId = bean.getChoice_kc().get(position).getMv_url();
+                        polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
+                        polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
+                            @Override
+                            public void callback() {
+                                requestPermissionWriteSettings();
+                            }
+                        });
+                    } else {
+                        new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
+                    }
+
+                }else if (MyApplication.userType==1){
                     videoadapter.setSelectItem(position);
                     videoadapter.notifyDataSetInvalidated();
                     MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
@@ -87,20 +116,6 @@ public class PolyvCurriculumFragment extends Fragment {
                             requestPermissionWriteSettings();
                         }
                     });
-                } else if (bean.getChoice_kc().size() < 11 && position <= 6) {
-                    videoadapter.setSelectItem(position);
-                    videoadapter.notifyDataSetInvalidated();
-                    MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
-                    videoId = bean.getChoice_kc().get(position).getMv_url();
-                    polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
-                    polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
-                        @Override
-                        public void callback() {
-                            requestPermissionWriteSettings();
-                        }
-                    });
-                } else {
-                    new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
                 }
 
 

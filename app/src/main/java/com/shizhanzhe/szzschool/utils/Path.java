@@ -306,5 +306,10 @@ public  class Path {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.chaexam&uid="+uid+"&page="+page;
         return path;
     }
+    //课程简介
+    public  String PROINTRO(String sid) {
+        String path = "https://shizhanzhe.com/index.php?m=pcdata1.getcontent&sid="+sid;
+        return path;
+    }
 
 }

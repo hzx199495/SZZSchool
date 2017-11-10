@@ -56,7 +56,6 @@ public class QuestionListFragment extends Fragment {
         tab = (TabLayout) v.findViewById(R.id.tl);
         //设置可以滑动
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tab.setTabMode(TabLayout.MODE_FIXED);
         con = getArguments().getString("con");
         adapter = new ArrayAdapter<String>(getActivity(), R.layout.text_item);
         init();

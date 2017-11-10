@@ -39,22 +39,29 @@ public class ScheduleDeatilActivity extends FragmentActivity {
     ImageView back;
     @ViewInject(R.id.viewpager)
     ViewPager viewpager;
-    public static  String[] tabTitle=null;
+    public static  List<String> tabTitle=new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        tabTitle.clear();
+        viewpager.setVisibility(View.VISIBLE);
+        tab.setVisibility(View.VISIBLE);
         String json = getIntent().getStringExtra("json");
         Gson gson = new Gson();
         ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
-        tabTitle=null;
+        List<ProDeatailBean.CiBean> ci = gson.fromJson(json, ProDeatailBean.class).getCi();
         if (tx.getCatid().equals("41")){
-            tabTitle = new String[]{"理论", "实战", "拓展", "融合", "精彩直播"};
+            for (ProDeatailBean.CiBean bean:ci
+                    ){
+                tabTitle.add(bean.getCtitle());
+            }
         }else{
-            tabTitle=new String[]{"理论", "精彩直播"};
+            tabTitle.add("理论");
+            tabTitle.add("精彩直播");
         }
         List<Fragment> fragments = new ArrayList<>();
-        for (int i = 0; i < tabTitle.length; i++) {
+        for (int i = 0; i < tabTitle.size(); i++) {
             fragments.add(ScheduleTabFragment.newInstance(i + 1,getIntent().getStringExtra("id"),json));
         }
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments,tabTitle);
@@ -64,7 +71,9 @@ public class ScheduleDeatilActivity extends FragmentActivity {
         tab.setupWithViewPager(viewpager);
         //设置可以滑动
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tab.setTabMode(TabLayout.MODE_FIXED);
+        if (tabTitle.size()<5){
+            tab.setTabMode(TabLayout.MODE_FIXED);
+        }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

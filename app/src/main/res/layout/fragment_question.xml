@@ -42,20 +42,21 @@
             <TextView
                 android:id="@+id/tv_3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/wh100"
                 android:gravity="center_vertical"
+                android:textSize="14sp"
                 android:padding="5dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#999" />
+                android:background="#eeeeee" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="@dimen/wh10">
 
                 <com.shizhanzhe.szzschool.utils.MyGridView
 

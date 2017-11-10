@@ -40,7 +40,8 @@ public class MyApplication extends MultiDexApplication {
     public static int videotype; //分类tab position
     public static String videotypeid;//分类ID
     public static String videoitemid;//视频ID
-    public static int position;
+    public static int position; //分类 类下标
+    public static int userType=0;//用户权限
     public static DisplayImageOptions displayoptions;
 
     public static boolean isLogin = false;
@@ -69,6 +70,7 @@ public class MyApplication extends MultiDexApplication {
 
 
         displayoptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.img_load) // 设置图片在下载期间显示的图片
+                .showImageOnFail(R.drawable.image_faild)
                 .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
                 .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
                 .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中

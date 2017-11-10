@@ -144,11 +144,13 @@ public class ScheduleTabFragment extends Fragment {
                 setData(list, 2);
                 break;
             case 4:
-
                 setData(list, 3);
                 break;
             case 5:
                 setData(list, 4);
+                break;
+            case 6:
+                setData(list, 5);
                 break;
         }
     }

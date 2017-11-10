@@ -6,23 +6,11 @@
     android:padding="5dp">
 
 
-    <ImageView
-        android:id="@+id/iv_demo"
-        android:layout_width="@dimen/wh150"
-        android:layout_height="@dimen/wh100"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/polyv_pic_demo" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wh100"
+        android:layout_height="@dimen/wh60"
         android:orientation="vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_alignTop="@+id/iv_demo"
-        android:layout_toRightOf="@+id/iv_demo"
-        android:layout_toEndOf="@+id/iv_demo">
+        android:layout_marginLeft="5dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,17 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_sline_height"
             android:background="@color/commom_sline_color_gray" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/wh40"
-            >
-            <ImageView
-                android:id="@+id/exam"
-                android:layout_width="@dimen/wh80"
-                android:layout_height="match_parent"
-                android:src="@drawable/starexam"
-                android:focusable="false" />
-        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

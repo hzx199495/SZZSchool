@@ -45,11 +45,12 @@ public class MyProActivity extends FragmentActivity {
     TabLayout tab;
     @ViewInject(R.id.viewpager)
     ViewPager viewpager;
-    public static  String[] tabTitle={"课程","收藏","笔记"};
+    public static  List<String> tabTitle=new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        tabTitle.clear();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +58,10 @@ public class MyProActivity extends FragmentActivity {
             }
         });
         List<Fragment> fragments = new ArrayList<>();
-        for (int i = 0; i < tabTitle.length; i++) {
+        tabTitle.add("课程");
+        tabTitle.add("收藏");
+        tabTitle.add("笔记");
+        for (int i = 0; i < tabTitle.size(); i++) {
             fragments.add(ProFragment.newInstance(i + 1));
         }
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments,tabTitle);

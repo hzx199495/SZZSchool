@@ -27,6 +27,7 @@ import com.shizhanzhe.szzschool.utils.GlideImageLoader;
 import com.shizhanzhe.szzschool.utils.MyGridView;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerClickListener;
 
@@ -52,7 +53,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     @ViewInject(R.id.banner)
     Banner banner;
     @ViewInject(R.id.center_swip)
-    SwipeRefreshLayout swip;
+    VpSwipeRefreshLayout swip;
     @ViewInject(R.id.state_layout)
     StateLayout state_layout;
     private List<ProBean.TxBean> list;
@@ -219,5 +220,18 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                 }
             }
         });
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.startAutoPlay();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //结束轮播
+        banner.stopAutoPlay();
     }
 }

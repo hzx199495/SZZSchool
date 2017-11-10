@@ -31,7 +31,7 @@
                 android:singleLine="true"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:textColor="@color/three_level"
+                android:textColor="@color/black"
                 android:textSize="@dimen/top_text" />
 
             <ImageView
@@ -45,23 +45,26 @@
 
         </FrameLayout>
 
-        <Button
+        <TextView
             android:id="@+id/search_btn_back"
-            android:layout_width="@dimen/btn_width"
+            android:layout_width="@dimen/wh40"
             android:layout_height="@dimen/wh35"
             android:layout_gravity="center_vertical"
+            android:gravity="center"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_search_bg"
-            android:text="返回"
+            android:background="#4285f4"
+            android:text="取消"
             android:textSize="@dimen/top_text"
             android:textColor="@color/color_white" />
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,4 +81,19 @@
                 android:divider="@null"/>
         </LinearLayout>
     </ScrollView>
+    <TextView
+        android:layout_marginLeft="@dimen/wh10"
+        android:layout_marginTop="@dimen/wh10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="实战者热搜"
+        android:padding="2dp"
+        android:drawableLeft="@drawable/hotpro"
+        android:textSize="15sp"/>
+    <com.shizhanzhe.szzschool.widge.FlowLayout
+        android:id="@+id/flowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        >
+    </com.shizhanzhe.szzschool.widge.FlowLayout>
 </LinearLayout>

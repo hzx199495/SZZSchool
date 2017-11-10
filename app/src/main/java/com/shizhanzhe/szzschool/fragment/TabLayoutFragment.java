@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
@@ -29,6 +30,8 @@ import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * Created by zz9527 on 2017/5/3.
  */
@@ -38,7 +41,7 @@ public class TabLayoutFragment extends Fragment {
     private int type;
     private String  vjson;
     private ListView lv;
-    private View nodata;
+    private StateLayout state_layout;
     public static TabLayoutFragment newInstance(int type,String json) {
         TabLayoutFragment fragment = new TabLayoutFragment();
         Bundle bundle = new Bundle();
@@ -75,7 +78,20 @@ public class TabLayoutFragment extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
         vip = preferences.getString("vip", "");
         lv = (ListView) view.findViewById(R.id.lv);
-        nodata = view.findViewById(R.id.nodata);
+        state_layout= (StateLayout) view.findViewById(R.id.state_layout);
+        state_layout.setTipText(StateLayout.EMPTY," ");
+        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+            @Override
+            public void refreshClick() {
+                state_layout.showLoadingView();
+                getData();
+            }
+
+            @Override
+            public void loginClick() {
+
+            }
+        });
         getData();
 
     }
@@ -146,7 +162,7 @@ public class TabLayoutFragment extends Fragment {
                 if (protype == 1) {
                     setData(1);
                 } else if (protype == 2) {
-                    setData2();
+                    setData2(4);
                 }
                 break;
             case 3:
@@ -156,18 +172,21 @@ public class TabLayoutFragment extends Fragment {
                 setData(3);
                 break;
             case 5:
-                setData2();
+                setData2(4);
+                break;
+            case 6:
+                setData2(5);
                 break;
         }
-
-
     }
 
-    void setData2() {
+    void setData2(int position) {
         try {
-            final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(4).getChoice_kc();
-            lv.setEmptyView(nodata);
+            final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(position).getChoice_kc();
             lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype));
+            if (choice_kc.size()==0){
+                state_layout.showEmptyView();
+            }
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -196,8 +215,10 @@ public class TabLayoutFragment extends Fragment {
 
     void setData(int tabposition) {
         final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(tabposition).getChoice_kc();
-        lv.setEmptyView(nodata);
         lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype));
+        if (choice_kc.size()==0){
+            state_layout.showEmptyView();
+        }
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {

@@ -16,9 +16,9 @@ import java.util.List;
 public class TabAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;
-    private String [] tabTitle;
+    private List<String> tabTitle;
 
-    public TabAdapter(FragmentManager fm, List<Fragment> fragments,String [] tabTitle) {
+    public TabAdapter(FragmentManager fm, List<Fragment> fragments,List<String> tabTitle) {
         super(fm);
         this.fragments = fragments;
         this.tabTitle=tabTitle;
@@ -38,7 +38,7 @@ public class TabAdapter extends FragmentPagerAdapter {
     //设置tablayout标题
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitle[position];
+        return tabTitle.get(position);
 
     }
 }

@@ -182,7 +182,6 @@ public class FragmentQuestion extends Fragment {
                                 List<QuestionCenterBean> list = gson.fromJson(json, new TypeToken<List<QuestionCenterBean>>() {
                                 }.getType());
                                 lv.setAdapter(new QuestionCenterAdapter(getActivity(), list));
-//                                mSVProgressHUD.dismiss();
                                 state_layout.showContentView();
                         } catch (Exception e) {
                             state_layout.showErrorView();

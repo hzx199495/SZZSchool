@@ -70,7 +70,7 @@
 
     <color name="radiobg">#87CEFA</color>
 
-    <color name="three_level">#ffb8b1b2</color>
+    <color name="three_level">#eeeeee</color>
 
     <color name="title_bg">#ffffffff</color>
 
@@ -133,5 +133,6 @@
     <color name="top">#4285f4 </color>
     <color name="selectyellow">#f9bc07</color>
     <color name="huise">#8a000000</color>
-
+    <color name="close">#53c0ff</color>
+    <color name="open">#fbce62</color>
 </resources>

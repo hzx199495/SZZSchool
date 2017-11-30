@@ -171,6 +171,7 @@
         <activity
             android:name=".activity.ScheduleActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.TermsActivity"/>
         <activity
             android:name=".activity.ScheduleDeatilActivity"
             android:screenOrientation="portrait" />

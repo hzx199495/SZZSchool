@@ -1,4 +1,4 @@
-package com.shizhanzhe.szzschool.pay;
+package com.shizhanzhe.szzschool.Bean;
 
 /**
  * Created by hasee on 2016/12/7.

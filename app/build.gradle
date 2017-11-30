@@ -16,8 +16,8 @@ android {
         applicationId "com.shizhanzhe.szzschool"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 14
-        versionName "1.2.2"
+        versionCode 15
+        versionName "1.2.3"
         resConfigs "zh"
         //64K 引用限制
         multiDexEnabled true
@@ -87,5 +87,4 @@ dependencies {
     compile 'com.github.fingdo:stateLayout:1.0.4'
     //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
 }

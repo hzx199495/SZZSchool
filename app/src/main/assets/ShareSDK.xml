@@ -75,8 +75,8 @@
     <QZone
         Id="3"
         SortId="3"
-        AppId="1106373711"
-        AppKey="1iuMU6Gt3w974ZVM"
+        AppId="1106464761"
+        AppKey="9tE0D5rsB2VRzFwU"
         Enable="true" />
     
     <!-- 
@@ -111,8 +111,8 @@
 	<QQ
         Id="6"
         SortId="6"
-        AppId="1106373711"
-        AppKey="1iuMU6Gt3w974ZVM"
+        AppId="1106464761"
+        AppKey="9tE0D5rsB2VRzFwU"
         ShareByAppClient="true"
         Enable="true" />
 </DevInfor>

@@ -1,10 +1,5 @@
 package com.shizhanzhe.szzschool.activity;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,16 +10,12 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.adapter.ExpanAdapter;
 import com.shizhanzhe.szzschool.adapter.TabAdapter;
 import com.shizhanzhe.szzschool.fragment.TabLayoutFragment;
-import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -32,10 +23,6 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.mob.MobSDK.getContext;
-import static com.shizhanzhe.szzschool.activity.MyApplication.position;
-import static com.shizhanzhe.szzschool.activity.MyApplication.userType;
 
 /**
  * Created by zz9527 on 2017/6/27.
@@ -68,7 +55,6 @@ public class ProjectDetailActivity extends FragmentActivity {
         Gson gson = new Gson();
         ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
         List<ProDeatailBean.CiBean> ci = gson.fromJson(json, ProDeatailBean.class).getCi();
-
         if (tx.getCatid().equals("41")){
             for (ProDeatailBean.CiBean bean:ci
                     ){

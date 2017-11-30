@@ -86,7 +86,7 @@ public class OrderInfoUtil2_0 {
 
 		keyValues.put("version", "1.0");
 
-		keyValues.put("notify_url","http://www.shizhanzhe.com/payapi/notify_url_app.php");
+		keyValues.put("notify_url","https://www.shizhanzhe.com/payapi/notify_url_app.php");
 		return keyValues;
 	}
 	

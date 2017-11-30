@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/layout_login_topbar"
+        style="@style/TopbarStyle">
+
+        <TextView
+            android:id="@+id/bk_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="服务条款"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back_arrow" />
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:paddingLeft="@dimen/wh10"
+            android:paddingRight="@dimen/wh10"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="@dimen/wh10"
+        android:textSize="@dimen/top_text"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="@string/terms_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:textSize="@dimen/top_text"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/terms_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:textSize="@dimen/top_text"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/terms_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:textSize="@dimen/top_text"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/terms_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:textSize="@dimen/top_text"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/terms_9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:textSize="@dimen/top_text"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/terms_11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:textSize="@dimen/top_text"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/terms_13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:textSize="@dimen/top_text"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/terms_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/wh10"
+                android:text="@string/terms_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

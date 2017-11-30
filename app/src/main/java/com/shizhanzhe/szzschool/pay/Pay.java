@@ -13,14 +13,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
-import com.shizhanzhe.szzschool.Bean.LoginBean;
-import com.shizhanzhe.szzschool.Bean.PersonalDataBean;
-import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.Bean.PayBean;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
-import com.shizhanzhe.szzschool.utils.Path;
 
 import java.io.IOException;
 import java.util.Map;
@@ -125,7 +120,7 @@ public class Pay {
                 .build();
         //在构建Request对象时，调用post方法，传入RequestBody对象
         Request request = new Request.Builder()
-                .url("http://2.huobox.com/index.php?m=member.save_bone&pc=1")
+                .url("https://shizhanzhe.com/index.php?m=member.save_bone&pc=1")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -142,7 +137,7 @@ public class Pay {
                 Gson gson = new Gson();
                 PayBean payBean = gson.fromJson(a[1], PayBean.class);
                 long order = payBean.getOrder();
-                Log.i("充值订单号", "订单号" + order);
+                Log.i("充值订单号", a[1]+"订单号" + payBean.getInfo()+payBean.getOrder());
                 payV2(order, price, subject);
             }
         });

@@ -34,7 +34,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import okhttp3.internal.framed.Variant;
 
 /**
  * Created by hasee on 2016/11/4.
@@ -153,8 +152,6 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
             @Override
             public void onsendJson(String json) {
                 try {
-
-
                     Gson gson = new Gson();
                     PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
                     frozen_money = bean.getFrozen_money();

@@ -98,7 +98,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     TextView detail_study;
     @ViewInject(R.id.detail_yjprice)
     TextView detail_yjprice;
-//    @ViewInject(R.id.state_layout)
+    //    @ViewInject(R.id.state_layout)
 //    StateLayout state_layout;
     @ViewInject(R.id.intro)
     RadioButton intro;
@@ -121,14 +121,17 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 
     int rgheight;
     int topheight;
-    int select=1;
+    int select = 1;
+    SVProgressHUD svProgressHUD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
         MobSDK.init(this, "211d17cfbf506", "751845082fc06c195f287737547c9165");
-
+        svProgressHUD = new SVProgressHUD(this);
+        svProgressHUD.showWithStatus("正在加载...");
         back.setOnClickListener(this);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
@@ -159,20 +162,19 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 //
 //            }
 //        });
-        introFragment = IntroFragment.newInstance(id);
-        inintListener();
-        myscroll.setMyScrollListener(this);
+
 
     }
 
     private void inintListener() {
+
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Fragment fragment = null;
                 switch (checkedId) {
                     case R.id.intro:
-                        select=1;
+                        select = 1;
                         intro.setTextColor(getResources().getColor(R.color.blue2));
                         expand.setTextColor(Color.BLACK);
                         intro2.setTextColor(getResources().getColor(R.color.blue2));
@@ -180,7 +182,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                         fragment = introFragment;
                         break;
                     case R.id.expand:
-                        select=2;
+                        select = 2;
                         intro.setTextColor(Color.BLACK);
                         expand.setTextColor(getResources().getColor(R.color.blue2));
                         intro2.setTextColor(Color.BLACK);
@@ -197,9 +199,9 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         intro2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (select==1){
+                if (select == 1) {
 
-                }else{
+                } else {
                     intro2.setTextColor(getResources().getColor(R.color.blue2));
                     expand2.setTextColor(Color.BLACK);
                     rg.check(R.id.intro);
@@ -209,9 +211,9 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         expand2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (select==2){
+                if (select == 2) {
 
-                }else {
+                } else {
                     intro2.setTextColor(Color.BLACK);
                     expand2.setTextColor(getResources().getColor(R.color.blue2));
                     rg2.setVisibility(View.GONE);
@@ -422,13 +424,6 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
             @Override
             public void onsendJson(String json) {
                 try {
-//                    if (json.equals("0")) {
-//                        state_layout.showNoNetworkView();
-//                        return;
-//                    } else if (json.equals("1")) {
-//                        state_layout.showTimeoutView();
-//                        return;
-//                    }
                     vjson = json;
                     Gson gson = new Gson();
                     ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
@@ -452,12 +447,16 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                             buy.setVisibility(View.GONE);
                             study.setVisibility(View.VISIBLE);
                             addwx.setVisibility(View.VISIBLE);
+                            userType = 1;
+
                         } else {
                             if (isbuy.equals("0")) {
+                                userType = 0;
                                 buy.setVisibility(View.VISIBLE);
                                 study.setVisibility(View.GONE);
                                 addwx.setVisibility(View.VISIBLE);
                             } else if (isbuy.equals("1")) {
+                                userType = 1;
                                 buy.setVisibility(View.GONE);
                                 study.setVisibility(View.VISIBLE);
                                 addwx.setVisibility(View.VISIBLE);
@@ -468,15 +467,13 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                         study.setVisibility(View.GONE);
                         addwx.setVisibility(View.VISIBLE);
                     }
-//                    state_layout.showContentView();
+                    introFragment = IntroFragment.newInstance(id, tx.getDuoimg());
+                    inintListener();
+                    myscroll.setMyScrollListener(DetailActivity.this);
+                    svProgressHUD.dismiss();
                 } catch (Exception e) {
-//                    state_layout.showErrorView();
+                    svProgressHUD.dismiss();
                     Toast.makeText(DetailActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
-                }
-                if (isbuy.equals("1")||vip.equals("1")){
-                    userType=1;
-                }else {
-                    userType=0;
                 }
             }
         });
@@ -486,25 +483,25 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     private void showShare() {
 
         OnekeyShare oks = new OnekeyShare();
-//关闭sso授权
+        //关闭sso授权
         oks.disableSSOWhenAuthorize();
-// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
         oks.setTitle(name);
-// titleUrl是标题的网络链接，QQ和QQ空间等使用
+        // titleUrl是标题的网络链接，QQ和QQ空间等使用
         oks.setTitleUrl("https://shizhanzhe.com");
-// text是分享文本，所有平台都需要这个字段
+        // text是分享文本，所有平台都需要这个字段
         oks.setText(name);
-// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         oks.setImageUrl(Path.IMG(img));
-// url仅在微信（包括好友和朋友圈）中使用
+        // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl("https://shizhanzhe.com");
-// comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
         oks.setComment("跟我一起加入实战者!");
-// site是分享此内容的网站名称，仅在QQ空间使用
+        // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite("实战者学院");
-// siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("https://shizhanzhe.com");
-// 启动分享GUI
+        // 启动分享GUI
         oks.show(this);
     }
 
@@ -527,20 +524,21 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
             }
         }
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
+        if (hasFocus) {
             topheight = top.getMeasuredHeight();  //获取位置2，不就是搜索栏的高度么，啊哈哈哈，是不是很机智，当然你也可以用getButtom，一样的，看你自己
-            rgheight = detail_iv.getMeasuredHeight()+detail_title.getMeasuredHeight()+detail_study.getMeasuredHeight()+detail_price.getMeasuredHeight()+topheight; //获取位置3，即内部绿色栏的顶部到布局顶部的距离
+            rgheight = detail_iv.getMeasuredHeight() + detail_title.getMeasuredHeight() + detail_study.getMeasuredHeight() + detail_price.getMeasuredHeight() + topheight; //获取位置3，即内部绿色栏的顶部到布局顶部的距离
         }
     }
+
     @Override
     public void sendDistanceY(int scrollY) {
-//        Log.d("scroll","----------------------topheight:"+topheight+"____rgheight:"+rgheight+"___scroll:"+scrollY);
-        if(scrollY > rgheight){  //如果滑动的距离大于或等于二者距离，显示外部
+        if (scrollY > rgheight) {  //如果滑动的距离大于或等于二者距离，显示外部
             rg2.setVisibility(View.VISIBLE);
-        }else {  //反之隐藏
+        } else {  //反之隐藏
             rg2.setVisibility(View.GONE);
         }
     }

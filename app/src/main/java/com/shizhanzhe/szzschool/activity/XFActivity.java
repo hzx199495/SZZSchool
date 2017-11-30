@@ -60,32 +60,32 @@ public class XFActivity extends Activity {
                 if (list.size()>0) {
                     final XFAdapter xfAdapter = new XFAdapter(getApplicationContext(), list);
                     xf.setAdapter(xfAdapter);
-                    xf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                            new AlertDialog.Builder(XFActivity.this).setTitle("删除").setMessage("确定要删除本条记录吗？")
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String xfid = list.get(position).getId();
-                                            OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), new Path(XFActivity.this).DelXF(xfid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                                                @Override
-                                                public void onsendJson(String json) {
-                                                    Log.i("===", "删除成功" + json);
-                                                }
-                                            });
-                                            list.remove(position);
-                                            xfAdapter.notifyDataSetChanged();
-                                        }
-                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-
-                        }
-                    });
+//                    xf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+//                            new AlertDialog.Builder(XFActivity.this).setTitle("删除").setMessage("确定要删除本条记录吗？")
+//                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            String xfid = list.get(position).getId();
+//                                            OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), new Path(XFActivity.this).DelXF(xfid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//                                                @Override
+//                                                public void onsendJson(String json) {
+//                                                    Log.i("===", "删除成功" + json);
+//                                                }
+//                                            });
+//                                            list.remove(position);
+//                                            xfAdapter.notifyDataSetChanged();
+//                                        }
+//                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            }).show();
+//
+//                        }
+//                    });
                 }else {
                     xf.setVisibility(View.GONE);
                 }

@@ -121,7 +121,6 @@ public class ProExpanFragment extends Fragment {
                                 startActivity(intent);
                             }
 
-
                         } else {
                             Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getContext(), LoginActivity.class));

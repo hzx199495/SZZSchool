@@ -44,6 +44,9 @@ public class RegisterActivity extends Activity {
     EditText qrpsw;
     @ViewInject(R.id.zhlogin)
     TextView login;
+    @ViewInject(R.id.tv)
+    TextView tv;
+
     private final Integer NUM=6;
     private CountDownTimer time;
     private String code="";
@@ -133,6 +136,12 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this,TermsActivity.class));
             }
         });
     }

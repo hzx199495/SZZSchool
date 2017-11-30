@@ -68,10 +68,10 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
         rootview = x.view().inject(this, inflater, null);
         return rootview;
     }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         state_layout.showLoadingView();
         getData();
         swip.setOnRefreshListener(this);

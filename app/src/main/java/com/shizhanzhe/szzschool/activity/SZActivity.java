@@ -49,7 +49,6 @@ public class SZActivity extends Activity implements View.OnClickListener {
     LinearLayout xgmm;
     @ViewInject(R.id.ll_content)
     LinearLayout contentQQ;
-
     @ViewInject(R.id.back)
     ImageView back;
     @ViewInject(R.id.ll_verson)
@@ -188,7 +187,7 @@ public class SZActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.ll_content:
                 try {
-                    String url = "mqqwpa://im/chat?chat_type=wpa&uin=800199188";//uin是发送过去的qq号码
+                    String url = "mqqwpa://im/chat?chat_type=wpa&uin=3547263117";//uin是发送过去的qq号码
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                 } catch (Exception e) {
                     e.printStackTrace();

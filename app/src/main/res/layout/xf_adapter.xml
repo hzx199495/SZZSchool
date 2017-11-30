@@ -23,7 +23,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:gravity="center"
             android:text="2016-12-14 16:07"
             android:textColor="@color/black" />
 
@@ -43,15 +42,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="+0.01"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="删除"
             android:textColor="@color/red" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:text="删除"-->
+            <!--android:textColor="@color/red" />-->
     </LinearLayout>
 </LinearLayout>

@@ -31,7 +31,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import okhttp3.internal.framed.Variant;
 
 /**
  * Created by hasee on 2016/10/31.
@@ -155,8 +154,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 }
             }
         });
-
     }
-
 }
 

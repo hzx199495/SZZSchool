@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.Manifest;
+import android.accessibilityservice.AccessibilityService;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.support.multidex.MultiDexApplication;
 import android.support.v4.app.ActivityCompat;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.easefun.polyvsdk.PolyvSDKClient;
 
@@ -38,8 +41,9 @@ public class MyApplication extends MultiDexApplication {
 
     public static int schedule = 0;
     public static int videotype; //分类tab position
-    public static String videotypeid;//分类ID
+    public static String videotypeid;//视频分类ID
     public static String videoitemid;//视频ID
+    public static String videoname;//视频name
     public static int position; //分类 类下标
     public static int userType=0;//用户权限
     public static DisplayImageOptions displayoptions;

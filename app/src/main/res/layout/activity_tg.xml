@@ -29,18 +29,6 @@
             android:src="@drawable/back_arrow" />
     </RelativeLayout>
 
-    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        sl:emptyImg="@drawable/nodata"
-        sl:errorImg="@drawable/ic_state_error"
-        sl:errorText="数据异常"
-        sl:loadingText="@string/loading_tip"
-        sl:noNetworkImg="@drawable/ic_state_no_network"
-        sl:noNetworkText="@string/no_network_tip"
-        sl:timeOutImg="@drawable/ic_state_time_out"
-        sl:timeOutText="@string/time_out_tip">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,18 +56,18 @@
                     android:background="#FFA500"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/gobuy"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/wh20"
-                        android:gravity="center"
-                        android:text="￥XXXX"
-                        android:textColor="@color/white" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/gobuy"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="@dimen/wh20"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="￥XXXX"-->
+                        <!--android:textColor="@color/white" />-->
 
                     <TextView
 
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/wh20"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="直接购买"
                         android:textColor="@color/white" />
@@ -98,5 +86,10 @@
 
             </LinearLayout>
         </LinearLayout>
-    </com.fingdo.statelayout.StateLayout>
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </com.qmuiteam.qmui.widget.QMUIEmptyView>
 </LinearLayout>

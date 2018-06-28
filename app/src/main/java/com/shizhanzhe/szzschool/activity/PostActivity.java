@@ -1,14 +1,9 @@
 package com.shizhanzhe.szzschool.activity;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -28,30 +22,25 @@ import android.text.style.ImageSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.Image;
 import com.shizhanzhe.szzschool.R;
 
-import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -82,16 +71,15 @@ public class PostActivity extends Activity implements View.OnClickListener {
     private static int RESULT_LOAD_IMAGE = 1;
     private String fid;
     private String uid;
+
     private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-        verifyStoragePermissions(this);
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
-         uid = preferences.getString("uid", "");
-         token = preferences.getString("token", "");
+        uid = preferences.getString("uid", "");
+        token = preferences.getString("token", "");
         fid = getIntent().getStringExtra("fid");
         postimg.setOnClickListener(this);
         post.setOnClickListener(this);
@@ -114,7 +102,10 @@ public class PostActivity extends Activity implements View.OnClickListener {
                 String title = subject.getText().toString();
                 String content = con.getText().toString();
                 if ("".equals(title)&&"".equals(content)){
-                    new SVProgressHUD(PostActivity.this).showInfoWithStatus("标题与内容不能为空！");
+//                    dialog = new QMUITipDialog.Builder(this).setIconType(4).setTipWord("标题与内容不能为空").create();
+//                    dialog.show();
+//                    mhandler.sendEmptyMessageDelayed(1,1500);
+                    Toast.makeText(this, "标题与内容不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 OkHttpClient client = new OkHttpClient();
@@ -143,6 +134,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
                 finish();
         }
     }
+
     private String str="";
     private Handler mHandler = new Handler() {
         @Override
@@ -151,12 +143,18 @@ public class PostActivity extends Activity implements View.OnClickListener {
             if (msg.what==1) {
 
                 if (str.contains("成功")){
-                    new SVProgressHUD(PostActivity.this).showSuccessWithStatus(str);
+                    Toast.makeText(PostActivity.this, str, Toast.LENGTH_SHORT).show();
+//                    dialog = new QMUITipDialog.Builder(PostActivity.this).setIconType(4).setTipWord(str).create();
+//                    dialog.show();
+//                    mhandler.sendEmptyMessageDelayed(1,1500);
                 }
             }else if (msg.what==2){
                 showGalleryPhoto(data);
             }else if (msg.what==3){
-                new SVProgressHUD(PostActivity.this).showSuccessWithStatus("图片大小不超过100KB");
+                Toast.makeText(PostActivity.this, "图片大小不超过100KB", Toast.LENGTH_SHORT).show();
+//                dialog = new QMUITipDialog.Builder(PostActivity.this).setIconType(4).setTipWord("图片大小不超过100KB").create();
+//                dialog.show();
+//                mhandler.sendEmptyMessageDelayed(1,1500);
             }
         }
     };
@@ -345,31 +343,7 @@ public class PostActivity extends Activity implements View.OnClickListener {
         updateContent(content);
 
     }
-    // Storage Permissions
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    /**
-     * Checks if the app has permission to write to device storage
-     * <p>
-     * If the app does not has permission then the user will be prompted to
-     * grant permissions
-     *
-     * @param activity
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE);
-        }
-    }
 }
 
 

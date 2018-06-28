@@ -1,236 +1,226 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:orientation="vertical">-->
+
+<!--<RelativeLayout--><!--android:id="@+id/layout_login_topbar"--><!--style="@style/TopbarStyle">-->
+
+<!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_centerHorizontal="true"--><!--android:layout_centerVertical="true"--><!--android:text="课程详情"--><!--android:textAppearance="?android:attr/textAppearanceLarge"--><!--android:textColor="@color/black"--><!--android:textSize="17sp" />-->
+
+<!--<ImageView--><!--android:id="@+id/back"--><!--android:layout_width="wrap_content"--><!--android:layout_height="20dp"--><!--android:layout_centerVertical="true"--><!--android:layout_marginLeft="15dp"--><!--android:scaleType="centerInside"--><!--android:src="@drawable/back_arrow" />-->
+
+<!--<ImageView--><!--android:id="@+id/share"--><!--style="@style/iv_click_commom"--><!--android:layout_alignParentRight="true"--><!--android:layout_centerVertical="true"--><!--android:src="@drawable/polyv_btn_share" />--><!--</RelativeLayout>-->
+
+
+<!--&lt;!&ndash;<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"&ndash;&gt;--><!--&lt;!&ndash;android:id="@+id/state_layout"&ndash;&gt;--><!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;--><!--&lt;!&ndash;android:layout_height="0dp"&ndash;&gt;--><!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;--><!--&lt;!&ndash;sl:emptyImg="@drawable/nodata"&ndash;&gt;--><!--&lt;!&ndash;sl:errorImg="@drawable/ic_state_error"&ndash;&gt;--><!--&lt;!&ndash;sl:errorText="数据异常"&ndash;&gt;--><!--&lt;!&ndash;sl:loadingText="@string/loading_tip"&ndash;&gt;--><!--&lt;!&ndash;sl:noNetworkImg="@drawable/ic_state_no_network"&ndash;&gt;--><!--&lt;!&ndash;sl:noNetworkText="@string/no_network_tip"&ndash;&gt;--><!--&lt;!&ndash;sl:timeOutImg="@drawable/ic_state_time_out"&ndash;&gt;--><!--&lt;!&ndash;sl:timeOutText="@string/time_out_tip">&ndash;&gt;-->
+
+<!--<com.shizhanzhe.szzschool.widge.HoverScrollView--><!--android:id="@+id/myscroll"--><!--android:layout_width="match_parent"--><!--android:layout_height="0dp"--><!--android:layout_weight="1">-->
+
+<!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:orientation="vertical">-->
+
+<!--<LinearLayout--><!--android:id="@+id/ll"--><!--android:layout_width="match_parent"--><!--android:layout_height="0dp"--><!--android:layout_weight="1"--><!--android:orientation="vertical">-->
+
+<!--<ImageView--><!--android:id="@+id/detail_iv"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/wh200"--><!--android:scaleType="fitXY" />-->
+
+<!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="0dp"--><!--android:layout_weight="1"--><!--&gt;-->
+
+<!--<TextView--><!--android:id="@+id/detail_title"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/wh50"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_alignParentTop="true"--><!--android:gravity="center_vertical"--><!--android:textColor="@color/black"--><!--android:textSize="@dimen/sp22" />-->
+
+<!--<TextView--><!--android:id="@+id/detail_study"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/wh30"--><!--android:gravity="center_vertical"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:layout_below="@+id/detail_title"--><!--/>-->
+
+
+<!--<TextView--><!--android:id="@+id/detail_price"--><!--android:layout_width="wrap_content"--><!--android:layout_height="@dimen/wh50"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:gravity="center_vertical"--><!--android:layout_below="@+id/detail_study"--><!--android:textColor="#FF0000"--><!--android:textSize="@dimen/sp22" />-->
+
+<!--<TextView--><!--android:id="@+id/detail_yjprice"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_above="@+id/ll2"--><!--android:layout_toEndOf="@+id/detail_price"--><!--android:layout_toRightOf="@+id/detail_price"--><!--android:textSize="@dimen/fl_text" />-->
+
+
+<!--<LinearLayout--><!--android:id="@+id/ll2"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/wh40"--><!--android:layout_below="@+id/detail_price"--><!--android:orientation="horizontal">-->
+
+<!--<TextView--><!--android:id="@+id/intro"--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:gravity="center"--><!--android:layout_gravity="center"--><!--android:text="课程简介"--><!--android:textSize="@dimen/fl_text"--><!--android:textColor="@color/blue2"/>-->
+
+<!--<TextView--><!--android:id="@+id/expand"--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:layout_gravity="center"--><!--android:gravity="center"--><!--android:text="课程目录"--><!--android:textSize="@dimen/fl_text"/>--><!--</LinearLayout>--><!--<View--><!--android:id="@+id/view3"--><!--android:layout_width="match_parent"--><!--android:layout_height="1dp"--><!--android:layout_below="@id/ll2"--><!--android:background="#e4e4e4" />--><!--<LinearLayout--><!--android:orientation="vertical"--><!--android:layout_below="@+id/view3"--><!--android:id="@+id/proll"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--/>--><!--<ImageView--><!--android:id="@+id/collect"--><!--android:layout_width="@dimen/wh60"--><!--android:layout_height="@dimen/wh50"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignParentRight="true"--><!--android:layout_below="@+id/detail_title"--><!--android:layout_marginEnd="12dp"--><!--android:layout_marginRight="12dp"--><!--android:src="@drawable/ic_courseplay_star1" />--><!--</RelativeLayout>--><!--</LinearLayout>--><!--</LinearLayout>--><!--</com.shizhanzhe.szzschool.widge.HoverScrollView>--><!--<LinearLayout--><!--android:id="@+id/rg2"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/wh40"--><!--android:visibility="gone"--><!--android:orientation="horizontal"--><!--&gt;-->
+
+<!--<TextView--><!--android:id="@+id/intro2"--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:gravity="center"--><!--android:layout_gravity="center"--><!--android:text="课程简介"--><!--android:textSize="@dimen/fl_text"--><!--android:textColor="@color/blue2"/>-->
+
+<!--<TextView--><!--android:id="@+id/expand2"--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:layout_gravity="center"--><!--android:gravity="center"--><!--android:text="课程目录"--><!--android:textSize="@dimen/fl_text"/>--><!--</LinearLayout>-->
+
+
+<!--</com.fingdo.statelayout.StateLayout>--><!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/wh45"--><!--android:orientation="horizontal">-->
+
+<!--<Button--><!--android:id="@+id/addwx"--><!--android:layout_width="0dp"--><!--android:layout_height="match_parent"--><!--android:layout_weight="0.5"--><!--android:background="#FFA500"--><!--android:text="微信群交流"--><!--android:textColor="#fff"--><!--android:visibility="gone" />-->
+
+<!--<FrameLayout--><!--android:layout_width="0dp"--><!--android:layout_height="@dimen/wh45"--><!--android:layout_weight="1">-->
+
+<!--<Button--><!--android:id="@+id/buy"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="#00bfff"--><!--android:text="购买此课程"--><!--android:textColor="#fff"--><!--android:visibility="gone" />-->
+
+<!--<Button--><!--android:id="@+id/study"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:layout_alignParentBottom="true"--><!--android:layout_alignParentLeft="true"--><!--android:layout_alignParentStart="true"--><!--android:background="#f00"--><!--android:text="立即学习"--><!--android:textColor="#fff"--><!--android:visibility="gone" />--><!--</FrameLayout>--><!--</LinearLayout>-->
+
+<!--</LinearLayout>-->
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-    <RelativeLayout
-        android:id="@+id/layout_login_topbar"
-        style="@style/TopbarStyle">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="课程详情"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/back_arrow" />
-
-        <ImageView
-            android:id="@+id/share"
-            style="@style/iv_click_commom"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/polyv_btn_share" />
-    </RelativeLayout>
-    <LinearLayout
-        android:id="@+id/rg2"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wh40"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:layout_marginRight="10dp">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-        <TextView
-            android:id="@+id/intro2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="课程简介"
-            android:textSize="@dimen/fl_text"
-            android:textColor="@color/blue2"/>
-
-        <TextView
-            android:id="@+id/expand2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:button="@null"
-            android:gravity="center"
-            android:text="课程目录"
-            android:textSize="@dimen/fl_text"/>
-    </LinearLayout>
-    <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/state_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--sl:emptyImg="@drawable/nodata"-->
-        <!--sl:errorImg="@drawable/ic_state_error"-->
-        <!--sl:errorText="数据异常"-->
-        <!--sl:loadingText="@string/loading_tip"-->
-        <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
-        <!--sl:noNetworkText="@string/no_network_tip"-->
-        <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
-        <!--sl:timeOutText="@string/time_out_tip">-->
-
-        <com.shizhanzhe.szzschool.widge.MyScrollView
-            android:id="@+id/myscroll"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7">
 
-                <LinearLayout
-                    android:id="@+id/ll"
+                <ImageView
+                    android:id="@+id/detail_iv"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_height="@dimen/wh200"
+                    android:scaleType="fitXY" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:id="@+id/detail_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wh50"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp22" />
+
+                    <TextView
+                        android:id="@+id/detail_study"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wh30"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/detail_title"
+                        android:gravity="center_vertical" />
+
+                    <TextView
+                        android:id="@+id/detail_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wh50"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/detail_study"
+                        android:gravity="center_vertical"
+                        android:textColor="#FF0000"
+                        android:textSize="@dimen/sp22" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wh20"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/detail_price"
+                        android:gravity="center_vertical"
+                        android:textColor="#FF0000"
+                        android:textSize="@dimen/sp22" />
+
+                    <TextView
+                        android:id="@+id/detail_yjprice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/detail_price"
+                        android:layout_toRightOf="@+id/detail_price"
+                        android:textSize="@dimen/fl_text" />
 
                     <ImageView
-                        android:id="@+id/detail_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/wh200"
-                        android:scaleType="fitXY" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp">
-
-                        <TextView
-                            android:id="@+id/detail_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="10dp"
-
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sp22" />
-
-                        <TextView
-                            android:id="@+id/detail_study"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_below="@+id/detail_title"
-                            android:layout_marginTop="10dp" />
-
-                        <View
-                            android:id="@+id/view"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/detail_study"
-                            android:layout_marginTop="10dp"
-                            android:background="#e4e4e4" />
-
-                        <TextView
-                            android:id="@+id/detail_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_below="@+id/view"
-                            android:layout_marginTop="10dp"
-                            android:paddingLeft="10dp"
-                            android:textColor="#FF0000"
-                            android:textSize="@dimen/sp22" />
-                        <View
-                            android:id="@+id/view2"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/detail_price"
-                            android:layout_marginTop="10dp"
-                            android:background="#e4e4e4" />
-
-                        <TextView
-                            android:id="@+id/detail_yjprice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/rg"
-                            android:layout_toEndOf="@+id/detail_price"
-                            android:layout_toRightOf="@+id/detail_price"
-                            android:paddingLeft="10dp"
-                            android:textSize="@dimen/fl_text" />
-
-
-                        <RadioGroup
-                            android:id="@+id/rg"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/wh40"
-                            android:layout_below="@+id/view2"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/intro"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:button="@null"
-                                android:gravity="center"
-                                android:layout_gravity="center"
-                                android:text="课程简介"
-                                android:textSize="@dimen/fl_text"
-                                android:textColor="@color/blue2"/>
-
-                            <RadioButton
-                                android:id="@+id/expand"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_gravity="center"
-                                android:button="@null"
-                                android:gravity="center"
-                                android:text="课程目录"
-                                android:textSize="@dimen/fl_text"/>
-                        </RadioGroup>
-                        <View
-                            android:id="@+id/view3"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/rg"
-                            android:background="#e4e4e4" />
-                        <LinearLayout
-                            android:layout_marginTop="5dp"
-                            android:orientation="vertical"
-                            android:layout_below="@+id/view3"
-                            android:id="@+id/proll"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-                        <ImageView
-                            android:id="@+id/collect"
-                            android:layout_width="@dimen/wh60"
-                            android:layout_height="@dimen/wh50"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_below="@+id/detail_title"
-                            android:layout_marginEnd="12dp"
-                            android:layout_marginRight="12dp"
-                            android:src="@drawable/ic_courseplay_star1" />
-                    </RelativeLayout>
-                </LinearLayout>
+                        android:id="@+id/collect"
+                        android:layout_width="@dimen/wh60"
+                        android:layout_height="@dimen/wh50"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/detail_title"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
+                        android:src="@drawable/ic_courseplay_star1" />
+                </RelativeLayout>
             </LinearLayout>
-        </com.shizhanzhe.szzschool.widge.MyScrollView>
-    <!--</com.fingdo.statelayout.StateLayout>-->
-    <LinearLayout
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/top_top"
+                app:layout_collapseMode="pin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/back_arrow" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="课程"
+                        android:textSize="17sp"/>
+
+                    <ImageView
+                        android:id="@+id/share"
+                        style="@style/iv_click_commom"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/polyv_btn_share" />
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/wh45"
+            android:layout_height="@dimen/wh40"
+            android:background="@color/white_check"
+            app:tabIndicatorColor="@color/blue2"
+            app:tabSelectedTextColor="@color/blue2"
+            app:tabTextColor="@color/black" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wh10" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:background="#fff"
             android:orientation="horizontal">
 
             <Button
@@ -239,13 +229,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:background="#FFA500"
-                android:text="微信群交流"
+                android:text="联系客服"
                 android:textColor="#fff"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/wh45"
+                android:layout_height="45dp"
                 android:layout_weight="1">
 
                 <Button
@@ -255,7 +245,7 @@
                     android:background="#00bfff"
                     android:text="购买此课程"
                     android:textColor="#fff"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/study"
@@ -267,8 +257,15 @@
                     android:background="#f00"
                     android:text="立即学习"
                     android:textColor="#fff"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
             </FrameLayout>
         </LinearLayout>
+    </RelativeLayout>
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </com.qmuiteam.qmui.widget.QMUIEmptyView>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

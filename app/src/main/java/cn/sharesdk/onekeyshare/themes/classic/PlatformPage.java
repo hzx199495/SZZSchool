@@ -11,12 +11,18 @@ package cn.sharesdk.onekeyshare.themes.classic;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import cn.sharesdk.framework.CustomPlatform;
@@ -29,6 +35,7 @@ import cn.sharesdk.onekeyshare.OnekeyShareThemeImpl;
 
 import com.mob.tools.gui.MobViewPager;
 import com.mob.tools.utils.ResHelper;
+import com.shizhanzhe.szzschool.R;
 
 /** 九宫格的抽象类 */
 public abstract class PlatformPage extends OnekeySharePage {
@@ -47,6 +54,7 @@ public abstract class PlatformPage extends OnekeySharePage {
 		this.impl = ResHelper.forceCast(impl);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	public void onCreate() {
 		activity.getWindow().setBackgroundDrawable(new ColorDrawable(0x4c000000));
 		initAnims();
@@ -73,6 +81,7 @@ public abstract class PlatformPage extends OnekeySharePage {
 		llPanel.setAnimation(animShow);
 		llPage.addView(llPanel, lp);
 
+
 		MobViewPager mvp = new MobViewPager(activity);
 		ArrayList<Object> cells = collectCells();
 		PlatformPageAdapter adapter = newAdapter(cells);
@@ -87,6 +96,30 @@ public abstract class PlatformPage extends OnekeySharePage {
 		vInd.onScreenChange(0, 0);
 		adapter.setIndicator(vInd);
 		mvp.setAdapter(adapter);
+
+		///////////////增加取消按钮layout
+		lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		lp.setMargins(0,0,0,0);
+		LinearLayout buttonLayout2 = new LinearLayout(activity);
+		buttonLayout2.setBackgroundColor(Color.WHITE);
+
+		LinearLayout.LayoutParams lp22 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		lp22.setMargins(20, 20, 20, 20);
+		TextView tv2 = new TextView(activity);
+		tv2.setText("取消分享");
+		tv2.setTextSize(16);
+		tv2.setTextColor(getContext().getColor(R.color.blue2));
+		tv2.setGravity(Gravity.CENTER);
+		tv2.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		buttonLayout2.addView(tv2,lp22);
+		llPanel.addView(buttonLayout2,lp);
 	}
 
 	protected abstract PlatformPageAdapter newAdapter(ArrayList<Object> cells);

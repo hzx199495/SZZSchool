@@ -10,6 +10,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -19,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.DataCleanManager;
 import com.tencent.bugly.beta.Beta;
@@ -60,6 +62,17 @@ public class SZActivity extends Activity implements View.OnClickListener {
     private int  msgflag = 1;
     private int  reflag=1;
     private SharedPreferences.Editor editor;
+    private QMUITipDialog dialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +154,9 @@ public class SZActivity extends Activity implements View.OnClickListener {
                     public void run() {
                         try {
                             cache.setText(DataCleanManager.getTotalCacheSize(getApplicationContext()));
-                            new SVProgressHUD(SZActivity.this).showSuccessWithStatus("缓存已清空");
+                            dialog = new QMUITipDialog.Builder(SZActivity.this).setIconType(4).setTipWord("缓存已清空").create();
+                            dialog.show();
+                            mhandler.sendEmptyMessageDelayed(1,1500);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

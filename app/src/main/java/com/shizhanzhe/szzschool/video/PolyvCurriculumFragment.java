@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,16 +18,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.easefun.polyvsdk.PolyvBitRate;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
-import com.shizhanzhe.szzschool.Bean.VideoBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.adapter.Videoadapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PolyvCurriculumFragment extends Fragment {
@@ -40,7 +41,17 @@ public class PolyvCurriculumFragment extends Fragment {
     private PolyvPermission polyvPermission = null;
     private String videoId = "";
     private static final int SETTING = 1;
-
+    private QMUITipDialog dialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
     public static PolyvCurriculumFragment newInstance(String vjson) {
 
         Bundle args = new Bundle();
@@ -80,6 +91,7 @@ public class PolyvCurriculumFragment extends Fragment {
                         videoadapter.setSelectItem(position);
                         videoadapter.notifyDataSetInvalidated();
                         MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                        MyApplication.videoname=bean.getChoice_kc().get(position).getName();
                         videoId = bean.getChoice_kc().get(position).getMv_url();
                         polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
                         polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
@@ -91,6 +103,7 @@ public class PolyvCurriculumFragment extends Fragment {
                     } else if (bean.getChoice_kc().size() < 11 && position <= 6) {
                         videoadapter.setSelectItem(position);
                         videoadapter.notifyDataSetInvalidated();
+                        MyApplication.videoname=bean.getChoice_kc().get(position).getName();
                         MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
                         videoId = bean.getChoice_kc().get(position).getMv_url();
                         polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
@@ -101,12 +114,15 @@ public class PolyvCurriculumFragment extends Fragment {
                             }
                         });
                     } else {
-                        new SVProgressHUD(getActivity()).showErrorWithStatus("未购买课程无法学习", SVProgressHUD.SVProgressHUDMaskType.None);
+                        dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
+                        dialog.show();
+                        mhandler.sendEmptyMessageDelayed(1,1500);
                     }
 
                 }else if (MyApplication.userType==1){
                     videoadapter.setSelectItem(position);
                     videoadapter.notifyDataSetInvalidated();
+                    MyApplication.videoname=bean.getChoice_kc().get(position).getName();
                     MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
                     videoId = bean.getChoice_kc().get(position).getMv_url();
                     polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);

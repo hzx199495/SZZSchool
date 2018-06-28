@@ -60,14 +60,16 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <!--8.0权限 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <application
         android:name=".activity.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo1"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/QMUI.Compat"
+        tools:replace="icon,label,theme">
         <activity
             android:name=".activity.WelcomeActivity"
             android:theme="@style/WelcomeTheme">
@@ -81,7 +83,8 @@
         <activity android:name=".activity.LoginActivity" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
@@ -99,7 +102,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MoneyActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activity.SZActivity"
             android:screenOrientation="portrait" />
@@ -172,6 +176,7 @@
             android:name=".activity.ScheduleActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.TermsActivity"/>
+        <activity android:name=".activity.ForumTypeActivity"/>
         <activity
             android:name=".activity.ScheduleDeatilActivity"
             android:screenOrientation="portrait" />

@@ -5,19 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.Bean.QuestionBean;
 import com.shizhanzhe.szzschool.R;
@@ -62,19 +62,26 @@ public class VideoQuestionAcitvity extends Activity {
     RelativeLayout rl_bot;
     @ViewInject(R.id.dz)
     ImageView dz;
-    @ViewInject(R.id.state_layout)
-    StateLayout state_layout;
+    @ViewInject(R.id.ll)
+    LinearLayout ll;
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    private QMUITipDialog dialog;
+    private QMUITipDialog error;
+    private QMUITipDialog success;
     private String teacher;
     private String uid;
     private String vip;
     private String qid;
     private String name;
+    private QMUITipDialog mdialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         teacher = preferences.getString("teacher", "");
         vip = preferences.getString("vip", "");
@@ -117,25 +124,26 @@ public class VideoQuestionAcitvity extends Activity {
                         public void onsendJson(String json) {
                             try {
 
-                            List<QuestionBean.QinfoBean> list = bean.getQinfo();
-                            MyApplication.videotypeid = list.get(0).getPid();
-                            MyApplication.videoitemid = list.get(0).getCoid();
-                            Gson gson = new Gson();
-                            List<ProDeatailBean.CiBean> bean = gson.fromJson(json, ProDeatailBean.class).getCi();
-                            for (ProDeatailBean.CiBean b : bean) {
-                                if (b.getId().equals(list.get(0).getPid())) {
-                                    MyApplication.videotype = 1;
-                                    for (ProDeatailBean.CiBean.ChoiceKcBean c :
-                                            b.getChoice_kc()) {
-                                        if (c.getId().equals(list.get(0).getCoid())) {
-                                            Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, c.getMv_url(), json);
-                                            startActivity(intent);
+                                List<QuestionBean.QinfoBean> list = bean.getQinfo();
+                                MyApplication.videotypeid = list.get(0).getPid();
+                                MyApplication.videoitemid = list.get(0).getCoid();
+                                Gson gson = new Gson();
+                                List<ProDeatailBean.CiBean> bean = gson.fromJson(json, ProDeatailBean.class).getCi();
+                                for (ProDeatailBean.CiBean b : bean) {
+                                    if (b.getId().equals(list.get(0).getPid())) {
+                                        MyApplication.videotype = 1;
+                                        for (ProDeatailBean.CiBean.ChoiceKcBean c :
+                                                b.getChoice_kc()) {
+                                            if (c.getId().equals(list.get(0).getCoid())) {
+                                                Intent intent = PolyvPlayerActivity.newIntent(VideoQuestionAcitvity.this, PolyvPlayerActivity.PlayMode.portrait, c.getMv_url(), json);
+                                                startActivity(intent);
+                                            }
                                         }
-                                    }
 
+                                    }
                                 }
+                            } catch (Exception e) {
                             }
-                            }catch (Exception e){}
 
                         }
                     });
@@ -150,40 +158,42 @@ public class VideoQuestionAcitvity extends Activity {
                     intent.putExtra("type", "2");
                     startActivityForResult(intent, 1);
                 } else {
-                    new SVProgressHUD(VideoQuestionAcitvity.this).showInfoWithStatus("无权限回复!");
+                    mdialog = new QMUITipDialog.Builder(VideoQuestionAcitvity.this).setIconType(4).setTipWord("无权限回复").create();
+                    mdialog.show();
+                    mhandler.sendEmptyMessageDelayed(3, 1500);
                 }
 
             }
         });
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
 
-                getData(qid);
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
     }
 
     QuestionBean bean;
 
-    void getData(String qid) {
-
+    void getData(final String qid) {
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(this, Path.QUESTIONDETAIL(qid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 try {
 
-                    if (json.equals("0")){
-                        state_layout.showNoNetworkView();
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData(qid);
+                            }
+                        });
                         return;
-                    }else if (json.equals("1")){
-                        state_layout.showTimeoutView();
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData(qid);
+                            }
+                        });
                         return;
                     }
                     Gson gson = new Gson();
@@ -200,14 +210,37 @@ public class VideoQuestionAcitvity extends Activity {
                     } else {
                         noreply.setVisibility(View.VISIBLE);
                     }
-                    state_layout.showContentView();
+                    dialog.dismiss();
+                    ll.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
-                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getData(qid);
+                        }
+                    });
                 }
 
             }
         });
     }
+
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    error.dismiss();
+                    break;
+                case 2:
+                    success.dismiss();
+                    break;
+                case 3:
+                    mdialog.dismiss();
+            }
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -218,9 +251,14 @@ public class VideoQuestionAcitvity extends Activity {
                 public void onsendJson(String json) {
                     if (json.contains("1")) {
                         getData(qid);
-                        Toast.makeText(VideoQuestionAcitvity.this, "回复成功！", Toast.LENGTH_SHORT).show();
+                        success = new QMUITipDialog.Builder(VideoQuestionAcitvity.this).setIconType(2).setTipWord("回复成功！").create();
+                        success.show();
+                        mhandler.sendEmptyMessageDelayed(2, 1500);
                     } else {
-                        Toast.makeText(VideoQuestionAcitvity.this, "回复失败，请重试！", Toast.LENGTH_SHORT).show();
+                        error = new QMUITipDialog.Builder(VideoQuestionAcitvity.this).setIconType(3).setTipWord("回复失败").create();
+                        error.show();
+                        dialog.dismiss();
+                        mhandler.sendEmptyMessageDelayed(1, 1500);
                     }
                 }
             });

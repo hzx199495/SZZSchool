@@ -8,12 +8,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -24,11 +27,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.BKBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.ForumBKLVAdapter;
@@ -63,8 +66,12 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
 
     @ViewInject(R.id.fab_add)
     FloatingActionButton fab_add;
-    @ViewInject(R.id.state_layout)
-    StateLayout state_layout;
+//    @ViewInject(R.id.state_layout)
+//    StateLayout state_layout;
+@ViewInject(R.id.empty)
+QMUIEmptyView empty;
+
+    private QMUITipDialog dialog;
     private List<BKBean> list;
     private String qx = "";
     private int page = 1;
@@ -73,13 +80,22 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
     private RefreshLayout swipeLayout;
     private String uid;
     private String txId;
-
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         Intent intent = getIntent();
         fid = intent.getStringExtra("fid");
         String name = intent.getStringExtra("name");
@@ -90,30 +106,31 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
         uid = preferences.getString("uid", "");
         final String token = preferences.getString("token", "");
         type = 1;
+        bought(fid, uid);
         init();
         setListener();
         getData();
-        state_layout.setTipText(StateLayout.EMPTY, "");
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                getData();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+//        state_layout.setTipText(StateLayout.EMPTY, "");
+//        state_layout.showLoadingView();
+//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+//            @Override
+//            public void refreshClick() {
+//                state_layout.showLoadingView();
+//                getData();
+//            }
+//
+//            @Override
+//            public void loginClick() {
+//
+//            }
+//        });
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (MyApplication.isLogin) {
                     SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
                     String vip = preferences.getString("vip", "");
-                    if (vip.contains("1") || qx.contains("1")) {
+                    if (vip.contains("1") ) {
                         String title = list.get(position).getSubject();
                         String name = list.get(position).getRealname();
                         String time = list.get(position).getDateline();
@@ -139,7 +156,47 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
                         intent.putExtra("authorid", authorid);
                         startActivity(intent);
                     } else {
-                        buyPro();
+                        if (fid.equals("76")) {
+                            if (qx.contains("1")){
+                                String title = list.get(position).getSubject();
+                                String name = list.get(position).getRealname();
+                                String time = list.get(position).getDateline();
+                                String pid = list.get(position).getPid();
+                                String logo = list.get(position).getLogo();
+                                String rep = list.get(position).getAlltip();
+                                String authorid = list.get(position).getAuthorid();
+
+                                OkHttpDownloadJsonUtil.downloadJson(ForumBKActivity.this, "https://shizhanzhe.com/index.php?m=pcdata.add_num&pc=1&uid=" + uid + "&pid=" + pid + "+&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+                                    @Override
+                                    public void onsendJson(String json) {
+
+                                    }
+                                });
+                                Intent intent = new Intent(ForumBKActivity.this, ForumItemActivity.class);
+                                intent.putExtra("pid", pid);
+                                intent.putExtra("title", title);
+                                intent.putExtra("name", name);
+                                intent.putExtra("img", logo);
+                                intent.putExtra("time", time);
+                                intent.putExtra("rep", rep);
+                                intent.putExtra("fid", fid);
+                                intent.putExtra("authorid", authorid);
+                                startActivity(intent);
+                            }else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ForumBKActivity.this).setTitle("无权限")
+                                        .setMessage("未参与头脑风暴活动,请联系助教老师微信:szz892咨询")
+                                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.create().show();
+                            }
+
+                        }else {
+                            buyPro();
+                        }
                     }
                 } else {
 
@@ -157,15 +214,38 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
                     String jy = preferences.getString("jy", "");
                     String vip = preferences.getString("vip", "");
                     if (jy.contains("0")) {
-                        new SVProgressHUD(ForumBKActivity.this).showErrorWithStatus("已被禁言，无法发帖");
-                    } else if (vip.contains("1") || qx.contains("1")) {
+                        dialog = new QMUITipDialog.Builder(ForumBKActivity.this).setIconType(4).setTipWord("已被禁言，无法发帖").create();
+                        dialog.show();
+                        mhandler.sendEmptyMessageDelayed(1,1500);
+                    } else if (vip.contains("1") ) {
                         flag = true;
                         Intent i = new Intent();
                         i.setClass(ForumBKActivity.this, PostActivity.class);
                         i.putExtra("fid", fid);
                         startActivity(i);
                     } else {
-                        buyPro();
+                        if (fid.equals("76")) {
+                            if (qx.contains("1")){
+                                flag = true;
+                                Intent i = new Intent();
+                                i.setClass(ForumBKActivity.this, PostActivity.class);
+                                i.putExtra("fid", fid);
+                                startActivity(i);
+                            }else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ForumBKActivity.this).setTitle("无权限")
+                                        .setMessage("未参与头脑风暴活动,请联系助教老师微信:szz892咨询")
+                                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.create().show();
+                            }
+
+                        }else {
+                            buyPro();
+                        }
                     }
                 } else {
 
@@ -185,7 +265,7 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
                         hotlist.setTextColor(Color.BLACK);
                         type = 1;
                         page = 1;
-                        state_layout.showLoadingView();
+
                         getData();
                         break;
                     case R.id.hotlist:
@@ -193,7 +273,7 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
                         hotlist.setTextColor(Color.BLUE);
                         type = 2;
                         page = 1;
-                        state_layout.showLoadingView();
+
                         getData();
                         break;
                 }
@@ -239,16 +319,29 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
     ForumBKLVAdapter adapter;
 
     void getData() {
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(ForumBKActivity.this, Path.FORUMBK(fid, page, type), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
                 try {
                     if (json.equals("0")) {
-                        state_layout.showNoNetworkView();
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
                     } else if (json.equals("1")) {
-                        state_layout.showTimeoutView();
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
                     }
                     Gson gson = new GsonBuilder()
@@ -259,12 +352,19 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
                     if (list.size() > 0) {
                         adapter = new ForumBKLVAdapter(ForumBKActivity.this, list);
                         lv.setAdapter(adapter);
-                        state_layout.showContentView();
                     } else {
-                        state_layout.showEmptyView();
+                        empty.show("","暂无帖子");
                     }
+                    dialog.dismiss();
+                    swipeLayout.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
-                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getData();
+                        }
+                    });
                 }
 
             }
@@ -345,4 +445,5 @@ public class ForumBKActivity extends FragmentActivity implements SwipeRefreshLay
                 });
         builder.create().show();
     }
+
 }

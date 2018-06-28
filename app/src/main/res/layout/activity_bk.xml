@@ -66,18 +66,18 @@
         android:layout_height="match_parent">
 
 
-        <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/state_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            sl:emptyImg="@drawable/nodata"
-            sl:errorImg="@drawable/ic_state_error"
-            sl:errorText="数据异常"
-            sl:loadingText="@string/loading_tip"
-            sl:noNetworkImg="@drawable/ic_state_no_network"
-            sl:noNetworkText="@string/no_network_tip"
-            sl:timeOutImg="@drawable/ic_state_time_out"
-            sl:timeOutText="@string/time_out_tip">
+        <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/state_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--sl:emptyImg="@drawable/nodata"-->
+            <!--sl:errorImg="@drawable/ic_state_error"-->
+            <!--sl:errorText="数据异常"-->
+            <!--sl:loadingText="@string/loading_tip"-->
+            <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
+            <!--sl:noNetworkText="@string/no_network_tip"-->
+            <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
+            <!--sl:timeOutText="@string/time_out_tip">-->
             <FrameLayout
                 android:id="@+id/frame"
                 android:layout_width="match_parent"
@@ -102,7 +102,7 @@
 
                 </RelativeLayout>
             </FrameLayout>
-        </com.fingdo.statelayout.StateLayout>
+        <!--</com.fingdo.statelayout.StateLayout>-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add"
@@ -115,6 +115,12 @@
         android:src="@drawable/put"
         app:backgroundTint="@color/blue2"
         app:fabSize="normal" />
+        <com.qmuiteam.qmui.widget.QMUIEmptyView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </com.qmuiteam.qmui.widget.QMUIEmptyView>
     </RelativeLayout>
 
 </LinearLayout>

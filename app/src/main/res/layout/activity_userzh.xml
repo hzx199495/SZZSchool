@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:paddingLeft="15dp"
-            android:layout_height="20dp"
+            android:layout_height="@dimen/wh20"
             android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
@@ -25,8 +25,10 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -266,4 +268,10 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </com.qmuiteam.qmui.widget.QMUIEmptyView>
 </LinearLayout>

@@ -15,9 +15,8 @@ public  class Path {
 
     public Path(Context context){
         SharedPreferences preferences = context.getSharedPreferences("userjson", Context.MODE_PRIVATE);
-        SharedPreferences preferences2 = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         username = preferences.getString("username","");
-        userzh = preferences2.getString("uname","");
+        userzh = preferences.getString("uname","");
         uid = preferences.getString("uid","");;
         token = preferences.getString("token","");
     }
@@ -31,12 +30,22 @@ public  class Path {
         String path="https://shizhanzhe.com/index.php?m=pcdata.zc&pc=1&username="+username+"&password="+pswd;
         return path;
     }
+    //注册验证码
+    public static String REGISTERCODE(String code,String yuliu,String phone){
+        String path="https://shizhanzhe.com/index.php?m=pcdata.alisms&pc=1&code="+code+"&yuliu="+yuliu+"&phone="+phone;
+        return path;
+    }
+
     //修改密码
     public   String CHANGE(String pswd){
         String path="https://shizhanzhe.com/index.php?m=pcdata.xmm1&pc=1&password="+pswd+"&uid="+uid+"&token="+token;
         return path;
     }
-
+    //修改密码验证码
+    public  static String FORGETCODE(String code,String yuliu,String phone){
+        String path=" https://shizhanzhe.com/index.php?m=pcdata.zhmmsms&pc=1&code="+code+"&yuliu="+yuliu+"&phone="+phone;
+        return path;
+    }
     //修改密码
     public   String FORGET(String zh,String pswd){
         String path="https://shizhanzhe.com/index.php?m=pcdata.xmm&pc=1&username="+zh+"&password="+pswd;
@@ -60,7 +69,7 @@ public  class Path {
     }
     //课程详情
     public  String SECOND(String sid) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.tx_two_pin1&pc=1&sid="+sid+"&uid="+uid+"&token="+token;
+        String path = " https://shizhanzhe.com/index.php?m=pcdata.tx_two_pin1&pc=1&sid="+sid+"&uid="+uid+"&token="+token;
         return path;
     }
     //评论
@@ -73,11 +82,7 @@ public  class Path {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.xiaofee&pc=1&uid="+uid +"&token="+token;
         return path;
     }
-    //消费记录
-    public  String DelXF(String id) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.del_xiaofee&pc=1&uid="+id+"&id="+uid+"&token="+token;
-        return path;
-    }
+
     //收藏
     public  String COLLECT(String id) {
         String path = "https://shizhanzhe.com/index.php?m=pcdata.collect_sys&pc=1&uid="+uid+"&systemid="+id+"&token="+token;
@@ -217,7 +222,7 @@ public  class Path {
 
     //打赏提现
     public  String DSTIXIAN(String money) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_zan_txsubmit&txfee="+money+"&aliaccout="+userzh+"&uid="+token;
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_zan_txsubmit&txfee="+money+"&aliaccout="+userzh+"&uid="+uid;
         return path;
     }
     //打赏转移
@@ -227,7 +232,7 @@ public  class Path {
     }
     //团购获利提现
     public  String TGTIXIAN(String money) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_txsubmit&txfee="+money+"&aliaccout="+userzh+"&uid="+token;
+        String path = "https://shizhanzhe.com/index.php?m=pcdata.app_txsubmit&txfee="+money+"&aliaccout="+userzh+"&uid="+uid;
         return path;
     }
     //团购获利转移
@@ -284,7 +289,6 @@ public  class Path {
             String path = "https://www.shizhanzhe.com/?m=pcdata.reply_index&pc=1&order="+type+"&coid="+videoId+"&uid="+uid+"&token="+token+"&page="+page;
             return path;
         }
-
     }
     //视频进度
     public   String VIDEOSCHEDULE(String coid,String pid,String sid,int guantime,int totaltime) {
@@ -292,9 +296,9 @@ public  class Path {
         return path;
     }
     //体系进度
-    public   String STUDYDETAIL(String sid) {
-        String path = "https://shizhanzhe.com/index.php?m=pcdata.uudochas&uid="+uid+"&sid="+sid;
-        return path;
+        public   String STUDYDETAIL(String sid) {
+            String path = "https://shizhanzhe.com/index.php?m=pcdata.uudochas&uid="+uid+"&sid="+sid;
+            return path;
     }
     //我的帖子
     public  String MYFORUM(String fid) {

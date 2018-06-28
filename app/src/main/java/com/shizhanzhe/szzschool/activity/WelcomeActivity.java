@@ -12,7 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
+
 import com.google.gson.Gson;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.MainActivity;
@@ -32,17 +32,15 @@ public class WelcomeActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
-        SharedPreferences firstPreferences = getSharedPreferences("isFirst", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor firstEditor = firstPreferences.edit();
-        final int first = firstPreferences.getInt("first", 0);
-
-        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = preferences.edit();
+        final int first = preferences.getInt("first", 0);
         final String uname = preferences.getString("uname", "");
         String upawd = preferences.getString("upawd", "");
         if (TextUtils.isEmpty(uname) && TextUtils.isEmpty(upawd)) {
             if (first == 0) {
-                firstEditor.putInt("first", 1);
-                firstEditor.commit();
+                editor.putInt("first", 1);
+                editor.commit();
                 mhandler.sendEmptyMessageDelayed(2, 1500);
             }else {
                 Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
@@ -60,21 +58,19 @@ public class WelcomeActivity extends Activity {
                             Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                             startActivity(intent);
                         } else {
-                            SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor2 = preferences.edit();
                             Gson gson = new Gson();
                             LoginBean bean = gson.fromJson(json, LoginBean.class);
-                            editor2.putString("username", bean.getUsername());
-                            editor2.putString("uid", bean.getId());
-                            editor2.putString("mobile", bean.getMobile());
-                            editor2.putString("token", bean.getToken());
-                            editor2.putString("vip", bean.getVip());
-                            editor2.putString("money", bean.getMoney());
-                            editor2.putString("ktagent", bean.getKaiagent());
-                            editor2.putString("teacher", bean.getIs_teacher());
-                            editor2.putString("jy", bean.getJyan());
-                            editor2.putString("img", bean.getHeadimg());
-                            editor2.commit();
+                            editor.putString("username", bean.getUsername());
+                            editor.putString("uid", bean.getId());
+                            editor.putString("mobile", bean.getMobile());
+                            editor.putString("token", bean.getToken());
+                            editor.putString("vip", bean.getVip());
+                            editor.putString("money", bean.getMoney());
+                            editor.putString("ktagent", bean.getKaiagent());
+                            editor.putString("teacher", bean.getIs_teacher());
+                            editor.putString("jy", bean.getJyan());
+                            editor.putString("img", bean.getHeadimg());
+                            editor.commit();
                             mhandler.sendEmptyMessageDelayed(1, 1500);
                         }
                     }catch (Exception e){

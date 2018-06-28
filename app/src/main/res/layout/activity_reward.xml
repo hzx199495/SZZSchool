@@ -92,7 +92,8 @@
         android:cursorVisible="false"
         android:hint="请输入打赏金额"
         android:textColor="@color/red"
-        android:textColorHint="#707070" />
+        android:textColorHint="#707070"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"

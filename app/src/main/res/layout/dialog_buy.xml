@@ -20,7 +20,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="@dimen/wh20"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,21 +31,20 @@
             android:layout_height="wrap_content"
             android:text="课程"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/top_text_size"
             android:gravity="center"/>
     <TextView
-
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="金额"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="@dimen/top_text_size"
         android:gravity="center"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"/>
+        android:layout_height="@dimen/wh10"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,13 +69,20 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="@dimen/wh20"/>
+    <TextView
+        android:id="@+id/usermoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/wh10"
+        android:textColor="@color/black"
+        android:text="账户余额："/>
     <Button
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/wh10"
         android:id="@+id/buy_yes"
         android:background="@drawable/login_button_bg"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/wh30"
         android:text="确定"
         android:textSize="17sp"/>
     <View

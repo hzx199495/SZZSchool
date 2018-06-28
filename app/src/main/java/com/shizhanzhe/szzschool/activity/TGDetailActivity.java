@@ -4,22 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.TGDetailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.fragment.TGJoinFragment;
@@ -45,8 +45,8 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
     TextView tg;
     @ViewInject(R.id.buy)
     LinearLayout buy;
-    @ViewInject(R.id.gobuy)
-    TextView gobuy;
+//    @ViewInject(R.id.gobuy)
+//    TextView gobuy;
     private String title;
     private String yjprice;
     private String id;
@@ -62,26 +62,27 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
     private String uid;
     private String token;
     private int ct,kt;
-    private StateLayout state_layout;
+
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    private QMUITipDialog dialog;
+    private QMUITipDialog ktdialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    ktdialog.dismiss();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-        state_layout= (StateLayout)findViewById(R.id.state_layout);
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                getData();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
          uid = preferences.getString("uid", "");
          token = preferences.getString("token", "");
@@ -97,15 +98,29 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
         buy.setOnClickListener(this);
     }
     void getData(){
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(this, Path.TGDETAIL(tuanid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
+
                 try {
-                    if (json.equals("0")){
-                        state_layout.showNoNetworkView();
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
-                    }else if (json.equals("1")){
-                        state_layout.showTimeoutView();
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
                     }
                     Gson gson = new Gson();
@@ -117,14 +132,19 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
                     ktprice = bean.get(0).getPrice();
                     tgprice = bean.get(0).getPtmoney();
                     txid = bean.get(0).getTx().getId();
-                    yjprice = bean.get(0).getNowprice();
-                    gobuy.setText("￥" + yjprice);
+//                    yjprice= bean.get(0).getNowprice();
+//                    gobuy.setText("￥" + yjprice);
                     kfm = bean.get(0).getKfm();
                     intro = bean.get(0).getTx().getIntroduce();
                     initView();
-
                 }catch (Exception e){
-                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getData();
+                        }
+                    });
                 }
             }
         });
@@ -139,11 +159,10 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
             }else{
                 tg.setText("立即开团");
             }
-
             TGOpenFragment tgOpenFragment = TGOpenFragment.newInstance(title, img, time, intro, ktprice, tgprice, kfm,tuanid);
             transaction.add(R.id.ll, tgOpenFragment);
             transaction.commit();
-            state_layout.showContentView();
+            dialog.dismiss();
 
         } else if (type == 2) {
             if (ct==1){
@@ -155,7 +174,7 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
             TGJoinFragment tgJoinFragment = TGJoinFragment.newInstance(title, img, time, tgprice, intro);
             transaction.add(R.id.ll, tgJoinFragment);
             transaction.commit();
-            state_layout.showContentView();
+            dialog.dismiss();
         }
 
     }
@@ -180,9 +199,13 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
                             try {
 
                             if (json.contains("0")) {
-                                new SVProgressHUD(TGDetailActivity.this).showInfoWithStatus("没有开团权限");
+                                ktdialog = new QMUITipDialog.Builder(TGDetailActivity.this).setIconType(4).setTipWord("没有开团权限").create();
+                                ktdialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                             } else if (json.contains("1")) {
-                                new SVProgressHUD(TGDetailActivity.this).showInfoWithStatus("开团成功");
+                                ktdialog = new QMUITipDialog.Builder(TGDetailActivity.this).setIconType(2).setTipWord("开团成功").create();
+                                ktdialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                                 tg.setText("已开团");
                                 FragmentManager manager = getSupportFragmentManager();
                                 FragmentTransaction transaction = manager.beginTransaction();
@@ -190,16 +213,26 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
                                 transaction.add(R.id.ll, tgOpenFragment);
                                 transaction.commit();
                             } else if (json.contains("2")) {
-                                new SVProgressHUD(TGDetailActivity.this).showInfoWithStatus("数据库操作失败");
+                                ktdialog = new QMUITipDialog.Builder(TGDetailActivity.this).setIconType(4).setTipWord("数据库操作失败").create();
+                                ktdialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                             } else if (json.contains("3")) {
-                                new SVProgressHUD(TGDetailActivity.this).showInfoWithStatus("余额不足，请充值");
+                                ktdialog = new QMUITipDialog.Builder(TGDetailActivity.this).setIconType(4).setTipWord("余额不足，请充值").create();
+                                ktdialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                             } else if (json.contains("4")) {
-                                new SVProgressHUD(TGDetailActivity.this).showInfoWithStatus("已经开团");
+                                ktdialog = new QMUITipDialog.Builder(TGDetailActivity.this).setIconType(4).setTipWord("已经开团").create();
+                                ktdialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                             } else if (json.contains("5")) {
-                                new SVProgressHUD(TGDetailActivity.this).showInfoWithStatus("无此团购");
+                                ktdialog = new QMUITipDialog.Builder(TGDetailActivity.this).setIconType(4).setTipWord("无此团购").create();
+                                ktdialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                             }
                             }catch (Exception e){
-                                Toast.makeText(TGDetailActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
+                                ktdialog = new QMUITipDialog.Builder(TGDetailActivity.this).setIconType(3).setTipWord("数据异常").create();
+                                ktdialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                             }
                         }
                     });
@@ -216,9 +249,9 @@ public class TGDetailActivity extends FragmentActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getData();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        getData();
+//    }
 }

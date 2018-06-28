@@ -9,15 +9,12 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
-import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.adapter.ForumBKAdapter;
-import com.shizhanzhe.szzschool.adapter.ForumLVAdapter;
 import com.shizhanzhe.szzschool.adapter.ScheduleAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
@@ -38,8 +35,9 @@ public class MyForumActivity extends Activity {
     ListView lv;
     @ViewInject(R.id.back)
     ImageView back;
-    @ViewInject(R.id.state_layout)
-    StateLayout state_layout;
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    private QMUITipDialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,26 +48,34 @@ public class MyForumActivity extends Activity {
                 finish();
             }
         });
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                getData();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         getData();
     }
     void getData(){
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(this, Path.FORUMHOME(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 try {
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
+                        return;
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
+                        return;
+                    }
                     Gson gson = new GsonBuilder()
                             .setDateFormat("yyyy-MM-dd")
                             .create();
@@ -80,10 +86,10 @@ public class MyForumActivity extends Activity {
                         arrayList.add(bean.getName());
                     }
                     if (arrayList.size()==0){
-                        state_layout.showEmptyView();
+                        empty.show("", "暂无数据");
                     }else {
                         lv.setAdapter(new ScheduleAdapter(MyForumActivity.this, arrayList));
-                        state_layout.showContentView();
+
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -94,8 +100,15 @@ public class MyForumActivity extends Activity {
                             }
                         });
                     }
+                    dialog.dismiss();
                 }catch (Exception e){
-                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getData();
+                        }
+                    });
                 }
 
             }

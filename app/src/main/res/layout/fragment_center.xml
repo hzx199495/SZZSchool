@@ -2,25 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        sl:emptyImg="@drawable/nodata"
-        sl:emptyText="  "
-        sl:errorImg="@drawable/ic_state_error"
-        sl:errorText="数据异常"
-        sl:loadingText="@string/loading_tip"
-        sl:noNetworkImg="@drawable/ic_state_no_network"
-        sl:noNetworkText="@string/no_network_tip"
-        sl:timeOutImg="@drawable/ic_state_time_out"
-        sl:timeOutText="@string/time_out_tip">
+    xmlns:sl="http://schemas.android.com/apk/res-auto">
+    <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/state_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--sl:emptyImg="@drawable/nodata"-->
+        <!--sl:emptyText="  "-->
+        <!--sl:errorImg="@drawable/ic_state_error"-->
+        <!--sl:errorText="数据异常"-->
+        <!--sl:loadingText="@string/loading_tip"-->
+        <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
+        <!--sl:noNetworkText="@string/no_network_tip"-->
+        <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
+        <!--sl:timeOutText="@string/time_out_tip">-->
+
 
     <com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout
         android:id="@+id/center_swip"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -140,15 +142,44 @@
                     android:padding="2dp"
                     android:scrollbars="none"
                     android:verticalSpacing="10dp" />
-
-                <TextView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="我是有底线的"
-                    android:gravity="center"
-                    android:layout_margin="5dp"/>
-           </LinearLayout>>
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/line" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:text="我是有底线的" />
+
+
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+           </LinearLayout>
         </ScrollView>
     </com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout>
-    </com.fingdo.statelayout.StateLayout>
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </com.qmuiteam.qmui.widget.QMUIEmptyView>
+    <!--</com.fingdo.statelayout.StateLayout>-->
 </RelativeLayout>

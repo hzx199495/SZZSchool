@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -137,7 +136,7 @@ public class TGAdapter extends BaseAdapter {
                                 intent.putExtra("type", 1);
                                 context.startActivity(intent);
                             } else {
-                                new SVProgressHUD(context).showInfoWithStatus("无开团权限");
+                                Toast.makeText(context, "无开团权限", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
@@ -208,7 +207,7 @@ public class TGAdapter extends BaseAdapter {
                                 intent.putExtra("type", 1);
                                 context.startActivity(intent);
                             } else {
-                                new SVProgressHUD(context).showInfoWithStatus("无开团权限");
+                                Toast.makeText(context, "无开团权限", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();

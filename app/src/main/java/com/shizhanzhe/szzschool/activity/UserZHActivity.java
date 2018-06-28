@@ -17,11 +17,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.Bean.PersonalDataBean;
 import com.shizhanzhe.szzschool.R;
@@ -65,14 +67,17 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     TextView tgtx;
     @ViewInject(R.id.tgzy)
     TextView tgzy;
-    private SVProgressHUD mSVProgressHUD;
-
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    @ViewInject(R.id.scroll)
+    ScrollView scroll;
+    private QMUITipDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-        mSVProgressHUD = new SVProgressHUD(this);
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
 
         getUserData();
         cz.setOnClickListener(this);
@@ -143,7 +148,7 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     private String frozen_money;
 
     void getUserData() {
-        mSVProgressHUD.showWithStatus("加载中...");
+        dialog.show();
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = preferences.edit();
         final String mvip = preferences.getString("vip", "");
@@ -152,11 +157,31 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
             @Override
             public void onsendJson(String json) {
                 try {
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getUserData();
+                            }
+                        });
+                        return;
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getUserData();
+                            }
+                        });
+                        return;
+                    }
                     Gson gson = new Gson();
                     PersonalDataBean bean = gson.fromJson(json, PersonalDataBean.class);
                     frozen_money = bean.getFrozen_money();
                     money.setText(bean.getFrozen_money());
                     editor.putString("money", bean.getFrozen_money());
+                    editor.commit();
                     dsmoney.setText(bean.getUser_money());
                     tgmoney.setText(bean.getTgfee());
                     if (mvip.contains("1")) {
@@ -164,8 +189,16 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
                     } else {
                         vip.setText("未开通");
                     }
-                    mSVProgressHUD.dismiss();
+                    dialog.dismiss();
+                    scroll.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getUserData();
+                        }
+                    });
                 }
             }
         });

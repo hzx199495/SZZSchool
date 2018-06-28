@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.Bean.MyCTBean;
@@ -95,11 +95,11 @@ public class MyCTAdapter extends BaseAdapter {
                         TGMoney tgMoney = gson.fromJson(json, TGMoney.class);
                         String info = tgMoney.getInfo();
                         if (info.contains("成功")){
-                            new SVProgressHUD(context).showSuccessWithStatus(info);
+                            Toast.makeText(context, info, Toast.LENGTH_SHORT).show();
                             holder.tgmoney.setVisibility(View.GONE);
                             holder.study.setVisibility(View.VISIBLE);
                         }else {
-                            new SVProgressHUD(context).showInfoWithStatus(info);
+                            Toast.makeText(context, info, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

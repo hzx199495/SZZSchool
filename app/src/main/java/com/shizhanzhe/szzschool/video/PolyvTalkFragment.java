@@ -22,7 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.easefun.polyvsdk.sub.vlms.entity.PolyvCoursesInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

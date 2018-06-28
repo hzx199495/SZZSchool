@@ -251,7 +251,7 @@
                     android:id="@+id/end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="团购结束时间（）起五天内，去个人中心团购页补齐尾款，逾期视为自动退团，资金转入个人学院账户余额" />
+                    android:text="团购结束起五天内，去个人中心团购页补齐尾款，逾期视为自动退团，资金转入个人学院账户余额" />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

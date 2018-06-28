@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -19,17 +17,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.QuestionListBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.QuestionListAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.utils.RefreshLayout;
-import com.tencent.tinker.android.dex.Code;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -50,7 +47,7 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
     @ViewInject(R.id.rg)
     RadioGroup rg;
     @ViewInject(R.id.makequestion)
-    FloatingActionButton  makequestion;
+    FloatingActionButton makequestion;
     @ViewInject(R.id.back)
     ImageView back;
 
@@ -58,9 +55,13 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
     RadioButton re;
     @ViewInject(R.id.time)
     RadioButton time;
-    @ViewInject(R.id.state_layout)
-    StateLayout state_layout;
-
+    //    @ViewInject(R.id.state_layout)
+//    StateLayout state_layout;
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    @ViewInject(R.id.iv)
+    ImageView iv;
+    private QMUITipDialog dialog;
     private String videoId;
     private String name;
     private String sid;
@@ -72,6 +73,8 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
         x.view().inject(this);
         init();
         setListener();
+        lv.setEmptyView(iv);
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         videoId = getIntent().getStringExtra("videoId");
         name = getIntent().getStringExtra("name");
         sid = getIntent().getStringExtra("sid");
@@ -91,8 +94,8 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(QuestionListActivity.this, SendQuestionActivity.class);
-                intent.putExtra("type","2");
-                intent.putExtra("txId",sid);
+                intent.putExtra("type", "2");
+                intent.putExtra("txId", sid);
                 startActivityForResult(intent, 1);
             }
         });
@@ -110,33 +113,31 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
                         re.setTextColor(Color.BLUE);
                         time.setTextColor(Color.BLACK);
                         type = "";
-                        state_layout.showLoadingView();
                         getData();
                         break;
                     case R.id.time:
                         re.setTextColor(Color.BLACK);
                         time.setTextColor(Color.BLUE);
                         type = "1";
-                        state_layout.showLoadingView();
                         getData();
                         break;
                 }
             }
         });
-        state_layout.setTipText(StateLayout.EMPTY,"");
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                getData();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+//        state_layout.setTipText(StateLayout.EMPTY,"");
+//        state_layout.showLoadingView();
+//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+//            @Override
+//            public void refreshClick() {
+//                state_layout.showLoadingView();
+//                getData();
+//            }
+//
+//            @Override
+//            public void loginClick() {
+//
+//            }
+//        });
     }
 
     private int page = 1;
@@ -145,32 +146,54 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
     private String type;
 
     void getData() {
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(QuestionListActivity.this, new Path(QuestionListActivity.this).QUESTIONLIST(type, videoId, page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
             @Override
             public void onsendJson(String json) {
                 try {
-                    if (json.equals("0")){
-                        state_layout.showNoNetworkView();
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
-                    }else if (json.equals("1")){
-                        state_layout.showTimeoutView();
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
                     }
-                        Gson gson = new Gson();
-                        list = gson.fromJson(json, new TypeToken<List<QuestionListBean>>() {
-                        }.getType());
-                        if (list.size() > 0) {
-                            adapter = new QuestionListAdapter(QuestionListActivity.this, list, name);
-                            lv.setAdapter(adapter);
-                            state_layout.showContentView();
-                        } else {
-                            state_layout.showEmptyView();
-                        }
+                    Gson gson = new Gson();
+                    list = gson.fromJson(json, new TypeToken<List<QuestionListBean>>() {
+                    }.getType());
+                    if (list.size() > 0) {
+                        adapter = new QuestionListAdapter(QuestionListActivity.this, list, name);
+                        lv.setAdapter(adapter);
+//                            state_layout.showContentView();
 
-                }catch (Exception e){
-                    state_layout.showErrorView();
+                    } else {
+                        empty.show("", "暂无提问");
+                    }
+                    dialog.dismiss();
+                    swipeLayout.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+//                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getData();
+                        }
+                    });
                 }
             }
         });
@@ -223,19 +246,19 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
                         try {
 
 
-                        Gson gson = new Gson();
-                        List<QuestionListBean> lists = gson.fromJson(json, new TypeToken<List<QuestionListBean>>() {
-                        }.getType());
-                        if (lists.size()==0){
-                            Toast.makeText(getApplicationContext(), "已经到底了", Toast.LENGTH_SHORT).show();
-                        }else {
-                            for (QuestionListBean b :
-                                    lists) {
-                                list.add(b);
+                            Gson gson = new Gson();
+                            List<QuestionListBean> lists = gson.fromJson(json, new TypeToken<List<QuestionListBean>>() {
+                            }.getType());
+                            if (lists.size() == 0) {
+                                Toast.makeText(getApplicationContext(), "已经到底了", Toast.LENGTH_SHORT).show();
+                            } else {
+                                for (QuestionListBean b :
+                                        lists) {
+                                    list.add(b);
+                                }
+                                adapter.notifyDataSetChanged();
                             }
-                            adapter.notifyDataSetChanged();
-                        }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Toast.makeText(QuestionListActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -255,13 +278,13 @@ public class QuestionListActivity extends Activity implements SwipeRefreshLayout
                     try {
 
 
-                    if (json.contains("1")) {
-                        Toast.makeText(QuestionListActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
-                        onRefresh();
-                    } else {
-                        Toast.makeText(QuestionListActivity.this, "提问失败", Toast.LENGTH_SHORT).show();
-                    }
-                    }catch (Exception e){
+                        if (json.contains("1")) {
+                            Toast.makeText(QuestionListActivity.this, "提问成功", Toast.LENGTH_SHORT).show();
+                            onRefresh();
+                        } else {
+                            Toast.makeText(QuestionListActivity.this, "提问失败", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
                         Toast.makeText(QuestionListActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
                     }
                 }

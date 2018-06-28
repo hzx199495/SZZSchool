@@ -62,7 +62,7 @@ public class ProjectDetailActivity extends FragmentActivity {
             }
         }else{
             tabTitle.add("理论");
-            tabTitle.add("精彩直播");
+//            tabTitle.add("精彩直播");
         }
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < tabTitle.size(); i++) {

@@ -31,10 +31,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
-import com.lljjcoder.citypickerview.widget.CityPicker;
+import com.lljjcoder.Interface.OnCityItemClickListener;
+import com.lljjcoder.bean.CityBean;
+import com.lljjcoder.bean.DistrictBean;
+import com.lljjcoder.bean.ProvinceBean;
+import com.lljjcoder.citywheel.CityConfig;
+import com.lljjcoder.style.citylist.Toast.ToastUtils;
+import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.Image;
 import com.shizhanzhe.szzschool.Bean.PersonalDataBean;
 import com.shizhanzhe.szzschool.R;
@@ -89,6 +95,17 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     ImageView back;
     @ViewInject(R.id.setcv)
     CircleImageView setcv;
+    private QMUITipDialog mdialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    mdialog.dismiss();
+                    break;
+            }
+        }
+    };
     private PersonalDataBean bean;
     private String sex="";
     private Dialog dialog;
@@ -99,13 +116,13 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     private static final String IMAGE_FILE_NAME = "header.jpg";
     String uid;
     private SharedPreferences.Editor editor;
-
+    CityPickerView mPicker=new CityPickerView();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
-
+        mPicker.init(this);
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         editor = preferences.edit();
         String img = preferences.getString("img", "");
@@ -157,9 +174,9 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 location.setText(bean.getLocation_p() + bean.getLocation_c() + bean.getLocation_a());
                 location2.setText(bean.getAddress());
                 intro.setText(bean.getIntroduce());
-                province = bean.getLocation_p();
-                city = bean.getLocation_c();
-                district = bean.getLocation_a();
+                mprovince = bean.getLocation_p();
+                mcity = bean.getLocation_c();
+                mdistrict = bean.getLocation_a();
                 if (bean.getSex().equals("0")) {
                     rg.check(R.id.nv);
                 } else if (bean.getSex().equals("1")) {
@@ -171,55 +188,113 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    private String province;
-    private String city;
-    private String district;
+    private String mprovince;
+    private String mcity;
+    private String mdistrict;
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.tv_location:
-                    CityPicker cityPicker = new CityPicker.Builder(UserSetActivity.this)
-                            .titleTextColor("#000000")
-                            .backgroundPop(0xa0000000)
-                            .province(province)
-                            .city(district)
-                            .district(bean.getLocation_a())
-                            .textColor(Color.parseColor("#000000"))
-                            .provinceCyclic(true)
-                            .cityCyclic(false)
-                            .districtCyclic(false)
-                            .visibleItemsCount(7)
-                            .itemPadding(10)
-                            .build();
-                    cityPicker.show();
-                    //监听方法，获取选择结果
-                    cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
-                        @Override
-                        public void onSelected(String... citySelected) {
-                            //省份
-                            province = citySelected[0];
-                            //城市
-                            city = citySelected[1];
-                            //区县（如果设定了两级联动，那么该项返回空）
-                            district = citySelected[2];
-                            location.setText(province + city + district);
+                CityConfig cityConfig = new CityConfig.Builder()
+                        .title("选择城市")//标题
+                        .titleTextSize(18)//标题文字大小
+                        .titleTextColor("#585858")//标题文字颜  色
+                        .titleBackgroundColor("#E9E9E9")//标题栏背景色
+                        .confirTextColor("#585858")//确认按钮文字颜色
+                        .confirmText("确定")//确认按钮文字
+                        .confirmTextSize(16)//确认按钮文字大小
+                        .cancelTextColor("#585858")//取消按钮文字颜色
+                        .cancelText("取消")//取消按钮文字
+                        .cancelTextSize(16)//取消按钮文字大小
+                        .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)//显示类，只显示省份一级，显示省市两级还是显示省市区三级
+                        .showBackground(true)//是否显示半透明背景
+                        .visibleItemsCount(5)//显示item的数量
+                        .province(mprovince)//默认显示的省份
+                        .city(mcity)//默认显示省份下面的城市
+                        .district(mdistrict)//默认显示省市下面的区县数据
+                        .provinceCyclic(true)//省份滚轮是否可以循环滚动
+                        .cityCyclic(true)//城市滚轮是否可以循环滚动
+                        .districtCyclic(true)//区县滚轮是否循环滚动
+                        .drawShadows(false)//滚轮不显示模糊效果
+                        .setLineColor("#03a9f4")//中间横线的颜色
+                        .setLineHeigh(3)//中间横线的高度
+                        .setShowGAT(true)//是否显示港澳台数据，默认不显示
+                        .build();
+
+                //设置自定义的属性配置
+                mPicker.setConfig(cityConfig);
+                //监听选择点击事件及返回结果
+                mPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
+                    @Override
+                    public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                        //省份
+                        if (province != null) {
+                            mprovince = province.getName();
 
                         }
 
-                        @Override
-                        public void onCancel() {
-                            Toast.makeText(getApplicationContext(), "已取消", Toast.LENGTH_LONG).show();
+                        //城市
+                        if (city != null) {
+                            mcity=city.getName();
                         }
-                    });
+
+                        //地区
+                        if (district != null) {
+                            mdistrict=district.getName();
+                        }
+                        location.setText(mprovince + mcity + mdistrict);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        ToastUtils.showLongToast(UserSetActivity.this, "已取消");
+                    }
+                });
+
+                //显示
+                mPicker.showCityPicker( );
+//                    CityPicker cityPicker = new CityPicker.Builder(UserSetActivity.this)
+//                            .titleTextColor("#000000")
+//                            .backgroundPop(0xa0000000)
+//                            .province(province)
+//                            .city(district)
+//                            .district(bean.getLocation_a())
+//                            .textColor(Color.parseColor("#000000"))
+//                            .provinceCyclic(true)
+//                            .cityCyclic(false)
+//                            .districtCyclic(false)
+//                            .visibleItemsCount(7)
+//                            .itemPadding(10)
+//                            .build();
+//                    cityPicker.show();
+//                    //监听方法，获取选择结果
+//                    cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
+//                        @Override
+//                        public void onSelected(String... citySelected) {
+//                            //省份
+//                            province = citySelected[0];
+//                            //城市
+//                            city = citySelected[1];
+//                            //区县（如果设定了两级联动，那么该项返回空）
+//                            district = citySelected[2];
+//                            location.setText(province + city + district);
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancel() {
+//                            Toast.makeText(getApplicationContext(), "已取消", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                 break;
             case R.id.back:
                 this.finish();
                 break;
             case R.id.user_save:
                 try {
-                    Toast.makeText(this,"正在上传数据...",Toast.LENGTH_LONG);
+
                     if ("".equals(sex)){
                         sex=bean.getSex();
                     }
@@ -231,9 +306,9 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                             .add("address", location2.getText().toString())
                             .add("email", email.getText().toString())
                             .add("introduce", intro.getText().toString())
-                            .add("location_p", province)
-                            .add("location_c", city)
-                            .add("location_a", district)
+                            .add("location_p", mprovince)
+                            .add("location_c", mcity)
+                            .add("location_a", mdistrict)
                             .build();
                     Request request = new Request.Builder()
                             .url(new Path(this).PERSONALUPDATE())
@@ -449,9 +524,13 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what==1) {
-            new SVProgressHUD(UserSetActivity.this).showSuccessWithStatus("修改成功！");
+                mdialog = new QMUITipDialog.Builder(UserSetActivity.this).setIconType(4).setTipWord("修改成功").create();
+                mdialog.show();
+                mhandler.sendEmptyMessageDelayed(1,1500);
             }else if (msg.what==2) {
-                new SVProgressHUD(UserSetActivity.this).showErrorWithStatus("修改失败！");
+                mdialog = new QMUITipDialog.Builder(UserSetActivity.this).setIconType(4).setTipWord("修改失败").create();
+                mdialog.show();
+                mhandler.sendEmptyMessageDelayed(1,1500);
             }
         }
     };

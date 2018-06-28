@@ -9,15 +9,15 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.shizhanzhe.szzschool"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 15
-        versionName "1.2.3"
+        versionCode 20
+        versionName "1.2.8"
         resConfigs "zh"
         //64K 引用限制
         multiDexEnabled true
@@ -48,12 +48,12 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.android.support:multidex:1.0.3'
     compile 'org.xutils:xutils:3.5.0'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:26.1.0'
     // 轮播图
     compile 'com.youth.banner:banner:1.4.10'
     //支付宝
@@ -73,18 +73,20 @@ dependencies {
     compile files('libs/jcore-android-1.1.6.jar')
     compile files('libs/jpush-android-3.0.8.jar')
     //省市区三级联动
-    compile 'liji.library.dev:citypickerview:1.1.0'
+    compile 'liji.library.dev:citypickerview:3.1.7'
     compile files('libs/universal-image-loader-1.9.5.jar')
     //html解析
     compile 'org.jsoup:jsoup:1.10.3'
-    //dialog
-    compile 'com.bigkoo:svprogresshud:1.0.6'
+
     //状态栏
     compile 'org.zackratos:ultimatebar:1.0.3'
     //bugly
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
-    compile 'com.github.fingdo:stateLayout:1.0.4'
-    //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.android.support:support-v4:26.1.0'
+
+    compile 'com.qmuiteam:qmui:1.0.6'
 }

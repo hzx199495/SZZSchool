@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.RegisterBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
@@ -38,6 +38,17 @@ public class XMActivity extends Activity{
     TextView reset;
     @ViewInject(R.id.back)
     ImageView back;
+    private QMUITipDialog mdialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    mdialog.dismiss();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +74,9 @@ public class XMActivity extends Activity{
                                 RegisterBean bean = gson.fromJson(json, RegisterBean.class);
                                 if (bean.getStatus() == 1) {
                                     MM(p1);
-                                    new SVProgressHUD(XMActivity.this).showSuccessWithStatus(bean.getInfo());
+                                    mdialog = new QMUITipDialog.Builder(XMActivity.this).setIconType(4).setTipWord(bean.getInfo()).create();
+                                    mdialog.show();
+                                    mhandler.sendEmptyMessageDelayed(3, 1500);
                                     new Handler(new Handler.Callback() {
                                         @Override
                                         public boolean handleMessage(Message msg) {
@@ -73,15 +86,21 @@ public class XMActivity extends Activity{
                                     }).sendEmptyMessageDelayed(0,1500);
 
                                 } else if (bean.getStatus() == 2) {
-                                    new SVProgressHUD(XMActivity.this).showInfoWithStatus(bean.getInfo());
+                                    mdialog = new QMUITipDialog.Builder(XMActivity.this).setIconType(4).setTipWord(bean.getInfo()).create();
+                                    mdialog.show();
+                                    mhandler.sendEmptyMessageDelayed(1,1500);
                                 }
                             }
                         });
                     } else {
-                        new SVProgressHUD(XMActivity.this).showErrorWithStatus("密码输入不一致");
+                        mdialog = new QMUITipDialog.Builder(XMActivity.this).setIconType(4).setTipWord("密码输入不一致").create();
+                        mdialog.show();
+                        mhandler.sendEmptyMessageDelayed(1,1500);
                     }
                 } else {
-                    new SVProgressHUD(XMActivity.this).showErrorWithStatus("密码不能为空");
+                    mdialog = new QMUITipDialog.Builder(XMActivity.this).setIconType(4).setTipWord("密码不能为空").create();
+                    mdialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
                 }
             }
 

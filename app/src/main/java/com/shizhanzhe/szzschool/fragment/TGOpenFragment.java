@@ -6,13 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -64,7 +64,8 @@ public class TGOpenFragment extends Fragment {
     TextView percent;
 
     private String tuanid;
-    public static TGOpenFragment newInstance(String title, String img, String time, String intro, String ktprice, String tgprice, String kfm,String tuanid) {
+
+    public static TGOpenFragment newInstance(String title, String img, String time, String intro, String ktprice, String tgprice, String kfm, String tuanid) {
 
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -87,13 +88,18 @@ public class TGOpenFragment extends Fragment {
     }
 
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        KT();
+        SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        String uid = preferences.getString("uid", "");
+        String token = preferences.getString("token", "");
+        initView();
+
+        KT(uid, token);
     }
-    void initView(){
+
+    void initView() {
         Bundle bundle = getArguments();
         String titleText = bundle.getString("title");
         String img2 = bundle.getString("img");
@@ -126,33 +132,29 @@ public class TGOpenFragment extends Fragment {
         num3.setText("满" + numlist.get(2) + "人参团即可优惠至" + pricelist.get(2) + "元");
 
     }
-    void KT() {
-        SharedPreferences preferences =getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
-         String uid = preferences.getString("uid", "");
-         String token = preferences.getString("token", "");
+
+    void KT(String uid, String token) {
+
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), "https://shizhanzhe.com/index.php?m=pcdata.mykaituan&pc=1&uid=" + uid + "&token=" + token, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
                 try {
+                    Gson gson = new Gson();
+                    List<MyKTBean> list = gson.fromJson(json, new TypeToken<List<MyKTBean>>() {
+                    }.getType());
+                    if (list.size() > 0) {
+                        for (MyKTBean bean :
+                                list) {
+                            if (bean.getTuanid().contains(tuanid)) {
+                                state.setText(bean.getUname() + "的学习团，已参团" + bean.getTynum() + "人");
+                            }
 
-                Gson gson = new Gson();
-                List<MyKTBean> list = gson.fromJson(json, new TypeToken<List<MyKTBean>>() {
-                }.getType());
-                if (list.size() > 0) {
-                    for (MyKTBean bean :
-                            list) {
-                        if (bean.getTuanid().contains(tuanid)) {
-                            state.setText(bean.getUname()+"的学习团，已参团"+bean.getTynum()+"人");
                         }
-
+                    } else {
+                        state.setText("未开团");
                     }
-                }else {
-                    state.setText("未开团");
-                }
-                initView();
-                }catch (Exception e){
-
+                } catch (Exception e) {
                 }
 
             }

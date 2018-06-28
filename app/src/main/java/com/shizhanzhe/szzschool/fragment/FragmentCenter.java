@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.BannerBean;
 import com.shizhanzhe.szzschool.Bean.ProBean;
 import com.shizhanzhe.szzschool.R;
@@ -54,12 +55,14 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     Banner banner;
     @ViewInject(R.id.center_swip)
     VpSwipeRefreshLayout swip;
-    @ViewInject(R.id.state_layout)
-    StateLayout state_layout;
+    //    @ViewInject(R.id.state_layout)
+//    StateLayout state_layout;
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    private QMUITipDialog dialog;
     private List<ProBean.TxBean> list;
     private List<ProBean.TgBean> tg;
     private View rootview;
-
 
 
     @Nullable
@@ -68,26 +71,27 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
         rootview = x.view().inject(this, inflater, null);
         return rootview;
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        state_layout.showLoadingView();
+//        state_layout.showLoadingView();
+        dialog = new QMUITipDialog.Builder(getContext()).setIconType(1).setTipWord("正在加载").create();
         getData();
         swip.setOnRefreshListener(this);
         swip.setColorSchemeResources(R.color.blue2, R.color.red, R.color.green_color, R.color.dimgray);
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                getData();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+//            @Override
+//            public void refreshClick() {
+//                state_layout.showLoadingView();
+//                getData();
+//            }
+//
+//            @Override
+//            public void loginClick() {
+//
+//            }
+//        });
     }
 
     @Override
@@ -106,18 +110,30 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
     List<ProBean.TxBean> ts;
 
     public void getData() {
-
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getContext()).CENTER(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
             @Override
             public void onsendJson(String json) {
                 try {
-                    if (json.equals("0")){
-                        state_layout.showNoNetworkView();
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
-                    }else if (json.equals("1")){
-                        state_layout.showTimeoutView();
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
                     }
                     Gson gson = new Gson();
@@ -143,10 +159,19 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                     TGAdapter tgAdapter = new TGAdapter(null, tg, getContext(), ktagent);
                     gv_tg.setAdapter(tgAdapter);
                     setBanner();
-                    state_layout.showContentView();
+//                    state_layout.showContentView();
 //                    mSVProgressHUD.dismiss();
+                    dialog.dismiss();
+                    swip.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
-                    state_layout.showErrorView();
+//                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getData();
+                        }
+                    });
                 }
 
 
@@ -203,6 +228,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
                             ) {
                         images.add(b.getImg());
                     }
+                    banner.setDelayTime(3000);
                     banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
                     banner.setOnBannerClickListener(new OnBannerClickListener() {
                         @Override
@@ -221,6 +247,7 @@ public class FragmentCenter extends Fragment implements SwipeRefreshLayout.OnRef
             }
         });
     }
+
     @Override
     public void onStart() {
         super.onStart();

@@ -58,7 +58,6 @@ public class ProExpanFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedPreferences preferences = getContext().getSharedPreferences("userjson", Context.MODE_PRIVATE);
         final String json = getArguments().getString("json");
         Gson gson = new Gson();
         final List<ProDeatailBean.CiBean> list = gson.fromJson(json, ProDeatailBean.class).getCi();

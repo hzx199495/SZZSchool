@@ -5,25 +5,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white">
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tl"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="@color/colorPrimary"
-        app:tabIndicatorColor="@color/colorAccent">
-    </android.support.design.widget.TabLayout>
+    <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/state_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--sl:emptyImg="@drawable/nodata"-->
+        <!--sl:errorImg="@drawable/ic_state_error"-->
+        <!--sl:errorText="数据异常"-->
+        <!--sl:loadingText="@string/loading_tip"-->
+        <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
+        <!--sl:noNetworkText="@string/no_network_tip"-->
+        <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
+        <!--sl:timeOutText="@string/time_out_tip">-->
     <ListView
-        android:padding="10dp"
         android:id="@+id/lv"
         android:dividerHeight="1dp"
         android:divider="#cfcfcf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <ImageView
+        android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/nodata"
         android:scaleType="centerInside"/>
+   <!--</com.fingdo.statelayout.StateLayout>-->
 </LinearLayout>

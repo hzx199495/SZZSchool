@@ -31,7 +31,11 @@ public class ExpanAdapter extends BaseExpandableListAdapter {
     }
     @Override
     public int getGroupCount() {
-        return list.size();
+        if (catId.equals("41")){
+            return list.size();
+        }else{
+           return 1;
+        }
     }
 
     @Override

@@ -4,19 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.fingdo.statelayout.StateLayout xmlns:app="http://schemas.android.com/tools"
-        xmlns:sl="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        sl:emptyImg="@drawable/nodata"
-        sl:errorImg="@drawable/ic_state_error"
-        sl:errorText="数据异常"
-        sl:loadingText="@string/loading_tip"
-        sl:noNetworkImg="@drawable/ic_state_no_network"
-        sl:noNetworkText="@string/no_network_tip"
-        sl:timeOutImg="@drawable/ic_state_time_out"
-        sl:timeOutText="@string/time_out_tip">
+
 
         <FrameLayout
             android:id="@+id/frame"
@@ -42,7 +30,7 @@
 
             </RelativeLayout>
         </FrameLayout>
-    </com.fingdo.statelayout.StateLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add"

@@ -5,32 +5,45 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        sl:emptyImg="@drawable/nodata"
-        sl:emptyText=" "
-        sl:errorImg="@drawable/ic_state_error"
-        sl:errorText="数据异常"
-        sl:loadingText="@string/loading_tip"
-        sl:noNetworkImg="@drawable/ic_state_no_network"
-        sl:noNetworkText="@string/no_network_tip"
-        sl:timeOutImg="@drawable/ic_state_time_out"
-        sl:timeOutText="@string/time_out_tip">
+    <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/state_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--sl:emptyImg="@drawable/nodata"-->
+        <!--sl:emptyText=" "-->
+        <!--sl:errorImg="@drawable/ic_state_error"-->
+        <!--sl:errorText="数据异常"-->
+        <!--sl:loadingText="@string/loading_tip"-->
+        <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
+        <!--sl:noNetworkText="@string/no_network_tip"-->
+        <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
+        <!--sl:timeOutText="@string/time_out_tip">-->
 
 
             <com.shizhanzhe.szzschool.utils.RefreshLayout
                 android:id="@+id/swipe_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
-                <ListView
-                    android:id="@+id/lv"
+                <GridView
+                    android:id="@+id/gv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:divider="@color/white"
                     android:padding="5dp" />
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nodata"
+                    android:scaleType="centerInside"/>
             </com.shizhanzhe.szzschool.utils.RefreshLayout>
-    </com.fingdo.statelayout.StateLayout>
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </com.qmuiteam.qmui.widget.QMUIEmptyView>
+    <!--</com.fingdo.statelayout.StateLayout>-->
 </LinearLayout>

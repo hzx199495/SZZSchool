@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -12,8 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.RegisterBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.AlidayuMessage;
@@ -46,8 +48,18 @@ public class RegisterActivity extends Activity {
     TextView login;
     @ViewInject(R.id.tv)
     TextView tv;
-
-    private final Integer NUM=6;
+    private QMUITipDialog dialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
+    private final Integer NUM=4;
     private CountDownTimer time;
     private String code="";
     private String username;
@@ -84,22 +96,45 @@ public class RegisterActivity extends Activity {
                  username = mobileNum.getText().toString();
 
                 if (isMobileNO(username)) {
-                    AlidayuMessage.setRecNum(username);
-                    AlidayuMessage.setSmsParam(code);
-                    new Thread(new Runnable() {
+//                    AlidayuMessage.setRecNum(username);
+//                    AlidayuMessage.setSmsParam(code);
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                AlidayuMessage.SendMsg();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }).start();
+                    final String yuliu = new StringBuffer(Integer.parseInt(code)*51-1314+username.substring(7)+username.substring(3,7)+String.valueOf(System.currentTimeMillis())+"ba").reverse().toString();
+                    OkHttpDownloadJsonUtil.downloadJson(RegisterActivity.this, Path.REGISTERCODE(code,yuliu,username), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
-                        public void run() {
-                            try {
-                                AlidayuMessage.SendMsg();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                        public void onsendJson(String json) {
+                            if (json.contains("0")){
+                                dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord("非法操作").create();
+                            }else if (json.contains("1")){
+                                time.start();
+                                dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(2).setTipWord("已发送验证码，请注意接收").create();
+                            }else if (json.contains("2")){
+                                dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord("短信服务故障或发送已达上限，请明日再试").create();
+                            }else if (json.contains("3")){
+                                dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord("该手机号已经注册").create();
                             }
+                            dialog.show();
+                            mhandler.sendEmptyMessageDelayed(1,1500);
                         }
-                    }).start();
-                    time.start();
-                    new SVProgressHUD(RegisterActivity.this).showSuccessWithStatus("已发送验证码，请注意接收");
+                    });
+
+//                    time.start();
+//                    dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord("已发送验证码，请注意接收").create();
+//                    dialog.show();
+//                    mhandler.sendEmptyMessageDelayed(1,1500);
                 }else{
-                    new SVProgressHUD(RegisterActivity.this).showErrorWithStatus("请输入正确手机号");
+                    dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord("请输入正确手机号").create();
+                    dialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
                 }
 
             }
@@ -116,18 +151,24 @@ public class RegisterActivity extends Activity {
                             Gson gson = new Gson();
                             RegisterBean bean = gson.fromJson(json, RegisterBean.class);
                             if (bean.getStatus()==1){
-                                new SVProgressHUD(RegisterActivity.this).showSuccessWithStatus(bean.getInfo());
+                                dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord(bean.getInfo()).create();
+                                dialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
                             }else {
-                                new SVProgressHUD(RegisterActivity.this).showInfoWithStatus(bean.getInfo());
+                                dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord(bean.getInfo()).create();
+                                dialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
                             }
                         }
                     });
 
                 }else{
-                    new SVProgressHUD(RegisterActivity.this).showErrorWithStatus("验证码不匹配");
+                    dialog = new QMUITipDialog.Builder(RegisterActivity.this).setIconType(4).setTipWord("验证码不匹配").create();
+                    dialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
                 }
 
             }

@@ -13,18 +13,22 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.QuestionCenterBean;
+import com.shizhanzhe.szzschool.Bean.QuestionProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.LoginActivity;
@@ -38,6 +42,7 @@ import com.shizhanzhe.szzschool.utils.Path;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;
@@ -50,9 +55,14 @@ public class FragmentQuestion extends Fragment {
     private TextView tv3;
     private String con;
     private MyGridView lv;
-
-    private StateLayout state_layout;
+    //    private StateLayout state_layout;
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    @ViewInject(R.id.scroll)
+    ScrollView scroll;
+    private QMUITipDialog dialog;
     LinearLayout ll;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,21 +75,21 @@ public class FragmentQuestion extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         lv = (MyGridView) view.findViewById(R.id.questioncenter_lv);
         tv3 = (TextView) view.findViewById(R.id.tv_3);
-        state_layout= (StateLayout) view.findViewById(R.id.state_layout);
-        ll= (LinearLayout) view.findViewById(R.id.ll);
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                initData();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+        dialog = new QMUITipDialog.Builder(getContext()).setIconType(1).setTipWord("正在加载").create();
+        ll = (LinearLayout) view.findViewById(R.id.ll);
+//        state_layout.showLoadingView();
+//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+//            @Override
+//            public void refreshClick() {
+//                state_layout.showLoadingView();
+//                initData();
+//            }
+//
+//            @Override
+//            public void loginClick() {
+//
+//            }
+//        });
 
         initData();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -87,22 +97,19 @@ public class FragmentQuestion extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (MyApplication.isLogin) {
                     try {
-                        JSONArray arr = null;
-                        arr = new JSONArray(con);
-                        String str=arr.optJSONObject(position).toString();
-                        JSONObject obj = new JSONObject(str);
-                        JSONArray a = obj.getJSONArray("chavideo");
+                        Gson gson = new Gson();
+                        List<QuestionProBean> list = gson.fromJson(con, new TypeToken<List<QuestionProBean>>() {
+                        }.getType());
+                        QuestionProBean questionProBean = list.get(position);
                         SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
                         String vip = preferences.getString("vip", "");
                         if (vip.equals("1")) {
                             Intent intent = new Intent(getActivity(), QuestionBaseActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("con", str);
-                            intent.putExtras(bundle);
+                            intent.putExtra("bean", questionProBean);
                             startActivity(intent);
-                        }else {
-                            if (a.optJSONObject(0).optJSONArray("video") == null) {
-                                final String sid = obj.optString("sid");
+                        } else {
+                            if (questionProBean.getChavideo() == null) {
+                                final String sid = list.get(position).getSid();
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
                                         .setMessage("未购买该体系,是否前往购买")
                                         .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
@@ -123,21 +130,16 @@ public class FragmentQuestion extends Fragment {
                             } else {
 
                                 Intent intent = new Intent(getActivity(), QuestionBaseActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("con", str);
-                                intent.putExtras(bundle);
+                                intent.putExtra("bean", questionProBean);
                                 startActivity(intent);
-
                             }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 } else {
                     Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getContext(), LoginActivity.class));
-
                 }
             }
         });
@@ -146,14 +148,12 @@ public class FragmentQuestion extends Fragment {
     private void init(String num) {
         String s = String.format(this.getResources().getString(R.string.question_activity_text_3), num, "24");
         Spannable span = new SpannableString(s);
-        span.setSpan(new AbsoluteSizeSpan(70), 12, 12 + num.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.setSpan(new ForegroundColorSpan(Color.BLUE), 12, 12 + num.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new AbsoluteSizeSpan(70), 21 + num.length(), 23 + num.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new ForegroundColorSpan(Color.BLUE), 21 + num.length(), 23 + num.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv3.setText(span);
     }
 
     private void initData() {
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), Path.QUESTION_NUMBER_PATH(),
                 new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
@@ -165,26 +165,46 @@ public class FragmentQuestion extends Fragment {
     }
 
     private void toContent() {
+
         OkHttpDownloadJsonUtil.downloadJson(getActivity(), new Path(getActivity()).QUESTION_CONTENT_PATH(),
                 new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                     @Override
                     public void onsendJson(String json) {
                         try {
-                            if (json.equals("0")){
-                                state_layout.showNoNetworkView();
+                            if (json.equals("0")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initData();
+                                    }
+                                });
                                 return;
-                            }else if (json.equals("1")){
-                                state_layout.showTimeoutView();
+                            } else if (json.equals("1")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initData();
+                                    }
+                                });
                                 return;
                             }
-                                con = json;
-                                Gson gson = new Gson();
-                                List<QuestionCenterBean> list = gson.fromJson(json, new TypeToken<List<QuestionCenterBean>>() {
-                                }.getType());
-                                lv.setAdapter(new QuestionCenterAdapter(getActivity(), list));
-                                state_layout.showContentView();
+                            con = json;
+                            Gson gson = new Gson();
+                            List<QuestionCenterBean> list = gson.fromJson(json, new TypeToken<List<QuestionCenterBean>>() {
+                            }.getType());
+                            lv.setAdapter(new QuestionCenterAdapter(getActivity(), list));
+                            dialog.dismiss();
+                            scroll.setVisibility(View.VISIBLE);
                         } catch (Exception e) {
-                            state_layout.showErrorView();
+                            dialog.dismiss();
+                            empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    initData();
+                                }
+                            });
                         }
 
                     }

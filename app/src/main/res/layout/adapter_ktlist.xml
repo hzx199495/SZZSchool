@@ -4,32 +4,31 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/wh35"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:text="XXX的学习团,已有1人参团"
+            android:ellipsize="marquee"
             android:textColor="@color/black" />
 
 
         <TextView
             android:id="@+id/join"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_width="@dimen/wh80"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
             android:gravity="right"
             android:text="立即参团"
             android:textColor="@color/red"
             android:textSize="15sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

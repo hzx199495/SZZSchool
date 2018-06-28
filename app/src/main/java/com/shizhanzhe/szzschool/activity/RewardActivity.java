@@ -1,7 +1,9 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -36,7 +38,7 @@ public class RewardActivity extends Activity implements View.OnClickListener {
     ImageView back;
     @ViewInject(R.id.yes)
     ImageView yes;
-    private String tid;
+    private String pid;
     private String tuid;
 
     @Override
@@ -44,8 +46,9 @@ public class RewardActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         this.setFinishOnTouchOutside(true);
-        tid = getIntent().getStringExtra("fid");
-        tuid = getIntent().getStringExtra("authorid");
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        tuid = preferences.getString("uid", "");
+        pid = getIntent().getStringExtra("pid");
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
@@ -70,15 +73,15 @@ public class RewardActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.yes:
                 String str = edit.getText().toString();
-                if(!"".equals(str)&&Double.parseDouble(str)>=1){
-                    new Pay(RewardActivity.this, str,"打赏"+str+"元","https://shizhanzhe.com/index.php?m=courSystem.zanbuy&tid="+tid+"&money="+str+"&fromuid="+tuid, new Pay.PayListener(){
+                if(!"".equals(str)){
+                    new Pay(RewardActivity.this, str,"打赏"+str+"元","https://shizhanzhe.com/index.php?m=pcdata.zanbuy_app&tid="+pid+"&money="+str+"&fromuid="+tuid, new Pay.PayListener(){
                         @Override
                         public void refreshPriorityUI() {
 
                         }
                     });
                 }else{
-                    Toast.makeText(getApplicationContext(),"金额不小于1",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"打赏金额不能为空",Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

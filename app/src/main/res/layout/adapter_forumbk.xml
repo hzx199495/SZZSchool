@@ -17,7 +17,6 @@
                     android:text="板块名"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:textColor="@color/white"
                     android:textSize="@dimen/top_text"
                   />
 

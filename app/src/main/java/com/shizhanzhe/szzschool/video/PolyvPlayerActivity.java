@@ -692,10 +692,10 @@ public class PolyvPlayerActivity extends FragmentActivity  {
         danmuFragment.pause();
         int currentPosition = videoView.getCurrentPosition()/1000;
         int duration = videoView.getDuration()/1000;
-        OkHttpDownloadJsonUtil.downloadJson(PolyvPlayerActivity.this, new Path(PolyvPlayerActivity.this).VIDEOSCHEDULE(MyApplication.videoitemid, MyApplication.videotypeid, txId,currentPosition,duration), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+        OkHttpDownloadJsonUtil.downloadJson(getApplicationContext(), new Path(PolyvPlayerActivity.this).VIDEOSCHEDULE(MyApplication.videoitemid, MyApplication.videotypeid, txId,currentPosition,duration), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Log.i("____","进度上传成功");
+
             }
         });
     }

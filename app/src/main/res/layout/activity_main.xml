@@ -33,7 +33,7 @@
             android:singleLine="true"
             android:gravity="center"
             android:background="@drawable/shape_rectangle"
-            android:textColor="@color/three_level"
+            android:textColor="@color/four_level"
             android:text="网络推广/PHP开发/PhotoShop..."
             android:textSize="@dimen/top_text"/>
     </LinearLayout>

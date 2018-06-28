@@ -2,7 +2,6 @@ package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +11,15 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.CollectListBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-//import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.shizhanzhe.szzschool.activity.MyApplication.displayoptions;
+//import com.shizhanzhe.szzschool.video.AnimateFirstDisplayListener;
 
 /**
  * Created by hasee on 2016/12/20.
@@ -73,7 +68,7 @@ public class CollectAdapter extends BaseAdapter {
             holder=new ViewHolder();
             holder.iv= (ImageView) convertView.findViewById(R.id.collect_img);
             holder.title= (TextView) convertView.findViewById(R.id.collect_title);
-            holder.del= (TextView) convertView.findViewById(R.id.delcollect);
+//            holder.del= (TextView) convertView.findViewById(R.id.delcollect);
             convertView.setTag(holder);
         }else {
             holder= (ViewHolder) convertView.getTag();
@@ -83,20 +78,20 @@ public class CollectAdapter extends BaseAdapter {
         imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, options);
         holder.title.setText(bean.getStitle());
 
-        holder.del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    list.remove(position);
-                    notifyDataSetChanged();
-
-                    OkHttpDownloadJsonUtil.downloadJson(context, new Path(context).DELCOLLECT( bean.getId()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                        @Override
-                        public void onsendJson(String json) {
-                        }
-                    });
-
-            }
-        });
+//        holder.del.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                    list.remove(position);
+//                    notifyDataSetChanged();
+//
+//                    OkHttpDownloadJsonUtil.downloadJson(context, new Path(context).DELCOLLECT( bean.getId()), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//                        @Override
+//                        public void onsendJson(String json) {
+//                        }
+//                    });
+//
+//            }
+//        });
         return convertView;
     }
     class ViewHolder{

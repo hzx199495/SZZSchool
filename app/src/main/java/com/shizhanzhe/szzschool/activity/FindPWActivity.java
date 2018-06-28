@@ -3,7 +3,8 @@ package com.shizhanzhe.szzschool.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -12,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.RegisterBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.AlidayuMessage;
@@ -61,7 +62,17 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
     private CountDownTimer time;
     private String code = "";
     private String username="";
-
+    private QMUITipDialog dialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,22 +110,44 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
                 username = tel.getText().toString();
 
                 if (isMobileNO(username)) {
-                    AlidayuMessage.setRecNum(username);
-                    AlidayuMessage.setSmsParam(code);
-                    new Thread(new Runnable() {
+//                    AlidayuMessage.setRecNum(username);
+//                    AlidayuMessage.setSmsParam(code);
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                AlidayuMessage.SendMsg();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }).start();
+                    final String yuliu = new StringBuffer(Integer.parseInt(code)*51-1314+username.substring(7)+username.substring(3,7)+String.valueOf(System.currentTimeMillis())+"ba").reverse().toString();
+                    OkHttpDownloadJsonUtil.downloadJson(FindPWActivity.this, Path.FORGETCODE(code,yuliu,username), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
                         @Override
-                        public void run() {
-                            try {
-                                AlidayuMessage.SendMsg();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                        public void onsendJson(String json) {
+                            if (json.contains("0")){
+                                dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord("非法操作").create();
+                            }else if (json.contains("1")){
+                                time.start();
+                                dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(2).setTipWord("已发送验证码，请注意接收").create();
+                            }else if (json.contains("2")){
+                                dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord("短信服务故障或发送已达上限，请明日再试").create();
+                            }else if (json.contains("3")){
+                                dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord("用户不存在").create();
                             }
+                            dialog.show();
+                            mhandler.sendEmptyMessageDelayed(1,1500);
                         }
-                    }).start();
-                    time.start();
-                    new SVProgressHUD(FindPWActivity.this).showSuccessWithStatus("已发送验证码，请注意接收");
+                    });
+//                    time.start();
+//                    dialog = new QMUITipDialog.Builder(this).setIconType(2).setTipWord("已发送验证码，请注意接收").create();
+//                    dialog.show();
+//                    mhandler.sendEmptyMessageDelayed(1,1500);
                 } else {
-                    new SVProgressHUD(FindPWActivity.this).showErrorWithStatus("请输入正确手机号");
+                    dialog = new QMUITipDialog.Builder(this).setIconType(4).setTipWord("请输入正确手机号").create();
+                    dialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
                 }
                 break;
             case R.id.forget_next:
@@ -124,10 +157,14 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
 
                         forget();
                     } else {
-                        new SVProgressHUD(FindPWActivity.this).showInfoWithStatus("请输入验证码");
+                        dialog = new QMUITipDialog.Builder(this).setIconType(4).setTipWord("请输入验证码").create();
+                        dialog.show();
+                        mhandler.sendEmptyMessageDelayed(1,1500);
                     }
                 } else {
-                    new SVProgressHUD(FindPWActivity.this).showErrorWithStatus("请输入正确手机号");
+                    dialog = new QMUITipDialog.Builder(this).setIconType(4).setTipWord("请输入正确手机号").create();
+                    dialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
                 }
                 break;
             case R.id.back:
@@ -156,17 +193,26 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
                                             Gson gson = new Gson();
                                             RegisterBean bean = gson.fromJson(json, RegisterBean.class);
                                             if (bean.getStatus() == 1) {
-                                                new SVProgressHUD(FindPWActivity.this).showSuccessWithStatus(bean.getInfo());
+                                                dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord(bean.getInfo()).create();
+                                                dialog.show();
+                                                mhandler.sendEmptyMessageDelayed(1,1500);
                                             } else if (bean.getStatus() == 2) {
-                                                new SVProgressHUD(FindPWActivity.this).showInfoWithStatus(bean.getInfo());
+                                                dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord(bean.getInfo()).create();
+                                                dialog.show();
+                                                mhandler.sendEmptyMessageDelayed(1,1500);
                                             }
                                         }
                                     });
                                 } else {
-                                    new SVProgressHUD(FindPWActivity.this).showErrorWithStatus("密码输入不一致");
+                                    dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord("密码输入不一致").create();
+                                    dialog.show();
+                                    mhandler.sendEmptyMessageDelayed(1,1500);
                                 }
                             } else {
-                                new SVProgressHUD(FindPWActivity.this).showErrorWithStatus("密码不能为空");
+                                dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord("密码不能为空").create();
+                                dialog.show();
+                                mhandler.sendEmptyMessageDelayed(1,1500);
+
                             }
 
 
@@ -174,7 +220,9 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
 
                     });
         } else {
-            new SVProgressHUD(FindPWActivity.this).showErrorWithStatus("验证码不匹配");
+            dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord("验证码不匹配").create();
+            dialog.show();
+            mhandler.sendEmptyMessageDelayed(1,1500);
         }
 
     }

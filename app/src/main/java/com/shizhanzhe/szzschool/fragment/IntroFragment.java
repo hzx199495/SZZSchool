@@ -29,6 +29,8 @@ public class IntroFragment extends android.support.v4.app.Fragment {
     ImageView iv2;
     @ViewInject(R.id.intro_tv3)
     ImageView iv3;
+    @ViewInject(R.id.intro_tv4)
+    ImageView iv4;
 
     public static IntroFragment newInstance(String sid,String imgs) {
 
@@ -63,6 +65,14 @@ public class IntroFragment extends android.support.v4.app.Fragment {
             ImageLoader.getInstance().displayImage(Path.IMG(split[0]), iv, MyApplication.displayoptions);
             ImageLoader.getInstance().displayImage(Path.IMG(split[1]), iv2, MyApplication.displayoptions);
             ImageLoader.getInstance().displayImage(Path.IMG(split[2]), iv3, MyApplication.displayoptions);
+        }else if (split.length==4){
+            iv2.setVisibility(View.VISIBLE);
+            iv3.setVisibility(View.VISIBLE);
+            iv4.setVisibility(View.VISIBLE);
+            ImageLoader.getInstance().displayImage(Path.IMG(split[0]), iv, MyApplication.displayoptions);
+            ImageLoader.getInstance().displayImage(Path.IMG(split[1]), iv2, MyApplication.displayoptions);
+            ImageLoader.getInstance().displayImage(Path.IMG(split[2]), iv3, MyApplication.displayoptions);
+            ImageLoader.getInstance().displayImage(Path.IMG(split[2]), iv4, MyApplication.displayoptions);
         }
     }
 }

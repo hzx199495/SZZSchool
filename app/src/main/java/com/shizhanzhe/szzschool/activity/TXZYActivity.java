@@ -76,7 +76,7 @@ public class TXZYActivity extends Activity {
             title.setText("购买VIP");
             getVIP();
         }
-        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         String mzh = preferences.getString("uname", "");
         zh.setText(mzh);
         back.setOnClickListener(new View.OnClickListener() {

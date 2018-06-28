@@ -33,23 +33,25 @@
             android:src="@drawable/back_arrow" />
     </RelativeLayout>
 
-    <com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        sl:emptyImg="@drawable/nodata"
-        sl:errorImg="@drawable/ic_state_error"
-        sl:errorText="数据异常"
-        sl:loadingText="@string/loading_tip"
-        sl:noNetworkImg="@drawable/ic_state_no_network"
-        sl:noNetworkText="@string/no_network_tip"
-        sl:timeOutImg="@drawable/ic_state_time_out"
-        sl:timeOutText="@string/time_out_tip">
+    <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/state_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--sl:emptyImg="@drawable/nodata"-->
+        <!--sl:errorImg="@drawable/ic_state_error"-->
+        <!--sl:errorText="数据异常"-->
+        <!--sl:loadingText="@string/loading_tip"-->
+        <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
+        <!--sl:noNetworkText="@string/no_network_tip"-->
+        <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
+        <!--sl:timeOutText="@string/time_out_tip">-->
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <com.shizhanzhe.szzschool.utils.RefreshLayout
             android:id="@+id/swipe_container"
@@ -97,5 +99,11 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-    </com.fingdo.statelayout.StateLayout>
+    <!--</com.fingdo.statelayout.StateLayout>-->
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </com.qmuiteam.qmui.widget.QMUIEmptyView>
 </LinearLayout>

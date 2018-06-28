@@ -70,6 +70,8 @@ public class GVAdapter extends BaseAdapter {
         imageloader.displayImage(Path.IMG(list.get(position).getThumb()), holder.iv, options);
         if (list.get(position).getStatus().equals("1")){
             holder.open.setVisibility(View.VISIBLE);
+        }else {
+            holder.open.setVisibility(View.GONE);
         }
         holder.tv.setText(list.get(position).getStitle());
         return convertView;

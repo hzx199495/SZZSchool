@@ -4,21 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.R;
 
 
@@ -32,6 +32,18 @@ public class PolyvTalkEdittextActivity extends Activity {
     private String nickname;
     private String questionunameid;
     private String questionid;
+
+    private QMUITipDialog dialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
     private void findIdAndNew() {
         et_talk = (EditText) findViewById(R.id.et_talk);
         tv_send = (TextView) findViewById(R.id.tv_send);
@@ -79,7 +91,9 @@ public class PolyvTalkEdittextActivity extends Activity {
             public void onClick(View v) {
                 String sendMsg = et_talk.getText().toString().substring(length);
                 if (sendMsg.trim().length()==0) {
-                    new SVProgressHUD(PolyvTalkEdittextActivity.this).showInfoWithStatus("发送信息不能为空!");
+                    dialog = new QMUITipDialog.Builder(PolyvTalkEdittextActivity.this).setIconType(4).setTipWord("发送信息不能为空").create();
+                    dialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
                     return;
                 }
                 Intent intent = new Intent(PolyvTalkEdittextActivity.this, PolyvTalkFragment.class);

@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.CollectListBean;
 import com.shizhanzhe.szzschool.Bean.MyProBean;
 import com.shizhanzhe.szzschool.Bean.NoteBean;
@@ -28,6 +30,8 @@ import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
 
+import org.xutils.view.annotation.ViewInject;
+
 import java.util.List;
 
 /**
@@ -38,7 +42,9 @@ public class ProFragment extends Fragment {
     public static String TABLAYOUT_FRAGMENT = "tab_fragment";
     private int type;
     private GridView gv;
-    private StateLayout state_layout;
+    private QMUITipDialog dialog;
+    private QMUIEmptyView empty;
+
     public static ProFragment newInstance(int type) {
         ProFragment fragment = new ProFragment();
         Bundle bundle = new Bundle();
@@ -66,29 +72,18 @@ public class ProFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        state_layout= (StateLayout) view.findViewById(R.id.state_layout);
-        state_layout.setTipText(StateLayout.EMPTY," ");
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                initView();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+        dialog = new QMUITipDialog.Builder(getContext()).setIconType(1).setTipWord("正在加载").create();
+        empty = view.findViewById(R.id.empty);
         gv = (GridView) view.findViewById(R.id.gv);
+        ImageView iv = view.findViewById(R.id.iv);
+        gv.setEmptyView(iv);
         initView();
     }
 
     int page = 1;
 
     protected void initView() {
-
+        dialog.show();
         switch (type) {
             case 1:
                 gv.setNumColumns(2);
@@ -97,11 +92,23 @@ public class ProFragment extends Fragment {
                     @Override
                     public void onsendJson(String json) {
                         try {
-                            if (json.equals("0")){
-                                state_layout.showNoNetworkView();
+                            if (json.equals("0")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initView();
+                                    }
+                                });
                                 return;
-                            }else if (json.equals("1")){
-                                state_layout.showTimeoutView();
+                            } else if (json.equals("1")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initView();
+                                    }
+                                });
                                 return;
                             }
                             Gson gson = new Gson();
@@ -120,12 +127,18 @@ public class ProFragment extends Fragment {
                                         startActivity(intent);
                                     }
                                 });
-                                state_layout.showContentView();
+
                             } else {
-                                state_layout.showEmptyView();
                             }
+                            dialog.dismiss();
                         } catch (Exception e) {
-                            state_layout.showErrorView();
+                            dialog.dismiss();
+                            empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    initView();
+                                }
+                            });
                         }
                     }
                 });
@@ -139,11 +152,23 @@ public class ProFragment extends Fragment {
                     public void onsendJson(String json) {
                         try {
 
-                            if (json.equals("0")){
-                                state_layout.showNoNetworkView();
+                            if (json.equals("0")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initView();
+                                    }
+                                });
                                 return;
-                            }else if (json.equals("1")){
-                                state_layout.showTimeoutView();
+                            } else if (json.equals("1")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initView();
+                                    }
+                                });
                                 return;
                             }
                             Gson gson = new Gson();
@@ -162,12 +187,17 @@ public class ProFragment extends Fragment {
                                         startActivity(intent);
                                     }
                                 });
-                                state_layout.showContentView();
                             } else {
-                                state_layout.showEmptyView();
                             }
+                            dialog.dismiss();
                         } catch (Exception e) {
-                            state_layout.showErrorView();
+                            dialog.dismiss();
+                            empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    initView();
+                                }
+                            });
                         }
                     }
                 });
@@ -180,11 +210,23 @@ public class ProFragment extends Fragment {
                     @Override
                     public void onsendJson(String json) {
                         try {
-                            if (json.equals("0")){
-                                state_layout.showNoNetworkView();
+                            if (json.equals("0")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initView();
+                                    }
+                                });
                                 return;
-                            }else if (json.equals("1")){
-                                state_layout.showTimeoutView();
+                            } else if (json.equals("1")) {
+                                dialog.dismiss();
+                                empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        initView();
+                                    }
+                                });
                                 return;
                             }
                             Gson gson = new Gson();
@@ -193,10 +235,9 @@ public class ProFragment extends Fragment {
                             if (list != null && list.size() > 0) {
                                 NoteAdapter adapter = new NoteAdapter(getContext(), list, 1);
                                 gv.setAdapter(adapter);
-                                state_layout.showContentView();
                             } else {
-                                state_layout.showEmptyView();
                             }
+                            dialog.dismiss();
                             gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -225,7 +266,13 @@ public class ProFragment extends Fragment {
                                 }
                             });
                         } catch (Exception e) {
-                            state_layout.showErrorView();
+                            dialog.dismiss();
+                            empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    initView();
+                                }
+                            });
                         }
                     }
                 });

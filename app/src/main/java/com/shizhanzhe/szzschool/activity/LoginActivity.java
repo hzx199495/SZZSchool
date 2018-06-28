@@ -8,19 +8,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.LoginBean;
 import com.shizhanzhe.szzschool.MainActivity;
 import com.shizhanzhe.szzschool.R;
@@ -45,7 +40,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.txtMobileNum)
     EditText mEditPsw;
     private SharedPreferences.Editor editor;
-    private ProgressDialog dialog;
+    private QMUITipDialog mdialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    mdialog.dismiss();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +59,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mBtnLogin.setOnClickListener(this);
         findViewById(R.id.tv_quick_sign_up).setOnClickListener(this);
         findViewById(R.id.RetrievePassword).setOnClickListener(this);
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setMessage("正在登录...Loading");
+//        dialog = new ProgressDialog(this);
+//        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+//        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+//        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+//        dialog.setMessage("正在登录...Loading");
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
 
-        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
     /**
@@ -73,10 +78,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         username = mEditUid.getText().toString();
         String password = mEditPsw.getText().toString();
         if (username != null && password.length() >= 6) {
-            dialog.show();
             StringBuffer sb = new StringBuffer(password);
             String s = sb.reverse().toString();
             s = s.replace("", "-"); //每个字符加个-
+
             String a[] = s.split("-");//截取字符串为数组
             String t = a[3] + a[4];
             String y = a[2] + a[5];
@@ -93,7 +98,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             String path = Path.UZER(username, b);
             getLogin(path);
         } else {
-            new SVProgressHUD(this).showInfoWithStatus("帐号或密码长度有误");
+            mdialog = new QMUITipDialog.Builder(LoginActivity.this).setIconType(4).setTipWord("帐号或密码长度有误").create();
+            mdialog.show();
+            mhandler.sendEmptyMessageDelayed(1,1500);
         }
     }
 
@@ -120,32 +127,32 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 
     public void getLogin(String path){
-
+        mdialog = new QMUITipDialog.Builder(LoginActivity.this).setIconType(1).setTipWord("正在登陆").create();
+        mdialog.show();
         OkHttpDownloadJsonUtil.downloadJson(this, path, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
                 if (json.length() <= 5) {
-                    dialog.dismiss();
-                    new SVProgressHUD(LoginActivity.this).showErrorWithStatus("帐号或密码错误！");
+                    mdialog.dismiss();
+                    mdialog = new QMUITipDialog.Builder(LoginActivity.this).setIconType(3).setTipWord("帐号或密码错误！").create();
+                    mdialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
                 } else {
                     editor.putString("uname", username);
                     editor.putString("upawd", b);
-                    editor.commit();
-                    SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor2 = preferences.edit();
                     Gson gson = new Gson();
                     LoginBean bean = gson.fromJson(json, LoginBean.class);
-                    editor2.putString("username", bean.getUsername());
-                    editor2.putString("uid", bean.getId());
-                    editor2.putString("mobile", bean.getMobile());
-                    editor2.putString("token", bean.getToken());
-                    editor2.putString("vip", bean.getVip());
-                    editor2.putString("money", bean.getMoney());
-                    editor2.putString("ktagent", bean.getKaiagent());
-                    editor2.putString("teacher", bean.getIs_teacher());
-                    editor2.putString("jy", bean.getJyan());
-                    editor2.putString("img", bean.getHeadimg());
-                    editor2.commit();
+                    editor.putString("username", bean.getUsername());
+                    editor.putString("uid", bean.getId());
+                    editor.putString("mobile", bean.getMobile());
+                    editor.putString("token", bean.getToken());
+                    editor.putString("vip", bean.getVip());
+                    editor.putString("money", bean.getMoney());
+                    editor.putString("ktagent", bean.getKaiagent());
+                    editor.putString("teacher", bean.getIs_teacher());
+                    editor.putString("jy", bean.getJyan());
+                    editor.putString("img", bean.getHeadimg());
+                    editor.commit();
                     MyApplication.isLogin=true;
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, MainActivity.class);

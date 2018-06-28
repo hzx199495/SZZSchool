@@ -12,16 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.ForumBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.DetailActivity;
 import com.shizhanzhe.szzschool.activity.ForumBKActivity;
 import com.shizhanzhe.szzschool.activity.ForumItemActivity;
+import com.shizhanzhe.szzschool.activity.ForumTypeActivity;
 import com.shizhanzhe.szzschool.activity.LoginActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.UserZHActivity;
@@ -45,14 +49,23 @@ import java.util.List;
  */
 @ContentView(R.layout.fragment_forum)
 public class FragmentForum extends Fragment {
-    @ViewInject(R.id.gv_bk)
-    MyGridView bk;
+    //    @ViewInject(R.id.gv_bk)
+//    MyGridView bk;
+    @ViewInject(R.id.wlyx)
+    RelativeLayout wlyx;
+    @ViewInject(R.id.zyjn)
+    RelativeLayout zyjn;
     @ViewInject(R.id.gv_forum)
     MyListView gv;
     private List<ForumBean.LtmodelBean> ltmodel;
     private List<ForumBean.SzanBean> szan;
-@ViewInject(R.id.state_layout)
-    StateLayout state_layout;
+//    @ViewInject(R.id.state_layout)
+//    StateLayout state_layout;
+@ViewInject(R.id.scroll)
+ScrollView scroll;
+@ViewInject(R.id.empty)
+QMUIEmptyView empty;
+    private QMUITipDialog dialog;
 
     @Nullable
     @Override
@@ -63,70 +76,73 @@ public class FragmentForum extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                getdata();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+        dialog = new QMUITipDialog.Builder(getContext()).setIconType(1).setTipWord("正在加载").create();
+//        state_layout.showLoadingView();
+//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+//            @Override
+//            public void refreshClick() {
+//                getdata();
+//            }
+//
+//            @Override
+//            public void loginClick() {
+//
+//            }
+//        });
         SharedPreferences preferences = getActivity().getSharedPreferences("userjson", Context.MODE_PRIVATE);
         final String uid = preferences.getString("uid", "");
         final String token = preferences.getString("token", "");
         final String vip = preferences.getString("vip", "");
         getdata();
-        bk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String fid = ltmodel.get(position).getFid();
-                String name = ltmodel.get(position).getName();
-                String txId = ltmodel.get(position).getSystemid();
-                if (vip.equals("1")) {
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), ForumBKActivity.class);
-                    intent.putExtra("fid", fid);
-                    intent.putExtra("name", name);
-                    intent.putExtra("txId", txId);
-                    startActivity(intent);
-                } else {
-                    if (MyApplication.isLogin) {
-                        if (fid.equals("58")) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
-                                    .setMessage("未开通VIP，前往账户中心开通")
-                                    .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            startActivity(new Intent(getContext(), UserZHActivity.class));
-                                        }
-                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                            builder.create().show();
-                        } else {
-                            Intent intent = new Intent();
-                            intent.setClass(getActivity(), ForumBKActivity.class);
-                            intent.putExtra("fid", fid);
-                            intent.putExtra("name", name);
-                            intent.putExtra("txId", txId);
-                            startActivity(intent);
-                        }
-                    }else {
-                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
-                        getContext().startActivity(new Intent(getContext(), LoginActivity.class));
-                    }
-                }
-            }
 
-        });
+//        bk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                String fid = ltmodel.get(position).getFid();
+//                String name = ltmodel.get(position).getName();
+//                String txId = ltmodel.get(position).getSystemid();
+//                if (vip.equals("1")) {
+//                    Intent intent = new Intent();
+//                    intent.setClass(getActivity(), ForumBKActivity.class);
+//                    intent.putExtra("fid", fid);
+//                    intent.putExtra("name", name);
+//                    intent.putExtra("txId", txId);
+//                    startActivity(intent);
+//                } else {
+//                    if (MyApplication.isLogin) {
+//                        if (fid.equals("58")) {
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
+//                                    .setMessage("未开通VIP，前往账户中心开通")
+//                                    .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            startActivity(new Intent(getContext(), UserZHActivity.class));
+//                                        }
+//                                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            dialog.dismiss();
+//                                        }
+//                                    });
+//                            builder.create().show();
+//                        } else {
+//                            Intent intent = new Intent();
+//                            intent.setClass(getActivity(), ForumBKActivity.class);
+//                            intent.putExtra("fid", fid);
+//                            intent.putExtra("name", name);
+//                            intent.putExtra("txId", txId);
+//                            startActivity(intent);
+//                        }
+//                    } else {
+//                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+//                        getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+//                    }
+//                }
+//            }
+//
+//        });
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -185,23 +201,36 @@ public class FragmentForum extends Fragment {
                                 intent.putExtra("authorid", authorid);
                                 startActivity(intent);
                             } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
-                                        .setMessage("未购买该体系,是否前往购买")
-                                        .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent();
-                                                intent.setClass(getActivity(), DetailActivity.class);
-                                                intent.putExtra("id", proid);
-                                                startActivity(intent);
-                                            }
-                                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                builder.create().show();
+                                if (szan.get(position).getFid().equals("76")){
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
+                                            .setMessage("未参与头脑风暴活动,请联系助教老师微信:szz892")
+                                            .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    builder.create().show();
+                                }else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
+                                            .setMessage("未购买该体系,是否前往购买")
+                                            .setPositiveButton("立即前往", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Intent intent = new Intent();
+                                                    intent.setClass(getActivity(), DetailActivity.class);
+                                                    intent.putExtra("id", proid);
+                                                    startActivity(intent);
+                                                }
+                                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    builder.create().show();
+                                }
+
                             }
                         } else {
 
@@ -234,15 +263,28 @@ public class FragmentForum extends Fragment {
     HashMap<String, String> txid;
 
     private void getdata() {
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(getContext(), Path.FORUMHOME(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
-            public void onsendJson(String json) {
+            public void onsendJson(final String json) {
                 try {
-                    if (json.equals("0")){
-                        state_layout.showNoNetworkView();
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getdata();
+                            }
+                        });
                         return;
-                    }else if (json.equals("1")){
-                        state_layout.showTimeoutView();
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getdata();
+                            }
+                        });
                         return;
                     }
                     Gson gson = new GsonBuilder()
@@ -255,13 +297,40 @@ public class FragmentForum extends Fragment {
                             ) {
                         txid.put(bean.getFid(), bean.getSystemid());
                     }
-                    ForumBKAdapter bkadapter = new ForumBKAdapter(getContext(), ltmodel);
+//                    ForumBKAdapter bkadapter = new ForumBKAdapter(getContext(), ltmodel);
                     ForumLVAdapter lvadapter = new ForumLVAdapter(getContext(), szan);
-                    bk.setAdapter(bkadapter);
+//                    bk.setAdapter(bkadapter);
                     gv.setAdapter(lvadapter);
-                    state_layout.showContentView();
+
+                    wlyx.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), ForumTypeActivity.class);
+                            intent.putExtra("json",json);
+                            intent.putExtra("type",1);
+                            startActivity(intent);
+                        }
+                    });
+                    zyjn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), ForumTypeActivity.class);
+                            intent.putExtra("json",json);
+                            intent.putExtra("type",2);
+                            startActivity(intent);
+                        }
+
+                    });
+                    dialog.dismiss();
+                    scroll.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
-                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getdata();
+                        }
+                    });
                 }
 
             }
@@ -270,15 +339,15 @@ public class FragmentForum extends Fragment {
 
     String qx = "";
 
-    //购买权限
-    void bought(String fid, String uid) {
+    //权限
+  private  void bought(String fid, String uid) {
         OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.quanxian&pc=1&fid=" + fid + "&uid=" + uid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
                 try {
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(getContext(), "获取权限失败", Toast.LENGTH_SHORT).show();
                 }
                 if (json.contains("1")) {

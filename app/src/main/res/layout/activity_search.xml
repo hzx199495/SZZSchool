@@ -81,19 +81,65 @@
                 android:divider="@null"/>
         </LinearLayout>
     </ScrollView>
-    <TextView
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/histroy"
         android:layout_marginLeft="@dimen/wh10"
         android:layout_marginTop="@dimen/wh10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="实战者热搜"
-        android:padding="2dp"
-        android:drawableLeft="@drawable/hotpro"
-        android:textSize="15sp"/>
+        android:layout_height="@dimen/wh30"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/wh30"
+            android:layout_height="@dimen/wh20"
+            android:src="@drawable/search_history"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="最近搜索"
+            android:gravity="center_vertical"
+            android:textSize="15sp"/>
+        <ImageView
+            android:id="@+id/search_delete"
+            android:layout_width="@dimen/wh30"
+            android:layout_height="@dimen/wh20"
+            android:layout_marginRight="@dimen/wh10"
+            android:src="@drawable/search_delete"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <com.shizhanzhe.szzschool.widge.FlowLayout
+        android:visibility="gone"
+        android:id="@+id/flowLayout_history"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wh100"
+        />
+    <LinearLayout
+        android:layout_marginLeft="@dimen/wh10"
+        android:layout_marginTop="@dimen/wh10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wh30"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/wh30"
+            android:layout_height="@dimen/wh20"
+            android:src="@drawable/search_hot"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="实战者热搜"
+            android:gravity="center_vertical"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
     <com.shizhanzhe.szzschool.widge.FlowLayout
         android:id="@+id/flowLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/wh100"
         >
     </com.shizhanzhe.szzschool.widge.FlowLayout>
 </LinearLayout>

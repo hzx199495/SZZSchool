@@ -32,6 +32,7 @@ import com.shizhanzhe.szzschool.Bean.QuestionBean;
 import com.shizhanzhe.szzschool.Bean.QuestionListBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
+import com.shizhanzhe.szzschool.activity.QuestionListActivity;
 import com.shizhanzhe.szzschool.activity.SendQuestionActivity;
 import com.shizhanzhe.szzschool.adapter.QuestionListAdapter;
 import com.shizhanzhe.szzschool.adapter.QuestionReplyAdapter;
@@ -50,7 +51,7 @@ import java.util.List;
  * Created by zz9527 on 2017/9/1.
  */
 @ContentView(R.layout.polyvplayerendfragment)
-public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RefreshLayout.OnLoadListener {
+public class PolyvPlayerEndFragment extends Fragment {
     @ViewInject(R.id.video_total)
     TextView video_total;
     @ViewInject(R.id.video_title)
@@ -73,11 +74,12 @@ public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayo
     public static PolyvPlayerEndFragment newInstance(String json) {
 
         Bundle args = new Bundle();
-        args.putString("json",json);
+        args.putString("json", json);
         PolyvPlayerEndFragment fragment = new PolyvPlayerEndFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,6 +90,8 @@ public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayo
     String teacher;
     String uid;
     String json;
+    String sid;
+
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,12 +100,13 @@ public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayo
         teacher = preferences.getString("teacher", "");
         uid = preferences.getString("uid", "");
         Gson gson = new Gson();
-        json=getArguments().getString("json");
+        json = getArguments().getString("json");
         ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
         stitle = tx.getStitle();
+        sid=tx.getId();
         final FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        tabFragment =  PolyvPlayerTabFragment.newInstance(stitle);
-        viewPagerFragment =  PolyvPlayerViewPagerFragment.newInstance(json,tx.getId());
+        tabFragment = PolyvPlayerTabFragment.newInstance(stitle);
+        viewPagerFragment = PolyvPlayerViewPagerFragment.newInstance(json, tx.getId());
         ft.add(R.id.fl_tab, tabFragment, "tabFragment");
         ft.add(R.id.fl_viewpager, viewPagerFragment, "viewPagerFragment");
         ft.commit();
@@ -114,9 +119,9 @@ public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayo
         video_intro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (introPop!=null){
+                if (introPop != null) {
                     introPop.showAsDropDown(frame_top);
-                }else {
+                } else {
                     introPop = popWindow(R.layout.pop_intro);
                     introPop.setBackgroundDrawable(null);
                     introPop.setOutsideTouchable(true);
@@ -141,94 +146,101 @@ public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayo
         makequestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listPop != null) {
-                    listPop.showAsDropDown(frame_top);
-                } else {
-                    listPop = popWindow(R.layout.pop_question);
-                    listPop.setBackgroundDrawable(null);
-                    listPop.setOutsideTouchable(true);
-                    listPop.showAsDropDown(frame_top);
-                    listPop.getContentView().findViewById(R.id.ques_back).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), QuestionListActivity.class);
+                intent.putExtra("videoId", MyApplication.videoitemid);
+                intent.putExtra("name",  MyApplication.videoname);
+                intent.putExtra("sid", sid);
+                intent.putExtra("pid", MyApplication.videotypeid);
+                startActivity(intent);
+//                if (listPop != null) {
+//                    listPop.showAsDropDown(frame_top);
+//                } else {
+//                    listPop = popWindow(R.layout.pop_question);
+//                    listPop.setBackgroundDrawable(null);
+//                    listPop.setOutsideTouchable(true);
+//                    listPop.showAsDropDown(frame_top);
+//                    listPop.getContentView().findViewById(R.id.ques_back).setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//
+//                            listPop.dismiss();
+//                        }
+//                    });
+//                init(listPop.getContentView());
+//                    setListener();
+//                getData();
+//                    Floatmakequestion.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            quesFlg=true;
+//                            Intent intent = new Intent(getContext(), SendQuestionActivity.class);
+//                            intent.putExtra("type", "1");
+//                            startActivityForResult(intent, 1);
+//                        }
+//                    });
+//                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            quespop = popWindow(R.layout.pop_quesdetail);
+//                            quespop.showAsDropDown(frame_top);
+//                            quespop.getContentView().findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    quespop.dismiss();
+//                                }
+//                            });
+//                            Mylv = (MyListView) quespop.getContentView().findViewById(R.id.videoquestion);
+//                            iv = (ImageView) quespop.getContentView().findViewById(R.id.iv);
+//                            title = (TextView) quespop.getContentView().findViewById(R.id.questionTitle);
+//                            questioner = (TextView) quespop.getContentView().findViewById(R.id.questioner);
+//                            time = (TextView) quespop.getContentView().findViewById(R.id.time);
+//                            noreply = (TextView) quespop.getContentView().findViewById(R.id.noreply);
+//                            rl_bot = (TextView) quespop.getContentView().findViewById(R.id.rl_bot);
+//                            final ImageView dz = (ImageView) quespop.getContentView().findViewById(R.id.dz);
+//                            dz.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.dozan&qid=" + qid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//                                        @Override
+//                                        public void onsendJson(String json) {
+//                                            if (json.contains("1")) {
+//                                                dz.setImageResource(R.drawable.dz_yes);
+//                                            }
+//                                        }
+//                                    });
+//                                }
+//                            });
+//                            qid = list.get(position).getId();
+//                            detail_load = (ProgressBar) quespop.getContentView().findViewById(R.id.detail_load);
+//                            Mylv.setFocusable(false);
+//                            getQUData(qid);
+//                            rl_bot.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    if (uid.contains(bean.getQinfo().get(0).getUid()) || teacher.contains("1")) {
+//                                        quesdetaFlg = true;
+//                                        Intent intent = new Intent(getContext(), SendQuestionActivity.class);
+//                                        intent.putExtra("type", "回复");
+//                                        intent.putExtra("coid", bean.getQinfo().get(0).getCoid());
+//                                        intent.putExtra("uid", bean.getQinfo().get(0).getUid());
+//                                        intent.putExtra("qid", qid);
+//                                        startActivity(intent);
+//                                    } else {
+//                                        Toast.makeText(getContext(), "无权限回复!", Toast.LENGTH_SHORT).show();
+//                                    }
+//
+//                                }
+//                            });
+//                        }
+//
+//                    });
+//
+//                }
+//            }
 
-                            listPop.dismiss();
-                        }
-                    });
-                    init(listPop.getContentView());
-                    setListener();
-                    getData();
-                    Floatmakequestion.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            quesFlg=true;
-                            Intent intent = new Intent(getContext(), SendQuestionActivity.class);
-                            intent.putExtra("type", "1");
-                            startActivityForResult(intent, 1);
-                        }
-                    });
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            quespop = popWindow(R.layout.pop_quesdetail);
-                            quespop.showAsDropDown(frame_top);
-                            quespop.getContentView().findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    quespop.dismiss();
-                                }
-                            });
-                            Mylv = (MyListView) quespop.getContentView().findViewById(R.id.videoquestion);
-                            iv = (ImageView) quespop.getContentView().findViewById(R.id.iv);
-                            title = (TextView) quespop.getContentView().findViewById(R.id.questionTitle);
-                            questioner = (TextView) quespop.getContentView().findViewById(R.id.questioner);
-                            time = (TextView) quespop.getContentView().findViewById(R.id.time);
-                            noreply = (TextView) quespop.getContentView().findViewById(R.id.noreply);
-                            rl_bot = (TextView) quespop.getContentView().findViewById(R.id.rl_bot);
-                            final ImageView dz = (ImageView) quespop.getContentView().findViewById(R.id.dz);
-                            dz.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    OkHttpDownloadJsonUtil.downloadJson(getContext(), "https://shizhanzhe.com/index.php?m=pcdata.dozan&qid=" + qid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                                        @Override
-                                        public void onsendJson(String json) {
-                                            if (json.contains("1")) {
-                                                dz.setImageResource(R.drawable.dz_yes);
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                            qid = list.get(position).getId();
-                            detail_load = (ProgressBar) quespop.getContentView().findViewById(R.id.detail_load);
-                            Mylv.setFocusable(false);
-                            getQUData(qid);
-                            rl_bot.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (uid.contains(bean.getQinfo().get(0).getUid()) || teacher.contains("1")) {
-                                        quesdetaFlg = true;
-                                        Intent intent = new Intent(getContext(), SendQuestionActivity.class);
-                                        intent.putExtra("type", "回复");
-                                        intent.putExtra("coid", bean.getQinfo().get(0).getCoid());
-                                        intent.putExtra("uid", bean.getQinfo().get(0).getUid());
-                                        intent.putExtra("qid", qid);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(getContext(), "无权限回复!", Toast.LENGTH_SHORT).show();
-                                    }
 
-                                }
-                            });
-                        }
-
-                    });
-
-                }
             }
         });
-
-
     }
 
     String qid;
@@ -289,67 +301,67 @@ public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayo
         load = (ProgressBar) view.findViewById(R.id.load);
     }
 
-    /**
-     * 设置监听
-     */
-    private void setListener() {
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
-    }
+//    /**
+//     * 设置监听
+//     */
+//    private void setListener() {
+//        swipeLayout.setOnRefreshListener(this);
+//        swipeLayout.setOnLoadListener(this);
+//    }
+//
+//    @Override
+//    public void onRefresh() {
+//        swipeLayout.postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                page = 1;
+//                getData();
+//                swipeLayout.setRefreshing(false);
+//            }
+//        }, 2000);
+//    }
+//
+//    @Override
+//    public void onLoad() {
+//        swipeLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                swipeLayout.setLoading(false);
+//                page++;
+//                OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).QUESTIONLIST("1", MyApplication.videoitemid, page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//                    @Override
+//                    public void onsendJson(String json) {
+//                        Gson gson = new Gson();
+//                        List<QuestionListBean> lists = gson.fromJson(json, new TypeToken<List<QuestionListBean>>() {
+//                        }.getType());
+//                        if (lists.size() == 0) {
+//                            Toast.makeText(getContext(), "已经到底了", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            for (QuestionListBean b :
+//                                    lists) {
+//                                list.add(b);
+//                            }
+//                            adapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                });
+//            }
+//        }, 2000);
+//    }
 
-    @Override
-    public void onRefresh() {
-        swipeLayout.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                page = 1;
-                getData();
-                swipeLayout.setRefreshing(false);
-            }
-        }, 2000);
-    }
-
-    @Override
-    public void onLoad() {
-        swipeLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeLayout.setLoading(false);
-                page++;
-                OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).QUESTIONLIST("1", MyApplication.videoitemid, page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                    @Override
-                    public void onsendJson(String json) {
-                        Gson gson = new Gson();
-                        List<QuestionListBean> lists = gson.fromJson(json, new TypeToken<List<QuestionListBean>>() {
-                        }.getType());
-                        if (lists.size() == 0) {
-                            Toast.makeText(getContext(), "已经到底了", Toast.LENGTH_SHORT).show();
-                        } else {
-                            for (QuestionListBean b :
-                                    lists) {
-                                list.add(b);
-                            }
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-            }
-        }, 2000);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (quesFlg) {
-            quesFlg = false;
-            onRefresh();
-        }
-        if (quesdetaFlg) {
-            quesdetaFlg=false;
-            getQUData(qid);
-        }
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (quesFlg) {
+//            quesFlg = false;
+//            onRefresh();
+//        }
+//        if (quesdetaFlg) {
+//            quesdetaFlg=false;
+//            getQUData(qid);
+//        }
+//    }
 
     QuestionBean bean;
 
@@ -388,21 +400,21 @@ public class PolyvPlayerEndFragment extends Fragment implements SwipeRefreshLayo
         return Pop;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 11) {
-            OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).ANSWERQUESTION(bean.getQinfo().get(0).getCoid(), bean.getQinfo().get(0).getUid(), data.getStringExtra("msg"), qid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
-                @Override
-                public void onsendJson(String json) {
-                    if (json.contains("1")) {
-                        getQUData(qid);
-                        Toast.makeText(getContext(), "回复成功！", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), "回复失败，请重试！", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == 11) {
+//            OkHttpDownloadJsonUtil.downloadJson(getContext(), new Path(getContext()).ANSWERQUESTION(bean.getQinfo().get(0).getCoid(), bean.getQinfo().get(0).getUid(), data.getStringExtra("msg"), qid), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+//                @Override
+//                public void onsendJson(String json) {
+//                    if (json.contains("1")) {
+//                        getQUData(qid);
+//                        Toast.makeText(getContext(), "回复成功！", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(getContext(), "回复失败，请重试！", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//        }
+//    }
 }

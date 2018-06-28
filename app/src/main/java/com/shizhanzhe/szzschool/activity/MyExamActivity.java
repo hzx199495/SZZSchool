@@ -1,19 +1,21 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.MyExamBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.MyExamAdapter;
@@ -38,8 +40,11 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
     ImageView back;
     @ViewInject(R.id.swipe_container)
     RefreshLayout swipeLayout;
-    @ViewInject(R.id.state_layout)
-    StateLayout state_layout;
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    @ViewInject(R.id.iv)
+    ImageView iv;
+    private QMUITipDialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,22 +55,26 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
                 finish();
             }
         });
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
+        lv.setEmptyView(iv);
         swipeLayout.setColorSchemeResources(R.color.commom_sline_color_gray, R.color.blue2, R.color.red, R.color.green);
         setListener();
+        dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         getData();
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                getData();
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+//        state_layout.setTipText(StateLayout.EMPTY, "");
+//        state_layout.showLoadingView();
+//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
+//            @Override
+//            public void refreshClick() {
+//                state_layout.showLoadingView();
+//                getData();
+//            }
+//
+//            @Override
+//            public void loginClick() {
+//
+//            }
+//        });
     }
     /**
      * 设置监听
@@ -78,16 +87,29 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
     private MyExamAdapter adapter;
     private List<MyExamBean> list;
     void getData() {
+        dialog.show();
         OkHttpDownloadJsonUtil.downloadJson(MyExamActivity.this, new Path(MyExamActivity.this).MYExam(page), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
             @Override
             public void onsendJson(String json) {
                 try {
-                    if (json.equals("0")){
-                        state_layout.showNoNetworkView();
+                    if (json.equals("0")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络异常", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
-                    }else if (json.equals("1")){
-                        state_layout.showTimeoutView();
+                    } else if (json.equals("1")) {
+                        dialog.dismiss();
+                        empty.show(false, "", "网络超时", "重试", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getData();
+                            }
+                        });
                         return;
                     }
                     Gson gson = new GsonBuilder()
@@ -99,14 +121,29 @@ public class MyExamActivity extends Activity implements RefreshLayout.OnLoadList
                     if (list.size() > 0) {
                         adapter = new MyExamAdapter(MyExamActivity.this, list);
                         lv.setAdapter(adapter);
-                        state_layout.showContentView();
                     } else {
-                        state_layout.showEmptyView();
+                        empty.show("","暂无数据");
                     }
+                    dialog.dismiss();
                 }catch (Exception e){
-                    state_layout.showErrorView();
+                    dialog.dismiss();
+                    empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getData();
+                        }
+                    });
                 }
-
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent();
+                        intent.setClass(MyExamActivity.this, ExamActivity.class);
+                        intent.putExtra("videoId", list.get(position).getCoid());
+                        intent.putExtra("txId", list.get(position).getSid());
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }

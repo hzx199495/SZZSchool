@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <ImageView
         android:paddingTop="@dimen/wh10"
         android:paddingLeft="@dimen/wh10"
@@ -30,5 +34,17 @@
         android:adjustViewBounds="true"
         android:visibility="gone"
         />
-
-</LinearLayout>
+        <ImageView
+            android:paddingLeft="@dimen/wh10"
+            android:paddingRight="@dimen/wh10"
+            android:id="@+id/intro_tv4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:visibility="gone"
+            />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wh40"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

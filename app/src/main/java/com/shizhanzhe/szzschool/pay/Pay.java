@@ -104,7 +104,7 @@ public class Pay {
         /**
          * 回调函数，用于在Dialog的监听事件触发后刷新Activity的UI显示
          */
-        public void refreshPriorityUI();
+         void refreshPriorityUI();
     }
 
     public Pay(Activity activity, final String price, final String subject, PayListener listener) {

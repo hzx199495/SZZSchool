@@ -2,19 +2,18 @@ package com.shizhanzhe.szzschool.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.Bean.ScheduleBean;
 import com.shizhanzhe.szzschool.R;
@@ -37,7 +36,8 @@ public class ScheduleTabFragment extends Fragment {
     private int type;
     private ListView lv;
     private String vjson;
-    private StateLayout state_layout;
+    private QMUITipDialog dialog;
+    private QMUIEmptyView empty;
     public static ScheduleTabFragment newInstance(int type, String id,String json) {
         ScheduleTabFragment fragment = new ScheduleTabFragment();
         Bundle bundle = new Bundle();
@@ -68,49 +68,38 @@ public class ScheduleTabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        state_layout= (StateLayout) view.findViewById(R.id.state_layout);
-        state_layout.setTipText(StateLayout.EMPTY,"");
-        state_layout.showLoadingView();
-        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-            @Override
-            public void refreshClick() {
-                state_layout.showLoadingView();
-                getdata(getArguments().getString("id"));
-            }
-
-            @Override
-            public void loginClick() {
-
-            }
-        });
+        dialog = new QMUITipDialog.Builder(getContext()).setIconType(1).setTipWord("正在加载").create();
+        empty = view.findViewById(R.id.empty);
         lv = (ListView) view.findViewById(R.id.lv);
+        ImageView iv = view.findViewById(R.id.iv);
+        lv.setEmptyView(iv);
         getdata(getArguments().getString("id"));
     }
 
-    private void initView(final List<ScheduleBean.InfoBean.KcDataBean> list) {
-
+    private void initView(final List<ScheduleBean.InfoBean.KcDataBean> lsit) {
+dialog.show();
         switch (type) {
             case 1:
                 try {
                     if (protype == 1) {
                         setData(list, 0);
                     } else if (protype == 2) {
-                        final List<ScheduleBean.InfoBean.KcDataBean.VdataBean> fourlist = new ArrayList<>();
+                        final List<ScheduleBean.InfoBean.KcDataBean.VdataBean> fourlist = list.get(0).getVdata();
                         try {
-                            for (int i = 0; i < 4; i++) {
-                                for (ScheduleBean.InfoBean.KcDataBean.VdataBean b : list.get(i).getVdata()) {
-                                    fourlist.add(b);
-                                }
-                            }
                         if (fourlist.size()==0){
-                            state_layout.showEmptyView();
+
                         }else {
                             lv.setAdapter(new ScheduleDeatilAdapter(getContext(), fourlist));
-                            state_layout.showContentView();
                         }
-
+                            dialog.dismiss();
                         } catch (Exception e) {
-                            state_layout.showErrorView();
+                            dialog.dismiss();
+                            empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    initView(list);
+                                }
+                            });
                         }
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -121,10 +110,11 @@ public class ScheduleTabFragment extends Fragment {
                                     MyApplication.schedule = 0;
                                 }
                                 MyApplication.position = position;
-                                MyApplication.videotypeid = list.get(position).getCid();
+                                MyApplication.videotypeid = list.get(0).getCid();
+                                MyApplication.videoname=fourlist.get(position).getVtitle();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = fourlist.get(position).getVid();
-                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(position).getChoice_kc().get(position).getMv_url(),vjson);
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(0).getChoice_kc().get(position).getMv_url(),vjson);
                                 getContext().startActivity(intent);
                             }
                         });
@@ -152,17 +142,22 @@ public class ScheduleTabFragment extends Fragment {
             case 6:
                 setData(list, 5);
                 break;
+            case 7:
+                setData(list, 6);
+                break;
+            case 8:
+                setData(list, 7);
+                break;
         }
     }
 
     void setData(final List<ScheduleBean.InfoBean.KcDataBean> list, final int tabposition) {
+        dialog.show();
         try {
             final List<ScheduleBean.InfoBean.KcDataBean.VdataBean> vdata = list.get(tabposition).getVdata();
             if (vdata.size()==0){
-                state_layout.showEmptyView();
             }else {
                 lv.setAdapter(new ScheduleDeatilAdapter(getContext(), vdata));
-                state_layout.showContentView();
             }
 
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -176,13 +171,21 @@ public class ScheduleTabFragment extends Fragment {
                     MyApplication.position = position;
                     MyApplication.videotypeid = list.get(tabposition).getCid();
                     MyApplication.videotype = type;
+                    MyApplication.videoname=vdata.get(position).getVtitle();
                     MyApplication.videoitemid = vdata.get(position).getVid();
                     Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(tabposition).getChoice_kc().get(position).getMv_url(),vjson);
                     getContext().startActivity(intent);
                 }
             });
+            dialog.dismiss();
         } catch (Exception e) {
-            state_layout.showErrorView();
+            dialog.dismiss();
+            empty.show(false, "", "数据异常", "重试", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    initView(list);
+                }
+            });
         }
     }
 

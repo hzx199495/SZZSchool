@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="充值"
-            android:textColor="@color/blue2" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/je"

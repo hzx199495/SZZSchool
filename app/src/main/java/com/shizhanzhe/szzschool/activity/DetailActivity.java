@@ -2,59 +2,51 @@ package com.shizhanzhe.szzschool.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Handler;
+import android.os.Message;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.fingdo.statelayout.StateLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mob.MobSDK;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.BuyBean;
 import com.shizhanzhe.szzschool.Bean.CollectListBean;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
-import com.shizhanzhe.szzschool.fragment.IntroFragment;
-import com.shizhanzhe.szzschool.fragment.ProExpanFragment;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
-import com.shizhanzhe.szzschool.widge.MyScrollView;
+import com.shizhanzhe.szzschool.widge.MPagerAdapter;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import org.zackratos.ultimatebar.UltimateBar;
 
 import java.io.IOException;
 import java.util.List;
 
-import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -71,7 +63,7 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.userType;
  * 课程详情
  */
 @ContentView(R.layout.activity_detail)
-public class DetailActivity extends FragmentActivity implements View.OnClickListener, MyScrollView.MyScrollListener {
+public class DetailActivity extends FragmentActivity implements View.OnClickListener {
     @ViewInject(R.id.buy)
     Button buy;
     @ViewInject(R.id.back)
@@ -86,10 +78,6 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     ImageView detail_iv;
     @ViewInject(R.id.detail_title)
     TextView detail_title;
-    @ViewInject(R.id.rg)
-    RadioGroup rg;
-    @ViewInject(R.id.rg2)
-    LinearLayout rg2;
     @ViewInject(R.id.detail_price)
     TextView detail_price;
     @ViewInject(R.id.collect)
@@ -98,40 +86,49 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     TextView detail_study;
     @ViewInject(R.id.detail_yjprice)
     TextView detail_yjprice;
-    //    @ViewInject(R.id.state_layout)
-//    StateLayout state_layout;
-    @ViewInject(R.id.intro)
-    RadioButton intro;
-    @ViewInject(R.id.expand)
-    RadioButton expand;
-    @ViewInject(R.id.intro2)
-    TextView intro2;
-    @ViewInject(R.id.expand2)
-    TextView expand2;
-    @ViewInject(R.id.myscroll)
-    MyScrollView myscroll;
-    @ViewInject(R.id.layout_login_topbar)
-    RelativeLayout top;
+    @ViewInject(R.id.empty)
+    QMUIEmptyView empty;
+    private QMUITipDialog loading;
+    private QMUITipDialog error;
+    private QMUITipDialog success;
+    private QMUITipDialog coll;
+
     private String id;
     private Dialog dialog;
     private String img;
     private String proprice;
-    private ProExpanFragment proExpanFragment;
-    private IntroFragment introFragment;
 
-    int rgheight;
-    int topheight;
-    int select = 1;
-    SVProgressHUD svProgressHUD;
+
+    @ViewInject(R.id.tabLayout)
+    TabLayout tabLayout;
+    @ViewInject(R.id.viewPager)
+    ViewPager viewPager;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    error.dismiss();
+                    break;
+                case 2:
+                    success.dismiss();
+                    break;
+                case 3:
+                    coll.dismiss();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        UltimateBar ultimateBar = new UltimateBar(this);
+        ultimateBar.setColorBar(ContextCompat.getColor(this, R.color.top));
         MobSDK.init(this, "211d17cfbf506", "751845082fc06c195f287737547c9165");
-        svProgressHUD = new SVProgressHUD(this);
-        svProgressHUD.showWithStatus("正在加载...");
+
+        loading = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         back.setOnClickListener(this);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
@@ -168,67 +165,71 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 
     private void inintListener() {
 
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Fragment fragment = null;
-                switch (checkedId) {
-                    case R.id.intro:
-                        select = 1;
-                        intro.setTextColor(getResources().getColor(R.color.blue2));
-                        expand.setTextColor(Color.BLACK);
-                        intro2.setTextColor(getResources().getColor(R.color.blue2));
-                        expand2.setTextColor(Color.BLACK);
-                        fragment = introFragment;
-                        break;
-                    case R.id.expand:
-                        select = 2;
-                        intro.setTextColor(Color.BLACK);
-                        expand.setTextColor(getResources().getColor(R.color.blue2));
-                        intro2.setTextColor(Color.BLACK);
-                        expand2.setTextColor(getResources().getColor(R.color.blue2));
-                        if (proExpanFragment == null) {
-                            proExpanFragment = ProExpanFragment.newInstance(vjson, id);
-                        }
-                        fragment = proExpanFragment;
-                        break;
-                }
-                switchFragment(fragment);
-            }
-        });
-        intro2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (select == 1) {
+//        intro.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                intro.setTextColor(getResources().getColor(R.color.blue2));
+//                expand.setTextColor(Color.BLACK);
+//                intro2.setTextColor(getResources().getColor(R.color.blue2));
+//                expand2.setTextColor(Color.BLACK);
+//                switchFragment(introFragment);
+//            }
+//        });
+//        expand.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                intro.setTextColor(Color.BLACK);
+//                expand.setTextColor(getResources().getColor(R.color.blue2));
+//                intro2.setTextColor(Color.BLACK);
+//                expand2.setTextColor(getResources().getColor(R.color.blue2));
+//                if (proExpanFragment == null) {
+//                    proExpanFragment = ProExpanFragment.newInstance(vjson, id);
+//                }
+//                switchFragment(proExpanFragment);
+//            }
+//        });
+//
+//        intro2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                intro.setTextColor(getResources().getColor(R.color.blue2));
+//                expand.setTextColor(Color.BLACK);
+//                intro2.setTextColor(getResources().getColor(R.color.blue2));
+//                expand2.setTextColor(Color.BLACK);
+//                switchFragment(introFragment);
+//            }
+//        });
+//        expand2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                intro.setTextColor(Color.BLACK);
+//                expand.setTextColor(getResources().getColor(R.color.blue2));
+//                intro2.setTextColor(Color.BLACK);
+//                expand2.setTextColor(getResources().getColor(R.color.blue2));
+//                if (proExpanFragment == null) {
+//                    proExpanFragment = ProExpanFragment.newInstance(vjson, id);
+//                }
+//                switchFragment(proExpanFragment);
+//            }
+//        });
+//        intro.setTextColor(getResources().getColor(R.color.blue2));
+//        expand.setTextColor(Color.BLACK);
+//        intro2.setTextColor(getResources().getColor(R.color.blue2));
+//        expand2.setTextColor(Color.BLACK);
+//        switchFragment(introFragment);
 
-                } else {
-                    intro2.setTextColor(getResources().getColor(R.color.blue2));
-                    expand2.setTextColor(Color.BLACK);
-                    rg.check(R.id.intro);
-                }
-            }
-        });
-        expand2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (select == 2) {
 
-                } else {
-                    intro2.setTextColor(Color.BLACK);
-                    expand2.setTextColor(getResources().getColor(R.color.blue2));
-                    rg2.setVisibility(View.GONE);
-                    rg.check(R.id.expand);
-                }
-            }
-        });
-        rg.check(R.id.intro);
+        viewPager.setOffscreenPageLimit(2);
+        viewPager.setAdapter(new MPagerAdapter(getSupportFragmentManager(), vjson, id, imgs));
+        tabLayout.setupWithViewPager(viewPager);
     }
 
-    // 切换Fragment方法
-    private void switchFragment(Fragment fragment) {
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.proll, fragment).commit();
-    }
+    String imgs;
+//    // 切换Fragment方法
+//    private void switchFragment(Fragment fragment) {
+//        FragmentManager manager = getSupportFragmentManager();
+//        manager.beginTransaction().replace(R.id.proll, fragment).commit();
+//    }
 
     @Override
     public void onClick(View v) {
@@ -239,8 +240,12 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                     dialog.show();
                     TextView pro = (TextView) dialog.getWindow().findViewById(R.id.buy_pro);
                     final TextView price = (TextView) dialog.getWindow().findViewById(R.id.buy_pr);
+                    TextView usermoney = (TextView) dialog.getWindow().findViewById(R.id.usermoney);
                     Button btn = (Button) dialog.getWindow().findViewById(R.id.buy_yes);
                     pro.setText(name);
+                    SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+                    String money = preferences.getString("money", "");
+                    usermoney.setText("账户余额：￥" + money);
                     price.setText("￥" + proprice);
                     btn.setOnClickListener(this);
                 } else {
@@ -272,7 +277,8 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 
 
                 } else {
-                    Toast.makeText(this, "正在发送购买请求...", Toast.LENGTH_SHORT).show();
+                    QMUITipDialog buyDialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在购买...").create();
+                    buyDialog.show();
                     OkHttpClient client = new OkHttpClient();
                     RequestBody body = new FormBody.Builder()
                             .add("uid", uid).add("systemid", id)
@@ -289,8 +295,10 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    new SVProgressHUD(DetailActivity.this).showErrorWithStatus("购买失败");
+                                    error = new QMUITipDialog.Builder(DetailActivity.this).setIconType(3).setTipWord("购买失败").create();
+                                    error.show();
                                     dialog.dismiss();
+                                    mhandler.sendEmptyMessageDelayed(1, 1500);
                                 }
 
                             });
@@ -308,10 +316,14 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                                         if (bean.getStatus() == 1) {
                                             editor.putString("money", Double.parseDouble(money) - Double.parseDouble(proprice) + "");
                                             editor.commit();
-                                            new SVProgressHUD(DetailActivity.this).showSuccessWithStatus("购买成功,添加微信号入群");
+                                            success = new QMUITipDialog.Builder(DetailActivity.this).setIconType(2).setTipWord("购买成功").create();
+                                            success.show();
+                                            mhandler.sendEmptyMessageDelayed(2, 1500);
                                             getData();
                                         } else if (bean.getStatus() == 3) {
-                                            new SVProgressHUD(DetailActivity.this).showInfoWithStatus("账户余额不足，无法购买");
+                                            success = new QMUITipDialog.Builder(DetailActivity.this).setIconType(4).setTipWord("账户余额不足").create();
+                                            success.show();
+                                            mhandler.sendEmptyMessageDelayed(2, 1500);
                                         }
                                         dialog.dismiss();
                                     }
@@ -331,27 +343,31 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
             case R.id.addwx:
 
                 if (isbuy.equals("1") || vip.equals("1")) {
-                    if (!"".equals(kefuhao)) {
-                        try {
-                            // 获取剪贴板管理服务
-                            ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                            //将文本数据（微信号）复制到剪贴板
-                            cm.setText(kefuhao);
-                            //跳转微信
-                            Intent intentwx = new Intent(Intent.ACTION_MAIN);
-                            ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
-                            intentwx.addCategory(Intent.CATEGORY_LAUNCHER);
-                            intentwx.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intentwx.setComponent(cmp);
-                            startActivity(intentwx);
-                            Toast.makeText(this, "微信号已复制到粘贴板，请添加使用", Toast.LENGTH_LONG).show();
-                        } catch (ActivityNotFoundException e) {
-                            e.printStackTrace();
-                            Toast.makeText(this, "您还没有安装微信，请安装后使用", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(this, "暂无客服微信号", Toast.LENGTH_LONG).show();
-                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("联系客服加入交流群")
+                            .setItems(new String[]{"QQ联系：800199188 (点击复制)", "微信联系：szz892 (点击复制)"}, actionListener);
+
+                    builder.create().show();
+//                    if (!"".equals(kefuhao)) {
+//                        try {
+//                            // 获取剪贴板管理服务
+//                            ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//                            //将文本数据（微信号）复制到剪贴板
+//                            cm.setText(kefuhao);
+//                            //跳转微信
+//                            Intent intentwx = new Intent(Intent.ACTION_MAIN);
+//                            ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
+//                            intentwx.addCategory(Intent.CATEGORY_LAUNCHER);
+//                            intentwx.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            intentwx.setComponent(cmp);
+//                            startActivity(intentwx);
+//                            Toast.makeText(this, "微信号已复制到粘贴板，请添加使用", Toast.LENGTH_LONG).show();
+//                        } catch (ActivityNotFoundException e) {
+//                            e.printStackTrace();
+//                            Toast.makeText(this, "您还没有安装微信，请安装后使用", Toast.LENGTH_LONG).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(this, "暂无客服微信号", Toast.LENGTH_LONG).show();
+//                    }
                 } else {
                     Toast.makeText(this, "未购买课程", Toast.LENGTH_LONG).show();
                 }
@@ -368,18 +384,40 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                     if (iv2 == 2) {
                         iv2 = 1;
                         collect.setImageResource(R.drawable.ic_courseplay_star1);
-                        Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
+                        coll = new QMUITipDialog.Builder(DetailActivity.this).setIconType(4).setTipWord("取消收藏").create();
+                        coll.show();
+                        mhandler.sendEmptyMessageDelayed(3, 1500);
                     } else {
                         iv2 = 2;
                         collect.setImageResource(R.drawable.ic_courseplay_star2);
-                        Toast.makeText(this, "已收藏", Toast.LENGTH_SHORT).show();
-
+                        coll = new QMUITipDialog.Builder(DetailActivity.this).setIconType(4).setTipWord("已收藏").create();
+                        coll.show();
+                        mhandler.sendEmptyMessageDelayed(3, 1500);
                     }
                 }
                 break;
         }
     }
 
+    DialogInterface.OnClickListener actionListener = new DialogInterface.OnClickListener() {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            // TODO Auto-generated method stub
+            ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            switch (which) {
+                case 0:
+                    cm.setText("800199188");
+                    break;
+                case 1:
+                    cm.setText("szz892");
+                    break;
+                default:
+                    break;
+            }
+            Toast.makeText(DetailActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
+        }
+    };
     private String name;
     private String kefuhao;
     private String vjson;
@@ -389,7 +427,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     String isbuy;
 
     void getData() {
-
+        loading.show();
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).COLLECTLIST(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
@@ -467,12 +505,11 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                         study.setVisibility(View.GONE);
                         addwx.setVisibility(View.VISIBLE);
                     }
-                    introFragment = IntroFragment.newInstance(id, tx.getDuoimg());
+                    imgs = tx.getDuoimg();
                     inintListener();
-                    myscroll.setMyScrollListener(DetailActivity.this);
-                    svProgressHUD.dismiss();
+                    loading.dismiss();
                 } catch (Exception e) {
-                    svProgressHUD.dismiss();
+                    loading.dismiss();
                     Toast.makeText(DetailActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -506,8 +543,8 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         if (MyApplication.isLogin) {
             if (iv == 1 && iv != iv2) {
                 OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).COLLECT(id), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
@@ -525,21 +562,4 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         }
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            topheight = top.getMeasuredHeight();  //获取位置2，不就是搜索栏的高度么，啊哈哈哈，是不是很机智，当然你也可以用getButtom，一样的，看你自己
-            rgheight = detail_iv.getMeasuredHeight() + detail_title.getMeasuredHeight() + detail_study.getMeasuredHeight() + detail_price.getMeasuredHeight() + topheight; //获取位置3，即内部绿色栏的顶部到布局顶部的距离
-        }
-    }
-
-    @Override
-    public void sendDistanceY(int scrollY) {
-        if (scrollY > rgheight) {  //如果滑动的距离大于或等于二者距离，显示外部
-            rg2.setVisibility(View.VISIBLE);
-        } else {  //反之隐藏
-            rg2.setVisibility(View.GONE);
-        }
-    }
 }

@@ -3,7 +3,9 @@ package com.shizhanzhe.szzschool.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,10 +23,12 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.XFAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import org.zackratos.ultimatebar.UltimateBar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,6 +49,9 @@ public class XFActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

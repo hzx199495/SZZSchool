@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,6 +35,7 @@ import com.shizhanzhe.szzschool.adapter.ForumCommentAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.utils.RefreshLayout;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 import com.shizhanzhe.szzschool.video.PolyvTalkSendActivity;
 import com.shizhanzhe.szzschool.widge.HtmlTextView;
 
@@ -97,6 +99,9 @@ public class ForumItemActivity extends Activity implements RefreshLayout.OnLoadL
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         findIdAndNew();
         init();
         setListener();

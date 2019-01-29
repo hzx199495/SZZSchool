@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,6 +39,7 @@ import com.shizhanzhe.szzschool.adapter.ForumBKLVAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.utils.RefreshLayout;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -95,6 +97,9 @@ QMUIEmptyView empty;
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
         Intent intent = getIntent();
         fid = intent.getStringExtra("fid");
@@ -110,20 +115,7 @@ QMUIEmptyView empty;
         init();
         setListener();
         getData();
-//        state_layout.setTipText(StateLayout.EMPTY, "");
-//        state_layout.showLoadingView();
-//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-//            @Override
-//            public void refreshClick() {
-//                state_layout.showLoadingView();
-//                getData();
-//            }
-//
-//            @Override
-//            public void loginClick() {
-//
-//            }
-//        });
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

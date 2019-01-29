@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.shizhanzhe.szzschool.R;
@@ -31,8 +33,10 @@ public class IntroFragment extends android.support.v4.app.Fragment {
     ImageView iv3;
     @ViewInject(R.id.intro_tv4)
     ImageView iv4;
+    @ViewInject(R.id.noimg)
+    TextView noimg;
 
-    public static IntroFragment newInstance(String sid,String imgs) {
+    public static IntroFragment newInstance(String sid, String imgs) {
 
         Bundle args = new Bundle();
         args.putString("sid", sid);
@@ -52,20 +56,26 @@ public class IntroFragment extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String imgs = getArguments().getString("imgs");
+        if ("".equals(imgs)) {
+            noimg.setVisibility(View.VISIBLE);
+            return;
+        }
+        Log.i("________",imgs);
         String[] split = imgs.split(",");
-        if (split.length==1){
+        if (split.length == 1) {
+            iv.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().displayImage(Path.IMG(split[0]), iv, MyApplication.displayoptions);
-        }else if (split.length==2){
+        } else if (split.length == 2) {
             iv2.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().displayImage(Path.IMG(split[0]), iv, MyApplication.displayoptions);
             ImageLoader.getInstance().displayImage(Path.IMG(split[1]), iv2, MyApplication.displayoptions);
-        }else if (split.length==3){
+        } else if (split.length == 3) {
             iv2.setVisibility(View.VISIBLE);
             iv3.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().displayImage(Path.IMG(split[0]), iv, MyApplication.displayoptions);
             ImageLoader.getInstance().displayImage(Path.IMG(split[1]), iv2, MyApplication.displayoptions);
             ImageLoader.getInstance().displayImage(Path.IMG(split[2]), iv3, MyApplication.displayoptions);
-        }else if (split.length==4){
+        } else if (split.length == 4) {
             iv2.setVisibility(View.VISIBLE);
             iv3.setVisibility(View.VISIBLE);
             iv4.setVisibility(View.VISIBLE);
@@ -73,6 +83,7 @@ public class IntroFragment extends android.support.v4.app.Fragment {
             ImageLoader.getInstance().displayImage(Path.IMG(split[1]), iv2, MyApplication.displayoptions);
             ImageLoader.getInstance().displayImage(Path.IMG(split[2]), iv3, MyApplication.displayoptions);
             ImageLoader.getInstance().displayImage(Path.IMG(split[2]), iv4, MyApplication.displayoptions);
+
         }
     }
 }

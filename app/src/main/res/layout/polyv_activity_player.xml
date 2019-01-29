@@ -2,9 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
-
+    <FrameLayout
+        android:id="@+id/fl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <RelativeLayout
         android:id="@+id/view_layout"
         android:layout_width="match_parent"
@@ -128,17 +132,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
-        <FrameLayout
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="5dp">
-
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/video_back" />
-        </FrameLayout>
     </RelativeLayout>
 
     <RelativeLayout

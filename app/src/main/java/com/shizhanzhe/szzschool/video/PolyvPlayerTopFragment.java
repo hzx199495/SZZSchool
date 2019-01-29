@@ -14,7 +14,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easefun.polyvsdk.sub.vlms.entity.PolyvCoursesInfo;
 import com.shizhanzhe.szzschool.R;
 
 
@@ -25,16 +24,7 @@ public class PolyvPlayerTopFragment extends Fragment implements View.OnClickList
     private ImageView iv_finish;
     // 顶部布局
     private RelativeLayout rl_top;
-    private TextView tv_title;
 
-    public static PolyvPlayerTopFragment newInstance(String title) {
-
-        Bundle args = new Bundle();
-        args.putString("title",title);
-        PolyvPlayerTopFragment fragment = new PolyvPlayerTopFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,13 +48,9 @@ public class PolyvPlayerTopFragment extends Fragment implements View.OnClickList
     private void findIdAndNew() {
         iv_finish = (ImageView) view.findViewById(R.id.iv_finish);
         rl_top = (RelativeLayout) view.findViewById(R.id.rl_top);
-        tv_title = (TextView) view.findViewById(R.id.tv_title);
     }
 
     private void initView() {
-        Bundle bundle = getArguments();
-        tv_title.setText(bundle.getString("title"));
-        tv_title.requestFocus();
         iv_finish.setOnClickListener(this);
     }
 

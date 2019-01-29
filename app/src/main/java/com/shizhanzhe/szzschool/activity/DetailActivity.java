@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,6 +40,7 @@ import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 import com.shizhanzhe.szzschool.widge.MPagerAdapter;
 
 import org.xutils.view.annotation.ContentView;
@@ -45,8 +49,11 @@ import org.xutils.x;
 import org.zackratos.ultimatebar.UltimateBar;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -92,12 +99,12 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     private QMUITipDialog error;
     private QMUITipDialog success;
     private QMUITipDialog coll;
-
+    private QMUITipDialog buyDialog;
     private String id;
     private Dialog dialog;
     private String img;
     private String proprice;
-
+    private String[] s;
 
     @ViewInject(R.id.tabLayout)
     TabLayout tabLayout;
@@ -109,9 +116,11 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
             switch (msg.what) {
                 case 1:
                     error.dismiss();
+                    buyDialog.dismiss();
                     break;
                 case 2:
                     success.dismiss();
+                    buyDialog.dismiss();
                     break;
                 case 3:
                     coll.dismiss();
@@ -124,8 +133,12 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        UltimateBar ultimateBar = new UltimateBar(this);
-        ultimateBar.setColorBar(ContextCompat.getColor(this, R.color.top));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
+
+
+
         MobSDK.init(this, "211d17cfbf506", "751845082fc06c195f287737547c9165");
 
         loading = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
@@ -146,77 +159,11 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         share.setOnClickListener(this);
         addwx.setOnClickListener(this);
         collect.setOnClickListener(this);
-//        state_layout.showLoadingView();
-//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-//            @Override
-//            public void refreshClick() {
-//                state_layout.showLoadingView();
-//                getData();
-//            }
-//
-//            @Override
-//            public void loginClick() {
-//
-//            }
-//        });
 
 
     }
 
     private void inintListener() {
-
-//        intro.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                intro.setTextColor(getResources().getColor(R.color.blue2));
-//                expand.setTextColor(Color.BLACK);
-//                intro2.setTextColor(getResources().getColor(R.color.blue2));
-//                expand2.setTextColor(Color.BLACK);
-//                switchFragment(introFragment);
-//            }
-//        });
-//        expand.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                intro.setTextColor(Color.BLACK);
-//                expand.setTextColor(getResources().getColor(R.color.blue2));
-//                intro2.setTextColor(Color.BLACK);
-//                expand2.setTextColor(getResources().getColor(R.color.blue2));
-//                if (proExpanFragment == null) {
-//                    proExpanFragment = ProExpanFragment.newInstance(vjson, id);
-//                }
-//                switchFragment(proExpanFragment);
-//            }
-//        });
-//
-//        intro2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                intro.setTextColor(getResources().getColor(R.color.blue2));
-//                expand.setTextColor(Color.BLACK);
-//                intro2.setTextColor(getResources().getColor(R.color.blue2));
-//                expand2.setTextColor(Color.BLACK);
-//                switchFragment(introFragment);
-//            }
-//        });
-//        expand2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                intro.setTextColor(Color.BLACK);
-//                expand.setTextColor(getResources().getColor(R.color.blue2));
-//                intro2.setTextColor(Color.BLACK);
-//                expand2.setTextColor(getResources().getColor(R.color.blue2));
-//                if (proExpanFragment == null) {
-//                    proExpanFragment = ProExpanFragment.newInstance(vjson, id);
-//                }
-//                switchFragment(proExpanFragment);
-//            }
-//        });
-//        intro.setTextColor(getResources().getColor(R.color.blue2));
-//        expand.setTextColor(Color.BLACK);
-//        intro2.setTextColor(getResources().getColor(R.color.blue2));
-//        expand2.setTextColor(Color.BLACK);
-//        switchFragment(introFragment);
 
 
         viewPager.setOffscreenPageLimit(2);
@@ -224,7 +171,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    String imgs;
+    private String imgs;
 //    // 切换Fragment方法
 //    private void switchFragment(Fragment fragment) {
 //        FragmentManager manager = getSupportFragmentManager();
@@ -277,7 +224,7 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 
 
                 } else {
-                    QMUITipDialog buyDialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在购买...").create();
+                    buyDialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在购买...").create();
                     buyDialog.show();
                     OkHttpClient client = new OkHttpClient();
                     RequestBody body = new FormBody.Builder()
@@ -343,10 +290,17 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
             case R.id.addwx:
 
                 if (isbuy.equals("1") || vip.equals("1")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("联系客服加入交流群")
-                            .setItems(new String[]{"QQ联系：800199188 (点击复制)", "微信联系：szz892 (点击复制)"}, actionListener);
+                    try {
+                    s = kefuhao1.split("/");
+                    String qq="QQ联系："+s[0]+" (点击复制)";
+                    String wx="微信联系："+s[1]+" (点击复制)";
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("加入交流群")
+                            .setItems(new String[]{qq, wx}, actionListener);
 
                     builder.create().show();
+                    }catch (Exception e){
+                        Toast.makeText(this, "未添加", Toast.LENGTH_SHORT).show();
+                    }
 //                    if (!"".equals(kefuhao)) {
 //                        try {
 //                            // 获取剪贴板管理服务
@@ -369,7 +323,17 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 //                        Toast.makeText(this, "暂无客服微信号", Toast.LENGTH_LONG).show();
 //                    }
                 } else {
-                    Toast.makeText(this, "未购买课程", Toast.LENGTH_LONG).show();
+                    try {
+                        s = kefuhao.split("/");
+                        String qq="QQ联系："+s[0]+" (点击复制)";
+                        String wx="微信联系："+s[1]+" (点击复制)";
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("加入交流群")
+                                .setItems(new String[]{qq, wx}, actionListener);
+                        builder.create().show();
+                    }catch (Exception e){
+                        Toast.makeText(this, "未添加", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
                 break;
@@ -407,10 +371,10 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
             ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             switch (which) {
                 case 0:
-                    cm.setText("800199188");
+                        cm.setText(s[0]);
                     break;
                 case 1:
-                    cm.setText("szz892");
+                        cm.setText(s[1]);
                     break;
                 default:
                     break;
@@ -419,7 +383,8 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         }
     };
     private String name;
-    private String kefuhao;
+    private String kefuhao="暂无/暂无";
+    private String kefuhao1="暂无/暂无";
     private String vjson;
     private int iv = 1;
     private int iv2 = 1;
@@ -456,12 +421,14 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
 
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         vip = preferences.getString("vip", "");
+        Log.i("________",new Path(this).SECOND(id));
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).SECOND(id), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
 
 
             @Override
             public void onsendJson(String json) {
                 try {
+                    Log.i("________",json);
                     vjson = json;
                     Gson gson = new Gson();
                     ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
@@ -469,15 +436,20 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
                     img = tx.getThumb();
                     name = tx.getStitle();
                     proprice = tx.getNowprice();
-                    kefuhao = tx.getKefuhao();
+                    if (!"".equals(tx.getKefuhao())) {
+                        kefuhao = tx.getKefuhao();
+                    }
+                    if (!"".equals(tx.getKefuhao1())) {
+                        kefuhao1 = tx.getKefuhao1();
+                    }
                     detail_title.setText(tx.getStitle());
                     ImageLoader imageloader = ImageLoader.getInstance();
                     imageloader.displayImage(Path.IMG(tx.getThumb()), detail_iv, MyApplication.displayoptions);
-                    if (tx.getStitle().contains("Photoshop")) {
+                    if (!tx.getYuanmoney().equals("0")){
                         detail_yjprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
-                        detail_yjprice.setVisibility(View.VISIBLE);
-                        detail_yjprice.setText("原价：￥699");
+                        detail_yjprice.setText("原价："+tx.getYuanmoney());
                     }
+
                     detail_price.setText("￥" + tx.getNowprice());
                     detail_study.setText("学习人数：" + tx.getNum() + "人");
                     if (MyApplication.isLogin) {
@@ -538,6 +510,23 @@ public class DetailActivity extends FragmentActivity implements View.OnClickList
         oks.setSite("实战者学院");
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("https://shizhanzhe.com");
+        oks.setCallback(new PlatformActionListener(){
+
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                Toast.makeText(DetailActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                Toast.makeText(DetailActivity.this, "分享错误", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+                Toast.makeText(DetailActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
+            }
+        });
         // 启动分享GUI
         oks.show(this);
     }

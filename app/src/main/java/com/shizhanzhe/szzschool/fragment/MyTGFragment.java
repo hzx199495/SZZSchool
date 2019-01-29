@@ -75,20 +75,6 @@ QMUIEmptyView empty;
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dialog = new QMUITipDialog.Builder(getContext()).setIconType(1).setTipWord("正在加载").create();
-//        state_layout.setTipText(StateLayout.EMPTY," ");
-//        state_layout.showLoadingView();
-//        state_layout.setRefreshListener(new StateLayout.OnViewRefreshListener() {
-//            @Override
-//            public void refreshClick() {
-//                state_layout.showLoadingView();
-//                getData(type);
-//            }
-//
-//            @Override
-//            public void loginClick() {
-//
-//            }
-//        });
         Bundle bundle = getArguments();
         type = bundle.getInt("type");
         getData(type);
@@ -195,6 +181,7 @@ swip.setVisibility(View.VISIBLE);
                         final List<MyCTBean> ctlist = gson.fromJson(json, new TypeToken<List<MyCTBean>>() {
                         }.getType());
                         if (ctlist != null && ctlist.size() > 0) {
+                            gv.setNumColumns(1);
                             gv.setAdapter(new MyCTAdapter(getContext(), ctlist));
                             gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override

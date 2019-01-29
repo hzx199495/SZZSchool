@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
     android:background="@drawable/dialogactivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -2,11 +2,15 @@ package com.shizhanzhe.szzschool.activity;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qmuiteam.qmui.widget.QMUIFloatLayout;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.SearchBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.SearchAdapter;
@@ -67,7 +72,17 @@ public class SearchActivity extends Activity {
     ImageView search_delete;
     private String[] mLabels = {"推广", "淘客", "微电商", "微信", "PHP", "Android", "IOS",};
     private SharedPreferences.Editor editor;
-
+    private QMUITipDialog mdialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    mdialog.dismiss();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +90,9 @@ public class SearchActivity extends Activity {
         UltimateBar ultimateBar = new UltimateBar(this);
         ultimateBar.setColorBar(ContextCompat.getColor(this, R.color.top));
         initLabel();
+        SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
+        final String vip = preferences.getString("vip", "");
+        final String uid = preferences.getString("uid", "");
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -133,23 +151,27 @@ public class SearchActivity extends Activity {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         if (MyApplication.isLogin) {
-                                            String title = tz.get(position).getSubject();
-                                            String name = tz.get(position).getRealname();
-                                            String time = tz.get(position).getDateline();
-                                            String pid = tz.get(position).getPid();
-                                            String logo = tz.get(position).getLogo();
-                                            String rep = tz.get(position).getAlltip();
-                                            String fid = tz.get(position).getFid();
+                                            if (vip.equals("1")) {
+                                                String title = tz.get(position).getSubject();
+                                                String name = tz.get(position).getRealname();
+                                                String time = tz.get(position).getDateline();
+                                                String pid = tz.get(position).getPid();
+                                                String logo = tz.get(position).getLogo();
+                                                String rep = tz.get(position).getAlltip();
+                                                String fid = tz.get(position).getFid();
 
-                                            Intent intent = new Intent(SearchActivity.this, ForumItemActivity.class);
-                                            intent.putExtra("pid", pid);
-                                            intent.putExtra("title", title);
-                                            intent.putExtra("name", name);
-                                            intent.putExtra("img", logo);
-                                            intent.putExtra("time", time);
-                                            intent.putExtra("rep", rep);
-                                            intent.putExtra("fid", fid);
-                                            startActivity(intent);
+                                                Intent intent = new Intent(SearchActivity.this, ForumItemActivity.class);
+                                                intent.putExtra("pid", pid);
+                                                intent.putExtra("title", title);
+                                                intent.putExtra("name", name);
+                                                intent.putExtra("img", logo);
+                                                intent.putExtra("time", time);
+                                                intent.putExtra("rep", rep);
+                                                intent.putExtra("fid", fid);
+                                                startActivity(intent);
+                                            }else{
+                                                bought(tz.get(position).getFid(),uid,tz.get(position));
+                                            }
                                         } else {
                                             Toast.makeText(SearchActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(SearchActivity.this, LoginActivity.class));
@@ -231,5 +253,34 @@ public class SearchActivity extends Activity {
             });
         }
     }
-
+    //购买判断
+    void bought(String fid, String uid, final SearchBean.TzBean tz) {
+        OkHttpDownloadJsonUtil.downloadJson(SearchActivity.this, "https://shizhanzhe.com/index.php?m=pcdata.quanxian&pc=1&fid=" + fid + "&uid=" + uid, new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+            @Override
+            public void onsendJson(String json) {
+                if (json.contains("1")) {
+                    String title = tz.getSubject();
+                    String name = tz.getRealname();
+                    String time = tz.getDateline();
+                    String pid = tz.getPid();
+                    String logo = tz.getLogo();
+                    String rep = tz.getAlltip();
+                    String fid = tz.getFid();
+                    Intent intent = new Intent(SearchActivity.this, ForumItemActivity.class);
+                    intent.putExtra("pid", pid);
+                    intent.putExtra("title", title);
+                    intent.putExtra("name", name);
+                    intent.putExtra("img", logo);
+                    intent.putExtra("time", time);
+                    intent.putExtra("rep", rep);
+                    intent.putExtra("fid", fid);
+                    startActivity(intent);
+                }else {
+                    mdialog = new QMUITipDialog.Builder(SearchActivity.this).setIconType(4).setTipWord("课程未购买").create();
+                    mdialog.show();
+                    mhandler.sendEmptyMessageDelayed(1,1500);
+                }
+            }
+        });
+    }
 }

@@ -19,6 +19,7 @@ import com.shizhanzhe.szzschool.Bean.ScheduleBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.ScheduleDeatilAdapter;
+import com.shizhanzhe.szzschool.utils.Data;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
@@ -104,6 +105,7 @@ dialog.show();
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                Data.setData(vjson);
                                 if (list.get(0).getVdata().get(position).getVdetail().getGuantime() != null) {
                                     MyApplication.schedule = Integer.parseInt(fourlist.get(position).getVdetail().getGuantime());
                                 } else {
@@ -114,7 +116,7 @@ dialog.show();
                                 MyApplication.videoname=fourlist.get(position).getVtitle();
                                 MyApplication.videotype = type;
                                 MyApplication.videoitemid = fourlist.get(position).getVid();
-                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(0).getChoice_kc().get(position).getMv_url(),vjson);
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(0).getChoice_kc().get(position).getMv_url());
                                 getContext().startActivity(intent);
                             }
                         });
@@ -163,6 +165,7 @@ dialog.show();
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    Data.setData(vjson);
                     if (vdata.get(position).getVdetail().getGuantime() != null) {
                         MyApplication.schedule = Integer.parseInt(vdata.get(position).getVdetail().getGuantime());
                     } else {
@@ -173,7 +176,7 @@ dialog.show();
                     MyApplication.videotype = type;
                     MyApplication.videoname=vdata.get(position).getVtitle();
                     MyApplication.videoitemid = vdata.get(position).getVid();
-                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(tabposition).getChoice_kc().get(position).getMv_url(),vjson);
+                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, prodetaillist.get(tabposition).getChoice_kc().get(position).getMv_url());
                     getContext().startActivity(intent);
                 }
             });

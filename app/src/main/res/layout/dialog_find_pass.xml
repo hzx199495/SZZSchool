@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/app_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 <LinearLayout
     android:id="@+id/ll"
     android:layout_width="match_parent"
@@ -92,7 +93,7 @@
                 android:gravity="center|left"
                 android:hint="@string/hint_input_ic"
                 android:inputType="number"
-                android:maxLength="6"
+                android:maxLength="4"
                 android:textColor="@color/one_level"
                 android:textColorHint="@color/hint"
                 android:textSize="@dimen/top_text" />

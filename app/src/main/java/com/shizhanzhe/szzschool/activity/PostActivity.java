@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +32,7 @@ import com.google.gson.Gson;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.Image;
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -77,6 +79,9 @@ public class PostActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         uid = preferences.getString("uid", "");
         token = preferences.getString("token", "");

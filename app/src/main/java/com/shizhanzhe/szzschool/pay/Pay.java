@@ -81,12 +81,16 @@ public class Pay {
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        listener.refreshPriorityUI();
+                        listener.refreshPriorityUI(1);
                         Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
-
-                    } else {
+                    } else if(TextUtils.equals(resultStatus, "4000")){
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        listener.refreshPriorityUI(2);
                         Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
+                    }else if(TextUtils.equals(resultStatus, "6001")){
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        listener.refreshPriorityUI(3);
+                        Toast.makeText(context, "支付取消", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 }
@@ -95,7 +99,6 @@ public class Pay {
             }
         }
 
-        ;
     };
 
     PayListener listener;
@@ -104,7 +107,7 @@ public class Pay {
         /**
          * 回调函数，用于在Dialog的监听事件触发后刷新Activity的UI显示
          */
-         void refreshPriorityUI();
+         void refreshPriorityUI(int type);
     }
 
     public Pay(Activity activity, final String price, final String subject, PayListener listener) {

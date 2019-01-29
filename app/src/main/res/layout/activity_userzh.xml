@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
         style="@style/TopbarStyle" >
@@ -28,7 +29,8 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,38 +67,51 @@
                     android:textColor="@color/white"
                     android:textSize="70sp" />
 
-            </RelativeLayout>
-
-            <LinearLayout
-
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selected"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="12.5dip"
-                android:paddingLeft="15.0dip"
-                android:paddingRight="15.0dip"
-                android:paddingTop="12.5dip">
-
                 <TextView
                     android:id="@+id/recharge"
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
+                    android:layout_width="@dimen/wh65"
+                    android:layout_height="@dimen/wh30"
+                    android:layout_alignStart="@+id/textView"
+                    android:layout_below="@+id/mymoney"
+                    android:background="@drawable/btn_bg"
                     android:text="充值"
-                    android:textColor="@color/one_level"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="#4444f0"
                     android:textSize="@dimen/top_text" />
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="7.5dip"
-                    android:drawableRight="@drawable/ic_list_right_jt"
-                    android:textColor="@color/four_level"
-                    android:textSize="@dimen/end_text" />
-            </LinearLayout>
+            </RelativeLayout>
+
+            <!--<LinearLayout-->
+
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/btn_white_selected"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingBottom="12.5dip"-->
+                <!--android:paddingLeft="15.0dip"-->
+                <!--android:paddingRight="15.0dip"-->
+                <!--android:paddingTop="12.5dip">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/recharge"-->
+                    <!--android:layout_width="0.0dip"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1.0"-->
+                    <!--android:text="充值"-->
+                    <!--android:textColor="@color/one_level"-->
+                    <!--android:textSize="@dimen/top_text" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:drawablePadding="7.5dip"-->
+                    <!--android:drawableRight="@drawable/ic_list_right_jt"-->
+                    <!--android:textColor="@color/four_level"-->
+                    <!--android:textSize="@dimen/end_text" />-->
+            <!--</LinearLayout>-->
 
             <View
                 android:layout_width="fill_parent"
@@ -113,14 +128,17 @@
                 android:paddingLeft="15.0dip"
                 android:paddingRight="15.0dip"
                 android:paddingTop="12.5dip">
-
+                <ImageView
+                    android:layout_width="@dimen/wh30"
+                    android:layout_height="@dimen/wh20"
+                    android:src="@drawable/shang"/>
                 <TextView
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
                     android:text="打赏"
                     android:textColor="@color/one_level"
-                    android:textSize="@dimen/end_text" />
+                    android:textSize="@dimen/top_text" />
 
                 <TextView
                     android:id="@+id/dsmoney"
@@ -160,7 +178,10 @@
                 android:paddingLeft="15.0dip"
                 android:paddingRight="15.0dip"
                 android:paddingTop="12.5dip">
-
+                <ImageView
+                    android:layout_width="@dimen/wh30"
+                    android:layout_height="@dimen/wh20"
+                    android:src="@drawable/hl"/>
                 <TextView
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
@@ -207,7 +228,10 @@
                 android:paddingLeft="15.0dip"
                 android:paddingRight="15.0dip"
                 android:paddingTop="12.5dip">
-
+                <ImageView
+                    android:layout_width="@dimen/wh30"
+                    android:layout_height="@dimen/wh20"
+                    android:src="@drawable/v"/>
                 <TextView
                     android:id="@+id/ktvip"
                     android:layout_width="0.0dip"
@@ -249,6 +273,10 @@
                 android:paddingRight="15.0dip"
                 android:paddingTop="12.5dip">
 
+                <ImageView
+                    android:layout_width="@dimen/wh30"
+                    android:layout_height="@dimen/wh20"
+                    android:src="@drawable/xfjl"/>
                 <TextView
                     android:id="@+id/xf"
                     android:layout_width="0.0dip"

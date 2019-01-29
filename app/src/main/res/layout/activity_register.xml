@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="15.0dp">
+    android:fitsSystemWindows="true">
 
 
     <ImageView
@@ -36,9 +36,8 @@
         android:hint="@string/hint_input_tel"
         android:inputType="phone"
         android:maxLength="11"
-        android:paddingBottom="15.0dip"
-        android:paddingLeft="5.0dip"
-        android:paddingTop="15.0dip"
+        android:padding="15.0dp"
+
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
         android:textSize="@dimen/end_text" />
@@ -65,9 +64,7 @@
             android:hint="@string/hint_input_ic"
             android:inputType="number"
             android:maxLength="6"
-            android:paddingBottom="15.0dip"
-            android:paddingLeft="5.0dip"
-            android:paddingTop="15.0dip"
+            android:padding="15.0dp"
             android:textColor="@color/one_level"
             android:textColorHint="@color/hint"
             android:textSize="@dimen/end_text" />
@@ -102,9 +99,7 @@
         android:hint="@string/hint_input_pass"
         android:inputType="textPassword"
         android:maxLength="16"
-        android:paddingBottom="15.0dip"
-        android:paddingLeft="5.0dip"
-        android:paddingTop="15.0dip"
+        android:padding="15.0dp"
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
         android:textSize="@dimen/end_text" />
@@ -118,7 +113,8 @@
         android:layout_marginTop="@dimen/wh20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="15.0dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,6 +142,7 @@
             android:text="立即注册"
             android:textColor="@color/white"
             android:textSize="@dimen/fl_text"
+            android:layout_margin="@dimen/wh20"
             android:layout_below="@+id/edit_qrpsw"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -156,7 +153,7 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:gravity="center|right"
-            android:paddingLeft="15.0dip"
+            android:padding="15.0dip"
             android:text="已有帐号？立即登录"
             android:textColor="@color/dh"
             android:textSize="@dimen/top_text"

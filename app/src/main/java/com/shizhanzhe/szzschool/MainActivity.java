@@ -1,6 +1,7 @@
 package com.shizhanzhe.szzschool;
 
 import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -246,7 +247,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             android.Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE };
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_SETTINGS
+    };
 
     /**
      * Checks if the app has permission to write to device storage
@@ -259,7 +262,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                android.Manifest.permission.WRITE_SETTINGS);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user

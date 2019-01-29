@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.shizhanzhe.szzschool.Bean.MyCTBean;
 import com.shizhanzhe.szzschool.Bean.TGMoney;
 import com.shizhanzhe.szzschool.R;
@@ -37,7 +40,14 @@ public class MyCTAdapter extends BaseAdapter {
         this.context=context;
         inflater = LayoutInflater.from(context);
     }
-
+    DisplayImageOptions options = new DisplayImageOptions.Builder()
+            // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
+            .displayer(new RoundedBitmapDisplayer(15))
+            .showImageOnLoading(R.drawable.img_load)
+            .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
+            .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+            .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
+            .build();
     @Override
     public int getCount() {
         return list.size();
@@ -72,7 +82,8 @@ public class MyCTAdapter extends BaseAdapter {
         }
         final MyCTBean bean = list.get(position);
         ImageLoader imageloader = ImageLoader.getInstance();
-        imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, displayoptions);
+        imageloader.displayImage(Path.IMG(bean.getThumb()), holder.iv, options);
+
         holder.title.setText(bean.getTitle());
         holder.time.setText("结算时间：" + bean.getEndtime());
         holder.num.setText("参团人数：" + bean.getTynum());

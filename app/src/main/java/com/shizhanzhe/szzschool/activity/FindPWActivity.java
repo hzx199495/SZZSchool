@@ -1,10 +1,12 @@
 package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
@@ -20,11 +23,19 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.AlidayuMessage;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -58,11 +69,12 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
     ImageView back;
     @ViewInject(R.id.back2)
     ImageView back2;
-    private final Integer NUM = 6;
+    private final Integer NUM = 4;
     private CountDownTimer time;
     private String code = "";
     private String username="";
     private QMUITipDialog dialog;
+    private long timestamp;
     Handler mhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -78,6 +90,9 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         time = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -110,6 +125,7 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
                 username = tel.getText().toString();
 
                 if (isMobileNO(username)) {
+                    Toast.makeText(FindPWActivity.this, "正在请求...", Toast.LENGTH_SHORT).show();
 //                    AlidayuMessage.setRecNum(username);
 //                    AlidayuMessage.setSmsParam(code);
 //                    new Thread(new Runnable() {
@@ -122,10 +138,25 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
 //                            }
 //                        }
 //                    }).start();
-                    final String yuliu = new StringBuffer(Integer.parseInt(code)*51-1314+username.substring(7)+username.substring(3,7)+String.valueOf(System.currentTimeMillis())+"ba").reverse().toString();
+
+                    try {
+                        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+                        String nowdate = sd.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+                        Date date = sd.parse(nowdate);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);
+                        timestamp = cal.getTimeInMillis(); //单位为毫秒
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    final String yuliu = new StringBuffer(Integer.parseInt(code)*51-1314+username.substring(7)+username.substring(3,7)+timestamp/1000+"ba").reverse().toString();
+
                     OkHttpDownloadJsonUtil.downloadJson(FindPWActivity.this, Path.FORGETCODE(code,yuliu,username), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
+
                         @Override
-                        public void onsendJson(String json) {
+                        public void onsendJson(String data) {
+                            String json = data.substring(data.length()-1);
                             if (json.contains("0")){
                                 dialog = new QMUITipDialog.Builder(FindPWActivity.this).setIconType(4).setTipWord("非法操作").create();
                             }else if (json.contains("1")){
@@ -228,8 +259,22 @@ public class FindPWActivity extends Activity implements View.OnClickListener {
     }
 
     public static boolean isMobileNO(String mobiles) {
-        Pattern p = Pattern.compile("^(13[0-9]|14[57]|15[0-35-9]|17[6-8]|18[0-9])[0-9]{8}$");
+        Pattern p = Pattern.compile("^(0|86|17951)?(13[0-9]|15[012356789]|16[6]|19[89]]|17[01345678]|18[0-9]|19[0-9]|14[579])[0-9]{8}$");
         Matcher m = p.matcher(mobiles);
         return m.matches();
+    }
+
+    public static String md5(String input) throws NoSuchAlgorithmException {
+        String result = input;
+        if(input != null) {
+            MessageDigest md = MessageDigest.getInstance("MD5"); //or "SHA-1"
+            md.update(input.getBytes());
+            BigInteger hash = new BigInteger(1, md.digest());
+            result = hash.toString(16);
+            while(result.length() < 32) { //31位string
+                result = "0" + result;
+            }
+        }
+        return result;
     }
 }

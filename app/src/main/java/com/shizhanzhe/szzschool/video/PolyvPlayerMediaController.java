@@ -226,6 +226,7 @@ public class PolyvPlayerMediaController extends PolyvBaseMediaController impleme
         tv_curtime = (TextView) view.findViewById(R.id.tv_curtime);
         tv_tottime = (TextView) view.findViewById(R.id.tv_tottime);
         sb_play = (SeekBar) view.findViewById(R.id.sb_play);
+        sb_play.setPadding(0,0,0,0);
         //横屏的view
         rl_land = (RelativeLayout) view.findViewById(R.id.rl_land);
         rl_top = (RelativeLayout) view.findViewById(R.id.rl_top);
@@ -236,6 +237,7 @@ public class PolyvPlayerMediaController extends PolyvBaseMediaController impleme
         tv_curtime_land = (TextView) view.findViewById(R.id.tv_curtime_land);
         tv_tottime_land = (TextView) view.findViewById(R.id.tv_tottime_land);
         sb_play_land = (SeekBar) view.findViewById(R.id.sb_play_land);
+        sb_play_land.setPadding(0,0,0,0);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         iv_set = (ImageView) view.findViewById(R.id.iv_set);
         iv_share = (ImageView) view.findViewById(R.id.iv_share);

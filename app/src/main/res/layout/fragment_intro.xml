@@ -11,6 +11,7 @@
         android:paddingTop="@dimen/wh10"
         android:paddingLeft="@dimen/wh10"
         android:paddingRight="@dimen/wh10"
+        android:visibility="gone"
         android:id="@+id/intro_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +44,14 @@
             android:adjustViewBounds="true"
             android:visibility="gone"
             />
+        <TextView
+            android:id="@+id/noimg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/wh40"
+            android:text="详情暂无"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="15sp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/wh40"/>

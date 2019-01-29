@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.shizhanzhe.szzschool.utils.Path;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import org.zackratos.ultimatebar.UltimateBar;
 
 import java.util.List;
 
@@ -40,6 +42,8 @@ public class MyForumDetailActivity extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        UltimateBar ultimateBar = new UltimateBar(this);
+        ultimateBar.setColorBar(ContextCompat.getColor(this, R.color.top));
         final String fid = getIntent().getStringExtra("fid");
         title.setText(getIntent().getStringExtra("title"));
         back.setOnClickListener(new View.OnClickListener() {

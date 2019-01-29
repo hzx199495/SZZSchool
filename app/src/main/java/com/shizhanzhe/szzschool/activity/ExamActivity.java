@@ -2,6 +2,7 @@ package com.shizhanzhe.szzschool.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +21,7 @@ import com.shizhanzhe.szzschool.Bean.Exam;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -64,6 +66,9 @@ public class ExamActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
          id = getIntent().getStringExtra("videoId");
         sid = getIntent().getStringExtra("txId");
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this).setTitle("提示");
@@ -90,15 +95,26 @@ public class ExamActivity extends Activity {
         OkHttpDownloadJsonUtil.downloadJson(this, Path.EXAM(id), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Gson gson = new Gson();
-                list = gson.fromJson(json, new TypeToken<List<Exam>>() {
-                }.getType());
-                totle = list.size();
-                for (Exam bean :
-                        list) {
-                    answerList.add(bean.getAnswer());
+                try {
+                    Gson gson = new Gson();
+                    list = gson.fromJson(json, new TypeToken<List<Exam>>() {
+                    }.getType());
+                    totle = list.size();
+                    for (Exam bean :
+                            list) {
+                        answerList.add(bean.getAnswer());
+                    }
+                    if (list.size()>0){
+                        selected();
+                    }else {
+                        Toast.makeText(ExamActivity.this, "暂无考核题目", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }catch (Exception e){
+                    Toast.makeText(ExamActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-                selected();
+
             }
         });
         final ArrayList<String> wrongList = new ArrayList<>();
@@ -164,9 +180,8 @@ public class ExamActivity extends Activity {
                 count++;
             }
         }
-        Log.e("exam",exam.getExam().size()+"_"+exam.getType()+"_"+id);
         if (exam.getExam().size() == 2) {
-            question.setText("(单选题)" + (position + 1 + ".") + exam.getTitle());
+            question.setText("(单选题)" + (position + 1 + ".") + exam.getTitle()+"。");
             a.setText(exam.getExam().get(0).getA1() + "." + exam.getExam().get(0).getA2());
             b.setText(exam.getExam().get(1).getA1() + "." + exam.getExam().get(1).getA2());
             c.setVisibility(View.GONE);

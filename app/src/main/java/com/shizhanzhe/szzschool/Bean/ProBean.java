@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.Bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -324,7 +325,7 @@ public class ProBean {
         }
     }
 
-    public static class TxBean {
+    public static class TxBean  implements Serializable {
         /**
          * id : 78
          * stitle : 网络推广变现·掘金

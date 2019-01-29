@@ -138,6 +138,8 @@
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
+# 微信
+-keep class com.tencent.** {*;}
 # 支付宝
 #-libraryjars libs/alipaySingle-20170510.jar
 

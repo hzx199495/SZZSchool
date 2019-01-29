@@ -26,6 +26,7 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.SZActivity;
 import com.shizhanzhe.szzschool.adapter.Videoadapter;
+import com.shizhanzhe.szzschool.utils.Data;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class PolyvCurriculumFragment extends Fragment {
     private View view;
     // 加载中控件
     private ProgressBar pb_loading;
-
+    Videoadapter videoadapter;
     private PolyvPermission polyvPermission = null;
     private String videoId = "";
     private static final int SETTING = 1;
@@ -52,14 +53,7 @@ public class PolyvCurriculumFragment extends Fragment {
             }
         }
     };
-    public static PolyvCurriculumFragment newInstance(String vjson) {
 
-        Bundle args = new Bundle();
-        args.putString("json",vjson);
-        PolyvCurriculumFragment fragment = new PolyvCurriculumFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -73,25 +67,81 @@ public class PolyvCurriculumFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findIdAndNew();
         try {
-
-
-        Gson gson = new Gson();
-        final List<ProDeatailBean.CiBean> cibean = gson.fromJson(getArguments().getString("json"), ProDeatailBean.class).getCi();
-        final ProDeatailBean.CiBean bean = cibean.get(MyApplication.videotype - 1);
-        final Videoadapter videoadapter = new Videoadapter(getContext(), bean.getChoice_kc(), "0", 0);
-        lv_cur.setAdapter(videoadapter);
-        videoadapter.setSelectItem(MyApplication.position);
-        videoadapter.notifyDataSetInvalidated();
-
-        lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (MyApplication.userType==0){
-                    if (bean.getChoice_kc().size() > 11 && position <= 11) {
+            Gson gson = new Gson();
+            ProDeatailBean json = gson.fromJson(Data.getData(), ProDeatailBean.class);
+            final String catid = json.getTx().getCatid();
+            final String mian = json.getTx().getMian();
+            final List<ProDeatailBean.CiBean> cibean = json.getCi();
+            final ProDeatailBean.CiBean bean = cibean.get(MyApplication.videotype - 1);
+            if (catid.equals("41")){
+                  videoadapter = new Videoadapter(getContext(), bean.getChoice_kc(), "0", 1,mian);
+            }else {
+                  videoadapter = new Videoadapter(getContext(), bean.getChoice_kc(), "0", 0);
+            }
+            lv_cur.setAdapter(videoadapter);
+            videoadapter.setSelectItem(MyApplication.position);
+            videoadapter.notifyDataSetInvalidated();
+            lv_cur.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (MyApplication.userType == 0) {
+                        if (catid.equals("41")){
+                            if (mian.contains(bean.getChoice_kc().get(position).getId())){
+                                videoadapter.setSelectItem(position);
+                                videoadapter.notifyDataSetInvalidated();
+                                MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                                MyApplication.videoname = bean.getChoice_kc().get(position).getName();
+                                videoId = bean.getChoice_kc().get(position).getMv_url();
+                                polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
+                                polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
+                                    @Override
+                                    public void callback() {
+                                        requestPermissionWriteSettings();
+                                    }
+                                });
+                            }else {
+                                dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
+                                dialog.show();
+                                mhandler.sendEmptyMessageDelayed(1, 1500);
+                            }
+                        }else {
+                            if (bean.getChoice_kc().size() > 11 && position <= 11) {
+                                videoadapter.setSelectItem(position);
+                                videoadapter.notifyDataSetInvalidated();
+                                MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                                MyApplication.videoname = bean.getChoice_kc().get(position).getName();
+                                videoId = bean.getChoice_kc().get(position).getMv_url();
+                                polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
+                                polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
+                                    @Override
+                                    public void callback() {
+                                        requestPermissionWriteSettings();
+                                    }
+                                });
+                            } else if (bean.getChoice_kc().size() < 11 && position <= 6) {
+                                videoadapter.setSelectItem(position);
+                                videoadapter.notifyDataSetInvalidated();
+                                MyApplication.videoname = bean.getChoice_kc().get(position).getName();
+                                MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
+                                videoId = bean.getChoice_kc().get(position).getMv_url();
+                                polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
+                                polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
+                                    @Override
+                                    public void callback() {
+                                        requestPermissionWriteSettings();
+                                    }
+                                });
+                            } else {
+                                dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
+                                dialog.show();
+                                mhandler.sendEmptyMessageDelayed(1, 1500);
+                            }
+                        }
+                    } else if (MyApplication.userType == 1) {
                         videoadapter.setSelectItem(position);
                         videoadapter.notifyDataSetInvalidated();
+                        MyApplication.videoname = bean.getChoice_kc().get(position).getName();
                         MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
-                        MyApplication.videoname=bean.getChoice_kc().get(position).getName();
                         videoId = bean.getChoice_kc().get(position).getMv_url();
                         polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
                         polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
@@ -100,44 +150,12 @@ public class PolyvCurriculumFragment extends Fragment {
                                 requestPermissionWriteSettings();
                             }
                         });
-                    } else if (bean.getChoice_kc().size() < 11 && position <= 6) {
-                        videoadapter.setSelectItem(position);
-                        videoadapter.notifyDataSetInvalidated();
-                        MyApplication.videoname=bean.getChoice_kc().get(position).getName();
-                        MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
-                        videoId = bean.getChoice_kc().get(position).getMv_url();
-                        polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
-                        polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
-                            @Override
-                            public void callback() {
-                                requestPermissionWriteSettings();
-                            }
-                        });
-                    } else {
-                        dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
-                        dialog.show();
-                        mhandler.sendEmptyMessageDelayed(1,1500);
                     }
 
-                }else if (MyApplication.userType==1){
-                    videoadapter.setSelectItem(position);
-                    videoadapter.notifyDataSetInvalidated();
-                    MyApplication.videoname=bean.getChoice_kc().get(position).getName();
-                    MyApplication.videoitemid = bean.getChoice_kc().get(position).getId();
-                    videoId = bean.getChoice_kc().get(position).getMv_url();
-                    polyvPermission.applyPermission(getActivity(), PolyvPermission.OperationType.play);
-                    polyvPermission.setResponseCallback(new PolyvPermission.ResponseCallback() {
-                        @Override
-                        public void callback() {
-                            requestPermissionWriteSettings();
-                        }
-                    });
+
                 }
-
-
-            }
-        });
-        }catch (Exception e){
+            });
+        } catch (Exception e) {
             Toast.makeText(getContext(), "数据异常", Toast.LENGTH_SHORT).show();
         }
     }

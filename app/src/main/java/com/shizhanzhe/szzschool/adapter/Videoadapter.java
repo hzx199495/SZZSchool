@@ -38,13 +38,25 @@ public class Videoadapter extends BaseAdapter {
     private Context context;
     private String txId;
     private int type;
-    public Videoadapter(Context context, List<ProDeatailBean.CiBean.ChoiceKcBean> list, String txId,int type) {
+    private String mian;
+
+    public Videoadapter(Context context, List<ProDeatailBean.CiBean.ChoiceKcBean> list, String txId, int type) {
         this.list = list;
         this.context = context;
         this.txId = txId;
-        this.type=type;
+        this.type = type;
         inflater = LayoutInflater.from(context);
     }
+
+    public Videoadapter(Context context, List<ProDeatailBean.CiBean.ChoiceKcBean> list, String txId, int type, String mian) {
+        this.list = list;
+        this.context = context;
+        this.txId = txId;
+        this.type = type;
+        this.mian = mian;
+        inflater = LayoutInflater.from(context);
+    }
+
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             // 是否设置为圆角，弧度为多少，当弧度为90时显示的是一个圆
             .displayer(new RoundedBitmapDisplayer(15))
@@ -53,6 +65,7 @@ public class Videoadapter extends BaseAdapter {
             .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
             .cacheOnDisk(true)// 设置下载的图片是否缓存在SD卡中
             .build();
+
     @Override
     public int getCount() {
         return list.size();
@@ -80,6 +93,7 @@ public class Videoadapter extends BaseAdapter {
                 holder2.time = (TextView) convertView.findViewById(R.id.video_time);
                 holder2.select = (ImageView) convertView.findViewById(R.id.select);
                 holder2.imgtime = (ImageView) convertView.findViewById(R.id.imgtime);
+                holder2.free = (ImageView) convertView.findViewById(R.id.free);
                 convertView.setTag(holder2);
             } else {
                 holder2 = (ViewHolder2) convertView.getTag();
@@ -97,6 +111,27 @@ public class Videoadapter extends BaseAdapter {
                 holder2.imgtime.setImageResource(R.drawable.time);
                 holder2.title.setTextColor(Color.BLACK);
                 holder2.time.setTextColor(context.getResources().getColor(R.color.green_color));
+            }
+            if (type==1){
+                if (mian.contains(bean.getId())){
+                    holder2.free.setVisibility(View.VISIBLE);
+                }else {
+                    holder2.free.setVisibility(View.INVISIBLE);
+                }
+            }else if (type==0){
+                if (list.size() > 11) {
+                    if (position > 11) {
+                        holder2.free.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder2.free.setVisibility(View.VISIBLE);
+                    }
+                } else if (list.size() < 11) {
+                    if (position > 6) {
+                        holder2.free.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder2.free.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         } else {
             ViewHolder holder;
@@ -117,7 +152,7 @@ public class Videoadapter extends BaseAdapter {
             imageloader.displayImage(Path.IMG(bean.getPicture()), holder.iv, options);
             holder.title.setText(bean.getName());
             holder.time.setText(bean.getKc_hours());
-            if (type==2) {
+            if (type == 2) {
                 if (list.size() > 11) {
                     if (position > 11) {
                         holder.free.setVisibility(View.GONE);
@@ -131,61 +166,44 @@ public class Videoadapter extends BaseAdapter {
                         holder.free.setVisibility(View.VISIBLE);
                     }
                 }
+            }else if (type==1){
+                if (mian.contains(bean.getId())){
+                    holder.free.setVisibility(View.VISIBLE);
+                }else {
+                    holder.free.setVisibility(View.GONE);
+                }
             }
-            if(bean.getName().contains("实战者教育学院指南")){
+            if (bean.getName().contains("实战者教育学院指南")) {
                 holder.exam.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.exam.setVisibility(View.VISIBLE);
                 holder.exam.setImageResource(getId(bean.getGrade()));
-                holder.exam.setOnClickListener(getId(bean.getGrade())==R.drawable.starexam?new View.OnClickListener() {
+                holder.exam.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                            intent.setClass(context, ExamActivity.class);
-                            intent.putExtra("videoId", bean.getId());
-                            intent.putExtra("txId", txId);
-                            context.startActivity(intent);
+                        intent.setClass(context, ExamActivity.class);
+                        intent.putExtra("videoId", bean.getId());
+                        intent.putExtra("txId", txId);
+                        context.startActivity(intent);
                     }
-                }:null);
+                } );
             }
-
-
-//            if (position!=0) {
-//                if (grade.contains("0")) {
-//                    temp.setImageResource(R.drawable.notstudy);
-//                    temp.setOnClickListener(null);
-//                } else if (grade.contains("1")) {
-//                    temp.setImageResource(R.drawable.edstudy);
-//                } else{
-//                    temp.setImageResource(R.drawable.starexam);
-//                    temp.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent();
-//                            intent.setClass(context, ExamActivity.class);
-//                            intent.putExtra("videoId", bean.getId());
-//                            intent.putExtra("txId", txId);
-//                            context.startActivity(intent);
-//                        }
-//                    });
-//                }
-//            }else{
-//            }
-//            holder.exam=temp;
         }
         return convertView;
     }
-    private int getId(String s){
-        int i=-1;
-        switch (s){
+
+    private int getId(String s) {
+        int i = -1;
+        switch (s) {
             case "0":
-                i=R.drawable.notstudy;
+                i = R.drawable.notstudy;
                 break;
             case "1":
-                i=R.drawable.edstudy;
+                i = R.drawable.edstudy;
                 break;
             case "2":
-                i=R.drawable.starexam;
+                i = R.drawable.starexam;
                 break;
 
         }
@@ -206,6 +224,7 @@ public class Videoadapter extends BaseAdapter {
         TextView time;
         ImageView imgtime;
         ImageView select;
+        ImageView free;
     }
 
     public void setSelectItem(int selectItem) {

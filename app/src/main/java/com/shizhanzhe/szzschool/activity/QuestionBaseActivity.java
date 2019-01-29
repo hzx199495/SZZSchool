@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import com.shizhanzhe.szzschool.Bean.QuestionProBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.TabAdapter;
 import com.shizhanzhe.szzschool.fragment.QuestionListFragment;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,9 @@ public class QuestionBaseActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_question);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         ViewPager viewpager = (ViewPager) findViewById(R.id.viewpager);
         TabLayout tab = (TabLayout) findViewById(R.id.tab);
         MyApplication.userType=1;

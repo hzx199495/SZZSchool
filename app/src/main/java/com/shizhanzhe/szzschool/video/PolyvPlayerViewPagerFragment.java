@@ -27,10 +27,9 @@ public class PolyvPlayerViewPagerFragment extends Fragment {
     private Fragment curFragment, sumFragment, talkFragment;
     private PolyvPlayerTabFragment tabFragment;
 
-    public static PolyvPlayerViewPagerFragment newInstance(String vjson,String txId) {
+    public static PolyvPlayerViewPagerFragment newInstance(String txId) {
 
         Bundle args = new Bundle();
-        args.putString("json",vjson);
         args.putString("txId",txId);
         PolyvPlayerViewPagerFragment fragment = new PolyvPlayerViewPagerFragment();
         fragment.setArguments(args);
@@ -52,7 +51,7 @@ public class PolyvPlayerViewPagerFragment extends Fragment {
     }
 
     private void initView() {
-        curFragment =  PolyvCurriculumFragment.newInstance(getArguments().getString("json"));
+        curFragment = new  PolyvCurriculumFragment();
 //        sumFragment = new PolyvSummaryFragment();
         talkFragment =  PolyvTalkFragment.newInstance(getArguments().getString("txId"));
         lists.add(curFragment);

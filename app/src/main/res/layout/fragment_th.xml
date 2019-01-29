@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout
+        android:id="@+id/center_swip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
+                >
+
+                <LinearLayout
+                    android:id="@+id/th0"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:descendantFocusability="blocksDescendants"
+                    >
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/wh150"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/ic_launcher" />
+
+                            <ImageView
+                                android:layout_width="@dimen/wh65"
+                                android:layout_height="@dimen/wh65"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentTop="true"
+                                android:src="@drawable/th0"
+                                />
+                        </RelativeLayout>
+
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wh25"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="Android"
+                        android:textSize="@dimen/top_text" />
+                </LinearLayout>
+
+                <com.shizhanzhe.szzschool.utils.MyGridView
+                    android:id="@+id/gridview_th"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:horizontalSpacing="5dp"
+                    android:numColumns="2"
+                    android:padding="5dp"
+                    android:scrollbars="none"
+                    android:verticalSpacing="10dp"
+                    />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/line" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:text="我是有底线的" />
+
+
+                    </RelativeLayout>
+
+                </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+    </com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout>
+
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

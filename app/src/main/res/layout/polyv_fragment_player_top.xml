@@ -4,41 +4,26 @@
     android:layout_height="wrap_content"
     android:background="@color/top_layout_color_white"
     android:orientation="vertical" >
-
     <RelativeLayout
         android:id="@+id/rl_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/top_layout_height" >
-
-        <ImageView
-            android:id="@+id/iv_finish"
-            style="@style/iv_click_commom"
-            android:layout_centerVertical="true"
-            android:src="@drawable/polyv_btn_back" />
-
+        style="@style/TopbarStyle" >
         <TextView
-            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/iv_finish"
-            android:layout_toLeftOf="@+id/iv_share"
-            android:singleLine="true"
-            android:text="课程学习"
-            android:textColor="@color/top_text_color_black"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:gravity="center_horizontal"
-            android:ellipsize="marquee"
-            android:textSize="@dimen/top_text_size" />
-
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_share"-->
-            <!--style="@style/iv_click_commom"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:src="@drawable/polyv_btn_share" />-->
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="实战者教育学院"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+        <ImageView
+            android:id="@+id/iv_finish"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/back_arrow"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            />
     </RelativeLayout>
-
 </LinearLayout>

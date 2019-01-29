@@ -5,9 +5,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,11 +33,13 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.pay.Pay;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.w3c.dom.Text;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import org.zackratos.ultimatebar.UltimateBar;
 
 
 /**
@@ -72,11 +77,16 @@ public class UserZHActivity extends Activity implements View.OnClickListener {
     @ViewInject(R.id.scroll)
     ScrollView scroll;
     private QMUITipDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
+
+
         dialog = new QMUITipDialog.Builder(this).setIconType(1).setTipWord("正在加载").create();
 
         getUserData();

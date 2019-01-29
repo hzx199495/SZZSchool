@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,12 +15,14 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.LoginActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.activity.ProjectDetailActivity;
 import com.shizhanzhe.szzschool.adapter.ExpanAdapter;
+import com.shizhanzhe.szzschool.utils.Data;
 import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
 import com.shizhanzhe.szzschool.widge.MyExpandaleListView;
 
@@ -38,7 +42,17 @@ import static com.shizhanzhe.szzschool.activity.MyApplication.userType;
 public class ProExpanFragment extends Fragment {
     @ViewInject(R.id.expand_list)
     MyExpandaleListView expanView;
-
+    private QMUITipDialog dialog;
+    Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    dialog.dismiss();
+                    break;
+            }
+        }
+    };
     public static ProExpanFragment newInstance(String json, String sid) {
 
         Bundle args = new Bundle();
@@ -62,21 +76,21 @@ public class ProExpanFragment extends Fragment {
         Gson gson = new Gson();
         final List<ProDeatailBean.CiBean> list = gson.fromJson(json, ProDeatailBean.class).getCi();
         final ProDeatailBean.TxBean tx = gson.fromJson(json, ProDeatailBean.class).getTx();
-        final ExpanAdapter adapter = new ExpanAdapter(getContext(), list, tx.getCatid());
+        final ExpanAdapter adapter = new ExpanAdapter(getContext(), list, tx.getCatid(),tx.getMian());
         expanView.setAdapter(adapter);
         //        设置分组项的点击监听事件
         expanView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                if (userType == 1) {
+//                if (userType == 1) {
                     return false;
-                } else {
-                    if (i == 0) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
+//                } else {
+//                    if (i == 0) {
+//                        return false;
+//                    } else {
+//                        return true;
+//                    }
+//                }
                 // 请务必返回 false，否则分组不会展开
             }
         });
@@ -104,20 +118,25 @@ public class ProExpanFragment extends Fragment {
                     } else {
                         final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(0).getChoice_kc();
                         if (MyApplication.isLogin) {
+                            Data.setData(json);
                             if (groupPosition == 0 && choice_kc.size() > 11 && childPosition <= 11) {
                                 position = childPosition;
                                 MyApplication.videotypeid = choice_kc.get(childPosition).getId();
                                 MyApplication.videotype = groupPosition + 1;
                                 MyApplication.videoitemid = choice_kc.get(childPosition).getId();
-                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(childPosition).getMv_url(), json);
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(childPosition).getMv_url());
                                 startActivity(intent);
                             } else if (groupPosition == 0 && choice_kc.size() < 11 && childPosition <= 6) {
                                 position = childPosition;
                                 MyApplication.videotypeid = choice_kc.get(childPosition).getId();
                                 MyApplication.videotype = groupPosition + 1;
                                 MyApplication.videoitemid = choice_kc.get(childPosition).getId();
-                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(childPosition).getMv_url(), json);
+                                Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(childPosition).getMv_url());
                                 startActivity(intent);
+                            }else {
+                                dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
+                                dialog.show();
+                                mhandler.sendEmptyMessageDelayed(1, 1500);
                             }
 
                         } else {

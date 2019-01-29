@@ -47,7 +47,7 @@ public class MyApplication extends MultiDexApplication {
     public static int position; //分类 类下标
     public static int userType=0;//用户权限
     public static DisplayImageOptions displayoptions;
-
+    public static String every;//每日一课
     public static boolean isLogin = false;
 
     private CrashHandler crashHandler = null;

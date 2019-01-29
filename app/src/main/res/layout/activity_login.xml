@@ -5,13 +5,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:fitsSystemWindows="true">
 
     <ImageView
+        android:layout_marginTop="@dimen/wh20"
         android:id="@+id/txtPull"
         android:layout_width="match_parent"
         android:layout_height="@dimen/wh135"
-        android:src="@drawable/textlogo" />
+        android:src="@drawable/textlogo"
+        />
 
     <ImageView
         android:layout_width="match_parent"
@@ -75,10 +77,7 @@
         android:hint="@string/hint_tel"
         android:inputType="phone"
         android:maxLength="11"
-        android:paddingBottom="15.0dip"
-        android:paddingLeft="5.0dip"
-        android:paddingRight="5.0dip"
-        android:paddingTop="15.0dip"
+        android:padding="15dp"
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
         android:textSize="@dimen/end_text" />
@@ -99,10 +98,7 @@
         android:hint="@string/hint_pass"
         android:inputType="textPassword"
         android:maxLength="16"
-        android:paddingBottom="15.0dip"
-        android:paddingLeft="5.0dip"
-        android:paddingRight="5.0dip"
-        android:paddingTop="15.0dip"
+        android:padding="15dp"
         android:textColor="@color/one_level"
         android:textColorHint="@color/hint"
         android:textSize="@dimen/end_text" />
@@ -118,6 +114,7 @@
         android:layout_height="@dimen/wh45"
         android:layout_below="@+id/txtMobileNum"
         android:layout_marginTop="30.0dip"
+        android:layout_margin="@dimen/wh20"
         android:background="@drawable/login_button_bg"
         android:text="@string/Login"
         android:textColor="@color/white"
@@ -128,7 +125,8 @@
         android:id="@+id/registerButtonParent"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/wh40"
-        android:layout_marginTop="10.0dip">
+        android:layout_margin="10.0dip"
+        >
 
 
         <TextView

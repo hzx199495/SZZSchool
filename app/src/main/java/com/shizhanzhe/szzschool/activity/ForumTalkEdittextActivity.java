@@ -3,6 +3,7 @@ package com.shizhanzhe.szzschool.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shizhanzhe.szzschool.R;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 import com.shizhanzhe.szzschool.video.PolyvTalkEdittextActivity;
 import com.shizhanzhe.szzschool.video.PolyvTalkFragment;
 
@@ -108,6 +110,9 @@ public class ForumTalkEdittextActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.polyv_activity_talk_edittext);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         initData();
         findIdAndNew();
         initView();

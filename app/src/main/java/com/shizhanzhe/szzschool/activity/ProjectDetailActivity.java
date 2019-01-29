@@ -1,5 +1,6 @@
 package com.shizhanzhe.szzschool.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -16,6 +17,8 @@ import com.shizhanzhe.szzschool.Bean.ProDeatailBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.TabAdapter;
 import com.shizhanzhe.szzschool.fragment.TabLayoutFragment;
+import com.shizhanzhe.szzschool.utils.Data;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -47,7 +50,10 @@ public class ProjectDetailActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
 //        expanView.setVisibility(View.VISIBLE);
-        MyApplication.userType=1;
+//        MyApplication.userType=1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         tabTitle.clear();
         viewpager.setVisibility(View.VISIBLE);
         tab.setVisibility(View.VISIBLE);
@@ -61,12 +67,12 @@ public class ProjectDetailActivity extends FragmentActivity {
                 tabTitle.add(bean.getCtitle());
             }
         }else{
-            tabTitle.add("理论");
-//            tabTitle.add("精彩直播");
+            tabTitle.add(tx.getStitle());
         }
+        Data.setData(json);
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < tabTitle.size(); i++) {
-            fragments.add(TabLayoutFragment.newInstance(i + 1,json));
+            fragments.add(TabLayoutFragment.newInstance(i + 1));
         }
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), fragments,tabTitle);
         //给ViewPager设置适配器

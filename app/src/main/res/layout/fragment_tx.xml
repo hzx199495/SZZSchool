@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout
+        android:id="@+id/center_swip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:drawableLeft="@drawable/center_wlyx"
+                    android:layout_gravity="center"
+                    android:text="网络营销实战"
+                    android:textColor="@color/max_level"
+                    android:textSize="@dimen/fl_text" />
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dip"
+                    android:background="@color/line" />
+
+                <com.shizhanzhe.szzschool.utils.MyGridView
+                    android:id="@+id/gridview_wlyx"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="5dp"
+                    android:numColumns="2"
+                    android:padding="5dp"
+                    android:scrollbars="none"
+                    android:verticalSpacing="10dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="#eeeeee"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/wltg"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="网络推广技巧"
+                    android:drawablePadding="2dp"
+                    android:textColor="@color/max_level"
+                    android:textSize="@dimen/fl_text"
+                    android:layout_gravity="center"
+                    />
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dip"
+                    android:background="@color/line" />
+
+                <com.shizhanzhe.szzschool.utils.MyGridView
+                    android:id="@+id/gridview_wltg"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="2"
+                    android:padding="5dp"
+                    android:scrollbars="none"
+                    android:horizontalSpacing="2dp"
+                    android:verticalSpacing="10dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="#eeeeee"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/center_zyts"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="职业技能提升"
+                    android:drawablePadding="2dp"
+                    android:textColor="@color/max_level"
+                    android:textSize="@dimen/fl_text"
+                    android:layout_gravity="center"
+                    />
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5dip"
+                    android:background="@color/line" />
+
+                <com.shizhanzhe.szzschool.utils.MyGridView
+                    android:id="@+id/gridview_zyts"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="2"
+                    android:padding="5dp"
+                    android:scrollbars="none"
+                    android:horizontalSpacing="2dp"
+                    android:verticalSpacing="10dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/line" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:text="我是有底线的" />
+
+
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout>
+    <com.qmuiteam.qmui.widget.QMUIEmptyView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>

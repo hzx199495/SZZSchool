@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    android:fitsSystemWindows="true">
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
         style="@style/TopbarStyle">

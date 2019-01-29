@@ -5,45 +5,57 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/state_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--sl:emptyImg="@drawable/nodata"-->
-        <!--sl:emptyText=" "-->
-        <!--sl:errorImg="@drawable/ic_state_error"-->
-        <!--sl:errorText="数据异常"-->
-        <!--sl:loadingText="@string/loading_tip"-->
-        <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
-        <!--sl:noNetworkText="@string/no_network_tip"-->
-        <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
-        <!--sl:timeOutText="@string/time_out_tip">-->
 
+    <com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <com.shizhanzhe.szzschool.utils.RefreshLayout
-                android:id="@+id/swipe_container"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:orientation="vertical">
+            <com.shizhanzhe.szzschool.utils.MyGridView
+                android:id="@+id/gv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="5dp"
+                android:numColumns="2"
+                android:padding="5dp"
+                android:scrollbars="none"
+                android:verticalSpacing="10dp" />
 
-                <GridView
-                    android:id="@+id/gv"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@color/white"
-                    android:padding="5dp" />
-                <ImageView
-                    android:id="@+id/iv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/nodata"
-                    android:scaleType="centerInside"/>
-            </com.shizhanzhe.szzschool.utils.RefreshLayout>
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="@color/line" />
+
+
+                </RelativeLayout>
+
+            </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout>
+
     <com.qmuiteam.qmui.widget.QMUIEmptyView
         android:id="@+id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-    </com.qmuiteam.qmui.widget.QMUIEmptyView>
-    <!--</com.fingdo.statelayout.StateLayout>-->
+        android:visibility="gone"></com.qmuiteam.qmui.widget.QMUIEmptyView>
 </LinearLayout>

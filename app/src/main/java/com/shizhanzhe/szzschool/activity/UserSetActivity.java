@@ -1,10 +1,13 @@
 package com.shizhanzhe.szzschool.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,6 +21,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Display;
@@ -50,6 +57,7 @@ import com.shizhanzhe.szzschool.utils.Path;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import org.zackratos.ultimatebar.UltimateBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -67,11 +75,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.mob.MobSDK.getContext;
+
 /**
- * 
  * Created by hasee on 2016/11/25.
  * 个人资料
- *
  */
 @ContentView(R.layout.activity_userzl)
 public class UserSetActivity extends Activity implements View.OnClickListener {
@@ -107,29 +115,34 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         }
     };
     private PersonalDataBean bean;
-    private String sex="";
+    private String sex = "";
     private Dialog dialog;
 
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int RESIZE_REQUEST_CODE = 2;
     private static final String IMAGE_FILE_NAME = "header.jpg";
-    String uid;
+    private String uid;
+    private String mFile;
     private SharedPreferences.Editor editor;
-    CityPickerView mPicker=new CityPickerView();
+    CityPickerView mPicker = new CityPickerView();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        requestStoragePermission();
+        UltimateBar ultimateBar = new UltimateBar(this);
+        ultimateBar.setColorBar(ContextCompat.getColor(this, R.color.top));
         mPicker.init(this);
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         editor = preferences.edit();
         String img = preferences.getString("img", "");
         uid = preferences.getString("uid", "");
-        if (img.contains("http")){
+        if (img.contains("http")) {
             ImageLoader.getInstance().displayImage(img, setcv);
-        }else {
+        } else {
             ImageLoader.getInstance().displayImage(Path.IMG(img), setcv);
         }
         initView();
@@ -153,6 +166,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         setcv.setOnClickListener(this);
     }
+
     public void Click(Dialog dialog) {
         TextView selectBtn2 = (TextView) dialog.getWindow().findViewById(R.id.tv_camera);
         TextView selectBtn1 = (TextView) dialog.getWindow().findViewById(R.id.tv_photo);
@@ -166,23 +180,29 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         OkHttpDownloadJsonUtil.downloadJson(this, new Path(this).PERSONALDATA(), new OkHttpDownloadJsonUtil.onOkHttpDownloadListener() {
             @Override
             public void onsendJson(String json) {
-                Gson gson = new Gson();
-                bean = gson.fromJson(json, PersonalDataBean.class);
-                name.setText(bean.getRealname());
-                email.setText(bean.getEmail());
-                age.setText(bean.getAge());
-                location.setText(bean.getLocation_p() + bean.getLocation_c() + bean.getLocation_a());
-                location2.setText(bean.getAddress());
-                intro.setText(bean.getIntroduce());
-                mprovince = bean.getLocation_p();
-                mcity = bean.getLocation_c();
-                mdistrict = bean.getLocation_a();
-                if (bean.getSex().equals("0")) {
-                    rg.check(R.id.nv);
-                } else if (bean.getSex().equals("1")) {
-                    rg.check(R.id.nan);
-                } else if (bean.getSex().equals("2")) {
-                    rg.check(R.id.other);
+                try {
+
+
+                    Gson gson = new Gson();
+                    bean = gson.fromJson(json, PersonalDataBean.class);
+                    name.setText(bean.getRealname());
+                    email.setText(bean.getEmail());
+                    age.setText(bean.getAge());
+                    location.setText(bean.getLocation_p() + bean.getLocation_c() + bean.getLocation_a());
+                    location2.setText(bean.getAddress());
+                    intro.setText(bean.getIntroduce());
+                    mprovince = bean.getLocation_p();
+                    mcity = bean.getLocation_c();
+                    mdistrict = bean.getLocation_a();
+                    if (bean.getSex().equals("0")) {
+                        rg.check(R.id.nv);
+                    } else if (bean.getSex().equals("1")) {
+                        rg.check(R.id.nan);
+                    } else if (bean.getSex().equals("2")) {
+                        rg.check(R.id.other);
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(UserSetActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -192,6 +212,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
     private String mcity;
     private String mdistrict;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
 
@@ -237,12 +258,12 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
 
                         //城市
                         if (city != null) {
-                            mcity=city.getName();
+                            mcity = city.getName();
                         }
 
                         //地区
                         if (district != null) {
-                            mdistrict=district.getName();
+                            mdistrict = district.getName();
                         }
                         location.setText(mprovince + mcity + mdistrict);
                     }
@@ -254,40 +275,8 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 });
 
                 //显示
-                mPicker.showCityPicker( );
-//                    CityPicker cityPicker = new CityPicker.Builder(UserSetActivity.this)
-//                            .titleTextColor("#000000")
-//                            .backgroundPop(0xa0000000)
-//                            .province(province)
-//                            .city(district)
-//                            .district(bean.getLocation_a())
-//                            .textColor(Color.parseColor("#000000"))
-//                            .provinceCyclic(true)
-//                            .cityCyclic(false)
-//                            .districtCyclic(false)
-//                            .visibleItemsCount(7)
-//                            .itemPadding(10)
-//                            .build();
-//                    cityPicker.show();
-//                    //监听方法，获取选择结果
-//                    cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
-//                        @Override
-//                        public void onSelected(String... citySelected) {
-//                            //省份
-//                            province = citySelected[0];
-//                            //城市
-//                            city = citySelected[1];
-//                            //区县（如果设定了两级联动，那么该项返回空）
-//                            district = citySelected[2];
-//                            location.setText(province + city + district);
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancel() {
-//                            Toast.makeText(getApplicationContext(), "已取消", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
+                mPicker.showCityPicker();
+
                 break;
             case R.id.back:
                 this.finish();
@@ -295,8 +284,8 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
             case R.id.user_save:
                 try {
 
-                    if ("".equals(sex)){
-                        sex=bean.getSex();
+                    if ("".equals(sex)) {
+                        sex = bean.getSex();
                     }
                     OkHttpClient client = new OkHttpClient();
                     RequestBody body = new FormBody.Builder()
@@ -327,7 +316,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                             }
                         }
                     });
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -342,22 +331,23 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_photo:
                 dialog.dismiss();
-                type=2;
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, IMAGE_REQUEST_CODE);
+                type = 2;
+
+                //相册选择图片
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, IMAGE_REQUEST_CODE);
                 break;
             case R.id.tv_camera:
                 dialog.dismiss();
                 if (isSdcardExisting()) {
+                    //相机
+                    type = 1;
+                    file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                            + "/test/" + IMAGE_FILE_NAME);
+                    file.getParentFile().mkdirs();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        type=1;
                         Intent cameraIntent = new Intent(
                                 "android.media.action.IMAGE_CAPTURE");
-                        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                                + "/test/" + IMAGE_FILE_NAME);
-                        file.getParentFile().mkdirs();
                         //改变Uri
                         uri = FileProvider.getUriForFile(this, "com.shizhanzhe.szzschool.fileProvider", file);
                         //添加权限
@@ -367,11 +357,10 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                     } else {
                         Intent cameraIntent = new Intent(
                                 "android.media.action.IMAGE_CAPTURE");
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                         cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
                     }
-
                 } else {
                     Toast.makeText(v.getContext(), "请插入sd卡", Toast.LENGTH_LONG)
                             .show();
@@ -379,8 +368,11 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
+
     private Uri uri;
     private File file;
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
@@ -388,14 +380,14 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         } else {
             switch (requestCode) {
                 case IMAGE_REQUEST_CODE:
-                    resizeImage(data.getData());
+                        resizeImage(data.getData());
                     break;
                 case CAMERA_REQUEST_CODE:
                     if (isSdcardExisting()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             resizeImage(uri);
-                        }else {
-                            resizeImage(getImageUri());
+                        } else {
+                            resizeImage(Uri.fromFile(file));
                         }
 
                     } else {
@@ -405,9 +397,7 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                     break;
 
                 case RESIZE_REQUEST_CODE:
-                    if (data != null) {
-                        showResizeImage(data);
-                    }
+                    showResizeImage();
                     break;
             }
         }
@@ -426,9 +416,8 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
 
     public void resizeImage(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 1);
@@ -436,63 +425,80 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
         intent.putExtra("outputX", 150);
         intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
+        File out = new File(getPath());
+        if (!out.getParentFile().exists()) {
+            out.getParentFile().mkdirs();
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(out));
         startActivityForResult(intent, RESIZE_REQUEST_CODE);
     }
-    int type=0;
-    private void showResizeImage(Intent data) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (type==1){
-                Bitmap photo = BitmapFactory.decodeFile(file.getAbsolutePath());
-                Drawable drawable = new BitmapDrawable(photo);
-                setcv.setImageDrawable(drawable);
-                PostImg(photo);
-            }else if (type==2){
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    Bitmap photo = extras.getParcelable("data");
-                    Drawable drawable = new BitmapDrawable(photo);
-                    setcv.setImageDrawable(drawable);
-                    PostImg(photo);
-                }
-            }
 
-        }else {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap photo = extras.getParcelable("data");
-                Drawable drawable = new BitmapDrawable(photo);
-                setcv.setImageDrawable(drawable);
-                PostImg(photo);
-            }
+
+
+    //裁剪后的地址
+    public String getPath() {
+        //resize image to thumb
+        if (mFile == null) {
+            mFile = Environment.getExternalStorageDirectory().getAbsolutePath() +  "/test/outtemp.png";
         }
+        return mFile;
+    }
 
+    int type = 0;
+
+    private void showResizeImage() {
+        Bitmap photo = BitmapFactory.decodeFile(mFile);
+        setcv.setImageBitmap(photo);
+        PostImg(photo);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            if (type == 1) {
+//                Bitmap photo = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                Drawable drawable = new BitmapDrawable(photo);
+//                setcv.setImageDrawable(drawable);
+//                PostImg(photo);
+//            } else if (type == 2) {
+//                Bundle extras = data.getExtras();
+//                if (extras != null) {
+//                    Bitmap photo = extras.getParcelable("data");
+//                    Drawable drawable = new BitmapDrawable(photo);
+//                    setcv.setImageDrawable(drawable);
+//                    PostImg(photo);
+//                }
+//            }
+//
+//        } else {
+//            Bundle extras = data.getExtras();
+//            if (extras != null) {
+//                Bitmap photo = extras.getParcelable("data");
+//                setcv.setImageBitmap(photo);
+//                PostImg(photo);
+//            }
+//        }
     }
 
     private Uri getImageUri() {
         return Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
                 IMAGE_FILE_NAME));
-
     }
-    void PostImg(Bitmap bm){
+
+    private void PostImg(Bitmap bm) {
         try {
-            Toast.makeText(this,"正在上传图片...",Toast.LENGTH_SHORT).show();
             OkHttpClient client = new OkHttpClient();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("imgFile","1.jpg", RequestBody.create(MediaType.parse("image/jpeg"),byteArrayOutputStream.toByteArray()))
-                    ;
+                    .addFormDataPart("imgFile", "1.jpg", RequestBody.create(MediaType.parse("image/jpeg"), byteArrayOutputStream.toByteArray()));
             MultipartBody build = builder.build();
 
             okhttp3.Request bi = new okhttp3.Request.Builder()
-                    .url("https://shizhanzhe.com/index.php?m=pcdata.uploadimg2&pc=1&uid="+uid+"&dir=image")
+                    .url("https://shizhanzhe.com/index.php?m=pcdata.uploadimg2&pc=1&uid=" + uid + "&dir=image")
                     .post(build)
                     .build();
 
             client.newCall(bi).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-//                    Log.e("____resultonFailure",e.toString());
+
                     mHandler.sendEmptyMessage(2);
                 }
 
@@ -500,14 +506,13 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
                 public void onResponse(Call call, okhttp3.Response response) throws IOException {
 
                     String s = response.body().string();
-//                    Log.e("____resultonResponse",s);
                     Gson gson = new Gson();
                     Image image = gson.fromJson(s, Image.class);
-                    if (image.getUrl()==null){
+                    if (image.getUrl() == null) {
                         mHandler.sendEmptyMessage(2);
-                    }else {
+                    } else {
                         String url = image.getUrl();
-                        editor.putString("img",url);
+                        editor.putString("img", url);
                         editor.commit();
                         mHandler.sendEmptyMessage(1);
                     }
@@ -519,19 +524,40 @@ public class UserSetActivity extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what==1) {
+            if (msg.what == 1) {
                 mdialog = new QMUITipDialog.Builder(UserSetActivity.this).setIconType(4).setTipWord("修改成功").create();
                 mdialog.show();
-                mhandler.sendEmptyMessageDelayed(1,1500);
-            }else if (msg.what==2) {
+                mhandler.sendEmptyMessageDelayed(1, 1500);
+            } else if (msg.what == 2) {
                 mdialog = new QMUITipDialog.Builder(UserSetActivity.this).setIconType(4).setTipWord("修改失败").create();
                 mdialog.show();
-                mhandler.sendEmptyMessageDelayed(1,1500);
+                mhandler.sendEmptyMessageDelayed(1, 1500);
             }
         }
+
     };
+    /**
+     * Android6.0后需要动态申请危险权限
+     * 动态申请存储权限
+     */
+    private void requestStoragePermission() {
+
+        int hasCameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (hasCameraPermission == PackageManager.PERMISSION_GRANTED){
+            // 拥有权限，可以执行涉及到存储权限的操作
+            Log.e("TAG", "你已经授权了该组权限");
+        }else {
+            // 没有权限，向用户申请该权限
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Log.e("TAG", "向用户申请该组权限");
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
+        }
+
+    }
 }

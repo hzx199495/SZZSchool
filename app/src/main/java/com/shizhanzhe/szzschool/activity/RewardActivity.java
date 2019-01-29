@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.pay.Pay;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 import com.shizhanzhe.szzschool.video.PolyvTalkFragment;
 
 import org.xutils.view.annotation.ContentView;
@@ -45,6 +47,9 @@ public class RewardActivity extends Activity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         this.setFinishOnTouchOutside(true);
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         tuid = preferences.getString("uid", "");
@@ -76,7 +81,7 @@ public class RewardActivity extends Activity implements View.OnClickListener {
                 if(!"".equals(str)){
                     new Pay(RewardActivity.this, str,"打赏"+str+"元","https://shizhanzhe.com/index.php?m=pcdata.zanbuy_app&tid="+pid+"&money="+str+"&fromuid="+tuid, new Pay.PayListener(){
                         @Override
-                        public void refreshPriorityUI() {
+                        public void refreshPriorityUI(int type) {
 
                         }
                     });

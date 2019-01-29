@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +27,13 @@ import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.activity.LoginActivity;
 import com.shizhanzhe.szzschool.activity.MyApplication;
 import com.shizhanzhe.szzschool.adapter.Videoadapter;
+import com.shizhanzhe.szzschool.utils.Data;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
 import com.shizhanzhe.szzschool.utils.Path;
 import com.shizhanzhe.szzschool.video.PolyvPlayerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 /**
@@ -42,7 +43,7 @@ import java.util.List;
 public class TabLayoutFragment extends Fragment {
     public static String TABLAYOUT_FRAGMENT = "tab_fragment";
     private int type;
-    private String  vjson;
+    private String vjson;
     private ListView lv;
     private QMUIEmptyView empty;
     private QMUITipDialog dialog;
@@ -56,11 +57,11 @@ public class TabLayoutFragment extends Fragment {
             }
         }
     };
-    public static TabLayoutFragment newInstance(int type,String json) {
+
+    public static TabLayoutFragment newInstance(int type) {
         TabLayoutFragment fragment = new TabLayoutFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(TABLAYOUT_FRAGMENT, type);
-        bundle.putString("json",json);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -70,9 +71,8 @@ public class TabLayoutFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             type = (int) getArguments().getSerializable(TABLAYOUT_FRAGMENT);
-            vjson=getArguments().getString("json");
+            vjson = Data.getData();
         }
-
     }
 
     @Nullable
@@ -93,7 +93,7 @@ public class TabLayoutFragment extends Fragment {
         lv = (ListView) view.findViewById(R.id.lv);
         ImageView iv = view.findViewById(R.id.iv);
         lv.setEmptyView(iv);
-        empty=view.findViewById(R.id.empty);
+        empty = view.findViewById(R.id.empty);
         getData();
 
     }
@@ -123,14 +123,15 @@ public class TabLayoutFragment extends Fragment {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                             if (MyApplication.isLogin) {
+                                Data.setData(vjson);
                                 if (vip.equals("1") || isbuy.equals("1")) {
 
                                     MyApplication.position = position;
                                     MyApplication.videotypeid = list.get(0).getId();
                                     MyApplication.videotype = type;
                                     MyApplication.videoitemid = fourlist.get(position).getId();
-                                    MyApplication.videoname=fourlist.get(position).getName();
-                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url(),vjson);
+                                    MyApplication.videoname = fourlist.get(position).getName();
+                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url());
                                     getContext().startActivity(intent);
 
 
@@ -139,22 +140,22 @@ public class TabLayoutFragment extends Fragment {
                                         MyApplication.position = position;
                                         MyApplication.videotypeid = list.get(0).getId();
                                         MyApplication.videotype = type;
-                                        MyApplication.videoname=fourlist.get(position).getName();
+                                        MyApplication.videoname = fourlist.get(position).getName();
                                         MyApplication.videoitemid = fourlist.get(position).getId();
-                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url(),vjson);
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url());
                                         getContext().startActivity(intent);
                                     } else if (fourlist.size() < 11 && position <= 6) {
                                         MyApplication.position = position;
                                         MyApplication.videotypeid = list.get(0).getId();
                                         MyApplication.videotype = type;
                                         MyApplication.videoitemid = fourlist.get(position).getId();
-                                        MyApplication.videoname=fourlist.get(position).getName();
-                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url(),vjson);
+                                        MyApplication.videoname = fourlist.get(position).getName();
+                                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, fourlist.get(position).getMv_url());
                                         getContext().startActivity(intent);
                                     } else {
                                         dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
                                         dialog.show();
-                                        mhandler.sendEmptyMessageDelayed(1,1500);
+                                        mhandler.sendEmptyMessageDelayed(1, 1500);
                                     }
                                 }
                             } else {
@@ -169,7 +170,7 @@ public class TabLayoutFragment extends Fragment {
                 if (protype == 1) {
                     setData(1);
                 } else if (protype == 2) {
-                    setData2(4);
+                    setData(4);
                 }
                 break;
             case 3:
@@ -179,72 +180,72 @@ public class TabLayoutFragment extends Fragment {
                 setData(3);
                 break;
             case 5:
-                setData2(4);
+                setData(4);
                 break;
             case 6:
-                setData2(5);
+                setData(5);
                 break;
             case 7:
-                setData2(6);
+                setData(6);
                 break;
             case 8:
-                setData2(7);
+                setData(7);
                 break;
         }
     }
 
-    void setData2(final int tabposition) {
-        try {
-            final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(tabposition).getChoice_kc();
-            lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype));
-            if (choice_kc.size()==0){
-            }
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                    if (MyApplication.isLogin) {
-                        if (vip.equals("1") || isbuy.equals("1")) {
-                            MyApplication.position = position;
-                            MyApplication.videotypeid = list.get(tabposition).getId();
-                            MyApplication.videotype = type;
-                            MyApplication.videoitemid = choice_kc.get(position).getId();
-                            MyApplication.videoname=choice_kc.get(position).getName();
-                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url(),vjson);
-                            getContext().startActivity(intent);
-                        } else {
-
-                            dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
-                            dialog.show();
-                            mhandler.sendEmptyMessageDelayed(1,1500);
-                        }
-                    } else {
-                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getContext(), LoginActivity.class));
-                    }
-
-                }
-            });
-        } catch (Exception e) {
-            return;
-        }
-    }
+//    void setData2(final int tabposition) {
+//        try {
+//            final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(tabposition).getChoice_kc();
+//            lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype,mian));
+//
+//            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+//                    if (MyApplication.isLogin) {
+//                        if (vip.equals("1") || isbuy.equals("1")) {
+//                            MyApplication.position = position;
+//                            MyApplication.videotypeid = list.get(tabposition).getId();
+//                            MyApplication.videotype = type;
+//                            MyApplication.videoitemid = choice_kc.get(position).getId();
+//                            MyApplication.videoname = choice_kc.get(position).getName();
+//                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url(), vjson);
+//                            getContext().startActivity(intent);
+//                        } else {
+//
+//                            dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
+//                            dialog.show();
+//                            mhandler.sendEmptyMessageDelayed(1, 1500);
+//                        }
+//                    } else {
+//                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(getContext(), LoginActivity.class));
+//                    }
+//
+//                }
+//            });
+//        } catch (Exception e) {
+//            return;
+//        }
+//    }
 
     void setData(final int tabposition) {
         final List<ProDeatailBean.CiBean.ChoiceKcBean> choice_kc = list.get(tabposition).getChoice_kc();
-        lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype));
-        if (choice_kc.size()==0){
-        }
+        lv.setAdapter(new Videoadapter(getContext(), choice_kc, txId, protype,mian));
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                Log.i("_______",mian.contains(choice_kc.get(position).getName())+"_"+mian+"_"+choice_kc.get(position).getName());
                 if (MyApplication.isLogin) {
+                    Data.setData(vjson);
                     if (vip.equals("1") || isbuy.equals("1")) {
                         if (choice_kc.get(position).getGrade().contains("2") || choice_kc.get(position).getGrade().contains("1")) {
                             MyApplication.position = position;
                             MyApplication.videotypeid = list.get(tabposition).getId();
                             MyApplication.videotype = type;
                             MyApplication.videoitemid = choice_kc.get(position).getId();
-                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url(),vjson);
+                            Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url());
                             getContext().startActivity(intent);
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -258,7 +259,7 @@ public class TabLayoutFragment extends Fragment {
                                     MyApplication.videotypeid = list.get(tabposition).getId();
                                     MyApplication.videotype = type;
                                     MyApplication.videoitemid = choice_kc.get(position).getId();
-                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url(),vjson);
+                                    Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url());
                                     getContext().startActivity(intent);
                                 }
                             });
@@ -272,10 +273,17 @@ public class TabLayoutFragment extends Fragment {
                             });
                             builder.create().show();
                         }
+                    } else if (mian.contains(choice_kc.get(position).getId())) {
+                        MyApplication.position = position;
+                        MyApplication.videotypeid = list.get(tabposition).getId();
+                        MyApplication.videotype = type;
+                        MyApplication.videoitemid = choice_kc.get(position).getId();
+                        Intent intent = PolyvPlayerActivity.newIntent(getContext(), PolyvPlayerActivity.PlayMode.portrait, choice_kc.get(position).getMv_url());
+                        getContext().startActivity(intent);
                     } else {
                         dialog = new QMUITipDialog.Builder(getContext()).setIconType(4).setTipWord("未购买课程无法学习").create();
                         dialog.show();
-                        mhandler.sendEmptyMessageDelayed(1,1500);
+                        mhandler.sendEmptyMessageDelayed(1, 1500);
                     }
                 } else {
                     Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
@@ -290,18 +298,21 @@ public class TabLayoutFragment extends Fragment {
     String txId;
     String isbuy;
     int protype;
+    String mian="";
 
     void getData() {
         try {
             Gson gson = new Gson();
-            list = gson.fromJson(vjson, ProDeatailBean.class).getCi();
-            ProDeatailBean.TxBean tx = gson.fromJson(vjson, ProDeatailBean.class).getTx();
+            ProDeatailBean bean = gson.fromJson(vjson, ProDeatailBean.class);
+            list = bean.getCi();
+            ProDeatailBean.TxBean tx = bean.getTx();
             txId = tx.getId();
             isbuy = tx.getIsbuy();
             if (tx.getCatid().contains("41")) {
-                protype = 1;
+                mian = tx.getMian();
+                protype = 1;//网络课程
             } else {
-                protype = 2;
+                protype = 2;//职业课程
             }
             initView();
         } catch (Exception e) {
@@ -310,11 +321,13 @@ public class TabLayoutFragment extends Fragment {
 
 
     }
-    boolean flag=false;
+
+    boolean flag = false;
+
     @Override
     public void onPause() {
         super.onPause();
-        flag=true;
+        flag = true;
     }
 
     @Override

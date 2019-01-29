@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.shizhanzhe.szzschool.Bean.KTListBean;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.KTAdapter;
 import com.shizhanzhe.szzschool.utils.OkHttpDownloadJsonUtil;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -40,7 +43,8 @@ import java.util.List;
 public class KTListActivity extends Activity {
     @ViewInject(R.id.list)
     ListView lv;
-
+    @ViewInject(R.id.back)
+    ImageView back;
     private List<KTListBean> list;
     private QMUITipDialog mdialog;
     Handler mhandler = new Handler() {
@@ -58,6 +62,9 @@ public class KTListActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         this.setFinishOnTouchOutside(true);
         SharedPreferences preferences = getSharedPreferences("userjson", Context.MODE_PRIVATE);
         final String uid = preferences.getString("uid", "");
@@ -79,9 +86,10 @@ public class KTListActivity extends Activity {
             public void onsendJson(String json) {
                 Gson gson = new Gson();
                 if (json.equals("0")) {
-                    mdialog = new QMUITipDialog.Builder(KTListActivity.this).setIconType(4).setTipWord("暂无开团").create();
-                    mdialog.show();
-                    mhandler.sendEmptyMessageDelayed(1,1500);
+                    Toast.makeText(KTListActivity.this, "暂无开团", Toast.LENGTH_SHORT).show();
+//                    mdialog = new QMUITipDialog.Builder(KTListActivity.this).setIconType(4).setTipWord("暂无开团").create();
+//                    mdialog.show();
+//                    mhandler.sendEmptyMessageDelayed(1,1500);
                 } else {
                     list = gson.fromJson(json, new TypeToken<List<KTListBean>>() {
                     }.getType());
@@ -105,10 +113,12 @@ public class KTListActivity extends Activity {
                             @Override
                             public void onsendJson(String json) {
                                 if (json.contains("0")) {
+                                    Toast.makeText(KTListActivity.this, "无此开团", Toast.LENGTH_SHORT).show();
                                     mdialog = new QMUITipDialog.Builder(KTListActivity.this).setIconType(4).setTipWord("无此开团").create();
                                     mdialog.show();
                                     mhandler.sendEmptyMessageDelayed(1,1500);
                                 } else if (json.contains("1")) {
+                                    Toast.makeText(KTListActivity.this, "参团成功", Toast.LENGTH_SHORT).show();
                                     mdialog = new QMUITipDialog.Builder(KTListActivity.this).setIconType(4).setTipWord("参团成功").create();
                                     mdialog.show();
                                     mhandler.sendEmptyMessageDelayed(1,1500);
@@ -134,6 +144,12 @@ public class KTListActivity extends Activity {
 
                 });
                 builder.create().show();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

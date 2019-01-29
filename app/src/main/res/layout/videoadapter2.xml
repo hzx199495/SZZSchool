@@ -47,4 +47,10 @@
             android:textSize="@dimen/top_text" />
 
     </LinearLayout>
+    <ImageView
+        android:id="@+id/free"
+        android:layout_width="@dimen/wh20"
+        android:layout_height="@dimen/wh40"
+        android:src="@drawable/mian"
+        android:visibility="invisible"/>
 </LinearLayout>

@@ -9,9 +9,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -24,11 +26,13 @@ import android.widget.Toast;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.utils.DataCleanManager;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 import com.tencent.bugly.beta.Beta;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import org.zackratos.ultimatebar.UltimateBar;
 
 
 /**
@@ -77,6 +81,9 @@ public class SZActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         x.view().inject(this);
         verson.setText(getVersionName(this));
         SharedPreferences preferences = getSharedPreferences("userset", Context.MODE_PRIVATE);

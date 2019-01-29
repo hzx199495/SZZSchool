@@ -46,15 +46,18 @@ public class FragmentKCCenter extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         FragmentManager manager = getChildFragmentManager();
         ArrayList<Fragment> list = new ArrayList<>();
-        KCFragment tg = new KCFragment().newInstance(0);
-        KCFragment tx = new KCFragment().newInstance(1);
+        KCFragment tg = new KCFragment();
+        THFragment th = new THFragment();
+        TXFragment tx = new TXFragment();
+        list.add(th);
         list.add(tg);
         list.add(tx);
         vp.setAdapter(new PagerAdapter(manager, list));
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setupWithViewPager(vp);
-        tabLayout.getTabAt(0).setText("团购报名");
-        tabLayout.getTabAt(1).setText("课程体系");
+        tabLayout.getTabAt(0).setText("限时特惠");
+        tabLayout.getTabAt(1).setText("团购报名");
+        tabLayout.getTabAt(2).setText("课程体系");
 
 
     }

@@ -108,7 +108,7 @@ public class FragmentQuestion extends Fragment {
                             intent.putExtra("bean", questionProBean);
                             startActivity(intent);
                         } else {
-                            if (questionProBean.getChavideo() == null) {
+                            if (questionProBean.getChavideo().get(0).getVideo() == null) {
                                 final String sid = list.get(position).getSid();
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext()).setTitle("无权限")
                                         .setMessage("未购买该体系,是否前往购买")
@@ -128,7 +128,6 @@ public class FragmentQuestion extends Fragment {
                                         });
                                 builder.create().show();
                             } else {
-
                                 Intent intent = new Intent(getActivity(), QuestionBaseActivity.class);
                                 intent.putExtra("bean", questionProBean);
                                 startActivity(intent);

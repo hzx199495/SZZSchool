@@ -24,10 +24,12 @@ public class ExpanAdapter extends BaseExpandableListAdapter {
     private List<ProDeatailBean.CiBean> list;
     private Context context;
     private String catId;
-    public ExpanAdapter(Context context, List<ProDeatailBean.CiBean> list, String catId){
+    private String mian;
+    public ExpanAdapter(Context context, List<ProDeatailBean.CiBean> list, String catId,String mian){
         this.context=context;
         this.list=list;
         this.catId=catId;
+        this.mian=mian;
     }
     @Override
     public int getGroupCount() {
@@ -111,7 +113,11 @@ public class ExpanAdapter extends BaseExpandableListAdapter {
         childViewHolder.title.setText(bean.getName());
         childViewHolder.time.setText(bean.getKc_hours());
         if (catId.contains("41")){
-
+            if (mian.contains(bean.getId())){
+                childViewHolder.free.setVisibility(View.VISIBLE);
+            }else {
+                childViewHolder.free.setVisibility(View.GONE);
+            }
         }else {
             if (i==0&&list.get(0).getChoice_kc().size() > 11) {
                 if (i1 > 11) {

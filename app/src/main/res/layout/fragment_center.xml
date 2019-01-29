@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:sl="http://schemas.android.com/apk/res-auto">
-    <!--<com.fingdo.statelayout.StateLayout xmlns:sl="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/state_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--sl:emptyImg="@drawable/nodata"-->
-        <!--sl:emptyText="  "-->
-        <!--sl:errorImg="@drawable/ic_state_error"-->
-        <!--sl:errorText="数据异常"-->
-        <!--sl:loadingText="@string/loading_tip"-->
-        <!--sl:noNetworkImg="@drawable/ic_state_no_network"-->
-        <!--sl:noNetworkText="@string/no_network_tip"-->
-        <!--sl:timeOutImg="@drawable/ic_state_time_out"-->
-        <!--sl:timeOutText="@string/time_out_tip">-->
+    android:layout_height="match_parent">
 
 
     <com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout
@@ -34,6 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
                 <com.youth.banner.Banner
@@ -41,22 +29,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/banner"
                     android:focusableInTouchMode="true"
-                    sl:image_scale_type="fit_xy"
-                    />
+                    sl:image_scale_type="fit_xy" />
 
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wh60"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/center_img" />
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:drawableLeft="@drawable/center_wlyx"
-                    android:layout_gravity="center"
-                    android:text="网络营销实战"
-                    android:textColor="@color/max_level"
-                    android:textSize="@dimen/fl_text" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wh40"
+                    android:background="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/wh10">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="限时特惠"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fl_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:gravity="center_vertical"
+                        android:text="/学点推广方法，让生意更好做"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text" />
+
+                    <TextView
+                        android:id="@+id/th_more"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="更多"
+                        android:textColor="@color/white" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="fill_parent"
@@ -64,34 +78,53 @@
                     android:background="@color/line" />
 
                 <com.shizhanzhe.szzschool.utils.MyGridView
-                    android:id="@+id/gridview_wlyx"
-                    android:background="@color/white"
+                    android:id="@+id/gridview_th"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:horizontalSpacing="5dp"
+                    android:background="@color/white"
+                    android:horizontalSpacing="2dp"
                     android:numColumns="2"
                     android:padding="5dp"
                     android:scrollbars="none"
-                    android:verticalSpacing="10dp" />
+                    android:verticalSpacing="@dimen/wh10" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="#eeeeee"/>
+                    android:layout_height="@dimen/wh10"
+                    android:background="#eeeeee" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wh40"
+                    android:background="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/wh10">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/center_zyts"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:text="职业技能提升"
-                        android:drawablePadding="2dp"
-                        android:textColor="@color/max_level"
-                        android:textSize="@dimen/fl_text"
-                        android:layout_gravity="center"
-                        />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fl_text" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="/免费学习，让职业技能更上一层楼"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text" />
+
+                    <TextView
+                        android:id="@+id/zyts_more"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="更多"
+                        android:textColor="@color/white" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="fill_parent"
@@ -100,33 +133,45 @@
 
                 <com.shizhanzhe.szzschool.utils.MyGridView
                     android:id="@+id/gridview_zyts"
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:horizontalSpacing="2dp"
                     android:numColumns="2"
                     android:padding="5dp"
                     android:scrollbars="none"
-                    android:horizontalSpacing="2dp"
-                    android:verticalSpacing="10dp" />
+                    android:verticalSpacing="@dimen/wh10" />
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="#eeeeee"/>
+                    android:layout_height="@dimen/wh10"
+                    android:background="#eeeeee" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wh40"
+                    android:background="@color/black"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/wh10">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/tgpro"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:drawablePadding="2dp"
-                    android:text="团购课程"
-                    android:textColor="@color/max_level"
-                    android:textSize="@dimen/fl_text"
-                    android:layout_gravity="center"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="团购课程"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/fl_text" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:gravity="center_vertical"
+                        android:text="/优惠多多"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="fill_parent"
@@ -139,12 +184,37 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:numColumns="1"
-                    android:padding="2dp"
+                    android:padding="5dp"
                     android:scrollbars="none"
-                    android:verticalSpacing="10dp" />
+                     />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wh10"
+                    android:background="#eeeeee" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/wh40"
+                    android:background="@color/black"
+                    android:gravity="center"
+                    android:padding="@dimen/wh10"
+                    android:text="互动交流，共同成长"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fl_text" />
+
+                <com.shizhanzhe.szzschool.utils.MyListView
+                    android:id="@+id/gv_forum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#eeeeee"
+                    android:dividerHeight="3dp" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -159,7 +229,7 @@
 
                         <TextView
                             android:id="@+id/textView2"
-                            android:layout_width="100dp"
+                            android:layout_width="@dimen/wh100"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
@@ -172,14 +242,12 @@
 
                 </FrameLayout>
 
-           </LinearLayout>
+            </LinearLayout>
         </ScrollView>
     </com.shizhanzhe.szzschool.widge.VpSwipeRefreshLayout>
+
     <com.qmuiteam.qmui.widget.QMUIEmptyView
         android:id="@+id/empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-    </com.qmuiteam.qmui.widget.QMUIEmptyView>
-    <!--</com.fingdo.statelayout.StateLayout>-->
+        android:layout_height="match_parent"></com.qmuiteam.qmui.widget.QMUIEmptyView>
 </RelativeLayout>

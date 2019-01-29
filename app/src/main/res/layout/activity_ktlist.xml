@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="@dimen/wh300"
-    android:background="#fff">
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:fitsSystemWindows="true">
     <RelativeLayout
         android:id="@+id/layout_login_topbar"
-        style="@style/TopbarStyle"
-        android:background="#ff00aae5">
+        style="@style/TopbarStyle">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,7 +17,17 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back_arrow" />
     </RelativeLayout>
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"

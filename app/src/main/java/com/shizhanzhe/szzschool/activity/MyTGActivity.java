@@ -1,11 +1,13 @@
 package com.shizhanzhe.szzschool.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
@@ -14,10 +16,12 @@ import android.widget.ImageView;
 import com.shizhanzhe.szzschool.R;
 import com.shizhanzhe.szzschool.adapter.PagerAdapter;
 import com.shizhanzhe.szzschool.fragment.MyTGFragment;
+import com.shizhanzhe.szzschool.utils.StatusBarUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import org.zackratos.ultimatebar.UltimateBar;
 
 import java.util.ArrayList;
 
@@ -38,6 +42,9 @@ public class MyTGActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         x.view().inject(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this,R.color.white); }
         FragmentManager manager = getSupportFragmentManager();
         ArrayList<Fragment> list = new ArrayList<>();
         MyTGFragment kc = new MyTGFragment().newInstance(1);
